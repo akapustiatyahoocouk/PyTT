@@ -5,12 +5,13 @@
     <ProjectGuid>34f4faf3-a266-4272-9c74-180dde212d01</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <StartupFile>Main.py</StartupFile>
-    <SearchPath>
-    </SearchPath>
+    <SearchPath>..\..\Src</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>launcher</Name>
     <RootNamespace>launcher</RootNamespace>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
