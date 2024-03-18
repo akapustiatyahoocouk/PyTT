@@ -8,6 +8,8 @@ from enum import Enum
 import tkinter as tk
 import tkinter.ttk as ttk
 
+from util.resources import *
+
 class Dialog(abc.ABC):
     """ A common base class for all dialogs. """
     
@@ -57,8 +59,20 @@ class Dialog(abc.ABC):
         y = (sh/2) - (h/2)
         self.__root.geometry('%dx%d+%d+%d' % (w, h, x, y))
         
-    def do_modal(self):
+    def do_modal(self) -> None:
+        """
+            Runs this dialog as a modal dialog, returning only when
+            the user closes the dialog by whatever means are allowed.
+        """
+        self.__root.wait_visibility()
+        self.__root.grab_set()
+        self.__root.transient(self.__parent)
+        
+        self.center_in_parent()
         self.__parent.wait_window(self.__root)
+
+        self.__root.grab_release()
+        #self.__root.destroy()
 
     ##########
     #   Implementation    

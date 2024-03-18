@@ -5,15 +5,20 @@
 import abc
 from enum import Enum
 
+from typing import final
+
 import tkinter as tk
 import tkinter.ttk as ttk
 
 from gui.Dialog import *
+from util.resources import *
 
+@final
 class AboutDialogResult(Enum):
     """ The result of modal invocation of the AboutDialog. """
     OK = 1      #   Dialog closed, by whatever means necessary
 
+@final
 class AboutDialog(Dialog):
     """ The modal 'about...' dialog. """
 
@@ -24,28 +29,17 @@ class AboutDialog(Dialog):
 
         self.__result = AboutDialogResult.OK
         
-        self.__pan0 = ttk.Label(self.root, text="")
-        self.__pan1 = ttk.Label(self.__pan0, text="")
-        self.__pan2 = ttk.Label(self.__pan0, text="")
+        self.__pan0 = ttk.Label(self.root)
+        self.__pan1 = ttk.Label(self.__pan0)
+        self.__pan2 = ttk.Label(self.__pan0)
         
-        self.__pic1 = ttk.Label(self.__pan1, text="Pic")
-        self.__msg1 = ttk.Label(self.__pan2, text="PyTT")
-        self.__msg2 = ttk.Label(self.__pan2, text="PyTT")
-        self.__msg3 = ttk.Label(self.__pan2, text="PyTT dddddddddddddd fffffffff")
+        self.__pic1 = ttk.Label(self.__pan1, image = UtilResources.PRODUCT_ICON)
+        self.__msg1 = ttk.Label(self.__pan2, text = UtilResources.PRODUCT_NAME, anchor=tk.CENTER)
+        self.__msg2 = ttk.Label(self.__pan2, text = "Version " + UtilResources.PRODUCT_VERSION, anchor=tk.CENTER)
+        self.__msg3 = ttk.Label(self.__pan2, text = UtilResources.PRODUCT_COPYRIGHT, anchor=tk.CENTER)
         self.__separator = ttk.Separator(self.root, orient='horizontal')
-        self.__closeButton = ttk.Button(self.root, text="Close")
+        self.__closeButton = ttk.Button(self.root, text="Close", default='active')
 
-        self.__pan0.config(background="cyan")
-        self.__pan1.config(background="yellow")
-        self.__pan2.config(background="blue")
-        self.__msg1.config(background="white")
-        self.__msg2.config(background="green")
-        self.__msg3.config(background="red")
-
-        self.__pan1.pack(fill=tk.NONE, padx=8, pady=2)
-        self.__pan2.pack(fill=tk.X, padx=8, pady=2)
-
-        #self.__root.pack(padx=8, pady=8)
         self.__pan0.pack(fill=tk.X, padx=0, pady=0)
         self.__pan1.pack(side=tk.LEFT, padx=0, pady=0)
         self.__pan2.pack(fill=tk.X, padx=0, pady=0)
@@ -62,15 +56,13 @@ class AboutDialog(Dialog):
         self.root.bind('<Return>', self.__close)
         self.__closeButton.bind("<Button-1>", self.__close)
         self.root.protocol("WM_DELETE_WINDOW", self.__close)
-        
+
         # Modal window.
         # Wait for visibility or grab_set doesn't seem to work.
-        self.root.wait_visibility()         # <<< NOTE
-        self.root.grab_set()                # <<< NOTE
-        self.root.transient(self.parent)    # <<< NOTE
+        #self.root.wait_visibility()         # <<< NOTE
+        #self.root.grab_set()                # <<< NOTE
+        #self.root.transient(self.parent)    # <<< NOTE
 
-        self.center_in_parent()
-        
         #self.__root.tkraise()
         #self.__root.update_idletasks()
         #self.__root.focus_force()
@@ -86,6 +78,6 @@ class AboutDialog(Dialog):
     ##########
     #   Implementation helpers
     def __close(self, evt = None):
-        self.root.grab_release()      # <<< NOTE
+        #self.root.grab_release()      # <<< NOTE
         self.root.destroy()
-
+        pass
