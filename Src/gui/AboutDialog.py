@@ -8,7 +8,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 from gui.Dialog import Dialog
-from util.UtilResources import UtilResources
+import util.resources
 
 @final
 class AboutDialogResult(Enum):
@@ -30,10 +30,10 @@ class AboutDialog(Dialog):
         self.__pan1 = ttk.Label(self.__pan0)
         self.__pan2 = ttk.Label(self.__pan0)
         
-        self.__pic1 = ttk.Label(self.__pan1, image = UtilResources.PRODUCT_ICON)
-        self.__msg1 = ttk.Label(self.__pan2, text = UtilResources.PRODUCT_NAME, anchor=tk.CENTER)
-        self.__msg2 = ttk.Label(self.__pan2, text = "Version " + UtilResources.PRODUCT_VERSION, anchor=tk.CENTER)
-        self.__msg3 = ttk.Label(self.__pan2, text = UtilResources.PRODUCT_COPYRIGHT, anchor=tk.CENTER)
+        self.__pic1 = ttk.Label(self.__pan1, image = util.resources.UtilResources.PRODUCT_ICON)
+        self.__msg1 = ttk.Label(self.__pan2, text = util.resources.UtilResources.PRODUCT_NAME, anchor=tk.CENTER)
+        self.__msg2 = ttk.Label(self.__pan2, text = "Version " + util.resources.UtilResources.PRODUCT_VERSION, anchor=tk.CENTER)
+        self.__msg3 = ttk.Label(self.__pan2, text = util.resources.UtilResources.PRODUCT_COPYRIGHT, anchor=tk.CENTER)
         self.__separator = ttk.Separator(self.root, orient='horizontal')
         self.__closeButton = ttk.Button(self.root, text="Close", default='active')
 

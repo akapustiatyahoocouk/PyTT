@@ -1,5 +1,5 @@
 import db.api as dbapi
-import db.sqlite.SqliteDatabaseAddress
+import db.sqlite_impl.SqliteDatabaseAddress
 
 class SqliteDatabaseType(dbapi.IDatabaseType):
     """ A database type that uses SQLite as data storage. """
@@ -18,11 +18,16 @@ class SqliteDatabaseType(dbapi.IDatabaseType):
 
     def __init__(self):
         assert SqliteDatabaseType.__instance is None, 'Use SqliteDatabaseType.instance() instead'
-        
+    
     @staticmethod
     def instance() -> 'SqliteDatabaseType':
-        """ Returns one and only instance of this class, creating
-            it on the first call."""
+        """
+            Returns one and only instance of this class, creating
+            it on the first call.
+            
+            @return:
+                The one and only instance of this class.
+        """
         if SqliteDatabaseType.__instance is None:
             SqliteDatabaseType.__instance = SqliteDatabaseType()
         return SqliteDatabaseType.__instance
@@ -41,7 +46,7 @@ class SqliteDatabaseType(dbapi.IDatabaseType):
     #   Properties (database address handling)
     def parse_database_address(self, externa_form: str) -> 'IDatabaseAddress':
         assert externa_form is not None
-        return db.sqlite.SqliteDatabaseAddress.SqliteDatabaseAddress(externa_form)
+        return db.sqlite_impl.SqliteDatabaseAddress.SqliteDatabaseAddress(externa_form)
 
     @property    
     def default_database_address(self) -> dbapi.IDatabaseAddress:

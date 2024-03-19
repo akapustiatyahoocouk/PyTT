@@ -63,7 +63,7 @@ class LoginDialog(gui.Dialog.Dialog):
         self.root.bind('<Escape>', self.__onCancel)
         self.root.bind('<Return>', self.__onOk)
         self.root.protocol("WM_DELETE_WINDOW", self.__onCancel)
-        self.__okButton.bind("<Button-1>", self.__onCancel)
+        self.__okButton.bind("<Button-1>", self.__onOk)
         self.__cancelButton.bind("<Button-1>", self.__onCancel)
         
         #   Set initial focus & we're done

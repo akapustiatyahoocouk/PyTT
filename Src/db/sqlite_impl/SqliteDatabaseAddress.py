@@ -1,7 +1,7 @@
 import os
 
 import db.api as dbapi
-import db.sqlite.SqliteDatabaseType
+import db.sqlite_impl.SqliteDatabaseType
 
 class SqliteDatabaseAddress(dbapi.IDatabaseAddress):
     """ An address of a SQLite database is its full path. """
@@ -16,7 +16,7 @@ class SqliteDatabaseAddress(dbapi.IDatabaseAddress):
     @property
     def database_type(self) -> 'SqliteDatabaseType':
         """ The database type to which this database address belongs. """
-        return db.sqlite.SqliteDatabaseType.SqliteDatabaseType.instance()
+        return db.sqlite_impl.SqliteDatabaseType.SqliteDatabaseType.instance()
 
     @property
     def display_form(self) -> str:

@@ -1,13 +1,13 @@
 import sys
 import tkinter as tk
 import tkinter.ttk as ttk
+from util.resources import *
 from gui.AboutDialog import *
 from gui.LoginDialog import *
-from util.UtilResources import UtilResources
 
 import db.exceptions as dbex
 import db.api as dbapi
-import db.sqlite.SqliteDatabaseAddress # TODO kill off
+import util.resources
 
 class MainWindow(ttk.Frame):
     def __init__(self, window):
@@ -50,7 +50,6 @@ class MainWindow(ttk.Frame):
 
 if __name__ == '__main__':
 
-    dtt = dbapi.DatabaseTypeRegistry.get_all_database_types()    
     dbt = dbapi.DatabaseTypeRegistry.find_database_type('sqlite')
     dba = dbt.parse_database_address('123')
     print(dba.database_type.mnemonic)
@@ -60,7 +59,7 @@ if __name__ == '__main__':
     print(str(dba))
     
     root = tk.Tk()
-    root.wm_iconphoto(True, UtilResources.PRODUCT_ICON)
+    root.wm_iconphoto(True, util.resources.UtilResources.PRODUCT_ICON)
     
     app = MainWindow(root)
     root.mainloop()

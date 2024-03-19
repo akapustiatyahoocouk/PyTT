@@ -29,6 +29,18 @@ class IDatabaseType(ABC):
     #   Database address handling
     @abstractmethod
     def parse_database_address(self, externa_form: str) -> 'IDatabaseAddress':
+        """
+            Parses an external (re-parsable) form of a database address
+            of this type.
+            
+            @param externa_form:
+                The external (re-parsable) form of a database address.
+            @return
+                The parsed database address.
+            @raise InvalidDatabaseAddressException:
+                If the specified external form of a database address
+                doesnot make sense for this database type.
+        """
         raise NotImplementedError()
 
     @abstractproperty
@@ -53,7 +65,7 @@ class DatabaseTypeRegistry:
     ##########
     #   Operations
     @staticmethod
-    def register_database_type(dbtype: IDatabaseType)->bool:
+    def register_database_type(dbtype: IDatabaseType) -> bool:
         """ 'Registers' the specified database type.
             Returns True on  success, False on failure. """
         print('Registering', dbtype.display_name, 'database type [' + dbtype.mnemonic + ']')
