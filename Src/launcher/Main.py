@@ -1,13 +1,12 @@
 import sys
+
 import tkinter as tk
 import tkinter.ttk as ttk
-from util.resources import *
-from gui.AboutDialog import *
-from gui.LoginDialog import *
 
 import db.exceptions as dbex
 import db.api as dbapi
-import util.resources
+import gui.dialogs as dlg
+import util.resources as utilres
 
 class MainWindow(ttk.Frame):
     def __init__(self, window):
@@ -32,8 +31,8 @@ class MainWindow(ttk.Frame):
         print(f"got k: {k}")
 
     def popup(self):
-        with AboutDialog(self.popupButton) as dlg:
-            dlg.do_modal()
+        with dlg.AboutDialog(self.popupButton) as d:
+            d.do_modal()
 
     def closeme(self):
         self.window.destroy()
@@ -43,10 +42,12 @@ class MainWindow(ttk.Frame):
     def __onInitialLogin(self, *args):
         if not self.__loggedIn:
             self.__loggedIn = True
-            with LoginDialog(self.window, 'asdf') as dlg:
-                dlg.do_modal()
-                if dlg.result is not LoginDialogResult.OK:
+            with dlg.LoginDialog(self.window, 'asdf') as d:
+                d.do_modal()
+                if d.result is not dlg.LoginDialogResult.OK:
                     sys.exit()
+                print(d.credentials.login)
+                print(d.credentials.password_hash)
 
 if __name__ == '__main__':
 
@@ -59,7 +60,7 @@ if __name__ == '__main__':
     print(str(dba))
     
     root = tk.Tk()
-    root.wm_iconphoto(True, util.resources.UtilResources.PRODUCT_ICON)
+    root.wm_iconphoto(True, utilres.UtilResources.PRODUCT_ICON)
     
     app = MainWindow(root)
     root.mainloop()

@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>e1dad635-84e6-4355-9173-a29555422824</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>AboutDialog.py</StartupFile>
+    <StartupFile>dlg_impl\AboutDialog.py</StartupFile>
     <SearchPath>..\..\Src</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -20,10 +20,17 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AboutDialog.py" />
-    <Compile Include="Dialog.py" />
-    <Compile Include="LoginDialog.py" />
+    <Compile Include="dlg_impl\AboutDialog.py" />
+    <Compile Include="dlg_impl\Dialog.py" />
+    <Compile Include="dialogs.py" />
+    <Compile Include="dlg_impl\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="dlg_impl\LoginDialog.py" />
     <Compile Include="__init__.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="dlg_impl\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

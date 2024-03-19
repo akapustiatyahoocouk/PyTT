@@ -7,23 +7,40 @@ from enum import Enum
 import tkinter as tk
 import tkinter.ttk as ttk
 
-import gui.Dialog
+import gui.dlg_impl.Dialog
+import workspace.credentials as wsc
 
 @final
 class LoginDialogResult(Enum):
     """ The result of modal invocation of the LoginDialog. """
-    OK = 1      #   User has supplied the login details
-    CANCEL = 2  #   Dialog cancelled by user
+    OK = 1
+    """ User has supplied the login details. """
+    
+    CANCEL = 2
+    """ Dialog cancelled by user. """
 
 @final
-class LoginDialog(gui.Dialog.Dialog):
+class LoginDialog(gui.dlg_impl.Dialog.Dialog):
     """ The modal 'login' dialog. """
 
     ##########
     #   Construction    
     def __init__(self, parent: Optional[ttk.Widget], login: Optional[str] = None):
+        """
+            Constructs the locin dialog.
+        
+            @param parent:
+                The parent widget for the dialog (actually the closest
+                enclosing top-level widget or frame is used), 
+                None == no parent.
+            @param login:
+                The login identifier to initially display in the "login"
+                field or None. If spefified, the initial keyboard focus 
+                goes straight to the "password" field.
+        """
         super().__init__(parent, 'Login to PyTT')
         self.__result = LoginDialogResult.CANCEL
+        self.__credentials = None
         
         #   Create control models
         self.__loginVar = tk.StringVar(value=login)
@@ -80,6 +97,12 @@ class LoginDialog(gui.Dialog.Dialog):
         """ The dialog result after a modal invocation. """
         return self.__result
 
+    @property
+    def credentials(self) -> Optional[wsc.Credentials]:
+        """ The entered user credentials or None if the dialog
+            was cancelled by the user. """
+        return self.__credentials
+    
     ##########
     #   Implementation helpers
     def __refresh(self, *args):
@@ -98,13 +121,13 @@ class LoginDialog(gui.Dialog.Dialog):
     def __onOk(self, evt = None):
         login = self.__loginVar.get()
         password = self.__passwordVar.get()
+        self.__credentials = wsc.Credentials(login, password)
         self.__result = LoginDialogResult.OK
         self.root.destroy()
         pass
 
     def __onCancel(self, evt = None):
+        self.__credentials = None
         self.__result = LoginDialogResult.CANCEL
-        login = self.__loginVar.get()
-        password = self.__passwordVar.get()
         self.root.destroy()
         pass
