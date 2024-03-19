@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>00e57790-3724-4264-8f1a-5ff6174d57e5</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>resources.py</StartupFile>
+    <StartupFile>UtilResources.py</StartupFile>
     <SearchPath>..\..\Src</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -23,7 +23,8 @@
     <Compile Include="annotations.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="resources.py" />
+    <Compile Include="UtilResources.py" />
+    <Compile Include="__init__.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="images\" />

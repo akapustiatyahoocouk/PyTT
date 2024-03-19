@@ -1,15 +1,13 @@
-'''
-Created on 15 Mar 2024
-
-@author: akapusti
-'''
-
 import sys
 import tkinter as tk
 import tkinter.ttk as ttk
 from gui.AboutDialog import *
 from gui.LoginDialog import *
-from util.resources import *
+from util.UtilResources import UtilResources
+
+import db.exceptions as dbex
+import db.api as dbapi
+import db.sqlite.SqliteDatabaseAddress # TODO kill off
 
 class MainWindow(ttk.Frame):
     def __init__(self, window):
@@ -34,12 +32,8 @@ class MainWindow(ttk.Frame):
         print(f"got k: {k}")
 
     def popup(self):
-        with LoginDialog(self.popupButton) as dlg:
+        with AboutDialog(self.popupButton) as dlg:
             dlg.do_modal()
-            if dlg.result is LoginDialogResult.OK:
-                print('OK')
-            else:
-                sys.exit()
 
     def closeme(self):
         self.window.destroy()
@@ -55,6 +49,16 @@ class MainWindow(ttk.Frame):
                     sys.exit()
 
 if __name__ == '__main__':
+
+    dtt = dbapi.DatabaseTypeRegistry.get_all_database_types()    
+    dbt = dbapi.DatabaseTypeRegistry.find_database_type('sqlite')
+    dba = dbt.parse_database_address('123')
+    print(dba.database_type.mnemonic)
+    print(dba.database_type.display_name)
+    print(dba.display_form)
+    print(dba.external_form)
+    print(str(dba))
+    
     root = tk.Tk()
     root.wm_iconphoto(True, UtilResources.PRODUCT_ICON)
     

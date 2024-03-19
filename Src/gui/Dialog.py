@@ -1,16 +1,13 @@
 """
     Dialog definition facilities.
 """
-
-import abc
+from abc import ABC
 from enum import Enum
 
 import tkinter as tk
 import tkinter.ttk as ttk
 
-from util.resources import *
-
-class Dialog(abc.ABC):
+class Dialog(ABC):
     """ A common base class for all dialogs. """
     
     ##########

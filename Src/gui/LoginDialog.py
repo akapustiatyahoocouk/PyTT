@@ -1,13 +1,13 @@
 """
     Implements "Login to PyTT" modal dialog.
 """
-
 from typing import final, Optional
+from enum import Enum
 
 import tkinter as tk
 import tkinter.ttk as ttk
 
-from gui.Dialog import *
+import gui.Dialog
 
 @final
 class LoginDialogResult(Enum):
@@ -16,7 +16,7 @@ class LoginDialogResult(Enum):
     CANCEL = 2  #   Dialog cancelled by user
 
 @final
-class LoginDialog(Dialog):
+class LoginDialog(gui.Dialog.Dialog):
     """ The modal 'login' dialog. """
 
     ##########

@@ -1,17 +1,14 @@
 """
     Implements "About PyTT" modal dialog.
 """
-
-import abc
-from enum import Enum
-
 from typing import final
+from enum import Enum
 
 import tkinter as tk
 import tkinter.ttk as ttk
 
-from gui.Dialog import *
-from util.resources import *
+from gui.Dialog import Dialog
+from util.UtilResources import UtilResources
 
 @final
 class AboutDialogResult(Enum):

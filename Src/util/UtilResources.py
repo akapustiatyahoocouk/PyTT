@@ -29,7 +29,7 @@ class UtilResources(metaclass = ReadOnlyClassConstantsMetaclass):
     @classproperty
     def PRODUCT_ICON(cls) -> tk.PhotoImage:
         """ The 32x32 icon representing PyTT. """
-        print(cls.__name__)
+        #   TODO kill off print(cls.__name__)
         if not hasattr(UtilResources, '_UtilResources__product_icon'):
             UtilResources._UtilResources__product_icon = tk.PhotoImage(file = os.path.join(os.path.dirname(__file__), 'images/PyTT.gif'))
         return UtilResources._UtilResources__product_icon
