@@ -1,4 +1,4 @@
-from typing import final
+from typing import final, Optional
 import hashlib
 
 @final
@@ -24,7 +24,6 @@ class Credentials:
         
     ##########
     #   object    
-    
     def __hash__(self) -> int:
         return hash(self.__login())
     
@@ -78,13 +77,36 @@ class Credentials:
     ##########
     #   Properties
     @property
-    def login(self):
+    def login(self) -> str:
         """ The user's login identifier. """
         return self.__login
     
     @property
-    def password_hash(self):
+    def password_hash(self) -> str:
         """ The uppercase hex string representing the SHA-1 hash 
             of the user's password. """
         return self.__password_hash
+
+
+@final
+class CurrentCredentials:
+    """ The "current" credentials. """
+
+    ##########
+    #   Implementation
+    __currentCredentials = None
     
+    ##########
+    #   Construction - disable (this is an utility class)
+    def __init__(self):
+        assert False, str(self.__class__) + ' is a utility class'
+        
+    @staticmethod
+    def get() -> Optional[Credentials]:
+        return CurrentCredentials.__currentCredentials
+
+    @staticmethod
+    def set(cc: Credentials) -> None:
+        assert cc is not None
+        CurrentCredentials.__currentCredentials = cc
+

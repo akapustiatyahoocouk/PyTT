@@ -8,7 +8,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 import gui.dlg_impl.Dialog
-import workspace.credentials as wsc
+import workspace.api as wsapi
 
 @final
 class LoginDialogResult(Enum):
@@ -98,14 +98,14 @@ class LoginDialog(gui.dlg_impl.Dialog.Dialog):
         return self.__result
 
     @property
-    def credentials(self) -> Optional[wsc.Credentials]:
+    def credentials(self) -> Optional[wsapi.Credentials]:
         """ The entered user credentials or None if the dialog
             was cancelled by the user. """
         return self.__credentials
     
     ##########
     #   Implementation helpers
-    def __refresh(self, *args):
+    def __refresh(self, *args) -> None:
         login : str = self.__loginVar.get()
         if len(login.strip()) == 0:
             self.__passwordLabel.state(["disabled"])
@@ -118,15 +118,15 @@ class LoginDialog(gui.dlg_impl.Dialog.Dialog):
     
     ##########
     #   Event listeners    
-    def __onOk(self, evt = None):
+    def __onOk(self, evt = None) -> None:
         login = self.__loginVar.get()
         password = self.__passwordVar.get()
-        self.__credentials = wsc.Credentials(login, password)
+        self.__credentials = wsapi.Credentials(login, password)
         self.__result = LoginDialogResult.OK
         self.root.destroy()
         pass
 
-    def __onCancel(self, evt = None):
+    def __onCancel(self, evt = None) -> None:
         self.__credentials = None
         self.__result = LoginDialogResult.CANCEL
         self.root.destroy()

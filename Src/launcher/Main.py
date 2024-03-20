@@ -1,67 +1,21 @@
-import sys
-
-import tkinter as tk
-import tkinter.ttk as ttk
-
-import db.exceptions as dbex
-import db.api as dbapi
-import gui.dialogs as dlg
-import util.resources as utilres
-
-class MainWindow(ttk.Frame):
-    def __init__(self, window):
-        window.geometry('600x400')
-        self.popupButton = ttk.Button(window, text='popup', command=self.popup)
-        self.quitButton = ttk.Button(window, text='quit', command=self.closeme)
-
-        self.popupButton.pack()
-        self.quitButton.pack()
-
-        self.window = window
-        #window.bind('<Key>', self.handle_key)
-        
-        #   Set up event handler
-        self.__loggedIn = False     #   Needed to perform login-at-first-open
-        
-        self.window.bind('<Visibility>', self.__onInitialLogin)
-    
-    #   TODO kill off
-    def handle_key(self, event):
-        k = event.keysym
-        print(f"got k: {k}")
-
-    def popup(self):
-        with dlg.AboutDialog(self.popupButton) as d:
-            d.do_modal()
-
-    def closeme(self):
-        self.window.destroy()
-
-    ##########
-    #   Event handlers    
-    def __onInitialLogin(self, *args):
-        if not self.__loggedIn:
-            self.__loggedIn = True
-            with dlg.LoginDialog(self.window, 'asdf') as d:
-                d.do_modal()
-                if d.result is not dlg.LoginDialogResult.OK:
-                    sys.exit()
-                print(d.credentials.login)
-                print(d.credentials.password_hash)
+import gui.skin as skinapi
 
 if __name__ == '__main__':
+    #   Select the initial skin TODO properly!
+    skinapi.ActiveSkin.set(skinapi.SkinRegistry.get_default_skin())
 
-    dbt = dbapi.DatabaseTypeRegistry.find_database_type('sqlite')
-    dba = dbt.parse_database_address('123')
-    print(dba.database_type.mnemonic)
-    print(dba.database_type.display_name)
-    print(dba.display_form)
-    print(dba.external_form)
-    print(str(dba))
+    #   Go!
+    while True:
+        skin_before : skinapi.ISkin = skinapi.ActiveSkin.get()
+        if skin_before is None:
+            break;
+        skinapi.ActiveSkin.get().run_event_loop()
+        skin_after : skinapi.ISkin = skinapi.ActiveSkin.get()
+        if skin_after is None:
+            break;
+        if not (skin_after.is_active):
+            break;
     
-    root = tk.Tk()
-    root.wm_iconphoto(True, utilres.UtilResources.PRODUCT_ICON)
-    
-    app = MainWindow(root)
-    root.mainloop()
-    print('exit main loop')            
+    #   Cleanup & exit
+    skinapi.ActiveSkin.set(None)
+    print('exit main loop')

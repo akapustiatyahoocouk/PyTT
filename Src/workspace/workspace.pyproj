@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>dcc327b9-b313-4d72-bedf-d8e44beae054</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>workspace.py</StartupFile>
+    <StartupFile>api.py</StartupFile>
     <SearchPath>..\..\Src</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -20,9 +20,15 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="credentials.py" />
-    <Compile Include="workspace.py" />
+    <Compile Include="impl\Credentials.py" />
+    <Compile Include="impl\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="api.py" />
     <Compile Include="__init__.py.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="impl\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

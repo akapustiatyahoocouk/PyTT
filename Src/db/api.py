@@ -2,7 +2,10 @@
     Defines a low-level (data storage) database API.
 """
 from abc import ABC, abstractmethod, abstractproperty
-from typing import final, Optional
+from typing import final, Optional, TypeAlias
+import uuid
+
+Oid: TypeAlias = uuid.UUID
 
 class IDatabaseType(ABC):
     """ A 'database type' corresponds to a technology used to
@@ -10,7 +13,7 @@ class IDatabaseType(ABC):
     
     ##########
     #   object
-    def __str__(self):
+    def __str__(self) -> str:
         return self.display_name
 
     ##########
@@ -35,7 +38,7 @@ class IDatabaseType(ABC):
             
             @param externa_form:
                 The external (re-parsable) form of a database address.
-            @return
+            @return:
                 The parsed database address.
             @raise InvalidDatabaseAddressException:
                 If the specified external form of a database address

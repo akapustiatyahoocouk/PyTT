@@ -20,6 +20,11 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="admin_skin_impl\AdminSkin.py" />
+    <Compile Include="admin_skin_impl\MainFrame.py" />
+    <Compile Include="admin_skin_impl\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="dlg_impl\AboutDialog.py" />
     <Compile Include="dlg_impl\Dialog.py" />
     <Compile Include="dialogs.py" />
@@ -27,9 +32,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="dlg_impl\LoginDialog.py" />
+    <Compile Include="skin.py" />
     <Compile Include="__init__.py" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="admin_skin_impl\" />
     <Folder Include="dlg_impl\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

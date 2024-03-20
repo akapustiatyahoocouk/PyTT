@@ -73,8 +73,8 @@ class Dialog(ABC):
 
     ##########
     #   Implementation    
-    def __enter__(self):
+    def __enter__(self) -> None:
         return self
 
-    def __exit__(self, exception_type, exception_value, traceback):
+    def __exit__(self, exception_type, exception_value, traceback) -> None:
         pass

@@ -69,6 +69,6 @@ class AboutDialog(gui.dlg_impl.Dialog.Dialog):
 
     ##########
     #   Implementation helpers
-    def __onOk(self, evt = None):
+    def __onOk(self, evt = None) -> None:
         self.root.destroy()
         pass

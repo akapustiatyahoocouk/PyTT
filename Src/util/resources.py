@@ -36,3 +36,4 @@ class UtilResources(metaclass = ReadOnlyClassConstantsMetaclass):
         if UtilResources.__product_icon is None:
             UtilResources.__product_icon = tk.PhotoImage(file = os.path.join(os.path.dirname(__file__), 'images/PyTT.gif'))
         return UtilResources.__product_icon
+        # return tk.PhotoImage(file = os.path.join(os.path.dirname(__file__), 'images/PyTT.gif'))
