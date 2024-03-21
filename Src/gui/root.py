@@ -26,19 +26,29 @@ class GuiRoot(metaclass=GuiRootType):
 
             print('Platfom is', platform.system())
             
-            GuiRoot.__tk.wm_attributes('-alpha',0.5)
-            #GuiRoot.__tk.wm_attributes('-fullscreen', 1)
-            #GuiRoot.__tk.state('zoomed')
-            GuiRoot.__tk.update()
+            if 'windows' in platform.system().lower():
+                #   Windows family
+                GuiRoot.__tk.wm_attributes('-alpha',0.5)
+                GuiRoot.__tk.state('zoomed')
+                GuiRoot.__tk.update()
+                GuiRoot.__usable_x = GuiRoot.__tk.winfo_x()
+                GuiRoot.__usable_y = GuiRoot.__tk.winfo_y()
+                GuiRoot.__usable_width = GuiRoot.__tk.winfo_width()
+                GuiRoot.__usable_height = GuiRoot.__tk.winfo_height()
+                GuiRoot.__screen_width = GuiRoot.__tk.winfo_screenwidth()
+                GuiRoot.__screen_height = GuiRoot.__tk.winfo_screenheight()
+                GuiRoot.__tk.state('normal')
+            else:
+                #   Linux, etc.
+                GuiRoot.__tk.wm_attributes('-alpha',0.5)    #   doesn't seem to work, though
+                GuiRoot.__tk.update()
+                GuiRoot.__usable_x = 16
+                GuiRoot.__usable_y = 16
+                GuiRoot.__usable_width = GuiRoot.__tk.winfo_screenwidth() - 32
+                GuiRoot.__usable_height = GuiRoot.__tk.winfo_screenheight() - 32
+                GuiRoot.__screen_width = GuiRoot.__tk.winfo_screenwidth()
+                GuiRoot.__screen_height = GuiRoot.__tk.winfo_screenheight()
 
-            GuiRoot.__usable_x = usable_width  = GuiRoot.tk.winfo_x()
-            GuiRoot.__usable_y = usable_width  = GuiRoot.tk.winfo_y()
-            GuiRoot.__usable_width = GuiRoot.tk.winfo_width()
-            GuiRoot.__usable_height = GuiRoot.tk.winfo_height()
-            GuiRoot.__screen_width = GuiRoot.tk.winfo_screenwidth()
-            GuiRoot.__screen_height = GuiRoot.tk.winfo_screenheight()
-
-            GuiRoot.__tk.state('normal')
             GuiRoot.__tk.geometry(f"16x16+{GuiRoot.__screen_width+16000}+{GuiRoot.__screen_height+16000}")
 
         return GuiRoot.__tk
