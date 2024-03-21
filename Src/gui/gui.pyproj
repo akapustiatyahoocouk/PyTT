@@ -32,6 +32,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="dlg_impl\LoginDialog.py" />
+    <Compile Include="root.py" />
     <Compile Include="skin.py" />
     <Compile Include="__init__.py" />
   </ItemGroup>

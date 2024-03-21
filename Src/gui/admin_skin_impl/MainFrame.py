@@ -15,6 +15,7 @@ class MainFrame(tk.Frame):
     
     def __init__(self):
         self.__tk = tk.Tk()
+        self.__tk._main_frame = self
         self.__tk.title(utilres.UtilResources.PRODUCT_NAME)
         self.__tk.wm_iconphoto(True, utilres.UtilResources.PRODUCT_ICON)
         self.__tk.geometry('600x400')
@@ -31,7 +32,11 @@ class MainFrame(tk.Frame):
         self.__initialLoginPerformed = False
         self.__tk.bind('<Visibility>', self.__onInitialLogin)
         self.__tk.protocol("WM_DELETE_WINDOW", self.destroy)
-
+        
+        sw = self.__tk.winfo_screenwidth()
+        sh = self.__tk.winfo_screenheight()
+        pass
+    
     ##########
     #   Properties
     @property

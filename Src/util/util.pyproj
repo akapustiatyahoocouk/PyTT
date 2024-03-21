@@ -23,6 +23,7 @@
     <Compile Include="annotations.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="config.py" />
     <Compile Include="resources.py" />
     <Compile Include="__init__.py" />
   </ItemGroup>
