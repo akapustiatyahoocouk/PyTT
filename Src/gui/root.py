@@ -1,5 +1,7 @@
 from typing import final
 
+import platform
+
 import tkinter as tk
 
 import util.resources as utilres
@@ -22,8 +24,11 @@ class GuiRoot(metaclass=GuiRootType):
             GuiRoot.__tk.title(utilres.UtilResources.PRODUCT_NAME)
             GuiRoot.__tk.wm_iconphoto(True, utilres.UtilResources.PRODUCT_ICON)
 
+            print('Platfom is', platform.system())
+            
             GuiRoot.__tk.wm_attributes('-alpha',0.5)
-            GuiRoot.__tk.state('zoomed')
+            #GuiRoot.__tk.wm_attributes('-fullscreen', 1)
+            #GuiRoot.__tk.state('zoomed')
             GuiRoot.__tk.update()
 
             GuiRoot.__usable_x = usable_width  = GuiRoot.tk.winfo_x()
@@ -34,7 +39,7 @@ class GuiRoot(metaclass=GuiRootType):
             GuiRoot.__screen_height = GuiRoot.tk.winfo_screenheight()
 
             GuiRoot.__tk.state('normal')
-            GuiRoot.__tk.geometry(f"16x16+{GuiRoot.__usable_x+16000}+{GuiRoot.__usable_y+16000}")
+            GuiRoot.__tk.geometry(f"16x16+{GuiRoot.__screen_width+16000}+{GuiRoot.__screen_height+16000}")
 
         return GuiRoot.__tk
 

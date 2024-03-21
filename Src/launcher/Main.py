@@ -28,7 +28,7 @@ if __name__ == '__main__':
     f2.wm_attributes('-alpha',0.5)
     f2.attributes("-topmost", True)
     f2.title('Frame 2')
-    f2.geometry(f"320x200+{GuiRoot.usable_width-320}+{GuiRoot.usable_height-200}")
+    f2.geometry(f"320x200+{GuiRoot.screen_width-320}+{GuiRoot.screen_height-200}")
 
     f2.canvas = tk.Canvas(f2, bg='green') # , width=200, height=100)
     f2.canvas.pack(side="top", fill="both", expand=True, ipadx=0, pady=0)
@@ -59,7 +59,7 @@ if __name__ == '__main__':
         f1.focus_force()
         f2.geometry('320x200')
         f2.attributes("-topmost", True)
-        f2.geometry(f"320x200+{GuiRoot.usable_width-320}+{GuiRoot.usable_height-200}")
+        f2.geometry(f"320x200+{GuiRoot.screen_width-320}+{GuiRoot.screen_height-200}")
         
     def yyy(*args):
         f1.withdraw()
