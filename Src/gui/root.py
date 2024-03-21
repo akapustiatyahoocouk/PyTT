@@ -6,7 +6,9 @@ import tkinter as tk
 
 import util.resources as utilres
 
-class GuiRootType(type):
+class _GuiRootType(type):
+    ##########
+    #   object
     def __getattribute__(cls, name):
         attribute = super().__getattribute__(name)
         try:
@@ -14,11 +16,23 @@ class GuiRootType(type):
         except AttributeError:
             return attribute
 @final
-class GuiRoot(metaclass=GuiRootType):
+class GuiRoot(metaclass=_GuiRootType):
+    """ Provider of the one and only tkinter.Tk instance. """
+
+    ##########
+    #   Implementation helpers
     __tk = None
 
+    ##########
+    #   Construction - disable (this is an utility class)
+    def __init__(self):
+        assert False, str(self.__class__) + ' is a utility class'
+
+    ##########
+    #   Properties (all static)    
     @property
     def tk(cls) -> tk.Tk:
+        """ The one and only tkinter.Tk instance. """
         if GuiRoot.__tk is None:
             GuiRoot.__tk = tk.Tk()
             GuiRoot.__tk.title(utilres.UtilResources.PRODUCT_NAME)
@@ -28,6 +42,7 @@ class GuiRoot(metaclass=GuiRootType):
             
             if 'windows' in platform.system().lower():
                 #   Windows family
+                GuiRoot.__tk.withdraw()
                 GuiRoot.__tk.wm_attributes('-alpha',0.5)
                 GuiRoot.__tk.state('zoomed')
                 GuiRoot.__tk.update()
@@ -42,10 +57,10 @@ class GuiRoot(metaclass=GuiRootType):
                 #   Linux, etc.
                 GuiRoot.__tk.wm_attributes('-alpha',0.5)    #   doesn't seem to work, though
                 GuiRoot.__tk.update()
-                GuiRoot.__usable_x = 16
-                GuiRoot.__usable_y = 16
-                GuiRoot.__usable_width = GuiRoot.__tk.winfo_screenwidth() - 32
-                GuiRoot.__usable_height = GuiRoot.__tk.winfo_screenheight() - 32
+                GuiRoot.__usable_x = 0
+                GuiRoot.__usable_y = 0
+                GuiRoot.__usable_width = GuiRoot.__tk.winfo_screenwidth()
+                GuiRoot.__usable_height = GuiRoot.__tk.winfo_screenheight()
                 GuiRoot.__screen_width = GuiRoot.__tk.winfo_screenwidth()
                 GuiRoot.__screen_height = GuiRoot.__tk.winfo_screenheight()
 

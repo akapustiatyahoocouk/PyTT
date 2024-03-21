@@ -7,7 +7,7 @@ from enum import Enum
 import tkinter as tk
 import tkinter.ttk as ttk
 
-import gui.dlg_impl.Dialog
+import gui.dialogs_impl.Dialog
 import util.resources as utilres
 
 @final
@@ -17,7 +17,7 @@ class AboutDialogResult(Enum):
     """ Dialog closed, by whatever means necessary. """
 
 @final
-class AboutDialog(gui.dlg_impl.Dialog.Dialog):
+class AboutDialog(gui.dialogs_impl.Dialog.Dialog):
     """ The modal 'about...' dialog. """
 
     ##########

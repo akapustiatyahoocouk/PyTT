@@ -1,13 +1,13 @@
 from typing import TypeAlias
 
-import gui.dlg_impl.Dialog
-import gui.dlg_impl.AboutDialog
-import gui.dlg_impl.LoginDialog
+import gui.dialogs_impl.Dialog
+import gui.dialogs_impl.AboutDialog
+import gui.dialogs_impl.LoginDialog
 
-Dialog: TypeAlias = gui.dlg_impl.Dialog.Dialog
+Dialog: TypeAlias = gui.dialogs_impl.Dialog.Dialog
 
-AboutDialog: TypeAlias = gui.dlg_impl.AboutDialog.AboutDialog
-AboutDialogResult: TypeAlias = gui.dlg_impl.AboutDialog.AboutDialogResult
+AboutDialog: TypeAlias = gui.dialogs_impl.AboutDialog.AboutDialog
+AboutDialogResult: TypeAlias = gui.dialogs_impl.AboutDialog.AboutDialogResult
 
-LoginDialog: TypeAlias = gui.dlg_impl.LoginDialog.LoginDialog
-LoginDialogResult: TypeAlias = gui.dlg_impl.LoginDialog.LoginDialogResult
+LoginDialog: TypeAlias = gui.dialogs_impl.LoginDialog.LoginDialog
+LoginDialogResult: TypeAlias = gui.dialogs_impl.LoginDialog.LoginDialogResult

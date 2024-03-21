@@ -16,7 +16,7 @@ class AdminSkin(skinapi.ISkin):
 
     def __init__(self):
         assert AdminSkin.__instance is None, 'Use AdminSkin.instance() instead'
-        self.__main_frame = None
+        self.__main_frame = mainfrm.MainFrame()
     
     @staticmethod
     def instance() -> 'AdminSkin':
@@ -49,19 +49,8 @@ class AdminSkin(skinapi.ISkin):
     ##########
     #   ISkin - Operations
     def activate(self) -> None:
-        if self.__main_frame is None:
-            self.__main_frame = mainfrm.MainFrame()
-            self.__main_frame.activate()
+        self.__main_frame.activate()
 
     def deactivate(self) -> None:
-        if self.__main_frame is not None:
-            if not self.__main_frame.is_destroyed:
-                self.__main_frame.destroy()
-            self.__main_frame = None
-
-    def run_event_loop(self) -> None:
-        """ Runs the event loop for this skin. """
-        while (self.__main_frame is not None) and (not self.__main_frame.is_destroyed):
-            self.__main_frame.activate()
-            self.__main_frame.mainloop()
+        self.__main_frame.deactivate()
             

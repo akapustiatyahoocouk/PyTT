@@ -7,7 +7,7 @@ from enum import Enum
 import tkinter as tk
 import tkinter.ttk as ttk
 
-import gui.dlg_impl.Dialog
+import gui.dialogs_impl.Dialog
 import workspace.api as wsapi
 
 @final
@@ -20,7 +20,7 @@ class LoginDialogResult(Enum):
     """ Dialog cancelled by user. """
 
 @final
-class LoginDialog(gui.dlg_impl.Dialog.Dialog):
+class LoginDialog(gui.dialogs_impl.Dialog.Dialog):
     """ The modal 'login' dialog. """
 
     ##########

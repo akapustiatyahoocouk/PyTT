@@ -7,15 +7,13 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 from gui.root import GuiRoot
+import gui.dialogs as dialogs
 import util.resources as utilres
 
 def exit_handler():
     print('My application is ending!')
 
-if __name__ == '__main__':
-
-    atexit.register(exit_handler)
-    
+def test1():
     f1 = tk.Toplevel(master=GuiRoot.tk)
     f1.transient(GuiRoot.tk)
     f1.title(utilres.UtilResources.PRODUCT_NAME + ' - Administrator mode')
@@ -81,21 +79,18 @@ if __name__ == '__main__':
     GuiRoot.tk.mainloop()
     
     exit()
+
+if __name__ == '__main__':
+
+    atexit.register(exit_handler)
+    
     #   Select the initial skin TODO properly!
     skinapi.ActiveSkin.set(skinapi.SkinRegistry.get_default_skin())
     
     #   Go!
-    while True:
-        skin_before : skinapi.ISkin = skinapi.ActiveSkin.get()
-        if skin_before is None:
-            break;
-        skinapi.ActiveSkin.get().run_event_loop()
-        skin_after : skinapi.ISkin = skinapi.ActiveSkin.get()
-        if skin_after is None:
-            break;
-        if not (skin_after.is_active):
-            break;
+    GuiRoot.tk.mainloop()
     
     #   Cleanup & exit
     skinapi.ActiveSkin.set(None)
     print('exit main loop')
+    GuiRoot.tk.destroy()

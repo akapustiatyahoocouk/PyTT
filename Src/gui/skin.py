@@ -41,11 +41,6 @@ class ISkin(ABC):
         """ "Deactivates" this skin by hiding its UI. """
         raise NotImplementedError()
 
-    @abstractmethod
-    def run_event_loop(self) -> None:
-        """ Runs the event loop for this skin. """
-        raise NotImplementedError()
-
 
 @final
 class ActiveSkin:
