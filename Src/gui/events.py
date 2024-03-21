@@ -1,5 +1,6 @@
 from abc import ABC, ABCMeta
-from typing import Any, Optional, final
+from inspect import signature
+from typing import final, Any, Optional, Callable, TypeAlias
 from enum import Enum
 import re
 import tkinter as tk
@@ -11,7 +12,48 @@ class VirtualKey(Enum):
     ##########
     #   Virtual key codes
 
+    #   ASCII control
+    VK_BACKSPACE = 8
+    VK_TAB = 9
+    VK_RETURN = 13
+    VK_ESCAPE = 27
+    
     #   ASCII
+    VK_SPACE = ord(' ')
+
+    VK_DOT = ord('.')
+    VK_PLUS = ord('+')
+    VK_MINUS = ord('-')
+    VK_ASTERISK = ord('*')
+    VK_SLASH = ord('/')
+    VK_GRAVE = ord('`')
+    VK_TILDE = ord('~')
+    VK_EXCLAMATION = ord('!')
+    VK_AT = ord('@')
+    VK_HASH = ord('#')
+    VK_DOLLAR = ord('$')
+    VK_PERCENT = ord('%')
+    VK_CIRCUM = ord('^')
+    VK_AMPERSAND = ord('&')
+    VK_OPENING_PARENTHESIS = ord('(')
+    VK_CLOSING_PARENTHESIS = ord(')')
+    VK_UNDERSCORE = ord('_')
+    VK_EQUALS = ord('=')
+    VK_SEMICOLON = ord(';')
+    VK_COLON = ord(':')
+    VK_APOSTROPHE = ord('\'')
+    VK_QUOTE = ord('"')
+    VK_BACKSLASH = ord('\\')
+    VK_BAR = ord('|')
+    VK_COMMA = ord(',')
+    VK_LESS = ord('<')
+    VK_GREATER = ord('?')
+    VK_QUESTION = ord('?')
+    VK_OPENING_BRACKET = ord('[')
+    VK_CLOSING_BRACKET = ord(']')
+    VK_OPENING_BRACE = ord('{')
+    VK_CLOSING_BRACE = ord('}')
+
     VK_0 = ord('0')
     VK_1 = ord('1')
     VK_2 = ord('2')
@@ -64,6 +106,27 @@ class VirtualKey(Enum):
     VK_F11 = 0x0001000B
     VK_F12 = 0x0001000C
     
+    VK_CONTROL = 0x00010010
+    VK_SHIFT = 0x00010011
+    VK_ALT = 0x00010012
+    VK_APP = 0x00010013
+    VK_CAPS_LOCK = 0x00010014
+    VK_SCROLL_LOCK = 0x00010015
+    VK_NUM_LOCK = 0x00010016
+    VK_PAUSE = 0x00010017
+    #   VK_PRINT_SCREEN
+
+    VK_UP = 0x00010020
+    VK_DOWN = 0x00010021
+    VK_LEFT = 0x00010022
+    VK_RIGHT = 0x00010023
+    VK_PRIOR = 0x00010024
+    VK_NEXT = 0x00010025
+    VK_HOME = 0x00010026
+    VK_END = 0x00010027
+    VK_INSERT = 0x00010028
+    VK_DELETE = 0x00010029
+
     #   Misc.
     VK_NONE = 0
 
@@ -80,7 +143,48 @@ class VirtualKey(Enum):
         return VirtualKey.VK_NONE
 
 _key_map = { 
+    #   ASCII control
+    'BackSpace': VirtualKey.VK_BACKSPACE,
+    'Tab': VirtualKey.VK_TAB,
+    'Return': VirtualKey.VK_RETURN,
+    'Escape': VirtualKey.VK_ESCAPE,
+
     #   ASCII
+    'space': VirtualKey.VK_SPACE,
+
+    'period': VirtualKey.VK_DOT,
+    'plus': VirtualKey.VK_PLUS,
+    'minus': VirtualKey.VK_MINUS,
+    'asterisk': VirtualKey.VK_ASTERISK,
+    'slash': VirtualKey.VK_SLASH,
+    'grave': VirtualKey.VK_GRAVE,
+    'asciitilde': VirtualKey.VK_TILDE,
+    'exclam': VirtualKey.VK_EXCLAMATION,
+    'at': VirtualKey.VK_AT,
+    'numbersign': VirtualKey.VK_HASH,
+    'dollar': VirtualKey.VK_DOLLAR,
+    'percent': VirtualKey.VK_PERCENT,
+    'asciicircum': VirtualKey.VK_CIRCUM,
+    'ampersand': VirtualKey.VK_AMPERSAND,
+    'parenleft': VirtualKey.VK_OPENING_PARENTHESIS,
+    'parenright': VirtualKey.VK_CLOSING_PARENTHESIS,
+    'underscore': VirtualKey.VK_UNDERSCORE,
+    'equal': VirtualKey.VK_EQUALS,
+    'semicolon': VirtualKey.VK_SEMICOLON,
+    'colon': VirtualKey.VK_COLON,
+    'apostrophe': VirtualKey.VK_APOSTROPHE,
+    'quotedbl': VirtualKey.VK_QUOTE,
+    'backslash': VirtualKey.VK_BACKSLASH,
+    'bar': VirtualKey.VK_BAR,
+    'comma': VirtualKey.VK_COMMA,
+    'less': VirtualKey.VK_LESS,
+    'greater': VirtualKey.VK_GREATER,
+    'question': VirtualKey.VK_QUESTION,
+    'bracketleft': VirtualKey.VK_OPENING_BRACKET,
+    'braceleft': VirtualKey.VK_OPENING_BRACE,
+    'bracketright': VirtualKey.VK_CLOSING_BRACKET,
+    'braceright': VirtualKey.VK_CLOSING_BRACE,
+
     '0': VirtualKey.VK_0,
     '1': VirtualKey.VK_1,
     '2': VirtualKey.VK_2,
@@ -159,6 +263,29 @@ _key_map = {
     'F11': VirtualKey.VK_F11,
     'F12': VirtualKey.VK_F12,
     
+    'Control_L': VirtualKey.VK_CONTROL,
+    'Control_R': VirtualKey.VK_CONTROL,
+    'Shift_L': VirtualKey.VK_SHIFT,
+    'Shift_R': VirtualKey.VK_SHIFT,
+    'Alt_L': VirtualKey.VK_ALT,
+    'Alt_R': VirtualKey.VK_ALT,
+    'App': VirtualKey.VK_APP,
+    'Caps_Lock': VirtualKey.VK_CAPS_LOCK,
+    'Scroll_Lock': VirtualKey.VK_SCROLL_LOCK,
+    'Num_Lock': VirtualKey.VK_NUM_LOCK,
+    'Pause': VirtualKey.VK_PAUSE,
+
+    'Up': VirtualKey.VK_UP,
+    'Down': VirtualKey.VK_DOWN,
+    'Left': VirtualKey.VK_LEFT,
+    'Right': VirtualKey.VK_RIGHT,
+    'Prior': VirtualKey.VK_PRIOR,
+    'Next': VirtualKey.VK_NEXT,
+    'Home': VirtualKey.VK_HOME,
+    'End': VirtualKey.VK_END,
+    'Insert': VirtualKey.VK_INSERT,
+    'Delete': VirtualKey.VK_DELETE,
+    
     #   Terminator
     '<<no way!!!>': VirtualKey.VK_NONE
     }
@@ -232,31 +359,37 @@ class InputEvent(Event, metaclass=InputEventMeta):
         return result if len(result) == 0 else result[:len(result)-1]
 
 
+
+@final
+class KeyEventType(Enum):
+    """ The key event type. """
+
+    ##########
+    #   Constants
+    KEY_DOWN = 1
+    KEY_UP = 2
+    KEY_CHAR = 3
+
 class KeyEvent(InputEvent):
     """ A generic key input event. """
 
     ##########
     #   Construction
-    def __init__(self, source, tk_evt: tk.Event):
+    def __init__(self, source, event_type: KeyEventType, tk_evt: tk.Event):
         """ Constructs the event from the specified tk key event. """
         super().__init__(source, tk_evt.state)
         
-        if (tk_evt.char is not None) and (len(tk_evt.char) == 1):
+        assert isinstance(event_type, KeyEventType)
+        self.__event_type = event_type
+
+        assert isinstance(tk_evt, tk.Event)
+        if ((tk_evt.char is not None) and (len(tk_evt.char) == 1) and
+            (ord(tk_evt.char[0]) >= 32) and (ord(tk_evt.char[0]) != 127)):
             self.__keychar = tk_evt.char[0]
         else:
             self.__keychar = None
             
         self.__keycode = VirtualKey.from_tk_string(tk_evt.keysym)
-
-    #def __init__(self, source, keycode: VirtualKey = None, keychar=None, modifiers=None):
-    #    """ Constructs the event with the specified source and modifiers. """
-    #    super().__init__(source, modifiers)
-        
-    #    assert (keycode is None) or isinstance(keycode, VirtualKey)
-    #    self.__keycode = VirtualKey.VK_NONE if (keycode is None) else keycode
-
-    #    assert (keychar is None) or isinstance(keychar, str)
-    #    self.__keychar = keychar
 
     ##########
     #   object
@@ -266,22 +399,35 @@ class KeyEvent(InputEvent):
             result += 'source='
             result += str(self.source)
             result += ','
+
+        result += 'event_type='
+        result += str(self.__event_type)
+        result += ','
+
         if len(self.modifiers_string) > 0:
             result += 'modifiers='
             result += self.modifiers_string
             result += ','
+
         if self.keycode is not None:
             result += 'keycode='
             result += str(self.keycode)
             result += ','
+
         if self.keychar is not None:
             result += 'keychar='
             result += self.keychar
             result += ','
+
         if result.endswith(','):
             result = result[:len(result)-1]
         return 'KeyEvent(' + result + ')'
     
+    @property
+    def event_type(self) -> KeyEventType:
+        """ The key event type, never None. """
+        return self.__event_type
+
     @property
     def keycode(self) -> VirtualKey:
         """ The virtual key code, None if not known. """
@@ -291,3 +437,69 @@ class KeyEvent(InputEvent):
     def keychar(self) -> Optional[str]:
         """ The key character, None if not known. """
         return self.__keychar
+
+
+KeyEventListener: TypeAlias = Callable[[KeyEvent], None]
+
+class EventProcessor:
+    """ A mix-in class that can process events. """
+
+    ##########
+    #   Construction
+    def __init__(self):
+        self.__key_event_listeners = list()
+    
+    ##########
+    #   Operations (event dispatch)
+    def add_key_event_listener(self, l: KeyEventListener) -> None:
+        assert isinstance(l, Callable) and len(signature(l).parameters) == 1
+        if l not in self.__key_event_listeners:
+            self.__key_event_listeners.append(l)
+
+    def remove_key_event_listener(self, l: KeyEventListener) -> None:
+        assert isinstance(l, Callable) and len(signature(l).parameters) == 1
+        if l in self.__key_event_listeners:
+            self.__key_event_listeners.remove(l)
+
+    @property
+    def key_event_listeners(self) -> list[KeyEventListener]:
+        return self.__key_event_listeners.copy()
+    
+    ##########
+    #   Operations (event processing) - normally, don't touch!
+    def _process_key_event(self, event : KeyEvent):
+        """ 
+            Called to process a KeyEvent.
+            
+            @param self:
+                The EventProcessor on which the method has been called.
+            @param event:
+                The key event to process.
+        """
+        assert isinstance(event, KeyEvent)
+        #   TODO if the event has NOY been processed, the default
+        #   implementation should dispatch it to the "parent" event
+        #   processor.
+        for l in self.key_event_listeners:
+            l(event)
+    
+    def _process_event(self, event : Event):
+        """ 
+            Called to process a generic Event.
+            Default implementation analyses the event type and then
+            dispatches the event to the appropriate process_XXX_event()
+            method, where XXX depends on the event type.
+            
+            TODO to speed thing up, use a map of event classes to event
+                 handler methods ?
+            
+            @param self:
+                The EventProcessor on which the method has been called.
+            @param event:
+                The event to process.
+        """
+        if isinstance(event, KeyEvent):
+            process_key_event(self, event)
+        else:
+            assert False    # TODO implement properly
+ 

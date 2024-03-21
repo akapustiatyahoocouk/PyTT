@@ -17,7 +17,8 @@ class MainFrame(frames.TopFrame):
     """ The main frame of the "Admin" skin. """
     
     def __init__(self):
-        super().__init__()
+        frames.TopFrame.__init__(self)
+        
         self.__destroy_underway = False
         
         #  self.state('iconified') withdrawn
@@ -45,21 +46,30 @@ class MainFrame(frames.TopFrame):
         self.protocol("WM_DELETE_WINDOW", self.destroy)
         
         self.bind("<KeyPress>", self.keydown)
+        self.bind("<KeyRelease>", self.keyup)
     
+        self.add_key_event_listener(lambda e: print(e))
+        self.add_key_event_listener(self.xxx)
+        
+    def xxx(self, e):
+        print('XXX:', e)
+        
     def keydown(self, evt: tk.Event):
-        print(evt)
-        ke = events.KeyEvent(self, evt)
-        #if evt.state == 'Control' and evt.keysym == 'F1':
-        #if (evt.char is not None) and (len(evt.char) == 1):
-        #    ch = evt.char[0]
-        #    ke = events.KeyEvent(self, keycode=events.VirtualKey.from_tk_string(evt.keysym), keychar=ch, modifiers=evt.state)
-        #else:
-        #    ch = None
-        #    ke = events.KeyEvent(self, keycode=events.VirtualKey.from_tk_string(evt.keysym), keychar=ch, modifiers=evt.state)
-        print(ke)
+        #print(evt)
+        ke = events.KeyEvent(self, events.KeyEventType.KEY_DOWN, evt)
+        self._process_key_event(ke)
+        if ke.keychar is not None:
+            ce = events.KeyEvent(self, events.KeyEventType.KEY_CHAR, evt)
+            self._process_key_event(ce)
         if ke.modifiers == events.InputEvent.MODIFIER_CONTROL and ke.keycode == events.VirtualKey.VK_F1:  # ctrl+F1
             self.__popup()
+        self.remove_key_event_listener(self.xxx)
     
+    def keyup(self, evt: tk.Event):
+        #print(evt)
+        ke = events.KeyEvent(self, events.KeyEventType.KEY_UP, evt)
+        self._process_key_event(ke)
+
     ##########
     #   Properties
     @property
