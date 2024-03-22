@@ -5,19 +5,17 @@ import sys
 import tkinter as tk
 import tkinter.ttk as ttk
 
-import util.resources as utilres
-import gui.dialogs as dialogs
-import gui.frames as frames
-import gui.events as events
-from gui.root import GuiRoot
+import awt
+import dialogs
+
 import workspace.api as wsapi
 
 @final
-class MainFrame(frames.TopFrame):
+class MainFrame(awt.TopFrame):
     """ The main frame of the "Admin" skin. """
     
     def __init__(self):
-        frames.TopFrame.__init__(self)
+        awt.TopFrame.__init__(self)
         
         self.__destroy_underway = False
         
@@ -56,18 +54,18 @@ class MainFrame(frames.TopFrame):
         
     def keydown(self, evt: tk.Event):
         #print(evt)
-        ke = events.KeyEvent(self, events.KeyEventType.KEY_DOWN, evt)
+        ke = awt.KeyEvent(self, awt.KeyEventType.KEY_DOWN, evt)
         self._process_key_event(ke)
         if ke.keychar is not None:
-            ce = events.KeyEvent(self, events.KeyEventType.KEY_CHAR, evt)
+            ce = awt.KeyEvent(self, awt.KeyEventType.KEY_CHAR, evt)
             self._process_key_event(ce)
-        if ke.modifiers == events.InputEvent.MODIFIER_CONTROL and ke.keycode == events.VirtualKey.VK_F1:  # ctrl+F1
+        if ke.modifiers == awt.InputEvent.MODIFIER_CONTROL and ke.keycode == awt.VirtualKey.VK_F1:  # ctrl+F1
             self.__popup()
         self.remove_key_event_listener(self.xxx)
     
     def keyup(self, evt: tk.Event):
         #print(evt)
-        ke = events.KeyEvent(self, events.KeyEventType.KEY_UP, evt)
+        ke = awt.KeyEvent(self, awt.KeyEventType.KEY_UP, evt)
         self._process_key_event(ke)
 
     ##########
@@ -90,7 +88,7 @@ class MainFrame(frames.TopFrame):
             self.protocol("WM_DELETE_WINDOW", lambda: None)
             for child in self.winfo_children():
                 child.destroy()
-            GuiRoot.tk.quit()
+            awt.GuiRoot.tk.quit()
     
     ##########
     #   Implementation helpers    

@@ -7,8 +7,8 @@ from enum import Enum
 import tkinter as tk
 import tkinter.ttk as ttk
 
-import gui.dialogs_impl.Dialog
-import util.resources as utilres
+import awt
+import resources
 
 @final
 class AboutDialogResult(Enum):
@@ -17,7 +17,7 @@ class AboutDialogResult(Enum):
     """ Dialog closed, by whatever means necessary. """
 
 @final
-class AboutDialog(gui.dialogs_impl.Dialog.Dialog):
+class AboutDialog(awt.Dialog):
     """ The modal 'about...' dialog. """
 
     ##########
@@ -31,10 +31,10 @@ class AboutDialog(gui.dialogs_impl.Dialog.Dialog):
         self.__pan1 = ttk.Label(self.__pan0)
         self.__pan2 = ttk.Label(self.__pan0)
         
-        self.__pic1 = ttk.Label(self.__pan1, image = utilres.UtilResources.PRODUCT_ICON)
-        self.__msg1 = ttk.Label(self.__pan2, text = utilres.UtilResources.PRODUCT_NAME, anchor=tk.CENTER)
-        self.__msg2 = ttk.Label(self.__pan2, text = "Version " + utilres.UtilResources.PRODUCT_VERSION, anchor=tk.CENTER)
-        self.__msg3 = ttk.Label(self.__pan2, text = utilres.UtilResources.PRODUCT_COPYRIGHT, anchor=tk.CENTER)
+        self.__pic1 = ttk.Label(self.__pan1, image = resources.Resources.PRODUCT_ICON)
+        self.__msg1 = ttk.Label(self.__pan2, text = resources.Resources.PRODUCT_NAME, anchor=tk.CENTER)
+        self.__msg2 = ttk.Label(self.__pan2, text = "Version " + resources.Resources.PRODUCT_VERSION, anchor=tk.CENTER)
+        self.__msg3 = ttk.Label(self.__pan2, text = resources.Resources.PRODUCT_COPYRIGHT, anchor=tk.CENTER)
         self.__separator = ttk.Separator(self.root, orient='horizontal')
         self.__okButton = ttk.Button(self.root, text="OK", default='active')
 

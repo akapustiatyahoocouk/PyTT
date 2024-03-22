@@ -1,8 +1,9 @@
-import gui.skin as skinapi
-import gui.admin_skin_impl.MainFrame as mainfrm
 import tkinter as tk
 
-class AdminSkin(skinapi.ISkin):
+import skin
+import admin_skin_impl.MainFrame
+
+class AdminSkin(skin.ISkin):
     """ A database type that uses SQLite as data storage. """
     
     ##########
@@ -12,11 +13,11 @@ class AdminSkin(skinapi.ISkin):
 
     ##########
     #   Singleton
-    __instance :  skinapi.ISkin = None
+    __instance :  skin.ISkin = None
 
     def __init__(self):
         assert AdminSkin.__instance is None, 'Use AdminSkin.instance() instead'
-        self.__main_frame = mainfrm.MainFrame()
+        self.__main_frame = admin_skin_impl.MainFrame.MainFrame()
     
     @staticmethod
     def instance() -> 'AdminSkin':

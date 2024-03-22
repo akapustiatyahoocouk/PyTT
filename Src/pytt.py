@@ -1,4 +1,5 @@
-import gui.skin as skinapi
+import skin
+
 import gui.admin_skin_impl
 
 import atexit
@@ -6,9 +7,7 @@ import atexit
 import tkinter as tk
 import tkinter.ttk as ttk
 
-from gui.root import GuiRoot
-import gui.dialogs as dialogs
-import resources
+import awt
 
 def exit_handler():
     print('My application is ending!')
@@ -16,7 +15,7 @@ def exit_handler():
 def test1():
     f1 = tk.Toplevel(master=GuiRoot.tk)
     f1.transient(GuiRoot.tk)
-    f1.title(utilres.UtilResources.PRODUCT_NAME + ' - Administrator mode')
+    f1.title(resources.Resources.PRODUCT_NAME + ' - Administrator mode')
     f1.btn1 = ttk.Button(f1, text='popup', command=GuiRoot.tk.destroy)
     f1.btn1.pack()
     f1.geometry('600x400')
@@ -85,12 +84,13 @@ if __name__ == '__main__':
     atexit.register(exit_handler)
     
     #   Select the initial skin TODO properly!
-    skinapi.ActiveSkin.set(skinapi.SkinRegistry.get_default_skin())
+    skin.ActiveSkin.set(skin.SkinRegistry.get_default_skin())
     
     #   Go!
-    GuiRoot.tk.mainloop()
+    awt.GuiRoot.tk.mainloop()
     
     #   Cleanup & exit
-    skinapi.ActiveSkin.set(None)
+    skin.ActiveSkin.set(None)
     print('exit main loop')
-    GuiRoot.tk.destroy()
+    awt.GuiRoot.tk.destroy()
+

@@ -4,7 +4,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>e1dad635-84e6-4355-9173-a29555422824</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>dialogs_impl\AboutDialog.py</StartupFile>
+    <StartupFile>
+    </StartupFile>
     <SearchPath>..\..\Src</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -20,32 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="admin_skin_impl\AdminSkin.py" />
-    <Compile Include="admin_skin_impl\MainFrame.py" />
-    <Compile Include="admin_skin_impl\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="dialogs_impl\AboutDialog.py" />
-    <Compile Include="dialogs_impl\Dialog.py" />
-    <Compile Include="dialogs.py" />
-    <Compile Include="dialogs_impl\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="dialogs_impl\LoginDialog.py" />
-    <Compile Include="events.py" />
-    <Compile Include="frames.py" />
-    <Compile Include="frames_impl\TopFrame.py" />
-    <Compile Include="frames_impl\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="root.py" />
-    <Compile Include="skin.py" />
     <Compile Include="__init__.py" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="admin_skin_impl\" />
-    <Folder Include="dialogs_impl\" />
-    <Folder Include="frames_impl\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
