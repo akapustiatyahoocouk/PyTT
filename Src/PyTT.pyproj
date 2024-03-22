@@ -40,6 +40,14 @@
     <Compile Include="awt_impl\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="db.py" />
+    <Compile Include="db_impl\DatabaseTypeRegistry.py" />
+    <Compile Include="db_impl\exceptions.py" />
+    <Compile Include="db_impl\IDatabaseAddress.py" />
+    <Compile Include="db_impl\IDatabaseType.py" />
+    <Compile Include="db_impl\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="dialogs.py" />
     <Compile Include="dialogs_impl\AboutDialog.py" />
     <Compile Include="dialogs_impl\LoginDialog.py" />
@@ -70,6 +78,7 @@
   <ItemGroup>
     <Folder Include="admin_skin_impl\" />
     <Folder Include="awt_impl\" />
+    <Folder Include="db_impl\" />
     <Folder Include="dialogs_impl\" />
     <Folder Include="resources_impl\" />
     <Folder Include="resources_impl\images\" />

@@ -40,9 +40,12 @@ class LoginDialog(awt.Dialog):
                 field or None. If spefified, the initial keyboard focus 
                 goes straight to the "password" field.
             @param on_ok_callback:
-                TODO document
+                The callback to invoke just before the login dialog is 
+                closed successfully with login credentials specified, 
+                None == no callback.
             @param on_cancel_callback:
-                TODO document
+                The callback to invoke just before the login dialog is 
+                cancelled by the user, None == no callback.
         """
         super().__init__(parent, 'Login to PyTT')
         self.__on_ok_callback = on_ok_callback
@@ -135,15 +138,13 @@ class LoginDialog(awt.Dialog):
         password = self.__passwordVar.get()
         self.__credentials = ws.Credentials(login, password)
         self.__result = LoginDialogResult.OK
-        if self.__on_ok_callback is None:
-            self.destroy()
-        else:
+        if self.__on_ok_callback is not None:
             self.__on_ok_callback(self) 
+        self.destroy()
 
     def __on_cancel(self, evt = None) -> None:
         self.__credentials = None
         self.__result = LoginDialogResult.CANCEL
-        if self.__on_cancel_callback is None:
-            self.destroy()
-        else:
+        if self.__on_cancel_callback is not None:
             self.__on_cancel_callback(self) 
+        self.destroy()

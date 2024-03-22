@@ -77,6 +77,7 @@ class MainFrame(awt.TopFrame):
     #   Operations
     def activate(self):
         self.state("normal")
+        self.focus_force()
     
     def deactivate(self):
         self.state("withdrawn")
