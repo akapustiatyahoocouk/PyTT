@@ -19,6 +19,7 @@ class AdminSkin(skin_impl.ISkin.ISkin):
     def __init__(self):
         assert AdminSkin.__instance is None, "Use AdminSkin.instance instead"
         self.__main_frame = admin_skin_impl.MainFrame.MainFrame()
+        self.__main_frame.deactivate()
     
     @classproperty
     def instance(cls) -> "AdminSkin":

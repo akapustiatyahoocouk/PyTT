@@ -60,6 +60,12 @@
     <Compile Include="skin_impl\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ws.py" />
+    <Compile Include="ws_impl\Credentials.py" />
+    <Compile Include="ws_impl\CurrentCredentials.py" />
+    <Compile Include="ws_impl\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="admin_skin_impl\" />
@@ -68,6 +74,7 @@
     <Folder Include="resources_impl\" />
     <Folder Include="resources_impl\images\" />
     <Folder Include="skin_impl\" />
+    <Folder Include="ws_impl\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="resources_impl\images\PyTT.gif" />

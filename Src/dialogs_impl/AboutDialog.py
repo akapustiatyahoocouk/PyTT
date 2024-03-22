@@ -27,7 +27,7 @@ class AboutDialog(awt.Dialog):
         self.__result = AboutDialogResult.OK
 
         #   Create controls
-        self.__pan0 = ttk.Label(self.root)
+        self.__pan0 = ttk.Label(self)
         self.__pan1 = ttk.Label(self.__pan0)
         self.__pan2 = ttk.Label(self.__pan0)
         
@@ -35,8 +35,8 @@ class AboutDialog(awt.Dialog):
         self.__msg1 = ttk.Label(self.__pan2, text = resources.Resources.PRODUCT_NAME, anchor=tk.CENTER)
         self.__msg2 = ttk.Label(self.__pan2, text = "Version " + resources.Resources.PRODUCT_VERSION, anchor=tk.CENTER)
         self.__msg3 = ttk.Label(self.__pan2, text = resources.Resources.PRODUCT_COPYRIGHT, anchor=tk.CENTER)
-        self.__separator = ttk.Separator(self.root, orient="horizontal")
-        self.__okButton = ttk.Button(self.root, text="OK", default="active")
+        self.__separator = ttk.Separator(self, orient="horizontal")
+        self.__okButton = ttk.Button(self, text="OK", default="active")
 
         #   Set up control structure
         self.__pan0.pack(fill=tk.X, padx=0, pady=0)
@@ -52,10 +52,10 @@ class AboutDialog(awt.Dialog):
         self.__okButton.pack(side=tk.RIGHT, padx=0, pady=0)
 
         #   Set up event handlers
-        self.root.bind("<Escape>", self.__onOk)
-        self.root.bind("<Return>", self.__onOk)
-        self.__okButton.bind("<Button-1>", self.__onOk)
-        self.root.protocol("WM_DELETE_WINDOW", self.__onOk)
+        self.bind("<Escape>", self.__on_ok)
+        self.bind("<Return>", self.__on_ok)
+        self.__okButton.bind("<Button-1>", self.__on_ok)
+        self.protocol("WM_DELETE_WINDOW", self.__on_ok)
 
         #  Done
         self.__okButton.focus_set()
@@ -69,6 +69,5 @@ class AboutDialog(awt.Dialog):
 
     ##########
     #   Implementation helpers
-    def __onOk(self, evt = None) -> None:
-        self.root.destroy()
-        pass
+    def __on_ok(self, evt = None) -> None:
+        self.destroy()

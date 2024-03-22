@@ -1,10 +1,13 @@
 import atexit
+import sys
 
 import tkinter as tk
 import tkinter.ttk as ttk
 
 import awt
+import ws
 import skin
+import dialogs
 
 def exit_handler():
     print('My application is ending!')
@@ -75,10 +78,28 @@ def test1():
     
     exit()
 
+def __perform_initial_login(login_dialog: dialogs.LoginDialog):
+    login_dialog.quit()
+    login_dialog.destroy()
+
+def __abort_initial_login(login_dialog: dialogs.LoginDialog):
+    sys.exit()
+    
 if __name__ == "__main__":
 
     atexit.register(exit_handler)
     
+    #   Perform initial login
+    with dialogs.LoginDialog(awt.GuiRoot.tk,
+                             on_ok_callback=__perform_initial_login,
+                             on_cancel_callback=__abort_initial_login) as dlg:
+        dlg.transient(awt.GuiRoot.tk)
+        dlg.attributes("-topmost", True)
+        #dlg.focus_set()
+        awt.GuiRoot.tk.mainloop()
+        if dlg.result is not dialogs.LoginDialogResult.OK:
+            sys.exit()
+        ws.CurrentCredentials.set(dlg.credentials)
     #   Select the initial skin TODO properly!
     skin.ActiveSkin.set(skin.SkinRegistry.get_default_skin())
     

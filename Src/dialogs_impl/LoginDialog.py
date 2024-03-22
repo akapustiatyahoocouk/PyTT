@@ -1,15 +1,14 @@
 """
     Implements "Login to PyTT" modal dialog.
 """
-from typing import final, Optional
+from typing import final, Optional, Callable
 from enum import Enum
 
 import tkinter as tk
 import tkinter.ttk as ttk
 
 import awt
-
-import workspace.api as wsapi
+import ws
 
 @final
 class LoginDialogResult(Enum):
@@ -26,7 +25,9 @@ class LoginDialog(awt.Dialog):
 
     ##########
     #   Construction    
-    def __init__(self, parent: Optional[ttk.Widget], login: Optional[str] = None):
+    def __init__(self, parent: Optional[ttk.Widget], login: Optional[str] = None,
+                 on_ok_callback: Callable[["LoginDialog"],None] = None, 
+                 on_cancel_callback: Callable[["LoginDialog"],None] = None):
         """
             Constructs the locin dialog.
         
@@ -38,8 +39,15 @@ class LoginDialog(awt.Dialog):
                 The login identifier to initially display in the "login"
                 field or None. If spefified, the initial keyboard focus 
                 goes straight to the "password" field.
+            @param on_ok_callback:
+                TODO document
+            @param on_cancel_callback:
+                TODO document
         """
         super().__init__(parent, 'Login to PyTT')
+        self.__on_ok_callback = on_ok_callback
+        self.__on_cancel_callback = on_cancel_callback
+
         self.__result = LoginDialogResult.CANCEL
         self.__credentials = None
         
@@ -48,18 +56,18 @@ class LoginDialog(awt.Dialog):
         self.__passwordVar = tk.StringVar()
         
         #   Create controls
-        self.__pan0 = ttk.Label(self.root)
+        self.__pan0 = ttk.Label(self)
         
         self.__loginLabel = ttk.Label(self.__pan0, text = 'Login:', anchor=tk.E)
-        self.__loginEntry = ttk.Entry(self.__pan0, width=20, textvariable=self.__loginVar)
+        self.__loginEntry = ttk.Entry(self.__pan0, width=40, textvariable=self.__loginVar)
 
         self.__passwordLabel = ttk.Label(self.__pan0, text = 'Password:', anchor=tk.E)
-        self.__passwordEntry = ttk.Entry(self.__pan0, width=20, show="\u2022", textvariable=self.__passwordVar)
+        self.__passwordEntry = ttk.Entry(self.__pan0, width=40, show="\u2022", textvariable=self.__passwordVar)
         
-        self.__separator = ttk.Separator(self.root, orient="horizontal")
+        self.__separator = ttk.Separator(self, orient="horizontal")
 
-        self.__okButton = ttk.Button(self.root, text='OK', default="active")
-        self.__cancelButton = ttk.Button(self.root, text='Cancel')
+        self.__okButton = ttk.Button(self, text='OK', default="active")
+        self.__cancelButton = ttk.Button(self, text='Cancel')
 
         #   Set up control structure
         self.__pan0.pack(fill=tk.X, padx=0, pady=0)
@@ -78,11 +86,11 @@ class LoginDialog(awt.Dialog):
         self.__loginVar.trace_add("write", self.__refresh)
         self.__passwordVar.trace_add("write", self.__refresh)
         
-        self.root.bind("<Escape>", self.__onCancel)
-        self.root.bind("<Return>", self.__onOk)
-        self.root.protocol("WM_DELETE_WINDOW", self.__onCancel)
-        self.__okButton.bind("<Button-1>", self.__onOk)
-        self.__cancelButton.bind("<Button-1>", self.__onCancel)
+        self.bind("<Escape>", self.__on_cancel)
+        self.bind("<Return>", self.__on_ok)
+        self.protocol("WM_DELETE_WINDOW", self.__on_cancel)
+        self.__okButton.bind("<Button-1>", self.__on_ok)
+        self.__cancelButton.bind("<Button-1>", self.__on_cancel)
         
         #   Set initial focus & we're done
         if login is not None:
@@ -90,6 +98,9 @@ class LoginDialog(awt.Dialog):
         else:
             self.__loginEntry.focus_set()
         self.__refresh()
+        
+        self.wait_visibility()
+        self.center_in_parent()
 
     ##########
     #   Properties    
@@ -99,7 +110,7 @@ class LoginDialog(awt.Dialog):
         return self.__result
 
     @property
-    def credentials(self) -> Optional[wsapi.Credentials]:
+    def credentials(self) -> Optional[ws.Credentials]:
         """ The entered user credentials or None if the dialog
             was cancelled by the user. """
         return self.__credentials
@@ -119,16 +130,20 @@ class LoginDialog(awt.Dialog):
     
     ##########
     #   Event listeners    
-    def __onOk(self, evt = None) -> None:
+    def __on_ok(self, evt = None) -> None:
         login = self.__loginVar.get()
         password = self.__passwordVar.get()
-        self.__credentials = wsapi.Credentials(login, password)
+        self.__credentials = ws.Credentials(login, password)
         self.__result = LoginDialogResult.OK
-        self.root.destroy()
-        pass
+        if self.__on_ok_callback is None:
+            self.destroy()
+        else:
+            self.__on_ok_callback(self) 
 
-    def __onCancel(self, evt = None) -> None:
+    def __on_cancel(self, evt = None) -> None:
         self.__credentials = None
         self.__result = LoginDialogResult.CANCEL
-        self.root.destroy()
-        pass
+        if self.__on_cancel_callback is None:
+            self.destroy()
+        else:
+            self.__on_cancel_callback(self) 

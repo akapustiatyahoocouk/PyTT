@@ -6,10 +6,9 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 import awt
+import ws
 import dialogs
 import settings
-
-import workspace.api as wsapi
 
 @final
 class MainFrame(awt.TopFrame):
@@ -99,7 +98,7 @@ class MainFrame(awt.TopFrame):
     ##########
     #   Event handlers    
     def __onInitialLogin(self, *args) -> None:
-        if (wsapi.CurrentCredentials.get() is None) and (not self.__initialLoginPerformed):
+        if (ws.CurrentCredentials.get() is None) and (not self.__initialLoginPerformed):
             #   Need the (not self.__initialLoginPerformed) guard because the 
             #   frame will generate several <Visibility> events when shown
             self.__initialLoginPerformed = True
@@ -107,4 +106,4 @@ class MainFrame(awt.TopFrame):
                 dlg.do_modal()
                 if dlg.result is not dialogs.LoginDialogResult.OK:
                     sys.exit()
-                wsapi.CurrentCredentials.set(dlg.credentials)
+                ws.CurrentCredentials.set(dlg.credentials)

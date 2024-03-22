@@ -86,27 +86,3 @@ class Credentials:
         """ The uppercase hex string representing the SHA-1 hash 
             of the user's password. """
         return self.__password_hash
-
-
-@final
-class CurrentCredentials:
-    """ The "current" credentials. """
-
-    ##########
-    #   Implementation
-    __currentCredentials = None
-    
-    ##########
-    #   Construction - disable (this is an utility class)
-    def __init__(self):
-        assert False, str(self.__class__) + ' is a utility class'
-        
-    @staticmethod
-    def get() -> Optional[Credentials]:
-        return CurrentCredentials.__currentCredentials
-
-    @staticmethod
-    def set(cc: Credentials) -> None:
-        assert cc is not None
-        CurrentCredentials.__currentCredentials = cc
-
