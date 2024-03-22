@@ -47,34 +47,34 @@ class KeyEvent(awt_impl.InputEvent.InputEvent):
     ##########
     #   object
     def __str__(self) -> str:
-        result = ''
+        result = ""
         if self.source is not None:
-            result += 'source='
+            result += "source="
             result += str(self.source)
-            result += ','
+            result += ","
 
-        result += 'event_type='
+        result += "event_type="
         result += str(self.__event_type)
-        result += ','
+        result += ","
 
         if len(self.modifiers_string) > 0:
-            result += 'modifiers='
+            result += "modifiers="
             result += self.modifiers_string
-            result += ','
+            result += ","
 
         if self.keycode is not None:
-            result += 'keycode='
+            result += "keycode="
             result += str(self.keycode)
-            result += ','
+            result += ","
 
         if self.keychar is not None:
-            result += 'keychar='
+            result += "keychar="
             result += self.keychar
-            result += ','
+            result += ","
 
-        if result.endswith(','):
+        if result.endswith(","):
             result = result[:len(result)-1]
-        return 'KeyEvent(' + result + ')'
+        return "KeyEvent(" + result + ")"
 
     ##########
     #   Properties    

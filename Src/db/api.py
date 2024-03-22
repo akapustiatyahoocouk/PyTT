@@ -8,7 +8,7 @@ import uuid
 Oid: TypeAlias = uuid.UUID
 
 class IDatabaseType(ABC):
-    """ A 'database type' corresponds to a technology used to
+    """ A "database type" corresponds to a technology used to
         keep the data persistent (database engine type, etc.)"""
     
     ##########
@@ -31,7 +31,7 @@ class IDatabaseType(ABC):
     ##########
     #   Database address handling
     @abstractmethod
-    def parse_database_address(self, externa_form: str) -> 'IDatabaseAddress':
+    def parse_database_address(self, externa_form: str) -> "IDatabaseAddress":
         """
             Parses an external (re-parsable) form of a database address
             of this type.
@@ -47,7 +47,7 @@ class IDatabaseType(ABC):
         raise NotImplementedError()
 
     @abstractproperty
-    def default_database_address(self) -> 'IDatabaseAddress':
+    def default_database_address(self) -> "IDatabaseAddress":
         raise NotImplementedError()
 
 
@@ -69,7 +69,7 @@ class DatabaseTypeRegistry:
     #   Operations
     @staticmethod
     def register_database_type(dbtype: IDatabaseType) -> bool:
-        """ 'Registers' the specified database type.
+        """ "Registers" the specified database type.
             Returns True on  success, False on failure. """
         print('Registering', dbtype.display_name, 'database type [' + dbtype.mnemonic + ']')
         if dbtype.mnemonic in DatabaseTypeRegistry.__registry:
@@ -91,7 +91,7 @@ class DatabaseTypeRegistry:
 
 
 class IDatabaseAddress(ABC):
-    """ A 'database address' uniquely identifies the location of
+    """ A "database address" uniquely identifies the location of
         a database and is database type - specific."""
     
     ##########

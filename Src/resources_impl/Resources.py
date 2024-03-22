@@ -8,8 +8,8 @@ from annotations import classproperty
 class _ResourcesMeta(type):
     def __setattr__(cls: type, attr: str, value) -> None:
         #print(cls.__name__, attr, value)
-        if re.match('^[A-Z0-9_]+$', attr):
-            raise Exception('Cannot change class constant value ' + cls.__name__ + '.' + attr)
+        if re.match("^[A-Z0-9_]+$", attr):
+            raise Exception("Cannot change class constant value " + cls.__name__ + "." + attr)
         type.__setattr__(cls, attr, value)
 
 @final
@@ -23,7 +23,7 @@ class Resources(metaclass = _ResourcesMeta):
     ##########
     #   Construction - disable (this is an utility class)
     def __init__(self):
-        assert False, str(self.__class__) + ' is a utility class'
+        assert False, str(self.__class__) + " is a utility class"
 
     ##########
     #   Properties - PyTT version information
@@ -41,5 +41,5 @@ class Resources(metaclass = _ResourcesMeta):
         """ The 32x32 icon representing PyTT. """
         #   TODO kill off print(cls.__name__)
         if Resources.__product_icon is None:
-            Resources.__product_icon = tk.PhotoImage(file = os.path.join(os.path.dirname(__file__), 'images/PyTT.gif'))
+            Resources.__product_icon = tk.PhotoImage(file = os.path.join(os.path.dirname(__file__), "images/PyTT.gif"))
         return Resources.__product_icon

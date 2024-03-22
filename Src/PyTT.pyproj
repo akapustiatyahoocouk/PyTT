@@ -52,6 +52,7 @@
     <Compile Include="resources_impl\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="settings.py" />
     <Compile Include="skin.py" />
     <Compile Include="skin_impl\ActiveSkin.py" />
     <Compile Include="skin_impl\ISkin.py" />

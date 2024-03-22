@@ -13,7 +13,7 @@ class ActiveSkin:
     ##########
     #   Construction - disable (this is an utility class)
     def __init__(self):
-        assert False, str(self.__class__) + ' is a utility class'
+        assert False, str(self.__class__) + " is a utility class"
         
     @staticmethod
     def get() -> Optional[skin_impl.ISkin.ISkin]:

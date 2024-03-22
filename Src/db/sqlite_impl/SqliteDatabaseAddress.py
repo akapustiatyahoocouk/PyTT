@@ -14,7 +14,7 @@ class SqliteDatabaseAddress(dbapi.IDatabaseAddress):
     ##########7
     #   IDatabaseAddress - Properties
     @property
-    def database_type(self) -> 'SqliteDatabaseType':
+    def database_type(self) -> "SqliteDatabaseType":
         """ The database type to which this database address belongs. """
         return db.sqlite_impl.SqliteDatabaseType.SqliteDatabaseType.instance()
 

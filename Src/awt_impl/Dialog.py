@@ -46,7 +46,7 @@ class Dialog(ABC):
             x = px + int(pw/2) - int(w/2)
             y = py + int(ph/2) - int(h/2)
             #   TODO Try to keep the dialog within screen boundaries
-            self.__root.geometry('%dx%d+%d+%d' % (w, h, x, y))
+            self.__root.geometry("%dx%d+%d+%d" % (w, h, x, y))
 
     def center_in_screen(self) -> None:
         w = self.__root.winfo_width()
@@ -56,7 +56,7 @@ class Dialog(ABC):
         x = int(sw/2) - int(w/2)
         y = int(sh/2) - int(h/2)
         #   TODO Try to keep the dialog within screen boundaries
-        self.__root.geometry('%dx%d+%d+%d' % (w, h, x, y))
+        self.__root.geometry("%dx%d+%d+%d" % (w, h, x, y))
         
     def do_modal(self) -> None:
         """

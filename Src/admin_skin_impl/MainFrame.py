@@ -7,6 +7,7 @@ import tkinter.ttk as ttk
 
 import awt
 import dialogs
+import settings
 
 import workspace.api as wsapi
 
@@ -19,20 +20,19 @@ class MainFrame(awt.TopFrame):
         
         self.__destroy_underway = False
         
-        #  self.state('iconified') withdrawn
         #   Create controls
-        self.__popupButton = ttk.Button(self, text='popup', command=self.__popup)
-        self.__quitButton = ttk.Button(self, text='quit', command=self.destroy)
+        self.__popupButton = ttk.Button(self, text="popup", command=self.__popup)
+        self.__quitButton = ttk.Button(self, text="quit", command=self.destroy)
 
         self.__menu_bar = tk.Menu(self)
-        self['menu'] = self.__menu_bar
+        self["menu"] = self.__menu_bar
         
         self.__file_menu = tk.Menu(tearoff=False)
         self.__help_menu = tk.Menu(tearoff=False)
         self.__menu_bar.add_cascade(label='File', underline=0, menu=self.__file_menu)
 
         self.__menu_bar.add_cascade(label='Help', underline=0, menu=self.__help_menu)
-        self.__help_menu.add_command(label='About', underline=1, accelerator="^F", command=self.__popup)
+        self.__help_menu.add_command(label='About', underline=1, accelerator="Ctrl+F1", command=self.__popup)
         
         #   Set up control structure
         self.__popupButton.pack()
@@ -40,7 +40,7 @@ class MainFrame(awt.TopFrame):
 
         #   Set up event handlers
         self.__initialLoginPerformed = False
-        self.bind('<Visibility>', self.__onInitialLogin)
+        self.bind("<Visibility>", self.__onInitialLogin)
         self.protocol("WM_DELETE_WINDOW", self.destroy)
         
         self.bind("<KeyPress>", self.keydown)
@@ -72,15 +72,15 @@ class MainFrame(awt.TopFrame):
     #   Properties
     @property
     def is_active(self) -> bool:
-        return self.state() == 'normal'
+        return self.state() == "normal"
 
     ##########
     #   Operations
     def activate(self):
-        self.state('normal')
+        self.state("normal")
     
     def deactivate(self):
-        self.state('withdrawn')
+        self.state("withdrawn")
 
     def destroy(self):
         if not self.__destroy_underway:

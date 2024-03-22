@@ -6,10 +6,10 @@ class SqliteDatabaseType(dbapi.IDatabaseType):
     
     ##########
     #   Constants
-    MNEMONIC = 'sqlite'
+    MNEMONIC = "sqlite"
     """ The mnemonic identifier of the SQLite PyTT database type. """
 
-    PREFERRED_EXTENSION = '.pytt'
+    PREFERRED_EXTENSION = ".pytt"
     """ The preferred extension for SQLite PyTT databases. """
 
     ##########
@@ -17,10 +17,10 @@ class SqliteDatabaseType(dbapi.IDatabaseType):
     __instance :  dbapi.IDatabaseType = None
 
     def __init__(self):
-        assert SqliteDatabaseType.__instance is None, 'Use SqliteDatabaseType.instance() instead'
+        assert SqliteDatabaseType.__instance is None, "Use SqliteDatabaseType.instance() instead"
     
     @staticmethod
-    def instance() -> 'SqliteDatabaseType':
+    def instance() -> "SqliteDatabaseType":
         """
             Returns one and only instance of this class, creating
             it on the first call.
@@ -44,10 +44,10 @@ class SqliteDatabaseType(dbapi.IDatabaseType):
 
     ##########
     #   Properties (database address handling)
-    def parse_database_address(self, externa_form: str) -> 'IDatabaseAddress':
+    def parse_database_address(self, externa_form: str) -> "IDatabaseAddress":
         assert externa_form is not None
         return db.sqlite_impl.SqliteDatabaseAddress.SqliteDatabaseAddress(externa_form)
 
     @property    
     def default_database_address(self) -> dbapi.IDatabaseAddress:
-        return None #   SQLite has no concept of a 'default' database
+        return None #   SQLite has no concept of a "default" database

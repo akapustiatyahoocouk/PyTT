@@ -1,1 +1,0 @@
-print('initialising launcher package')

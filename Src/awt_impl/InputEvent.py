@@ -7,8 +7,8 @@ import awt_impl.Event
 class _InputEventMeta(ABCMeta):  # TODO rename ?
     def __setattr__(cls: type, attr: str, value) -> None:
         #print(cls.__name__, attr, value)
-        if re.match('^[A-Z0-9_]+$', attr):
-            raise Exception('Cannot change class constant value ' + cls.__name__ + '.' + attr)
+        if re.match("^[A-Z0-9_]+$", attr):
+            raise Exception("Cannot change class constant value " + cls.__name__ + "." + attr)
         type.__setattr__(cls, attr, value)
 
 class InputEvent(awt_impl.Event.Event, metaclass=_InputEventMeta):
@@ -43,16 +43,16 @@ class InputEvent(awt_impl.Event.Event, metaclass=_InputEventMeta):
 
     @property
     def modifiers_string(self) -> str:
-        result = ''
+        result = ""
         if (self.modifiers & InputEvent.MODIFIER_SHIFT) != 0:
-            result += 'Shift+'
+            result += "Shift+"
         if (self.modifiers & InputEvent.MODIFIER_LOCK) != 0:
-            result += 'Lock+'
+            result += "Lock+"
         if (self.modifiers & InputEvent.MODIFIER_CONTROL) != 0:
-            result += 'Control+'
+            result += "Control+"
         if (self.modifiers & InputEvent.MODIFIER_ALT) != 0:
-            result += 'Alt+'
+            result += "Alt+"
         if (self.modifiers & InputEvent.MODIFIER_NUMPAD) != 0:
-            result += 'NumPad+'
+            result += "NumPad+"
         return result if len(result) == 0 else result[:len(result)-1]
 

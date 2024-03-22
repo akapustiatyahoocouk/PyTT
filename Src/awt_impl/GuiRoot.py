@@ -25,7 +25,7 @@ class GuiRoot(metaclass=_GuiRootType):
     ##########
     #   Construction - disable (this is an utility class)
     def __init__(self):
-        assert False, str(self.__class__) + ' is a utility class'
+        assert False, str(self.__class__) + " is a utility class"
 
     ##########
     #   Properties (all static)    
@@ -39,11 +39,11 @@ class GuiRoot(metaclass=_GuiRootType):
 
             print('Platfom is', platform.system())
             
-            if 'windows' in platform.system().lower():
+            if "windows" in platform.system().lower():
                 #   Windows family
                 GuiRoot.__tk.withdraw()
-                GuiRoot.__tk.wm_attributes('-alpha',0.5)
-                GuiRoot.__tk.state('zoomed')
+                GuiRoot.__tk.wm_attributes("-alpha",0.5)
+                GuiRoot.__tk.state("zoomed")
                 GuiRoot.__tk.update()
                 GuiRoot.__usable_x = GuiRoot.__tk.winfo_x()
                 GuiRoot.__usable_y = GuiRoot.__tk.winfo_y()
@@ -51,10 +51,10 @@ class GuiRoot(metaclass=_GuiRootType):
                 GuiRoot.__usable_height = GuiRoot.__tk.winfo_height()
                 GuiRoot.__screen_width = GuiRoot.__tk.winfo_screenwidth()
                 GuiRoot.__screen_height = GuiRoot.__tk.winfo_screenheight()
-                GuiRoot.__tk.state('normal')
+                GuiRoot.__tk.state("normal")
             else:
                 #   Linux, etc.
-                GuiRoot.__tk.wm_attributes('-alpha',0.5)    #   doesn't seem to work, though
+                GuiRoot.__tk.wm_attributes("-alpha", 0.5)    #   doesn't seem to work, though
                 GuiRoot.__tk.update()
                 GuiRoot.__usable_x = 0
                 GuiRoot.__usable_y = 0

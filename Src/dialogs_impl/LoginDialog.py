@@ -22,7 +22,7 @@ class LoginDialogResult(Enum):
 
 @final
 class LoginDialog(awt.Dialog):
-    """ The modal 'login' dialog. """
+    """ The modal "login" dialog. """
 
     ##########
     #   Construction    
@@ -54,21 +54,21 @@ class LoginDialog(awt.Dialog):
         self.__loginEntry = ttk.Entry(self.__pan0, width=20, textvariable=self.__loginVar)
 
         self.__passwordLabel = ttk.Label(self.__pan0, text = 'Password:', anchor=tk.E)
-        self.__passwordEntry = ttk.Entry(self.__pan0, width=20, show='\u2022', textvariable=self.__passwordVar)
+        self.__passwordEntry = ttk.Entry(self.__pan0, width=20, show="\u2022", textvariable=self.__passwordVar)
         
-        self.__separator = ttk.Separator(self.root, orient='horizontal')
+        self.__separator = ttk.Separator(self.root, orient="horizontal")
 
-        self.__okButton = ttk.Button(self.root, text="OK", default='active')
-        self.__cancelButton = ttk.Button(self.root, text="Cancel")
+        self.__okButton = ttk.Button(self.root, text='OK', default="active")
+        self.__cancelButton = ttk.Button(self.root, text='Cancel')
 
         #   Set up control structure
         self.__pan0.pack(fill=tk.X, padx=0, pady=0)
 
-        self.__loginLabel.grid(row=0, column=0, padx=2, pady=2, sticky='W')
-        self.__loginEntry.grid(row=0, column=1, padx=2, pady=2, sticky='W')
+        self.__loginLabel.grid(row=0, column=0, padx=2, pady=2, sticky="W")
+        self.__loginEntry.grid(row=0, column=1, padx=2, pady=2, sticky="W")
 
-        self.__passwordLabel.grid(row=1, column=0, padx=2, pady=2, sticky='W')
-        self.__passwordEntry.grid(row=1, column=1, padx=2, pady=2, sticky='W')
+        self.__passwordLabel.grid(row=1, column=0, padx=2, pady=2, sticky="W")
+        self.__passwordEntry.grid(row=1, column=1, padx=2, pady=2, sticky="W")
         
         self.__separator.pack(fill=tk.X, padx=0, pady=4)
         self.__cancelButton.pack(side=tk.RIGHT, padx=2, pady=2)
@@ -78,8 +78,8 @@ class LoginDialog(awt.Dialog):
         self.__loginVar.trace_add("write", self.__refresh)
         self.__passwordVar.trace_add("write", self.__refresh)
         
-        self.root.bind('<Escape>', self.__onCancel)
-        self.root.bind('<Return>', self.__onOk)
+        self.root.bind("<Escape>", self.__onCancel)
+        self.root.bind("<Return>", self.__onOk)
         self.root.protocol("WM_DELETE_WINDOW", self.__onCancel)
         self.__okButton.bind("<Button-1>", self.__onOk)
         self.__cancelButton.bind("<Button-1>", self.__onCancel)

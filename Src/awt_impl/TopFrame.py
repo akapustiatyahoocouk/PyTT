@@ -18,7 +18,7 @@ class TopFrame(tk.Toplevel, awt_impl.EventProcessorMixin.EventProcessorMixin):
         self.transient(awt_impl.GuiRoot.GuiRoot.tk)
         self.title(awt_impl.GuiRoot.GuiRoot.tk.title())
         self.wm_iconphoto(True, resources.Resources.PRODUCT_ICON)
-        self.geometry('600x400')
+        self.geometry("600x400")
 
     ##########
     #   tkinter support

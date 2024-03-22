@@ -1,26 +1,27 @@
 import tkinter as tk
 
-import skin
+from annotations import classproperty
+import skin_impl.ISkin
 import admin_skin_impl.MainFrame
 
-class AdminSkin(skin.ISkin):
+class AdminSkin(skin_impl.ISkin.ISkin):
     """ A database type that uses SQLite as data storage. """
     
     ##########
     #   Constants
-    MNEMONIC = 'admin'
+    MNEMONIC = "admin"
     """ The mnemonic identifier of the Admin skin. """
 
     ##########
     #   Singleton
-    __instance :  skin.ISkin = None
+    __instance :  skin_impl.ISkin.ISkin = None
 
     def __init__(self):
-        assert AdminSkin.__instance is None, 'Use AdminSkin.instance() instead'
+        assert AdminSkin.__instance is None, "Use AdminSkin.instance instead"
         self.__main_frame = admin_skin_impl.MainFrame.MainFrame()
     
-    @staticmethod
-    def instance() -> 'AdminSkin':
+    @classproperty
+    def instance(cls) -> "AdminSkin":
         """
             Returns one and only instance of this class, creating
             it on the first call.
