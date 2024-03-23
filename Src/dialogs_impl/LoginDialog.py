@@ -69,8 +69,8 @@ class LoginDialog(awt.Dialog):
         
         self.__separator = ttk.Separator(self, orient="horizontal")
 
-        self.__okButton = ttk.Button(self, text='OK', default="active")
-        self.__cancelButton = ttk.Button(self, text='Cancel')
+        self.__ok_button = awt.Button(self, text='OK', default="active")
+        self.__cancel_button = awt.Button(self, text='Cancel')
 
         #   Set up control structure
         self.__pan0.pack(fill=tk.X, padx=0, pady=0)
@@ -82,8 +82,8 @@ class LoginDialog(awt.Dialog):
         self.__passwordEntry.grid(row=1, column=1, padx=2, pady=2, sticky="W")
         
         self.__separator.pack(fill=tk.X, padx=0, pady=4)
-        self.__cancelButton.pack(side=tk.RIGHT, padx=2, pady=2)
-        self.__okButton.pack(side=tk.RIGHT, padx=2, pady=2)
+        self.__cancel_button.pack(side=tk.RIGHT, padx=2, pady=2)
+        self.__ok_button.pack(side=tk.RIGHT, padx=2, pady=2)
 
         #   Set up event handlers
         self.__loginVar.trace_add("write", self.__refresh)
@@ -92,8 +92,9 @@ class LoginDialog(awt.Dialog):
         self.bind("<Escape>", self.__on_cancel)
         self.bind("<Return>", self.__on_ok)
         self.protocol("WM_DELETE_WINDOW", self.__on_cancel)
-        self.__okButton.bind("<Button-1>", self.__on_ok)
-        self.__cancelButton.bind("<Button-1>", self.__on_cancel)
+        
+        self.__ok_button.add_action_event_listener(self.__on_ok)
+        self.__cancel_button.add_action_event_listener(self.__on_cancel)
         
         #   Set initial focus & we're done
         if login is not None:
@@ -123,18 +124,18 @@ class LoginDialog(awt.Dialog):
     def __refresh(self, *args) -> None:
         login : str = self.__loginVar.get()
         if len(login.strip()) == 0:
-            self.__passwordLabel.state(["disabled"])
+            self.__passwordLabel.state([tk.DISABLED])
             self.__passwordEntry.state(["disabled"])
-            self.__okButton.state(["disabled"])
+            self.__ok_button.disable()
         else:
             self.__passwordLabel.state(["!disabled"])
             self.__passwordEntry.state(["!disabled"])
-            self.__okButton.state(["!disabled"])
+            self.__ok_button.enable()
     
     ##########
     #   Event listeners    
     def __on_ok(self, evt = None) -> None:
-        if "disabled" in self.__okButton.state():
+        if "disabled" in self.__ok_button.state():
             return
         login = self.__loginVar.get()
         password = self.__passwordVar.get()

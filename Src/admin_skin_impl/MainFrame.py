@@ -20,8 +20,8 @@ class MainFrame(awt.TopFrame):
         self.__destroy_underway = False
         
         #   Create controls
-        self.__popupButton = ttk.Button(self, text="popup", command=self.__popup)
-        self.__quitButton = ttk.Button(self, text="quit", command=self.destroy)
+        self.__popupButton = awt.Button(self, text="popup")
+        self.__quitButton = awt.Button(self, text="quit")
 
         self.__menu_bar = tk.Menu(self)
         self["menu"] = self.__menu_bar
@@ -39,11 +39,12 @@ class MainFrame(awt.TopFrame):
 
         #   Set up event handlers
         self.__initialLoginPerformed = False
-        self.bind("<Visibility>", self.__onInitialLogin)
         self.protocol("WM_DELETE_WINDOW", self.destroy)
         
         self.bind("<KeyPress>", self.keydown)
         self.bind("<KeyRelease>", self.keyup)
+        self.__popupButton.add_action_event_listener(self.__popup)
+        self.__quitButton.add_action_event_listener(self.__quit)
     
         self.add_key_event_listener(lambda e: print(e))
         self.add_key_event_listener(self.xxx)
@@ -92,19 +93,9 @@ class MainFrame(awt.TopFrame):
     
     ##########
     #   Implementation helpers    
-    def __popup(self) -> None:
+    def __popup(self, *args) -> None:
         with dialogs.AboutDialog(self.__popupButton) as dlg:
             dlg.do_modal()
 
-    ##########
-    #   Event handlers    
-    def __onInitialLogin(self, *args) -> None:
-        if (ws.CurrentCredentials.get() is None) and (not self.__initialLoginPerformed):
-            #   Need the (not self.__initialLoginPerformed) guard because the 
-            #   frame will generate several <Visibility> events when shown
-            self.__initialLoginPerformed = True
-            with dialogs.LoginDialog(self, 'asdf') as dlg:
-                dlg.do_modal()
-                if dlg.result is not dialogs.LoginDialogResult.OK:
-                    sys.exit()
-                ws.CurrentCredentials.set(dlg.credentials)
+    def __quit(self, *args) -> None:
+        self.destroy()

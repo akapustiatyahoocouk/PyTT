@@ -28,12 +28,17 @@
     </Compile>
     <Compile Include="annotations.py" />
     <Compile Include="awt.py" />
+    <Compile Include="awt_impl\BaseWidgetMixin.py" />
+    <Compile Include="awt_impl\Button.py" />
     <Compile Include="awt_impl\Dialog.py" />
     <Compile Include="awt_impl\Event.py" />
-    <Compile Include="awt_impl\EventProcessorMixin.py" />
+    <Compile Include="awt_impl\ActionEventProcessorMixin.py" />
+    <Compile Include="awt_impl\KeyEventProcessorMixin.py" />
     <Compile Include="awt_impl\GuiRoot.py" />
     <Compile Include="awt_impl\InputEvent.py" />
+    <Compile Include="awt_impl\ActionEvent.py" />
     <Compile Include="awt_impl\KeyEvent.py" />
+    <Compile Include="awt_impl\ActionEventListener.py" />
     <Compile Include="awt_impl\KeyEventListener.py" />
     <Compile Include="awt_impl\TopFrame.py" />
     <Compile Include="awt_impl\VirtualKey.py" />

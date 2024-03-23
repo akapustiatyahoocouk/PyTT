@@ -36,7 +36,7 @@ class AboutDialog(awt.Dialog):
         self.__msg2 = ttk.Label(self.__pan2, text = "Version " + resources.Resources.PRODUCT_VERSION, anchor=tk.CENTER)
         self.__msg3 = ttk.Label(self.__pan2, text = resources.Resources.PRODUCT_COPYRIGHT, anchor=tk.CENTER)
         self.__separator = ttk.Separator(self, orient="horizontal")
-        self.__okButton = ttk.Button(self, text="OK", default="active")
+        self.__okButton = ttk.Button(self, text="OK", default="active", command=self.__on_ok)
 
         #   Set up control structure
         self.__pan0.pack(fill=tk.X, padx=0, pady=0)
@@ -54,7 +54,6 @@ class AboutDialog(awt.Dialog):
         #   Set up event handlers
         self.bind("<Escape>", self.__on_ok)
         self.bind("<Return>", self.__on_ok)
-        self.__okButton.bind("<Button-1>", self.__on_ok)
         self.protocol("WM_DELETE_WINDOW", self.__on_ok)
 
         #  Done
