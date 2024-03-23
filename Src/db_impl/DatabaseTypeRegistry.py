@@ -1,4 +1,6 @@
-from typing import final
+from typing import final, Optional
+
+import db_impl.IDatabaseType
 
 @final
 class DatabaseTypeRegistry:
@@ -7,7 +9,7 @@ class DatabaseTypeRegistry:
 
     ##########
     #   Implementation data
-    __registry : dict[str, IDatabaseType] = {}
+    __registry : dict[str, db_impl.IDatabaseType.IDatabaseType] = {}
 
     ##########
     #   Construction - not allowed - this is an utility class
@@ -17,7 +19,7 @@ class DatabaseTypeRegistry:
     ##########
     #   Operations
     @staticmethod
-    def register_database_type(dbtype: IDatabaseType) -> bool:
+    def register_database_type(dbtype: db_impl.IDatabaseType.IDatabaseType) -> bool:
         """ "Registers" the specified database type.
             Returns True on  success, False on failure. """
         print('Registering', dbtype.display_name, 'database type [' + dbtype.mnemonic + ']')
@@ -28,13 +30,13 @@ class DatabaseTypeRegistry:
             return True
         
     @staticmethod
-    def find_database_type(mnemonic: str) -> Optional[IDatabaseType]:
+    def find_database_type(mnemonic: str) -> Optional[db_impl.IDatabaseType.IDatabaseType]:
         """ Finds a registered database type by mnemonic;
             returns None if not found. """
         return DatabaseTypeRegistry.__registry.get(mnemonic, None)
 
     @staticmethod
-    def get_all_database_types() -> set[IDatabaseType]:
+    def get_all_database_types() -> set[db_impl.IDatabaseType.IDatabaseType]:
         """ Returns a 'set' of all registered database types. """
         return set(DatabaseTypeRegistry.__registry.values())
 

@@ -3,11 +3,13 @@
 """
 import atexit
 import sys
+import os.path
 
 import awt
 import ws
 import skin
 import dialogs
+import pnp
 
 def exit_handler():
     print('My application is ending!')
@@ -92,6 +94,13 @@ def __abort_initial_login(login_dialog: dialogs.LoginDialog):
 #   PyTT entry point
 if __name__ == "__main__":
 
+    root_directory = os.path.dirname(__file__)
+    
+    print("Starting PyTT from", root_directory)
+    sys.path.insert(0, root_directory)
+    
+    pnp.PluginManager.load_plugins(root_directory)
+    
     atexit.register(exit_handler)
 
     #   Perform initial login

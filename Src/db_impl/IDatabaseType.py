@@ -1,3 +1,5 @@
+from abc import ABC, abstractproperty, abstractmethod
+
 class IDatabaseType(ABC):
     """ A "database type" corresponds to a technology used to
         keep the data persistent (database engine type, etc.)"""

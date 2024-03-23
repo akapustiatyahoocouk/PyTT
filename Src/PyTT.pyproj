@@ -54,6 +54,12 @@
     <Compile Include="dialogs_impl\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="pnp.py" />
+    <Compile Include="pnp_impl\Plugin.py" />
+    <Compile Include="pnp_impl\PluginManager.py" />
+    <Compile Include="pnp_impl\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="pytt.py" />
     <Compile Include="resources.py" />
     <Compile Include="resources_impl\Resources.py" />
@@ -80,6 +86,7 @@
     <Folder Include="awt_impl\" />
     <Folder Include="db_impl\" />
     <Folder Include="dialogs_impl\" />
+    <Folder Include="pnp_impl\" />
     <Folder Include="resources_impl\" />
     <Folder Include="resources_impl\images\" />
     <Folder Include="skin_impl\" />

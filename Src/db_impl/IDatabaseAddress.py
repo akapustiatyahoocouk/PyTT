@@ -1,3 +1,7 @@
+from abc import ABC, abstractproperty
+
+import db_impl.IDatabaseType
+
 class IDatabaseAddress(ABC):
     """ A "database address" uniquely identifies the location of
         a database and is database type - specific."""
@@ -10,7 +14,7 @@ class IDatabaseAddress(ABC):
     ##########
     #   Properties
     @abstractproperty
-    def database_type(self) -> IDatabaseType:
+    def database_type(self) -> db_impl.IDatabaseType.IDatabaseType:
         """ The database type to which this database address belongs. """
         raise NotImplementedError()
 

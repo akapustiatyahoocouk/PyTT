@@ -134,6 +134,8 @@ class LoginDialog(awt.Dialog):
     ##########
     #   Event listeners    
     def __on_ok(self, evt = None) -> None:
+        if "disabled" in self.__okButton.state():
+            return
         login = self.__loginVar.get()
         password = self.__passwordVar.get()
         self.__credentials = ws.Credentials(login, password)
