@@ -127,9 +127,6 @@ class VirtualKey(Enum):
     VK_NONE = 0
 
     ##########
-    #   Implementation
-    
-    ##########
     #   Operations
     @staticmethod
     def from_tk_string(key_string: str) -> "VirtualKey":

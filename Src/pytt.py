@@ -5,11 +5,42 @@ import atexit
 import sys
 import os.path
 
+import tkinter as tk
+
 import awt
 import ws
 import skin
 import dialogs
 import pnp
+import resources
+
+# Create object
+splash_screen = awt.TopFrame()
+splash_screen.geometry("320x100")
+splash_screen.wait_visibility()
+splash_screen.configure(borderwidth=1, relief='solid', bg="white",)
+#pp = splash_screen.pack_propagate()
+splash_screen.pack_propagate(1)
+
+splash_icon = tk.Label(splash_screen, image = resources.Resources.PRODUCT_ICON, bg="white")
+splash_label1 = tk.Label(splash_screen, text=resources.Resources.PRODUCT_NAME, font="Helvetica 18", bg="white", fg="blue")
+splash_label2 = tk.Label(splash_screen, text='Version ' + resources.Resources.PRODUCT_VERSION, font="Helvetica 12", bg="white", fg="blue")
+splash_label3 = tk.Label(splash_screen, text=resources.Resources.PRODUCT_COPYRIGHT, font="Helvetica 10", bg="white", fg="gray")
+
+splash_screen.rowconfigure(0, weight=1)
+splash_screen.rowconfigure(4, weight=1)
+splash_screen.columnconfigure(1, weight=10)
+splash_icon.grid(row=1, column=0, padx=8, pady=2, rowspan=3, sticky="W")
+splash_label1.grid(row=1, column=1, padx=2, pady=0, sticky="WE")
+splash_label2.grid(row=2, column=1, padx=2, pady=0, sticky="WE")
+splash_label3.grid(row=3, column=1, padx=2, pady=(10, 0), sticky="WE")
+
+splash_screen.overrideredirect(True)
+#splash_screen.wm_attributes("-alpha",0.5)
+splash_screen.attributes("-topmost", True)
+splash_screen.after(3000, lambda: splash_screen.destroy())
+splash_screen.center_in_screen()
+splash_screen.wait_window()
 
 def exit_handler():
     print('My application is ending!')
@@ -84,11 +115,11 @@ def exit_handler():
 #  Implementation helpers
 def __perform_initial_login(login_dialog: dialogs.LoginDialog):
     login_dialog.quit()
-    login_dialog.destroy()
+    #login_dialog.end_modal()
 
 def __abort_initial_login(login_dialog: dialogs.LoginDialog):
-    assert login_dialog is not None
-    sys.exit()
+    login_dialog.quit()
+    #login_dialog.end_modal()
 
 ##########
 #   PyTT entry point
@@ -110,7 +141,11 @@ if __name__ == "__main__":
                              on_cancel_callback=__abort_initial_login) as dlg:
         dlg.transient(awt.GuiRoot.tk)
         dlg.attributes("-topmost", True)
-        awt.GuiRoot.tk.mainloop()
+        dlg.do_modal()
+        #try:
+        #    awt.GuiRoot.tk.mainloop()
+        #except:
+        #    pass
         if dlg.result is not dialogs.LoginDialogResult.OK:
             sys.exit()
         ws.CurrentCredentials.set(dlg.credentials)

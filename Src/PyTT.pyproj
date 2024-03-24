@@ -29,6 +29,10 @@
     <Compile Include="annotations.py" />
     <Compile Include="awt.py" />
     <Compile Include="awt_impl\BaseWidgetMixin.py" />
+    <Compile Include="awt_impl\Entry.py" />
+    <Compile Include="awt_impl\Widget.py" />
+    <Compile Include="awt_impl\Separator.py" />
+    <Compile Include="awt_impl\Label.py" />
     <Compile Include="awt_impl\Button.py" />
     <Compile Include="awt_impl\Dialog.py" />
     <Compile Include="awt_impl\Event.py" />
@@ -38,8 +42,6 @@
     <Compile Include="awt_impl\InputEvent.py" />
     <Compile Include="awt_impl\ActionEvent.py" />
     <Compile Include="awt_impl\KeyEvent.py" />
-    <Compile Include="awt_impl\ActionEventListener.py" />
-    <Compile Include="awt_impl\KeyEventListener.py" />
     <Compile Include="awt_impl\TopFrame.py" />
     <Compile Include="awt_impl\VirtualKey.py" />
     <Compile Include="awt_impl\__init__.py">
@@ -79,6 +81,11 @@
     <Compile Include="skin_impl\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="sqlite_db_impl\SqliteDatabaseAddress.py" />
+    <Compile Include="sqlite_db_impl\SqliteDatabaseType.py" />
+    <Compile Include="sqlite_db_impl\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ws.py" />
     <Compile Include="ws_impl\Credentials.py" />
     <Compile Include="ws_impl\CurrentCredentials.py" />
@@ -95,6 +102,7 @@
     <Folder Include="resources_impl\" />
     <Folder Include="resources_impl\images\" />
     <Folder Include="skin_impl\" />
+    <Folder Include="sqlite_db_impl\" />
     <Folder Include="ws_impl\" />
   </ItemGroup>
   <ItemGroup>

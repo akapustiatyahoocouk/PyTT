@@ -1,4 +1,4 @@
-from typing import final, Optional
+from typing import final, Optional, TypeAlias, Callable
 from enum import Enum
 import tkinter as tk
 
@@ -22,3 +22,8 @@ class ActionEvent(awt_impl.Event.Event):
             result += "source="
             result += str(self.source)
         return "ActionEvent(" + result + ")"
+
+
+ActionEventListener: TypeAlias = Callable[[ActionEvent], None]
+""" A signature of a listener to action events - a function
+    or a bound method. """

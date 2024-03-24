@@ -1,4 +1,4 @@
-from typing import final, Optional
+from typing import final, Optional, TypeAlias, Callable
 from enum import Enum
 import tkinter as tk
 
@@ -92,4 +92,9 @@ class KeyEvent(awt_impl.InputEvent.InputEvent):
     def keychar(self) -> Optional[str]:
         """ The key character, None if not known. """
         return self.__keychar
+
+
+KeyEventListener: TypeAlias = Callable[[KeyEvent], None]
+""" A signature of a listener to key events - a function
+    or a bound method. """
 

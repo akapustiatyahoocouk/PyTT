@@ -3,7 +3,6 @@ from inspect import signature
 
 import awt_impl.Event
 import awt_impl.KeyEvent
-import awt_impl.KeyEventListener
 
 class KeyEventProcessorMixin:
     """ A mix-in class that can process key events. """
@@ -18,7 +17,7 @@ class KeyEventProcessorMixin:
     
     ##########
     #   Event dispatch
-    def add_key_event_listener(self, l: awt_impl.KeyEventListener.KeyEventListener) -> None:
+    def add_key_event_listener(self, l: awt_impl.KeyEvent.KeyEventListener) -> None:
         """ Regsters the specified listener to be notified when
             a key event is processed.
             A given listener can be registered at most once;
@@ -28,7 +27,7 @@ class KeyEventProcessorMixin:
         if l not in self.__key_event_listeners:
             self.__key_event_listeners.append(l)
 
-    def remove_key_event_listener(self, l: awt_impl.KeyEventListener.KeyEventListener) -> None:
+    def remove_key_event_listener(self, l: awt_impl.KeyEvent.KeyEventListener) -> None:
         """ Un-regsters the specified listener to no longer be 
             notified when a key event is processed.
             A given listener can be un-registered at most once;
@@ -39,7 +38,7 @@ class KeyEventProcessorMixin:
             self.__key_event_listeners.remove(l)
 
     @property
-    def key_event_listeners(self) -> list[awt_impl.KeyEventListener.KeyEventListener]:
+    def key_event_listeners(self) -> list[awt_impl.KeyEvent.KeyEventListener]:
         """ The list of all key event listeners registered so far. """
         return self.__key_event_listeners.copy()
 

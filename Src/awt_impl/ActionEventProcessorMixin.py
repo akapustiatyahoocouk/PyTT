@@ -3,7 +3,6 @@ from inspect import signature
 
 import awt_impl.Event
 import awt_impl.ActionEvent
-import awt_impl.ActionEventListener
 
 class ActionEventProcessorMixin:
     """ A mix-in class that can process action events. """
@@ -18,7 +17,7 @@ class ActionEventProcessorMixin:
     
     ##########
     #   Event dispatch
-    def add_action_event_listener(self, l: awt_impl.ActionEventListener.ActionEventListener) -> None:
+    def add_action_event_listener(self, l: awt_impl.ActionEvent.ActionEventListener) -> None:
         """ Regsters the specified listener to be notified when
             an action event is processed.
             A given listener can be registered at most once;
@@ -28,7 +27,7 @@ class ActionEventProcessorMixin:
         if l not in self.__action_event_listeners:
             self.__action_event_listeners.append(l)
 
-    def remove_action_event_listener(self, l: awt_impl.ActionEventListener.ActionEventListener) -> None:
+    def remove_action_event_listener(self, l: awt_impl.ActionEvent.ActionEventListener) -> None:
         """ Un-regsters the specified listener to no longer be 
             notified when an action event is processed.
             A given listener can be un-registered at most once;
@@ -39,7 +38,7 @@ class ActionEventProcessorMixin:
             self.__action_event_listeners.remove(l)
 
     @property
-    def action_event_listeners(self) -> list[awt_impl.ActionEventListener.ActionEventListener]:
+    def action_event_listeners(self) -> list[awt_impl.ActionEvent.ActionEventListener]:
         """ The list of all action event listeners registered so far. """
         return self.__action_event_listeners.copy()
 

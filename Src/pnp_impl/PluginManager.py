@@ -43,15 +43,16 @@ class PluginManager:
             PluginManager.__discovered_plugins.add(p)
         #PluginManager.__discovered_plugins = 
         #    PluginManager.__discovered_plugins.union(pnp_impl.Plugin.Plugin._Plugin__discovered_plugins)
-        print(PluginManager.__discovered_plugins)
+        for p in PluginManager.__discovered_plugins:     
+            print("    Discovered plugin:", p)
         #   ...and try to initialize them
         for p in PluginManager.__discovered_plugins:
             if p not in PluginManager.__initialised_plugins:
-                try:
+                #try:
                     p.initialize()
                     p._Plugin__initialized = True
                     PluginManager.__initialised_plugins.add(p)
-                except:
+                #except:
                     pass
         
     ##########
