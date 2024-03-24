@@ -12,4 +12,4 @@ SkinRegistry: TypeAlias = skin_impl.SkinRegistry.SkinRegistry
 ActiveSkin: TypeAlias = skin_impl.ActiveSkin.ActiveSkin
 
 import admin_skin_impl.AdminSkin
-SkinRegistry.register_skin(admin_skin_impl.AdminSkin.AdminSkin.instance)
+#skin_impl.SkinRegistry.SkinRegistry.register_skin(admin_skin_impl.AdminSkin.AdminSkin.instance)

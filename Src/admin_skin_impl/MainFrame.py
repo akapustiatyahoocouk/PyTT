@@ -41,32 +41,10 @@ class MainFrame(awt.TopFrame):
         self.__initialLoginPerformed = False
         self.protocol("WM_DELETE_WINDOW", self.destroy)
         
-        self.bind("<KeyPress>", self.keydown)
-        self.bind("<KeyRelease>", self.keyup)
         self.__popupButton.add_action_event_listener(self.__popup)
         self.__quitButton.add_action_event_listener(self.__quit)
     
         self.add_key_event_listener(lambda e: print(e))
-        self.add_key_event_listener(self.xxx)
-        
-    def xxx(self, e):
-        print('XXX:', e)
-        
-    def keydown(self, evt: tk.Event):
-        #print(evt)
-        ke = awt.KeyEvent(self, awt.KeyEventType.KEY_DOWN, evt)
-        self._process_key_event(ke)
-        if ke.keychar is not None:
-            ce = awt.KeyEvent(self, awt.KeyEventType.KEY_CHAR, evt)
-            self._process_key_event(ce)
-        if ke.modifiers == awt.InputEvent.MODIFIER_CONTROL and ke.keycode == awt.VirtualKey.VK_F1:  # ctrl+F1
-            self.__popup()
-        self.remove_key_event_listener(self.xxx)
-    
-    def keyup(self, evt: tk.Event):
-        #print(evt)
-        ke = awt.KeyEvent(self, awt.KeyEventType.KEY_UP, evt)
-        self._process_key_event(ke)
 
     ##########
     #   Properties
@@ -76,11 +54,12 @@ class MainFrame(awt.TopFrame):
 
     ##########
     #   Operations
-    def activate(self):
+    def activate(self): # TODO replace with a setter property for "active" ?
         self.state("normal")
+        self.tkraise()
         self.focus_force()
     
-    def deactivate(self):
+    def deactivate(self):   # TODO replace with a setter property for "active" ?
         self.state("withdrawn")
 
     def destroy(self):

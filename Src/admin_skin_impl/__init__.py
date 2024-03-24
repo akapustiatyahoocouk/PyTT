@@ -37,7 +37,9 @@ class AdminSkinPlugin(pnp_impl.Plugin.Plugin):
         return "Admin skin"
 
     def initialize(self) -> None:
-        pass
+        import skin_impl.SkinRegistry
+        import admin_skin_impl.AdminSkin
+        skin_impl.SkinRegistry.SkinRegistry.register_skin(
+            admin_skin_impl.AdminSkin.AdminSkin.instance)
 
 AdminSkinPlugin.instance
-# TODO kill off admin_skin_plugin = AdminSkinPlugin.instance

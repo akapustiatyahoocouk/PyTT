@@ -25,9 +25,7 @@ class LoginDialog(awt.Dialog):
 
     ##########
     #   Construction    
-    def __init__(self, parent: Optional[ttk.Widget], login: Optional[str] = None,
-                 on_ok_callback: Callable[["LoginDialog"],None] = None, 
-                 on_cancel_callback: Callable[["LoginDialog"],None] = None):
+    def __init__(self, parent: tk.BaseWidget, login: Optional[str] = None):
         """
             Constructs the locin dialog.
         
@@ -39,17 +37,8 @@ class LoginDialog(awt.Dialog):
                 The login identifier to initially display in the "login"
                 field or None. If spefified, the initial keyboard focus 
                 goes straight to the "password" field.
-            @param on_ok_callback:
-                The callback to invoke just before the login dialog is 
-                closed successfully with login credentials specified, 
-                None == no callback.
-            @param on_cancel_callback:
-                The callback to invoke just before the login dialog is 
-                cancelled by the user, None == no callback.
         """
         super().__init__(parent, 'Login to PyTT')
-        self.__on_ok_callback = on_ok_callback
-        self.__on_cancel_callback = on_cancel_callback
 
         self.__result = LoginDialogResult.CANCEL
         self.__credentials = None
@@ -59,15 +48,15 @@ class LoginDialog(awt.Dialog):
         self.__passwordVar = tk.StringVar()
         
         #   Create controls
-        self.__pan0 = ttk.Label(self)
+        self.__pan0 = awt.Label(self)
         
-        self.__loginLabel = ttk.Label(self.__pan0, text = 'Login:', anchor=tk.E)
-        self.__loginEntry = ttk.Entry(self.__pan0, width=40, textvariable=self.__loginVar)
+        self.__loginLabel = awt.Label(self.__pan0, text = 'Login:', anchor=tk.E)
+        self.__loginEntry = awt.Entry(self.__pan0, width=40, textvariable=self.__loginVar)
 
-        self.__passwordLabel = ttk.Label(self.__pan0, text = 'Password:', anchor=tk.E)
-        self.__passwordEntry = ttk.Entry(self.__pan0, width=40, show="\u2022", textvariable=self.__passwordVar)
+        self.__passwordLabel = awt.Label(self.__pan0, text = 'Password:', anchor=tk.E)
+        self.__passwordEntry = awt.Entry(self.__pan0, width=40, show="\u2022", textvariable=self.__passwordVar)
         
-        self.__separator = ttk.Separator(self, orient="horizontal")
+        self.__separator = awt.Separator(self, orient="horizontal")
 
         self.__ok_button = awt.Button(self, text='OK', default="active")
         self.__cancel_button = awt.Button(self, text='Cancel')
@@ -86,16 +75,15 @@ class LoginDialog(awt.Dialog):
         self.__ok_button.pack(side=tk.RIGHT, padx=2, pady=2)
 
         #   Set up event handlers
+        self.ok_button = self.__ok_button
+        self.cancel_button = self.__cancel_button
+
         self.__loginVar.trace_add("write", self.__refresh)
         self.__passwordVar.trace_add("write", self.__refresh)
         
-        self.bind("<Escape>", self.__on_cancel)
-        self.bind("<Return>", self.__on_ok)
-        self.protocol("WM_DELETE_WINDOW", self.__on_cancel)
-        
         self.__ok_button.add_action_event_listener(self.__on_ok)
         self.__cancel_button.add_action_event_listener(self.__on_cancel)
-        
+
         #   Set initial focus & we're done
         if login is not None:
             self.__passwordEntry.focus_set()
@@ -126,11 +114,11 @@ class LoginDialog(awt.Dialog):
         if len(login.strip()) == 0:
             self.__passwordLabel.state([tk.DISABLED])
             self.__passwordEntry.state(["disabled"])
-            self.__ok_button.disable()
+            self.__ok_button.enabled = False
         else:
             self.__passwordLabel.state(["!disabled"])
             self.__passwordEntry.state(["!disabled"])
-            self.__ok_button.enable()
+            self.__ok_button.enabled = True
     
     ##########
     #   Event listeners    
@@ -141,13 +129,9 @@ class LoginDialog(awt.Dialog):
         password = self.__passwordVar.get()
         self.__credentials = ws.Credentials(login, password)
         self.__result = LoginDialogResult.OK
-        if self.__on_ok_callback is not None:
-            self.__on_ok_callback(self) 
-        self.destroy()
+        self.end_modal()
 
     def __on_cancel(self, evt = None) -> None:
         self.__credentials = None
         self.__result = LoginDialogResult.CANCEL
-        if self.__on_cancel_callback is not None:
-            self.__on_cancel_callback(self) 
-        self.destroy()
+        self.end_modal()

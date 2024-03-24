@@ -6,17 +6,16 @@ import tkinter.ttk as ttk
 import resources
 import awt_impl.GuiRoot
 import awt_impl.BaseWidgetMixin
-import awt_impl.KeyEventProcessorMixin
+import awt_impl.BaseWidgetMixin
 
 @final
 class TopFrame(tk.Toplevel,
-               awt_impl.BaseWidgetMixin.BaseWidgetMixin,
-               awt_impl.KeyEventProcessorMixin.KeyEventProcessorMixin):
+               awt_impl.BaseWidgetMixin.BaseWidgetMixin):
     """ The generic top-level UI frame. """
     
     def __init__(self):
         tk.Toplevel.__init__(self, awt_impl.GuiRoot.GuiRoot.tk)
-        awt_impl.KeyEventProcessorMixin.KeyEventProcessorMixin.__init__(self)
+        awt_impl.BaseWidgetMixin.BaseWidgetMixin.__init__(self)
         
         self.transient(awt_impl.GuiRoot.GuiRoot.tk)
         self.title(awt_impl.GuiRoot.GuiRoot.tk.title())

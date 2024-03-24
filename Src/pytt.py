@@ -5,11 +5,54 @@ import atexit
 import sys
 import os.path
 
+import tkinter as tk
+import tkinter.ttk as ttk
+
 import awt
 import ws
 import skin
 import dialogs
 import pnp
+import resources
+
+# Create object
+splash_screen = awt.TopFrame()
+#splash_screen.geometry("320x100")
+splash_screen.wait_visibility()
+splash_screen.configure(borderwidth=1, relief='solid', bg="white",)
+#pp = splash_screen.pack_propagate()
+splash_screen.pack_propagate(1)
+
+splash_icon = awt.Label(splash_screen, image = resources.Resources.PRODUCT_ICON, background="white")
+splash_label1 = awt.Label(splash_screen, text=resources.Resources.PRODUCT_NAME, font="Helvetica 18", background="white", foreground="blue")
+splash_label2 = awt.Label(splash_screen, text='Version ' + resources.Resources.PRODUCT_VERSION, font="Helvetica 12", background="white", foreground="blue")
+splash_separator = ttk.Separator(splash_screen, orient="horizontal")
+splash_label3 = awt.Label(splash_screen, text=resources.Resources.PRODUCT_COPYRIGHT, font="Helvetica 10", background="white", foreground="gray")
+
+w1 = splash_label1.winfo_width()
+w2 = splash_label2.winfo_width()
+w3 = splash_label3.winfo_width()
+rw1 = splash_label1.winfo_reqwidth()
+rw2 = splash_label2.winfo_reqwidth()
+rw3 = splash_label3.winfo_reqwidth()
+tw = max([rw1, rw2, rw3])
+splash_screen.geometry("320x110")
+
+splash_screen.rowconfigure(0, weight=1)
+splash_screen.rowconfigure(4, weight=1)
+splash_screen.columnconfigure(1, weight=10)
+splash_icon.grid(row=1, column=0, padx=8, pady=2, rowspan=2, sticky="W")
+splash_label1.grid(row=1, column=1, padx=2, pady=0, sticky="WE")
+splash_label2.grid(row=2, column=1, padx=2, pady=0, sticky="WE")
+splash_separator.grid(row=3, column=0, columnspan=2, padx=8, pady=(10, 0), sticky="WE")
+splash_label3.grid(row=4, column=1, padx=2, pady=0, sticky="WE")
+
+splash_screen.overrideredirect(True)
+#splash_screen.wm_attributes("-alpha",0.5)
+splash_screen.attributes("-topmost", True)
+splash_screen.after(3000, lambda: splash_screen.destroy())
+splash_screen.center_in_screen()
+splash_screen.wait_window()
 
 def exit_handler():
     print('My application is ending!')
@@ -81,16 +124,6 @@ def exit_handler():
 #     sys.exit()
 
 ##########
-#  Implementation helpers
-def __perform_initial_login(login_dialog: dialogs.LoginDialog):
-    login_dialog.quit()
-    login_dialog.destroy()
-
-def __abort_initial_login(login_dialog: dialogs.LoginDialog):
-    assert login_dialog is not None
-    sys.exit()
-
-##########
 #   PyTT entry point
 if __name__ == "__main__":
 
@@ -105,12 +138,11 @@ if __name__ == "__main__":
 
     #   Perform initial login
     #   TODO use last successful login by default
-    with dialogs.LoginDialog(awt.GuiRoot.tk,
-                             on_ok_callback=__perform_initial_login,
-                             on_cancel_callback=__abort_initial_login) as dlg:
+    with dialogs.LoginDialog(awt.GuiRoot.tk) as dlg:
         dlg.transient(awt.GuiRoot.tk)
         dlg.attributes("-topmost", True)
-        awt.GuiRoot.tk.mainloop()
+        dlg.center_in_screen()
+        dlg.do_modal()
         if dlg.result is not dialogs.LoginDialogResult.OK:
             sys.exit()
         ws.CurrentCredentials.set(dlg.credentials)

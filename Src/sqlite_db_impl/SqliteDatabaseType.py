@@ -1,7 +1,8 @@
-import db.api as dbapi
-import db.sqlite_impl.SqliteDatabaseAddress
+from annotations import classproperty
+import db_impl.IDatabaseType
+import db_impl.IDatabaseAddress
 
-class SqliteDatabaseType(dbapi.IDatabaseType):
+class SqliteDatabaseType(db_impl.IDatabaseType.IDatabaseType):
     """ A database type that uses SQLite as data storage. """
     
     ##########
@@ -14,13 +15,13 @@ class SqliteDatabaseType(dbapi.IDatabaseType):
 
     ##########
     #   Singleton
-    __instance :  dbapi.IDatabaseType = None
+    __instance :  db_impl.IDatabaseType.IDatabaseType = None
 
     def __init__(self):
         assert SqliteDatabaseType.__instance is None, "Use SqliteDatabaseType.instance() instead"
     
-    @staticmethod
-    def instance() -> "SqliteDatabaseType":
+    @classproperty
+    def instance(cls) -> "SqliteDatabaseType":
         """
             Returns one and only instance of this class, creating
             it on the first call.
@@ -49,5 +50,5 @@ class SqliteDatabaseType(dbapi.IDatabaseType):
         return db.sqlite_impl.SqliteDatabaseAddress.SqliteDatabaseAddress(externa_form)
 
     @property    
-    def default_database_address(self) -> dbapi.IDatabaseAddress:
+    def default_database_address(self) -> db_impl.IDatabaseAddress.IDatabaseAddress:
         return None #   SQLite has no concept of a "default" database
