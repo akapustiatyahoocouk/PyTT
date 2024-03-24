@@ -66,8 +66,6 @@ class MainFrame(awt.TopFrame):
         if not self.__destroy_underway:
             self.__destroy_underway =True
             self.protocol("WM_DELETE_WINDOW", lambda: None)
-            for child in self.winfo_children():
-                child.destroy()
             awt.GuiRoot.tk.quit()
     
     ##########

@@ -86,6 +86,7 @@ class Dialog(tk.Toplevel,
         assert not self.__running_modal
         
         self.wait_visibility()
+        self.center_in_parent()
         self.grab_set()
         self.transient(self.__parent)
         

@@ -129,19 +129,9 @@ class LoginDialog(awt.Dialog):
         password = self.__passwordVar.get()
         self.__credentials = ws.Credentials(login, password)
         self.__result = LoginDialogResult.OK
-<<<<<<< HEAD
-=======
-        if self.__on_ok_callback is not None:
-            self.__on_ok_callback(self) 
->>>>>>> 852cad62a22692880a827a5ed3284ce609d3360e
         self.end_modal()
 
     def __on_cancel(self, evt = None) -> None:
         self.__credentials = None
         self.__result = LoginDialogResult.CANCEL
-<<<<<<< HEAD
-=======
-        if self.__on_cancel_callback is not None:
-            self.__on_cancel_callback(self)
->>>>>>> 852cad62a22692880a827a5ed3284ce609d3360e
         self.end_modal()
