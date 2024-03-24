@@ -1,0 +1,139 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>2d0e8af8-72b9-4cb2-86de-1eceb5033c68</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>
+    </StartupFile>
+    <SearchPath>..\..\Src</SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <Name>gui</Name>
+    <RootNamespace>gui</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="implementation\actions\" />
+    <Folder Include="implementation\dialogs\" />
+    <Folder Include="implementation\misc\" />
+    <Folder Include="implementation\controls\" />
+    <Folder Include="implementation\views\" />
+    <Folder Include="interface\" />
+    <Folder Include="implementation\" />
+    <Folder Include="resources\" />
+    <Folder Include="resources\images\" />
+    <Folder Include="resources\images\actions\" />
+    <Folder Include="implementation\skins\" />
+    <Folder Include="resources\images\misc\" />
+    <Folder Include="resources\images\objects\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="implementation\actions\CloseWorkspaceAction.py" />
+    <Compile Include="implementation\actions\DestroyWorkspaceAction.py" />
+    <Compile Include="implementation\actions\PreferencesAction.py" />
+    <Compile Include="implementation\actions\OpenWorkspaceAction.py" />
+    <Compile Include="implementation\actions\CreateWorkspaceAction.py" />
+    <Compile Include="implementation\actions\AboutAction.py" />
+    <Compile Include="implementation\actions\ActionBase.py" />
+    <Compile Include="implementation\actions\ActionSet.py" />
+    <Compile Include="implementation\actions\ExitAction.py" />
+    <Compile Include="implementation\controls\EmailAddressListEditor.py" />
+    <Compile Include="implementation\dialogs\DestroyUserDialog.py" />
+    <Compile Include="implementation\dialogs\ModifyUserDialog.py" />
+    <Compile Include="implementation\GuiSubsystems.py" />
+    <Compile Include="implementation\dialogs\LanguagesDialog.py" />
+    <Compile Include="implementation\dialogs\LicenseDialog.py" />
+    <Compile Include="implementation\dialogs\CreateUserDialog.py" />
+    <Compile Include="implementation\dialogs\OpenWorkspaceDialog.py" />
+    <Compile Include="implementation\dialogs\CreateWorkspaceDialog.py" />
+    <Compile Include="implementation\dialogs\PreferencesDialog.py" />
+    <Compile Include="implementation\misc\CurrentWorkspace.py" />
+    <Compile Include="implementation\misc\CurrentCredentials.py" />
+    <Compile Include="implementation\misc\GuiSettings.py" />
+    <Compile Include="implementation\views\ActivityTypesView.py" />
+    <Compile Include="implementation\views\UsersView.py" />
+    <Compile Include="implementation\views\ActivityTypesViewType.py" />
+    <Compile Include="implementation\views\View.py" />
+    <Compile Include="implementation\views\UsersViewType.py" />
+    <Compile Include="implementation\views\ViewType.py" />
+    <Compile Include="interface\api.py" />
+    <Compile Include="implementation\dialogs\AboutDialog.py" />
+    <Compile Include="implementation\dialogs\LoginDialog.py" />
+    <Compile Include="resources\GuiResources.py" />
+    <Compile Include="implementation\skins\ActiveSkin.py" />
+    <Compile Include="implementation\skins\Skin.py" />
+    <Compile Include="implementation\skins\SkinRegistry.py" />
+    <Compile Include="__init__.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="resources\images\actions\AboutLarge.png" />
+    <Content Include="resources\images\actions\AboutSmall.png" />
+    <Content Include="resources\images\actions\AddEmailAddressLarge.png" />
+    <Content Include="resources\images\actions\AddEmailAddressSmall.png" />
+    <Content Include="resources\images\actions\BrowseLarge.png" />
+    <Content Include="resources\images\actions\BrowseSmall.png" />
+    <Content Include="resources\images\actions\CancelLarge.png" />
+    <Content Include="resources\images\actions\CancelSmall.png" />
+    <Content Include="resources\images\actions\CloseWorkspaceLarge.png" />
+    <Content Include="resources\images\actions\CloseWorkspaceSmall.png" />
+    <Content Include="resources\images\actions\CreateAccountLarge.png" />
+    <Content Include="resources\images\actions\CreateAccountSmall.png" />
+    <Content Include="resources\images\actions\CreateUserLarge.png" />
+    <Content Include="resources\images\actions\CreateUserSmall.png" />
+    <Content Include="resources\images\actions\CreateWorkspaceLarge.png" />
+    <Content Include="resources\images\actions\CreateWorkspaceSmall.png" />
+    <Content Include="resources\images\actions\DestroyAccountLarge.png" />
+    <Content Include="resources\images\actions\DestroyAccountSmall.png" />
+    <Content Include="resources\images\actions\DestroyUserLarge.png" />
+    <Content Include="resources\images\actions\DestroyUserSmall.png" />
+    <Content Include="resources\images\actions\DestroyWorkspaceLarge.png" />
+    <Content Include="resources\images\actions\DestroyWorkspaceSmall.png" />
+    <Content Include="resources\images\actions\ExitLarge.png" />
+    <Content Include="resources\images\actions\ExitSmall.png" />
+    <Content Include="resources\images\actions\ModifyAccountLarge.png" />
+    <Content Include="resources\images\actions\ModifyAccountSmall.png" />
+    <Content Include="resources\images\actions\ModifyEmailAddressLarge.png" />
+    <Content Include="resources\images\actions\ModifyEmailAddressSmall.png" />
+    <Content Include="resources\images\actions\ModifyUserLarge.png" />
+    <Content Include="resources\images\actions\ModifyUserSmall.png" />
+    <Content Include="resources\images\actions\OkLarge.png" />
+    <Content Include="resources\images\actions\OkSmall.png" />
+    <Content Include="resources\images\actions\OpenWorkspaceLarge.png" />
+    <Content Include="resources\images\actions\OpenWorkspaceSmall.png" />
+    <Content Include="resources\images\actions\PreferencesLarge.png" />
+    <Content Include="resources\images\actions\PreferencesSmall.png" />
+    <Content Include="resources\images\actions\RemoveEmailAddressLarge.png" />
+    <Content Include="resources\images\actions\RemoveEmailAddressSmall.png" />
+    <Content Include="resources\images\misc\ComponentLarge.png" />
+    <Content Include="resources\images\misc\ComponentSmall.png" />
+    <Content Include="resources\images\misc\LicenseLarge.png" />
+    <Content Include="resources\images\misc\LicenseSmall.png" />
+    <Content Include="resources\images\misc\LocaleLarge.png" />
+    <Content Include="resources\images\misc\LocaleSmall.png" />
+    <Content Include="resources\images\objects\AccountLarge.png" />
+    <Content Include="resources\images\objects\AccountSmall.png" />
+    <Content Include="resources\images\objects\ActivityTypeLarge.png" />
+    <Content Include="resources\images\objects\ActivityTypeSmall.png" />
+    <Content Include="resources\images\objects\UserLarge.png" />
+    <Content Include="resources\images\objects\UserSmall.png" />
+    <Content Include="resources\Resources_ru.txt" />
+    <Content Include="resources\Resources.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+  <!-- Uncomment the CoreCompile target to enable the Build command in
+       Visual Studio and specify your pre- and post-build commands in
+       the BeforeBuild and AfterBuild targets below. -->
+  <!--<Target Name="CoreCompile" />-->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+</Project>

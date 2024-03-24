@@ -1,0 +1,10 @@
+
+##########
+#   Object UI traits
+User.TypeDisplayName=user
+User.SmallImage=ImageFile:images/objects/UserSmall.png
+User.LargeImage=ImageFile:images/objects/UserLarge.png
+
+Account.TypeDisplayName=account
+Account.SmallImage=ImageFile:images/objects/AccountSmall.png
+Account.LargeImage=ImageFile:images/objects/AccountLarge.png

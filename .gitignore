@@ -161,3 +161,4 @@ cython_debug/
 
 # VS2022
 .vs/
+/Doc/*.dia~

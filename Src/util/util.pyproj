@@ -1,0 +1,77 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>7347b02d-088d-447c-9202-decfdafcb8b9</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>
+    </StartupFile>
+    <SearchPath>..\..\Src</SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <Name>util</Name>
+    <RootNamespace>util</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="implementation\" />
+    <Folder Include="interface\" />
+    <Folder Include="resources\" />
+    <Folder Include="resources\images\" />
+    <Folder Include="resources\documents\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="resources\documents\gpl-3.0-en.txt" />
+    <Content Include="resources\documents\gpl-3.0-ru.txt" />
+    <Content Include="resources\images\PyTTLarge.png" />
+    <Content Include="resources\images\PyTTSmall.png" />
+    <Content Include="resources\Resources.txt" />
+    <Content Include="resources\Resources_ru.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="implementation\LocalePreference.py" />
+    <Compile Include="implementation\GeneralPreferences.py" />
+    <Compile Include="implementation\BoolPreference.py" />
+    <Compile Include="implementation\Preference.py" />
+    <Compile Include="implementation\RootPreferences.py" />
+    <Compile Include="implementation\Preferences.py" />
+    <Compile Include="implementation\PropertyChangeEventHandler.py" />
+    <Compile Include="implementation\Annotations.py" />
+    <Compile Include="implementation\Event.py" />
+    <Compile Include="implementation\PropertyChangeEventListener.py" />
+    <Compile Include="implementation\PropertyChangeEvent.py" />
+    <Compile Include="implementation\PropertyChangeEventProcessorMixin.py" />
+    <Compile Include="implementation\LocalizableSubsystem.py" />
+    <Compile Include="implementation\UtilSubsystems.py" />
+    <Compile Include="implementation\Subsystem.py" />
+    <Compile Include="interface\api.py" />
+    <Compile Include="implementation\ComponentSettings.py" />
+    <Compile Include="implementation\FileResourceBundle.py" />
+    <Compile Include="implementation\FileResourceFactory.py" />
+    <Compile Include="implementation\Friends.py" />
+    <Compile Include="implementation\Locale.py" />
+    <Compile Include="implementation\Metaclasses.py" />
+    <Compile Include="implementation\ResourceBundle.py" />
+    <Compile Include="implementation\ResourceFactory.py" />
+    <Compile Include="implementation\ResourceType.py" />
+    <Compile Include="implementation\Settings.py" />
+    <Compile Include="resources\UtilResources.py" />
+    <Compile Include="__init__.py" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+  <!-- Uncomment the CoreCompile target to enable the Build command in
+       Visual Studio and specify your pre- and post-build commands in
+       the BeforeBuild and AfterBuild targets below. -->
+  <!--<Target Name="CoreCompile" />-->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+</Project>

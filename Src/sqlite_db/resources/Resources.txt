@@ -1,0 +1,3 @@
+InitDatabaseScript=TextFile:scripts/InitDatabase.sql
+ValidateDatabaseScript=TextFile:scripts/ValidateDatabase.sql
+

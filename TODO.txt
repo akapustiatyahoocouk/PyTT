@@ -1,0 +1,69 @@
+========== IMMEDIATE PIPELINE ======================================
+*   locale: Locale = Locale.default doesn't work as a default value
+    for a function parameter!!! It must be resolved at function
+    run time!!!
+*   Try to avoid string-style type hints. For example, consider
+    SqliteDatabaseType.instance -> "SqliteDatabaseType" as opposed
+    to UsersViewType.instance -> ViewType.
+*   Implement shortcust something like Ctrl+Alt+X shall look through
+    the menu bar' items of a Window (if there is a menu bar), locate
+    the matching menu item and simulate invoking it.
+*   Make sure TextArea's "enabled: bool" property works just like
+    it does in ttk-based AWT fields.
+*   Merge LocalizableSubsystem into Subsystem, essentially making
+    all Subsystems localizable.
+*   Make sure class constructors __init__(self,...) have proper
+    docstrings (for public constructors only!)
+*   Clicking on a TextField doesn't give it the keyboard focus.
+    Fix this. TextArea does not seem to have this problem.
+*   Add readonly: bool property to TextField and TextArea, to be
+    handled via the rd.WidgetRedirector()
+*   AWT shall handle FocusEvents and MouseEvents.
+*   Disabled widgets seem to still be focusable.
+    Do something about it.
+*   Change AdminSkinSettings to use a single property 
+    main_frame_bounds: Rectangle instead of 4 deparate properties
+    main_frame_x, main_frame_y, main_frame_width and 
+    main_frame_height.
+*   Retire LocaleProvider + make Locale.default an observable
+    property (that generates a PropertyChangeEvent).
+    DONE, but needs testing. Requires the "Options/Language"
+    admin skin main frame item.
+*   For SqlDatabase handle the exceptions raised by 
+    rollback_transaction properly - chaining, not replacing, the
+    exceptions that caused rollback attempts in their handlers.
+*   Add context (right click) menu to awt TextField and other text
+    entry fields, with Copy, Cut, Parse, etc. For disabled text
+    entry widgets only Copy shall work.
+*   In FileResourceBundle the '\' at the end of the line shoube 
+    be treated as a continuation line.
+*   In many places in code there is "pass". Check on these - usually
+    they silence the exception handlers; at least print the 
+    exceptions as a red flag for debug runs, and log them too for
+    post-mortem analysis.
+*   Change MenuItem's "label" property to "text".
+*   Create a new ActionMenuItem(MenuItem) class, for Action-based
+    MenuItems. They should REJECT attempts to set their propertes 
+    directly.
+*   Define class awt.GroupBox(tk.LabelFrame).
+
+========== NEED TO DO EVENTUALLY ===================================
+*   When importing a class/feature from a module in the same 
+    package, use the "from .<module> import <feature>" form instead
+    of the longer "from <fq module name> import <feature>" form.
+    Make sure this happens throughout the code base.
+*   Use menu item / action "description"s as tooltips for menu 
+    items, button, etc.
+*   Isolate tk/ttl within AWT.
+    *   Only AWT modules should import tk/ttk; all other components
+        shall happily do without.
+    *   tk/ttk widget configuration (.configure, etc.) services
+        shall be hidden behint AWT-level properties.
+*   Define Color class in AWT, like java.awt.Color.
+*   Define Point, Size and Rectangle classes in AWT and use them.
+
+========== NICE TO HAVE ============================================
+*   AWT compound controls (ListBox, ComboBox, TreeView, TabbedPane,
+    etc.) should define classes for their contained items (e.g.
+    ListBoxItem for ListBox, TreeNode for TreeView, TabPage for
+    TabbedPane, etc.) and use them.

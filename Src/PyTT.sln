@@ -3,7 +3,32 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "PyTT", "PyTT.pyproj", "{26DB45FA-EA9B-4BF7-8CE3-FFB7966FA73D}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "awt", "awt\awt.pyproj", "{123CC7F0-B7A0-46E6-AFBA-39979E4A97B5}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "client", "client\client.pyproj", "{885612D6-9D60-44AE-94E6-865C579BED3B}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "db", "db\db.pyproj", "{2F1D4FCA-9769-4FEC-9537-AF16F8E6FAEE}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "gui", "gui\gui.pyproj", "{2D0E8AF8-72B9-4CB2-86DE-1ECEB5033C68}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "pnp", "pnp\pnp.pyproj", "{90DCBAF1-91EB-4ADF-9707-D2DC373D6BB1}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "util", "util\util.pyproj", "{7347B02D-088D-447C-9202-DECFDAFCB8B9}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "workspace", "workspace\workspace.pyproj", "{46C0928F-101C-4B3D-B586-BDCE61122048}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "sqlite_db", "sqlite_db\sqlite_db.pyproj", "{AE07AA39-9863-409A-A4D9-1D6D6B3082E3}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "admin_skin", "admin_skin\admin_skin.pyproj", "{B4656F0A-1C18-48EA-8F5F-1F23AA2708F3}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "sql_db", "sql_db\sql_db.pyproj", "{729992FE-CAA8-486B-ADED-575C1F71AE7F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{81C7C3AE-939D-49AD-8864-7926E1FE92E8}"
+	ProjectSection(SolutionItems) = preProject
+		..\LICENSE.txt = ..\LICENSE.txt
+		..\README.txt = ..\README.txt
+		..\TODO.txt = ..\TODO.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,8 +36,26 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{26DB45FA-EA9B-4BF7-8CE3-FFB7966FA73D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{26DB45FA-EA9B-4BF7-8CE3-FFB7966FA73D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{123CC7F0-B7A0-46E6-AFBA-39979E4A97B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{123CC7F0-B7A0-46E6-AFBA-39979E4A97B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{885612D6-9D60-44AE-94E6-865C579BED3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{885612D6-9D60-44AE-94E6-865C579BED3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F1D4FCA-9769-4FEC-9537-AF16F8E6FAEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F1D4FCA-9769-4FEC-9537-AF16F8E6FAEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D0E8AF8-72B9-4CB2-86DE-1ECEB5033C68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D0E8AF8-72B9-4CB2-86DE-1ECEB5033C68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90DCBAF1-91EB-4ADF-9707-D2DC373D6BB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90DCBAF1-91EB-4ADF-9707-D2DC373D6BB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7347B02D-088D-447C-9202-DECFDAFCB8B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7347B02D-088D-447C-9202-DECFDAFCB8B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46C0928F-101C-4B3D-B586-BDCE61122048}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46C0928F-101C-4B3D-B586-BDCE61122048}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE07AA39-9863-409A-A4D9-1D6D6B3082E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE07AA39-9863-409A-A4D9-1D6D6B3082E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4656F0A-1C18-48EA-8F5F-1F23AA2708F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4656F0A-1C18-48EA-8F5F-1F23AA2708F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{729992FE-CAA8-486B-ADED-575C1F71AE7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{729992FE-CAA8-486B-ADED-575C1F71AE7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

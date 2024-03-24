@@ -1,0 +1,30 @@
+
+##########
+#   Main frame
+MainFrame.Title=PyTT Time Tracker
+
+FileMenu.Label=File
+FileMenu.Hotkey=F
+ViewMenu.Label=View
+ViewMenu.Hotkey=V
+ToolsMenu.Label=Tools
+ToolsMenu.Hotkey=T
+HelpMenu.Label=Help
+HelpMenu.Hotkey=H
+
+##########
+#   Action
+Actions.OpenView.Name=Open {0} view
+Actions.CloseCurrentView.Name=Close current view
+Actions.CloseCurrentView.Hotkey=c
+Actions.CloseCurrentView.Description=Closes the current viw
+Actions.CloseCurrentView.Shortcut=Ctrl+F4
+Actions.CloseCurrentView.SmallImage=ImageFile:images/actions/CloseViewSmall.png
+Actions.CloseCurrentView.LargeImage=ImageFile:images/actions/CloseViewLarge.png
+
+Actions.CloseAllViews.Name=Close all views
+Actions.CloseAllViews.Hotkey=a
+Actions.CloseAllViews.Description=Closes all views
+Actions.CloseAllViews.Shortcut=Ctrl+Shift+F4
+Actions.CloseAllViews.SmallImage=ImageFile:images/actions/CloseViewSmall.png
+Actions.CloseAllViews.LargeImage=ImageFile:images/actions/CloseViewLarge.png

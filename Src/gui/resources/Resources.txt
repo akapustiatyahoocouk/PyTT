@@ -1,0 +1,199 @@
+GuiSubsystem.DisplayName=GUI
+
+##########
+#   Actions
+Actions.CreateWorkspace.Name=Create workspace
+Actions.CreateWorkspace.Hotkey=C
+Actions.CreateWorkspace.Description=Creates a new workspace
+Actions.CreateWorkspace.Shortcut=Ctrl+N
+Actions.CreateWorkspace.SmallImage=ImageFile:images/actions/CreateWorkspaceSmall.png
+Actions.CreateWorkspace.LargeImage=ImageFile:images/actions/CreateWorkspaceLarge.png
+
+Actions.OpenWorkspace.Name=Open workspace
+Actions.OpenWorkspace.Hotkey=O
+Actions.OpenWorkspace.Description=Opens an existing workspace
+Actions.OpenWorkspace.Shortcut=Ctrl+O
+Actions.OpenWorkspace.SmallImage=ImageFile:images/actions/OpenWorkspaceSmall.png
+Actions.OpenWorkspace.LargeImage=ImageFile:images/actions/OpenWorkspaceLarge.png
+
+Actions.CloseWorkspace.Name=Close workspace
+Actions.CloseWorkspace.Hotkey=l
+Actions.CloseWorkspace.Description=Closes the currently open workspace
+#Actions.CloseWorkspace.Shortcut=
+Actions.CloseWorkspace.SmallImage=ImageFile:images/actions/CloseWorkspaceSmall.png
+Actions.CloseWorkspace.LargeImage=ImageFile:images/actions/CloseWorkspaceLarge.png
+
+Actions.DestroyWorkspace.Name=Destroy workspace
+Actions.DestroyWorkspace.Hotkey=D
+Actions.DestroyWorkspace.Description=Destroy an existing workspace
+#Actions.DestroyWorkspace.Shortcut=
+Actions.DestroyWorkspace.SmallImage=ImageFile:images/actions/DestroyWorkspaceSmall.png
+Actions.DestroyWorkspace.LargeImage=ImageFile:images/actions/DestroyWorkspaceLarge.png
+
+Actions.Exit.Name=Exit
+Actions.Exit.Hotkey=x
+Actions.Exit.Description=Exits PyTT
+Actions.Exit.Shortcut=Alt+F4
+Actions.Exit.SmallImage=ImageFile:images/actions/ExitSmall.png
+Actions.Exit.LargeImage=ImageFile:images/actions/ExitLarge.png
+
+Actions.Preferences.Name=Preferences
+Actions.Preferences.Hotkey=P
+Actions.Preferences.Description=Sets up PyTT preferences
+Actions.Preferences.Shortcut=Ctrl+P
+Actions.Preferences.SmallImage=ImageFile:images/actions/PreferencesSmall.png
+Actions.Preferences.LargeImage=ImageFile:images/actions/PreferencesLarge.png
+
+Actions.About.Name=About
+Actions.About.Hotkey=b
+Actions.About.Description=Shows PyTT version and copyright information
+Actions.About.Shortcut=Ctrl+F1
+Actions.About.SmallImage=ImageFile:images/actions/AboutSmall.png
+Actions.About.LargeImage=ImageFile:images/actions/AboutLarge.png
+
+##########
+#   Controls
+EmailAddressListEditor.AddEmailAddressButton.Text=Add
+EmailAddressListEditor.AddEmailAddressButton.Image=ImageFile:images/actions/AddEmailAddressSmall.png
+EmailAddressListEditor.ModifyEmailAddressButton.Text=Modify
+EmailAddressListEditor.ModifyEmailAddressButton.Image=ImageFile:images/actions/ModifyEmailAddressSmall.png
+EmailAddressListEditor.RemoveEmailAddressButton.Text=Remove
+EmailAddressListEditor.RemoveEmailAddressButton.Image=ImageFile:images/actions/RemoveEmailAddressSmall.png
+EmailAddressListEditor.AddEmailAddressDialog.Title=Add e-mail address
+EmailAddressListEditor.AddEmailAddressDialog.Prompt=Enter e-mail address:
+EmailAddressListEditor.ModifyEmailAddressDialog.Title=Modify e-mail address
+EmailAddressListEditor.ModifyEmailAddressDialog.Prompt=Enter e-mail address:
+EmailAddressListEditor.RemoveEmailAddressDialog.Title=Remove e-mail address
+EmailAddressListEditor.RemoveEmailAddressDialog.Prompt=Are you sure you want to remove e-mail address\n{0}
+
+##########
+#   Dialogs
+AboutDialog.Title=About PyTT
+AboutDialog.LicenseButton.Text=License
+AboutDialog.LicenseButton.Icon=ImageFile:images/misc/LicenseSmall.png
+AboutDialog.LanguagesButton.Text=Languages
+AboutDialog.LanguagesButton.Icon=ImageFile:images/misc/LocaleSmall.png
+AboutDialog.ComponentsButton.Text=Plugins
+AboutDialog.ComponentsButton.Icon=ImageFile:images/misc/ComponentSmall.png
+AboutDialog.OkButton.Text=OK
+AboutDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+
+LicenseDialog.Title=PyTT license
+LicenseDialog.OkButton.Text=OK
+LicenseDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+
+LanguagesDialog.Title=Language support
+LanguagesDialog.OkButton.Text=OK
+LanguagesDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+
+PreferencesDialog.Title=Preferences
+PreferencesDialog.OkButton.Text=OK
+PreferencesDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+PreferencesDialog.CancelButton.Text=Cancel
+PreferencesDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+
+LoginDialog.Title=Login to PyTT
+LoginDialog.LoginLabel.Text=Login:
+LoginDialog.PasswordLabel.Text=Password:
+LoginDialog.OkButton.Text=OK
+LoginDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+LoginDialog.CancelButton.Text=Cancel
+LoginDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+
+CreateWorkspaceDialog.Title=Create workspace
+CreateWorkspaceDialog.WorkspaceTypeLabel.Text=Workspace type:
+CreateWorkspaceDialog.WorkspaceAddressLabel.Text=Workspace address:
+CreateWorkspaceDialog.BrowseButton.Text=
+CreateWorkspaceDialog.BrowseButton.Icon=ImageFile:images/actions/BrowseSmall.png
+CreateWorkspaceDialog.UseCurrentCredentialsRadioButton.Text=Use current credentials as administrator
+CreateWorkspaceDialog.UseCustomCredentialsRadioButton.Text=Use custom credentials as administrator
+CreateWorkspaceDialog.AdminUserLabel.Text=Administrator user:
+CreateWorkspaceDialog.AdminAccountLabel.Text=Administrator account:
+CreateWorkspaceDialog.AdminPassword1Label.Text=Password:
+CreateWorkspaceDialog.AdminPassword2Label.Text=Retype password:
+CreateWorkspaceDialog.OkButton.Text=OK
+CreateWorkspaceDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+CreateWorkspaceDialog.CancelButton.Text=Cancel
+CreateWorkspaceDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+
+OpenWorkspaceDialog.Title=Open workspace
+OpenWorkspaceDialog.WorkspaceTypeLabel.Text=Workspace type:
+OpenWorkspaceDialog.WorkspaceAddressLabel.Text=Workspace address:
+OpenWorkspaceDialog.BrowseButton.Text=
+OpenWorkspaceDialog.BrowseButton.Icon=ImageFile:images/actions/BrowseSmall.png
+OpenWorkspaceDialog.OkButton.Text=OK
+OpenWorkspaceDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+OpenWorkspaceDialog.CancelButton.Text=Cancel
+OpenWorkspaceDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+
+CannotAccessWorkspaceDialog.Title=Could not access workspace
+CannotAccessWorkspaceDialog.Message=The login credentials do not permit accessing the workspace\n{0}.\nWould you like to re-login as a different user?
+CannotAccessLastWorkspaceDialog.Title=Could not access last workspace
+CannotAccessLastWorkspaceDialog.Message=The login credentials do not permit accessing the workspace\n{0}.\nWould you like to re-login as a different user?
+
+CannotOpenWorkspaceDialog.Title=Could not open workspace
+CannotOpenWorkspaceDialog.Message=Would you like to remove the workspace\n{0}\nfrom recent workspaces list?
+CannotReopenLastWorkspaceDialog.Title=Could not reopen last workspace
+CannotReopenLastWorkspaceDialog.Message=Would you like to remove the workspace\n{0}\nfrom recent workspaces list?
+
+CreateUserDialog.Title=Create user
+CreateUserDialog.RealNameLabel.Text=Real name:
+CreateUserDialog.EnabledCheckBox.Text=User is enabled
+CreateUserDialog.EmailAddressesLabel.Text=E-mail addresses:
+CreateUserDialog.InactivityTimeoutLabel.Text=Inactivity timeout:
+CreateUserDialog.InactivityTimeoutNone=none
+CreateUserDialog.InactivityTimeoutHours=hour(s)
+CreateUserDialog.InactivityTimeoutMinutes=minute(s)
+CreateUserDialog.UiLocaleLabel.Text=UI language:
+CreateUserDialog.UiLocaleSystemDefault=System default
+CreateUserDialog.OkButton.Text=OK
+CreateUserDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+CreateUserDialog.CancelButton.Text=Cancel
+CreateUserDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+
+ModifyUserDialog.Title=Modify user
+ModifyUserDialog.RealNameLabel.Text=Real name:
+ModifyUserDialog.EnabledCheckBox.Text=User is enabled
+ModifyUserDialog.EmailAddressesLabel.Text=E-mail addresses:
+ModifyUserDialog.InactivityTimeoutLabel.Text=Inactivity timeout:
+ModifyUserDialog.InactivityTimeoutNone=none
+ModifyUserDialog.InactivityTimeoutHours=hour(s)
+ModifyUserDialog.InactivityTimeoutMinutes=minute(s)
+ModifyUserDialog.UiLocaleLabel.Text=UI language:
+ModifyUserDialog.UiLocaleSystemDefault=System default
+ModifyUserDialog.OkButton.Text=OK
+ModifyUserDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+ModifyUserDialog.CancelButton.Text=Cancel
+ModifyUserDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+
+DestroyUserDialog.Title=Delete user
+DestroyUserDialog.PrimptLabel.Text=Are you sure you want to permananently\ndelete user '{0}' and all associated accounts?
+DestroyUserDialog.OkButton.Text=OK
+DestroyUserDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+DestroyUserDialog.CancelButton.Text=Cancel
+DestroyUserDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+
+##########
+#   View types
+UsersViewType.DisplayName=Users
+UsersViewType.SmallImage=ImageFile:images/objects/UserSmall.png
+UsersViewType.LargeImage=ImageFile:images/objects/UserLarge.png
+
+ActivityTypesViewType.DisplayName=Activity types
+ActivityTypesViewType.SmallImage=ImageFile:images/objects/ActivityTypeSmall.png
+ActivityTypesViewType.LargeImage=ImageFile:images/objects/ActivityTypeLarge.png
+
+##########
+#   Views
+UsersViewEditor.CreateUserButton.Text=Create user
+UsersViewEditor.CreateUserButton.Image=ImageFile:images/actions/CreateUserSmall.png
+UsersViewEditor.ModifyUserButton.Text=Modify user
+UsersViewEditor.ModifyUserButton.Image=ImageFile:images/actions/ModifyUserSmall.png
+UsersViewEditor.DestroyUserButton.Text=Destroy user
+UsersViewEditor.DestroyUserButton.Image=ImageFile:images/actions/DestroyUserSmall.png
+UsersViewEditor.CreateAccountButton.Text=Create account
+UsersViewEditor.CreateAccountButton.Image=ImageFile:images/actions/CreateAccountSmall.png
+UsersViewEditor.ModifyAccountButton.Text=Modify account
+UsersViewEditor.ModifyAccountButton.Image=ImageFile:images/actions/ModifyAccountSmall.png
+UsersViewEditor.DestroyAccountButton.Text=Destroy account
+UsersViewEditor.DestroyAccountButton.Image=ImageFile:images/actions/DestroyAccountSmall.png

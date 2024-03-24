@@ -1,0 +1,13 @@
+﻿
+##########
+#   Main frame
+MainFrame.Title=PyTT Time Tracker
+
+FileMenu.Label=Файл
+FileMenu.Hotkey=Ф
+ViewMenu.Label=Вид
+ViewMenu.Hotkey=В
+ToolsMenu.Label=Инструменты
+ToolsMenu.Hotkey=И
+HelpMenu.Label=Справка
+HelpMenu.Hotkey=С

@@ -1,0 +1,122 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>123cc7f0-b7a0-46e6-afba-39979e4a97b5</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>
+    </StartupFile>
+    <SearchPath>..\..\Src</SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <Name>awt</Name>
+    <RootNamespace>awt</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="implementation\Action.py" />
+    <Compile Include="implementation\ActionEventListener.py" />
+    <Compile Include="implementation\ActionEvent.py" />
+    <Compile Include="implementation\ActionEventProcessorMixin.py" />
+    <Compile Include="implementation\ActionEventHandler.py" />
+    <Compile Include="implementation\EditStringDialog.py" />
+    <Compile Include="implementation\RadioButtonGroup.py" />
+    <Compile Include="implementation\RadioButton.py" />
+    <Compile Include="implementation\ErrorDialog.py" />
+    <Compile Include="implementation\CheckBox.py" />
+    <Compile Include="implementation\AwtSubsystems.py" />
+    <Compile Include="implementation\Scrollbar.py" />
+    <Compile Include="implementation\TabbedPane.py" />
+    <Compile Include="implementation\TextArea.py" />
+    <Compile Include="implementation\TreeView.py" />
+    <Compile Include="implementation\ListBox.py" />
+    <Compile Include="implementation\Refreshable.py" />
+    <Compile Include="implementation\ComboBox.py" />
+    <Compile Include="implementation\ItemEvent.py" />
+    <Compile Include="implementation\ItemEventListener.py" />
+    <Compile Include="implementation\ItemEventHandler.py" />
+    <Compile Include="implementation\KeyEventListener.py" />
+    <Compile Include="implementation\KeyEventHandler.py" />
+    <Compile Include="implementation\ItemEventType.py" />
+    <Compile Include="implementation\ItemEventProcessorMixin.py" />
+    <Compile Include="implementation\WidgetEventProcessorMixin.py" />
+    <Compile Include="implementation\Panel.py" />
+    <Compile Include="implementation\WidgetEvent.py" />
+    <Compile Include="implementation\WindowEvent.py" />
+    <Compile Include="implementation\WidgetEventHandler.py" />
+    <Compile Include="implementation\WidgetEventListener.py" />
+    <Compile Include="implementation\WindowEventListener.py" />
+    <Compile Include="implementation\WindowEventHandler.py" />
+    <Compile Include="implementation\WidgetEventType.py" />
+    <Compile Include="implementation\WindowEventType.py" />
+    <Compile Include="implementation\ResourceAwareAction.py" />
+    <Compile Include="implementation\ResourceAwareSubmenu.py" />
+    <Compile Include="implementation\MenuSeparator.py" />
+    <Compile Include="implementation\Window.py" />
+    <Compile Include="implementation\WindowState.py" />
+    <Compile Include="interface\api.py" />
+    <Compile Include="implementation\BaseWidgetMixin.py" />
+    <Compile Include="implementation\Button.py" />
+    <Compile Include="implementation\Dialog.py" />
+    <Compile Include="implementation\TextField.py" />
+    <Compile Include="implementation\GuiRoot.py" />
+    <Compile Include="implementation\InputEvent.py" />
+    <Compile Include="implementation\InputEventModifiers.py" />
+    <Compile Include="implementation\KeyEvent.py" />
+    <Compile Include="implementation\KeyEventProcessorMixin.py" />
+    <Compile Include="implementation\KeyEventType.py" />
+    <Compile Include="implementation\KeyStroke.py" />
+    <Compile Include="implementation\Label.py" />
+    <Compile Include="implementation\Menu.py" />
+    <Compile Include="implementation\MenuBar.py" />
+    <Compile Include="implementation\MenuItem.py" />
+    <Compile Include="implementation\Separator.py" />
+    <Compile Include="implementation\SimpleMenuItem.py" />
+    <Compile Include="implementation\Submenu.py" />
+    <Compile Include="implementation\Frame.py" />
+    <Compile Include="implementation\VirtualKey.py" />
+    <Compile Include="implementation\Widget.py" />
+    <Compile Include="implementation\MessageBox.py" />
+    <Compile Include="resources\AwtResources.py" />
+    <Compile Include="__init__.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="interface\" />
+    <Folder Include="implementation\" />
+    <Folder Include="resources\" />
+    <Folder Include="resources\images\" />
+    <Folder Include="resources\images\actions\" />
+    <Folder Include="resources\images\misc\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="resources\images\actions\CancelLarge.png" />
+    <Content Include="resources\images\actions\CancelSmall.png" />
+    <Content Include="resources\images\actions\OkLarge.png" />
+    <Content Include="resources\images\actions\OkSmall.png" />
+    <Content Include="resources\images\actions\SaveLarge.png" />
+    <Content Include="resources\images\actions\SaveSmall.png" />
+    <Content Include="resources\images\misc\ErrorLarge.png" />
+    <Content Include="resources\images\misc\ErrorSmall.png" />
+    <Content Include="resources\images\misc\InformationLarge.png" />
+    <Content Include="resources\images\misc\InformationSmall.png" />
+    <Content Include="resources\images\misc\QuestionLarge.png" />
+    <Content Include="resources\images\misc\QuestionSmall.png" />
+    <Content Include="resources\Resources.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+  <!-- Uncomment the CoreCompile target to enable the Build command in
+       Visual Studio and specify your pre- and post-build commands in
+       the BeforeBuild and AfterBuild targets below. -->
+  <!--<Target Name="CoreCompile" />-->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+</Project>
