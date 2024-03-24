@@ -5,6 +5,7 @@ import os.path
 import importlib
 
 from annotations import classproperty
+
 import pnp_impl.Plugin
 
 @final
@@ -36,23 +37,20 @@ class PluginManager:
     @staticmethod
     def load_plugins(root_directory: str):
         #   Discover plugins...
-        #pnp_impl.Plugin.Plugin._Plugin__discovered_plugins.clear()
         PluginManager.__load_packages(root_directory, '')
-        # TODO kill off print(pnp_impl.Plugin.Plugin._Plugin__discovered_plugins)
-        for p in pnp_impl.Plugin.Plugin._Plugin__discovered_plugins:
+        for p in pnp_impl.Plugin.Plugin.__discovered_plugins:
             PluginManager.__discovered_plugins.add(p)
-        #PluginManager.__discovered_plugins = 
-        #    PluginManager.__discovered_plugins.union(pnp_impl.Plugin.Plugin._Plugin__discovered_plugins)
         for p in PluginManager.__discovered_plugins:     
             print("    Discovered plugin:", p)
         #   ...and try to initialize them
         for p in PluginManager.__discovered_plugins:
             if p not in PluginManager.__initialised_plugins:
-                #try:
+                try:
                     p.initialize()
-                    p._Plugin__initialized = True
+                    p.__initialized = True
                     PluginManager.__initialised_plugins.add(p)
-                #except:
+                except:
+                    #   TODO log the exception ?
                     pass
         
     ##########

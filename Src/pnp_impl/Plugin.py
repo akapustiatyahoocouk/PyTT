@@ -1,7 +1,9 @@
-from abc import ABC, abstractproperty, abstractmethod
+from abc import abstractproperty, abstractmethod
 
-class Plugin(ABC):
-    """ a generic "plugin" - an agent discovered and initialised
+from friends import FriendlyMeta
+
+class Plugin(metaclass=FriendlyMeta, friends=("PluginManager",)):
+    """ A generic "plugin" - an agent discovered and initialised
         at origram load time. """
 
     ##########
@@ -18,7 +20,11 @@ class Plugin(ABC):
     #   Properties
     @abstractproperty
     def display_name(self) -> str:
-        """ The user-readable display name of this plugin. """
+        """ The user-readable display name of this plugin.
+            IMPORTANT: 
+                Base implementation throws a NotImplementedError,
+                so don't call it from the overriding method
+                in a concrete plugin. """
         raise NotImplementedError()
 
     ##########
@@ -28,6 +34,11 @@ class Plugin(ABC):
         """
             Called by PluginManager at mose once to initialise 
             the plugin.
+            
+            IMPORTANT: 
+                Base implementation throws a NotImplementedError,
+                so don't call it from the overriding method
+                in a concrete plugin.
             
             @raise Exception:
                 If the plugin initialisation fails.

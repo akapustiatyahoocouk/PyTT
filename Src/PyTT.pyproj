@@ -61,6 +61,7 @@
     <Compile Include="dialogs_impl\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="friends.py" />
     <Compile Include="pnp.py" />
     <Compile Include="pnp_impl\Plugin.py" />
     <Compile Include="pnp_impl\PluginManager.py" />
