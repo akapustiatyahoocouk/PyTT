@@ -47,13 +47,6 @@ splash_label2.grid(row=2, column=1, padx=2, pady=0, sticky="WE")
 splash_separator.grid(row=3, column=0, columnspan=2, padx=8, pady=(10, 0), sticky="WE")
 splash_label3.grid(row=4, column=1, padx=2, pady=0, sticky="WE")
 
-splash_screen.overrideredirect(True)
-#splash_screen.wm_attributes("-alpha",0.5)
-splash_screen.attributes("-topmost", True)
-splash_screen.after(3000, lambda: splash_screen.destroy())
-splash_screen.center_in_screen()
-splash_screen.wait_window()
-
 def exit_handler():
     print('My application is ending!')
 
@@ -124,6 +117,16 @@ def exit_handler():
 #     sys.exit()
 
 ##########
+#  Implementation helpers
+def __perform_initial_login(login_dialog: dialogs.LoginDialog):
+    login_dialog.quit()
+    login_dialog.destroy()
+
+def __abort_initial_login(login_dialog: dialogs.LoginDialog):
+    assert login_dialog is not None
+    sys.exit()
+
+##########
 #   PyTT entry point
 if __name__ == "__main__":
 
@@ -141,8 +144,7 @@ if __name__ == "__main__":
     with dialogs.LoginDialog(awt.GuiRoot.tk) as dlg:
         dlg.transient(awt.GuiRoot.tk)
         dlg.attributes("-topmost", True)
-        dlg.center_in_screen()
-        dlg.do_modal()
+        awt.GuiRoot.tk.mainloop()
         if dlg.result is not dialogs.LoginDialogResult.OK:
             sys.exit()
         ws.CurrentCredentials.set(dlg.credentials)

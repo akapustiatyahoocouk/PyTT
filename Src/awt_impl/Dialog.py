@@ -87,8 +87,7 @@ class Dialog(tk.Toplevel,
         
         self.wait_visibility()
         self.grab_set()
-        self.transient(self.parent)
-        #self.center_in_parent()
+        self.transient(self.__parent)
         
         self.__running_modal = True
         self.__parent.wait_window(self)
