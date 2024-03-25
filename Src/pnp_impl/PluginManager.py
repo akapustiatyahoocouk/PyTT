@@ -4,7 +4,7 @@ import os
 import os.path
 import importlib
 
-from annotations import classproperty
+from annotations import staticproperty
 
 import pnp_impl.Plugin
 
@@ -24,11 +24,11 @@ class PluginManager:
         
     ##########
     #   Properties
-    @classproperty
-    def discovered_plugins(cls) -> list[pnp_impl.Plugin]:
+    @staticproperty
+    def discovered_plugins() -> list[pnp_impl.Plugin]:
         return list(PluginManager.__discovered_plugins)
 
-    @classproperty
+    @staticproperty
     def initialised_plugins(cls) -> list[pnp_impl.Plugin]:
         return list(PluginManager.__initialised_plugins)
 

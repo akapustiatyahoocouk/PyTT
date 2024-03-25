@@ -2,7 +2,7 @@ from typing import final
 
 print('Loading package', __file__)
 
-from annotations import classproperty
+from annotations import staticproperty
 import pnp_impl.Plugin
 import skin_impl.ISkin
 
@@ -17,8 +17,8 @@ class AdminSkinPlugin(pnp_impl.Plugin.Plugin):
         assert AdminSkinPlugin.__instance is None, "Use AdminSkinPlugin.instance instead"
         super().__init__()
     
-    @classproperty
-    def instance(cls) -> "AdminSkinPlugin":
+    @staticproperty
+    def instance() -> "AdminSkinPlugin":
         """
             Returns one and only instance of this class, creating
             it on the first call.

@@ -3,7 +3,7 @@ from typing import final
 import os
 import re
 import tkinter as tk
-from annotations import classproperty
+from annotations import staticproperty
 
 class _ResourcesMeta(type):
     def __setattr__(cls: type, attr: str, value) -> None:
@@ -36,8 +36,8 @@ class Resources(metaclass = _ResourcesMeta):
     PRODUCT_COPYRIGHT = 'Copyleft (C) 2024, Andrey Kapustin'
     """ The product copyright string, """
 
-    @classproperty
-    def PRODUCT_ICON(cls) -> tk.PhotoImage:
+    @staticproperty
+    def PRODUCT_ICON() -> tk.PhotoImage:
         """ The 32x32 icon representing PyTT. """
         #   TODO kill off print(cls.__name__)
         if Resources.__product_icon is None:

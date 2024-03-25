@@ -1,4 +1,4 @@
-from annotations import classproperty
+from annotations import staticproperty
 import db_impl.IDatabaseType
 import db_impl.IDatabaseAddress
 
@@ -20,8 +20,8 @@ class SqliteDatabaseType(db_impl.IDatabaseType.IDatabaseType):
     def __init__(self):
         assert SqliteDatabaseType.__instance is None, "Use SqliteDatabaseType.instance() instead"
     
-    @classproperty
-    def instance(cls) -> "SqliteDatabaseType":
+    @staticproperty
+    def instance() -> "SqliteDatabaseType":
         """
             Returns one and only instance of this class, creating
             it on the first call.

@@ -11,3 +11,16 @@ class classproperty():
     def __setattr__(self, attr, value) -> None:
         #print(self, attr, value)
         super().__setattr__(attr, value)
+
+
+class staticproperty():
+    """ A property annotation for a static (class-level) property """
+    def __init__(self, f):
+        self.f = f
+
+    def __get__(self, obj, owner) -> Any:
+        return self.f()
+
+    def __setattr__(self, attr, value) -> None:
+        #print(self, attr, value)
+        super().__setattr__(attr, value)

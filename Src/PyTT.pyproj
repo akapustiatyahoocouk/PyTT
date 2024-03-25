@@ -11,6 +11,9 @@
     <OutputPath>.</OutputPath>
     <Name>PyTT</Name>
     <RootNamespace>PyTT</RootNamespace>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <CommandLineArguments>--splash</CommandLineArguments>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,6 +33,7 @@
     <Compile Include="awt.py" />
     <Compile Include="awt_impl\BaseWidgetMixin.py" />
     <Compile Include="awt_impl\Entry.py" />
+    <Compile Include="awt_impl\InputEventModifiers.py" />
     <Compile Include="awt_impl\Widget.py" />
     <Compile Include="awt_impl\Separator.py" />
     <Compile Include="awt_impl\Label.py" />

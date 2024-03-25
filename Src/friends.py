@@ -1,7 +1,13 @@
 from typing import  Any
 import inspect
 
+from abc import ABC, ABCMeta
+
 class FriendlyMeta(type):
+    """ TODO document """
+
+    ##########
+    #   object (methods for class properties access from friends)
     @classmethod
     def __prepare__(metacls, name, bases, **kwargs):
         return super().__prepare__(name, bases, **kwargs)
@@ -23,7 +29,7 @@ class FriendlyMeta(type):
                 else:
                     raise NotImplementedError(str(friend) + " cannot be used as a friend declarator")
         else:
-            self.__friends = []
+            self.__friends = ()
 
     def __getattr__(cls: type, attr: str) -> Any:
         for friend in cls.__friends:
@@ -34,3 +40,51 @@ class FriendlyMeta(type):
                 print(ex)
                 pass
         return type.__getattribute__(cls, attr)
+
+
+class FriendlyClass(metaclass=FriendlyMeta, friends = ()):
+    """ 
+        The base class for non-abstract classes that allow declared
+        "friend" casses to access private properties of the dclared 
+        class.
+        
+        In addition to allowing "friend" classes to access static
+        private properties of the declared class (which is provided
+        by FriendlyMeta), the Friendly base class also includes 
+        support for instance properties.
+        
+        @param friends:
+            A tuple whose elements are either friend classes or
+            names of friend classes.
+    """
+    ##########
+    #   object (methods for instance properties access from friends)
+    def __getattr__(self, name: str) -> Any:
+        if name != "__name__":
+            for friend in self.__class__._FriendlyMeta__friends:
+                an = name.replace(friend, self.__class__.__name__)
+                try:
+                    return super().__getattribute__(an)
+                except:
+                    pass
+        return super().__getattribute__(name)
+
+
+#   TODO FriendlyABC, etc.
+
+class FriendlyABCMeta(ABCMeta, FriendlyMeta):
+    """ TODO document """
+    #def __new__(mcls, name, bases, namespace, /, **kwargs):
+    #    ABCMeta.__new__(mcls, name, bases, namespace, **kwargs)
+    #    FriendlyMeta.__new__(mcls, name, bases, namespace, **kwargs)
+
+class FriendlyABC(ABC, metaclass=FriendlyABCMeta, friends = ()):
+    """ 
+        A FriendlyClass that is also abstract, i.e. cannot be
+        instantiated directly.
+
+        @param friends:
+            A tuple whose elements are either friend classes or
+            names of friend classes.
+     """
+    pass

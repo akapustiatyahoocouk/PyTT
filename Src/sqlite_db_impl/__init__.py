@@ -2,7 +2,7 @@ from typing import final
 
 print('Loading package', __file__)
 
-from annotations import classproperty
+from annotations import staticproperty
 import pnp_impl.Plugin
 
 @final
@@ -16,8 +16,8 @@ class SqliteDbPlugin(pnp_impl.Plugin.Plugin):
         assert SqliteDbPlugin.__instance is None, "Use SqliteDbPlugin.instance instead"
         super().__init__()
     
-    @classproperty
-    def instance(cls) -> "SqliteDbPlugin":
+    @staticproperty
+    def instance() -> "SqliteDbPlugin":
         """
             Returns one and only instance of this class, creating
             it on the first call.

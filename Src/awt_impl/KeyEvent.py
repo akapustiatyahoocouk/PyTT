@@ -2,6 +2,7 @@ from typing import final, Optional, TypeAlias, Callable
 from enum import Enum
 import tkinter as tk
 
+import awt_impl.InputEventModifiers
 import awt_impl.InputEvent
 import awt_impl.VirtualKey
 
@@ -28,7 +29,8 @@ class KeyEvent(awt_impl.InputEvent.InputEvent):
     #   Construction
     def __init__(self, source, event_type: KeyEventType, tk_evt: tk.Event):
         """ Constructs the event from the specified tk key event. """
-        super().__init__(source, tk_evt.state)
+        super().__init__(source, 
+                         awt_impl.InputEventModifiers.InputEventModifiers(tk_evt.state))
         
         assert ((event_type is KeyEventType.KEY_DOWN) or
                 (event_type is KeyEventType.KEY_UP) or
@@ -57,9 +59,9 @@ class KeyEvent(awt_impl.InputEvent.InputEvent):
         result += str(self.__event_type)
         result += ","
 
-        if len(self.modifiers_string) > 0:
+        if len(str(self.modifiers)) > 0:
             result += "modifiers="
-            result += self.modifiers_string
+            result += str(self.modifiers)
             result += ","
 
         if self.keycode is not None:

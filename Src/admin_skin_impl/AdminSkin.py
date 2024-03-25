@@ -1,12 +1,12 @@
-import tkinter as tk
+""" Implements the "Admin: skin. """
 
-from annotations import classproperty
+from annotations import staticproperty
 import skin_impl.ISkin
 import admin_skin_impl.MainFrame
 
 class AdminSkin(skin_impl.ISkin.ISkin):
     """ A database type that uses SQLite as data storage. """
-    
+
     ##########
     #   Constants
     MNEMONIC = "admin"
@@ -20,9 +20,9 @@ class AdminSkin(skin_impl.ISkin.ISkin):
         assert AdminSkin.__instance is None, "Use AdminSkin.instance instead"
         self.__main_frame = admin_skin_impl.MainFrame.MainFrame()
         self.__main_frame.deactivate()
-    
-    @classproperty
-    def instance(cls) -> "AdminSkin":
+
+    @staticproperty
+    def instance() -> "AdminSkin":
         """
             Returns one and only instance of this class, creating
             it on the first call.
@@ -33,21 +33,20 @@ class AdminSkin(skin_impl.ISkin.ISkin):
         if AdminSkin.__instance is None:
             AdminSkin.__instance = AdminSkin()
         return AdminSkin.__instance
-    
+
     ##########
     #   ISkin - Properties (general)
-    @property    
+    @property
     def mnemonic(self) -> str:
         return AdminSkin.MNEMONIC
 
-    @property    
+    @property
     def display_name(self) -> str:
         return 'Admin'
 
-    @property    
+    @property
     def is_active(self) -> bool:
-        return ((self.__main_frame is not None) and 
-                (not self.__main_frame.is_destroyed))
+        return (self.__main_frame is not None) and self.__main_frame.winfo_exists
 
     ##########
     #   ISkin - Operations
@@ -56,4 +55,3 @@ class AdminSkin(skin_impl.ISkin.ISkin):
 
     def deactivate(self) -> None:
         self.__main_frame.deactivate()
-            

@@ -1,8 +1,8 @@
-from abc import abstractproperty, abstractmethod
+from abc import ABC, abstractproperty, abstractmethod
 
-from friends import FriendlyMeta
+from friends import FriendlyABC
 
-class Plugin(metaclass=FriendlyMeta, friends=("PluginManager",)):
+class Plugin(FriendlyABC, friends=("PluginManager",)):
     """ A generic "plugin" - an agent discovered and initialised
         at origram load time. """
 
