@@ -17,7 +17,7 @@ class TopFrame(tk.Toplevel,
         tk.Toplevel.__init__(self, awt_impl.GuiRoot.GuiRoot.tk)
         awt_impl.BaseWidgetMixin.BaseWidgetMixin.__init__(self)
         
-        self.transient(awt_impl.GuiRoot.GuiRoot.tk)
+        #self.transient(awt_impl.GuiRoot.GuiRoot.tk)
         self.title(awt_impl.GuiRoot.GuiRoot.tk.title())
         self.wm_iconphoto(True, resources.Resources.PRODUCT_ICON)
         self.geometry("600x400")

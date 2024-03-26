@@ -31,9 +31,11 @@
     </Compile>
     <Compile Include="annotations.py" />
     <Compile Include="awt.py" />
+    <Compile Include="awt_impl\Action.py" />
     <Compile Include="awt_impl\BaseWidgetMixin.py" />
     <Compile Include="awt_impl\Entry.py" />
     <Compile Include="awt_impl\InputEventModifiers.py" />
+    <Compile Include="awt_impl\KeyStroke.py" />
     <Compile Include="awt_impl\Widget.py" />
     <Compile Include="awt_impl\Separator.py" />
     <Compile Include="awt_impl\Label.py" />

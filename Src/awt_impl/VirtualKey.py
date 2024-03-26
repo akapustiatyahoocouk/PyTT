@@ -127,6 +127,11 @@ class VirtualKey(Enum):
     VK_NONE = 0
 
     ##########
+    #   object
+    def __str__(self) -> str:
+        return _str_map.get(self, _str_map[VirtualKey.VK_NONE])
+
+    ##########
     #   Operations
     @staticmethod
     def from_tk_string(key_string: str) -> "VirtualKey":
@@ -280,6 +285,52 @@ _key_map = {
     "Delete": VirtualKey.VK_DELETE,
     
     #   Terminator
-    "<<no way!!!>": VirtualKey.VK_NONE
+    "<Unknown key>": VirtualKey.VK_NONE
     }
 
+#   Build str(vk) response map
+_str_map = {}
+for k in _key_map:
+    _str_map[_key_map[k]] = k
+_str_map[VirtualKey.VK_SPACE] = " "
+_str_map[VirtualKey.VK_DOT] = "."
+_str_map[VirtualKey.VK_PLUS] = "+"
+_str_map[VirtualKey.VK_MINUS] = "-"
+_str_map[VirtualKey.VK_ASTERISK] = "*"
+_str_map[VirtualKey.VK_SLASH] = "/"
+_str_map[VirtualKey.VK_GRAVE] = "`"
+_str_map[VirtualKey.VK_TILDE] = "~"
+_str_map[VirtualKey.VK_EXCLAMATION] = "!"
+_str_map[VirtualKey.VK_AT] = "@"
+_str_map[VirtualKey.VK_HASH] = "#"
+_str_map[VirtualKey.VK_DOLLAR] = "$"
+_str_map[VirtualKey.VK_PERCENT] = "%"
+_str_map[VirtualKey.VK_CIRCUM] = "^"
+_str_map[VirtualKey.VK_AMPERSAND] = "&"
+_str_map[VirtualKey.VK_OPENING_PARENTHESIS] = "("
+_str_map[VirtualKey.VK_CLOSING_PARENTHESIS] = ")"
+_str_map[VirtualKey.VK_UNDERSCORE] = "_"
+_str_map[VirtualKey.VK_EQUALS] = "="
+_str_map[VirtualKey.VK_SEMICOLON] = ";"
+_str_map[VirtualKey.VK_COLON] = ":"
+_str_map[VirtualKey.VK_APOSTROPHE] = "'"
+_str_map[VirtualKey.VK_QUOTE] = "\""
+_str_map[VirtualKey.VK_BACKSLASH] = "\\"
+_str_map[VirtualKey.VK_BAR] = "|"
+_str_map[VirtualKey.VK_COMMA] = ","
+_str_map[VirtualKey.VK_LESS] = "<"
+_str_map[VirtualKey.VK_GREATER] = ">"
+_str_map[VirtualKey.VK_GREATER] = "?"
+_str_map[VirtualKey.VK_OPENING_BRACKET] = "["
+_str_map[VirtualKey.VK_OPENING_BRACE] = "{"
+_str_map[VirtualKey.VK_CLOSING_BRACKET] = "]"
+_str_map[VirtualKey.VK_CLOSING_BRACE] = "}"
+_str_map[VirtualKey.VK_CONTROL] = "Ctrl"
+_str_map[VirtualKey.VK_SHIFT] = "Shift"
+_str_map[VirtualKey.VK_ALT] = "Alt"
+_str_map[VirtualKey.VK_APP] = "App"
+_str_map[VirtualKey.VK_CAPS_LOCK] = "Caps Lock"
+_str_map[VirtualKey.VK_SCROLL_LOCK] = "Scroll Lock"
+_str_map[VirtualKey.VK_NUM_LOCK] = "Num Lock"
+_str_map[VirtualKey.VK_PAUSE] = "Pause"
+_str_map[VirtualKey.VK_NONE] = "<Unknown key>"

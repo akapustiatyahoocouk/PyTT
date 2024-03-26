@@ -14,6 +14,10 @@ import dialogs
 import pnp
 import resources
 
+ks = awt.KeyStroke(awt.VirtualKey.VK_C)
+print(repr(ks))
+print(str(ks))
+
 # TODO kill off
 # class C1(Friendly, friends=("C2",)):
 #     __fcp = [1, 2, 3]
@@ -47,21 +51,6 @@ import resources
 #         C1().boo()
 # C2.yyy
 # C2().boo()
-
-c = awt.InputEventModifiers.CONTROL
-s = awt.InputEventModifiers.SHIFT
-a = awt.InputEventModifiers.ALT
-
-cs = c | s
-print(c, a, s, cs, awt.InputEventModifiers.ALL)
-
-print(awt.InputEventModifiers.CONTROL in c)
-print(awt.InputEventModifiers.CONTROL in s)
-
-print(awt.InputEventModifiers.ALT in c)
-print(awt.InputEventModifiers.ALT in a)
-
-print(awt.InputEventModifiers.ALT in awt.InputEventModifiers.ALL)
 
 @final
 class SplashScreen:
@@ -204,7 +193,8 @@ if __name__ == "__main__":
         if dlg.result is not dialogs.LoginDialogResult.OK:
             sys.exit()
         ws.CurrentCredentials.set(dlg.credentials)
-
+    awt.GuiRoot.tk.withdraw()
+    
     #   Select the initial skin TODO properly - use active skin from previous session!
     skin.ActiveSkin.set(skin.SkinRegistry.get_default_skin())
 

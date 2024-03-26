@@ -119,12 +119,14 @@ class InputEventModifiers(metaclass=_InputEventModifiers):
     #   multiple InputEventModifiers instances with the same __bitmask    
     def __eq__(self, op2: 'InputEventModifiers') -> bool:
         assert isinstance(self, InputEventModifiers)
-        assert isinstance(op2, InputEventModifiers)
+        if not isinstance(op2, InputEventModifiers):
+            return False
         return self.__bitmask == op2.__bitmask
 
     def __ne__(self, op2: 'InputEventModifiers') -> bool:
         assert isinstance(self, InputEventModifiers)
-        assert isinstance(op2, InputEventModifiers)
+        if not isinstance(op2, InputEventModifiers):
+            return True
         return self.__bitmask != op2.__bitmask
 
     def __and__(self, op2: 'InputEventModifiers') -> 'InputEventModifiers':

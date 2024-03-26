@@ -36,7 +36,7 @@ class GuiRoot(metaclass=_GuiRootType):
             GuiRoot.__tk = tk.Tk()
             GuiRoot.__tk.title(resources.Resources.PRODUCT_NAME)
             GuiRoot.__tk.wm_iconphoto(True, resources.Resources.PRODUCT_ICON)
-
+            
             print('Platfom is', platform.system())
             
             if "windows" in platform.system().lower():
@@ -64,6 +64,7 @@ class GuiRoot(metaclass=_GuiRootType):
                 GuiRoot.__screen_height = GuiRoot.__tk.winfo_screenheight()
 
             GuiRoot.__tk.geometry(f"16x16+{GuiRoot.__screen_width+16000}+{GuiRoot.__screen_height+16000}")
+            # TODO uncomment GuiRoot.__tk.withdraw()
 
         return GuiRoot.__tk
 
