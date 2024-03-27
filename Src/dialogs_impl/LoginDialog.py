@@ -81,8 +81,8 @@ class LoginDialog(awt.Dialog):
         self.__loginVar.trace_add("write", self.__refresh)
         self.__passwordVar.trace_add("write", self.__refresh)
         
-        self.__ok_button.add_action_event_listener(self.__on_ok)
-        self.__cancel_button.add_action_event_listener(self.__on_cancel)
+        self.__ok_button.add_action_listener(self.__on_ok)
+        self.__cancel_button.add_action_listener(self.__on_cancel)
 
         #   Set initial focus & we're done
         if login is not None:

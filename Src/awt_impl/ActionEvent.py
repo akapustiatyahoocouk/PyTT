@@ -24,6 +24,6 @@ class ActionEvent(awt_impl.Event.Event):
         return "ActionEvent(" + result + ")"
 
 
-ActionEventListener: TypeAlias = Callable[[ActionEvent], None]
+ActionListener: TypeAlias = Callable[[ActionEvent], None]
 """ A signature of a listener to action events - a function
     or a bound method. """

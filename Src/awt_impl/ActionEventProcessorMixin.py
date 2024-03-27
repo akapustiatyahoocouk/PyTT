@@ -13,34 +13,34 @@ class ActionEventProcessorMixin:
         """ The class constructor - DON'T FORGET to call from the
             constructors of the derived classes that implement
             this mixin. """
-        self.__action_event_listeners = list()
+        self.__action_listeners = list()
     
     ##########
     #   Event dispatch
-    def add_action_event_listener(self, l: awt_impl.ActionEvent.ActionEventListener) -> None:
+    def add_action_listener(self, l: awt_impl.ActionEvent.ActionListener) -> None:
         """ Regsters the specified listener to be notified when
             an action event is processed.
             A given listener can be registered at most once;
             subsequent attempts to register the same listener 
             again will have no effect. """
         assert isinstance(l, Callable) and len(signature(l).parameters) == 1
-        if l not in self.__action_event_listeners:
-            self.__action_event_listeners.append(l)
+        if l not in self.__action_listeners:
+            self.__action_listeners.append(l)
 
-    def remove_action_event_listener(self, l: awt_impl.ActionEvent.ActionEventListener) -> None:
+    def remove_action_listener(self, l: awt_impl.ActionEvent.ActionListener) -> None:
         """ Un-regsters the specified listener to no longer be 
             notified when an action event is processed.
             A given listener can be un-registered at most once;
             subsequent attempts to un-register the same listener 
             again will have no effect. """
         assert isinstance(l, Callable) and len(signature(l).parameters) == 1
-        if l in self.__action_event_listeners:
-            self.__action_event_listeners.remove(l)
+        if l in self.__action_listeners:
+            self.__action_listeners.remove(l)
 
     @property
-    def action_event_listeners(self) -> list[awt_impl.ActionEvent.ActionEventListener]:
+    def action_listeners(self) -> list[awt_impl.ActionEvent.ActionListener]:
         """ The list of all action event listeners registered so far. """
-        return self.__action_event_listeners.copy()
+        return self.__action_listeners.copy()
 
     ##########
     #   Operations (event processing) - normally, don't touch!
@@ -57,7 +57,7 @@ class ActionEventProcessorMixin:
         #   TODO if the event has NOY been processed, the default
         #   implementation should dispatch it to the "parent" event
         #   processor.
-        for l in self.__action_event_listeners:
+        for l in self.__action_listeners:
             l(event)
         return True
     

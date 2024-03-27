@@ -14,44 +14,6 @@ import dialogs
 import pnp
 import resources
 
-ks = awt.KeyStroke(awt.VirtualKey.VK_C)
-print(repr(ks))
-print(str(ks))
-
-# TODO kill off
-# class C1(Friendly, friends=("C2",)):
-#     __fcp = [1, 2, 3]
-#     fcp = [5, 6, 7]
-    
-#     @staticmethod
-#     def __zee():
-#         print("__zee()!!!")
-
-#     def __boo(self):
-#         print("__boo()!!!", self)
-
-#     @staticmethod
-#     def zee():
-#         print("zee()!!!")
-
-#     def boo(self):
-#         print("boo()!!!", self)
-
-# class C2:
-#     @classproperty
-#     def yyy(cls):
-#         #C1.xxx
-#         print(C1.__fcp)
-#         print(C1.fcp)
-#         C1.__zee()
-#         C1.zee()
-
-#     def boo(self):
-#         C1().__boo()
-#         C1().boo()
-# C2.yyy
-# C2().boo()
-
 @final
 class SplashScreen:
     #   TODO a simple private function would do!

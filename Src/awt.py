@@ -31,6 +31,11 @@ import awt_impl.Dialog
 
 #   TODO how to name this section?
 import awt_impl.Action
+import awt_impl.MenuItem
+import awt_impl.Menu
+import awt_impl.MenuBar
+import awt_impl.Submenu
+import awt_impl.TextMenuItem
 
 
 ##########
@@ -43,9 +48,9 @@ VirtualKey: TypeAlias = awt_impl.VirtualKey.VirtualKey
 KeyStroke: TypeAlias = awt_impl.KeyStroke.KeyStroke
 KeyEventType: TypeAlias = awt_impl.KeyEvent.KeyEventType
 KeyEvent: TypeAlias = awt_impl.KeyEvent.KeyEvent
-KeyEventListener: TypeAlias = awt_impl.KeyEvent.KeyEventListener
+KeyListener: TypeAlias = awt_impl.KeyEvent.KeyListener
 ActionEvent: TypeAlias = awt_impl.ActionEvent.ActionEvent
-ActionEventListener: TypeAlias = awt_impl.ActionEvent.ActionEventListener
+ActionListener: TypeAlias = awt_impl.ActionEvent.ActionListener
 
 #   Events processing mixing
 KeyEventProcessorMixin: TypeAlias = awt_impl.KeyEventProcessorMixin.KeyEventProcessorMixin
@@ -65,3 +70,8 @@ Dialog: TypeAlias = awt_impl.Dialog.Dialog
 
 #   TODO how to name this section?
 Action: TypeAlias = awt_impl.Action.Action
+MenuItem: TypeAlias = awt_impl.MenuItem.MenuItem
+Menu: TypeAlias = awt_impl.Menu.Menu
+MenuBar: TypeAlias = awt_impl.MenuBar.MenuBar
+Submenu: TypeAlias = awt_impl.Submenu.Submenu
+TextMenuItem: TypeAlias = awt_impl.TextMenuItem.TextMenuItem

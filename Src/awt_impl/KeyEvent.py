@@ -96,7 +96,7 @@ class KeyEvent(awt_impl.InputEvent.InputEvent):
         return self.__keychar
 
 
-KeyEventListener: TypeAlias = Callable[[KeyEvent], None]
+KeyListener: TypeAlias = Callable[[KeyEvent], None]
 """ A signature of a listener to key events - a function
     or a bound method. """
 

@@ -55,7 +55,7 @@ class AboutDialog(awt.Dialog):
         self.ok_button = self.__ok_button
         self.cancel_button = self.__ok_button
 
-        self.__ok_button.add_action_event_listener(self.__on_ok)
+        self.__ok_button.add_action_listener(self.__on_ok)
 
         #  Done
         self.__ok_button.focus_set()

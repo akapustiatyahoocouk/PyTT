@@ -36,6 +36,11 @@
     <Compile Include="awt_impl\Entry.py" />
     <Compile Include="awt_impl\InputEventModifiers.py" />
     <Compile Include="awt_impl\KeyStroke.py" />
+    <Compile Include="awt_impl\Menu.py" />
+    <Compile Include="awt_impl\MenuBar.py" />
+    <Compile Include="awt_impl\MenuItem.py" />
+    <Compile Include="awt_impl\Submenu.py" />
+    <Compile Include="awt_impl\TextMenuItem.py" />
     <Compile Include="awt_impl\Widget.py" />
     <Compile Include="awt_impl\Separator.py" />
     <Compile Include="awt_impl\Label.py" />

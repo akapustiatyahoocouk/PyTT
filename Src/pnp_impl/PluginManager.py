@@ -3,6 +3,7 @@ from typing import final
 import os
 import os.path
 import importlib
+import traceback
 
 from annotations import staticproperty
 
@@ -49,8 +50,9 @@ class PluginManager:
                     p.initialize()
                     p.__initialized = True
                     PluginManager.__initialised_plugins.add(p)
-                except:
+                except Exception as ex:
                     #   TODO log the exception ?
+                    traceback.print_exc() 
                     pass
         
     ##########

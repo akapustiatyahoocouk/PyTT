@@ -13,7 +13,7 @@ class _ResourcesMeta(type):
         type.__setattr__(cls, attr, value)
 
 @final
-class Resources(metaclass = _ResourcesMeta):
+class Resources(metaclass=_ResourcesMeta):
     """ Resources provided by the util package. """
 
     ##########    

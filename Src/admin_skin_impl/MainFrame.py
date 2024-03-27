@@ -23,15 +23,35 @@ class MainFrame(awt.TopFrame):
         self.__popupButton = awt.Button(self, text="popup")
         self.__quitButton = awt.Button(self, text="quit")
 
-        self.__menu_bar = tk.Menu(self)
-        self["menu"] = self.__menu_bar
+        file_menu = awt.Submenu('&File')
+        fi1 = file_menu.items.append('E&xit')
+        fi2 = file_menu.items.append('Exit&1')
+        fi3 = file_menu.items.append('Exit&2')
+        fi4 = file_menu.items.append('Exit&3')
+        file_menu.items.remove_at(2)
         
-        self.__file_menu = tk.Menu(tearoff=False)
-        self.__help_menu = tk.Menu(tearoff=False)
-        self.__menu_bar.add_cascade(label='File', underline=0, menu=self.__file_menu)
+        help_menu = awt.Submenu('&Help')
+        ha = help_menu.items.append('A&bout')
+        ha.add_action_listener(self.__popup)
 
-        self.__menu_bar.add_cascade(label='Help', underline=0, menu=self.__help_menu)
-        self.__help_menu.add_command(label='About', underline=1, accelerator="Ctrl+F1", command=self.__popup)
+        menu_bar = awt.MenuBar()
+        menu_bar.items.append(file_menu)
+        menu_bar.items.append(help_menu)
+
+        mb1 = self.menu_bar
+        self.menu_bar = menu_bar
+        mb2 = self.menu_bar
+        #self.menu_bar = None
+
+        #self.__menu_bar = tk.Menu(self)
+        #self["menu"] = self.__menu_bar
+        
+        #self.__file_menu = tk.Menu(tearoff=False)
+        #self.__help_menu = tk.Menu(tearoff=False)
+        #self.__menu_bar.add_cascade(label='File', underline=0, menu=self.__file_menu)
+
+        #self.__menu_bar.add_cascade(label='Help', underline=0, menu=self.__help_menu)
+        #self.__help_menu.add_command(label='About', underline=1, accelerator="Ctrl+F1", command=self.__popup)
         
         #   Set up control structure
         self.__popupButton.pack()
@@ -41,10 +61,10 @@ class MainFrame(awt.TopFrame):
         self.__initialLoginPerformed = False
         self.protocol("WM_DELETE_WINDOW", self.destroy)
         
-        self.__popupButton.add_action_event_listener(self.__popup)
-        self.__quitButton.add_action_event_listener(self.__quit)
+        self.__popupButton.add_action_listener(self.__popup)
+        self.__quitButton.add_action_listener(self.__quit)
     
-        self.add_key_event_listener(lambda e: print(e))
+        self.add_key_listener(lambda e: print(e))
 
     ##########
     #   Properties
