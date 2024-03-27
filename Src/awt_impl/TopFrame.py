@@ -40,11 +40,11 @@ class TopFrame(tk.Toplevel,
     def menu_bar(self, mb: Optional[awt_impl.MenuBar.MenuBar]) -> None:
         if mb is None:
             if self.__menu_bar is not None:
-                self.__menu_bar._impl.master = None
+                self.__menu_bar._Menu__impl.master = None
             self["menu"] = ""
             self.__menu_bar = None
         else:
             assert isinstance(mb, Optional[awt_impl.MenuBar.MenuBar])
-            mb._impl.master._impl = self
-            self["menu"] = mb._impl
+            mb._Menu__impl.master._impl = self
+            self["menu"] = mb._Menu__impl
             self.__menu_bar = mb

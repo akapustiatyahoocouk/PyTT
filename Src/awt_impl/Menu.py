@@ -22,16 +22,19 @@ class MenuItems:
             #   Appending a string item to a menu
             (text_, underline_) = self.__process_label(item)
             text_menu_item = awt_impl.TextMenuItem.TextMenuItem(item)
-            self.__menu._impl.add_command(label=text_, underline=underline_, command=text_menu_item._on_tk_click)
+            self.__menu._Menu__impl.add_command(label=text_, underline=underline_, command=text_menu_item._on_tk_click)
             self.__menu_items.append(text_menu_item)
+            text_menu_item.__menu = self.__menu
             return text_menu_item
         elif (item.__class__.__name__ == "Submenu" and
               item.__module__ == "awt_impl.Submenu"):
             #   Appending a sub-menu to a menu
+            assert item._MenuItem__menu is None
             (text_, underline_) = self.__process_label(item.label)
-            self.__menu._impl.add_cascade(label=text_, underline=underline_, menu=item._impl)
+            self.__menu._Menu__impl.add_cascade(label=text_, underline=underline_, menu=item._Menu__impl)
             self.__menu_items.append(item)
-            item._impl.master = self.__menu._impl
+            item._Menu__impl.master = self.__menu._Menu__impl
+            item._MenuItem__menu = self.__menu
             return item
         else:
             raise NotImplementedError()
@@ -39,7 +42,7 @@ class MenuItems:
     def remove_at(self, index: int) -> None:
         assert isinstance(index, int)
         self.__menu_items.remove(self.__menu_items[index])
-        self.__menu._impl.delete(index)
+        self.__menu._Menu__impl.delete(index)
 
     ##########
     #   Implementation helpers
@@ -65,7 +68,7 @@ class Menu(ABC):
     """ A generic "Menu" is an ordered collection of MenuItems. """
     def __init__(self):
         self.__items = MenuItems(self)
-        self._impl = tk.Menu(tearoff=0)
+        self.__impl = tk.Menu(tearoff=0)
 
     @property
     def items(self) -> MenuItems:

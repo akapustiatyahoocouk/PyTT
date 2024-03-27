@@ -14,6 +14,40 @@ import dialogs
 import pnp
 import resources
 
+from annotations import staticproperty
+
+import re
+from abc import ABC, ABCMeta, abstractproperty
+
+class ClassConstantsMeta(type):
+    def __setattr__(cls: type, attr: str, value) -> None:
+        #print(cls.__name__, attr, value)
+        if re.match("^[A-Z0-9_]+$", attr):
+            raise Exception("Cannot change class constant value " + cls.__name__ + "." + attr)
+        type.__setattr__(cls, attr, value)
+
+class ClassConstants(metaclass=ClassConstantsMeta):
+    pass
+
+class ClassConstantsABCMeta(ABCMeta, ClassConstantsMeta):
+    pass
+
+class ClassConstantsABC(metaclass=ClassConstantsABCMeta):
+    pass
+
+class C1(ClassConstantsABC):
+    @staticproperty
+    def X() -> str:
+        return "123"
+    
+    @abstractproperty
+    def Z() -> str:
+        return "zzz"
+
+c = C1.X
+#c1 = C1()
+C1.X = "456"
+
 @final
 class SplashScreen:
     #   TODO a simple private function would do!

@@ -77,6 +77,7 @@ class FriendlyABCMeta(ABCMeta, FriendlyMeta):
     #def __new__(mcls, name, bases, namespace, /, **kwargs):
     #    ABCMeta.__new__(mcls, name, bases, namespace, **kwargs)
     #    FriendlyMeta.__new__(mcls, name, bases, namespace, **kwargs)
+    pass
 
 class FriendlyABC(ABC, metaclass=FriendlyABCMeta, friends = ()):
     """ 
