@@ -5,7 +5,7 @@ import os.path
 import importlib
 import traceback
 
-from annotations import staticproperty
+from util import staticproperty
 
 import pnp_impl.Plugin
 

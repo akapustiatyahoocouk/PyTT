@@ -1,4 +1,4 @@
-from annotations import staticproperty
+from util import staticproperty
 import db_impl.IDatabaseType
 import db_impl.IDatabaseAddress
 

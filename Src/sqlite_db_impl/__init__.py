@@ -1,8 +1,8 @@
-from typing import final
-
 print('Loading package', __file__)
 
-from annotations import staticproperty
+from typing import final
+
+from util import staticproperty
 import pnp_impl.Plugin
 
 @final

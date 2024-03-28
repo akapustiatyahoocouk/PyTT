@@ -1,7 +1,7 @@
 from typing import final
 import re
 
-from annotations import staticproperty
+from util import staticproperty
 
 class _InputEventModifiers(type):
     def __setattr__(cls: type, attr: str, value) -> None:

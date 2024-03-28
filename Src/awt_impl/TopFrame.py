@@ -3,7 +3,7 @@ from typing import final, Optional
 import tkinter as tk
 import tkinter.ttk as ttk
 
-import resources
+import util
 import awt_impl.GuiRoot
 import awt_impl.BaseWidgetMixin
 import awt_impl.BaseWidgetMixin
@@ -22,7 +22,7 @@ class TopFrame(tk.Toplevel,
 
         #self.transient(awt_impl.GuiRoot.GuiRoot.tk)
         self.title(awt_impl.GuiRoot.GuiRoot.tk.title())
-        self.wm_iconphoto(True, resources.Resources.PRODUCT_ICON)
+        self.wm_iconphoto(True, util.UtilResources.PRODUCT_ICON_LARGE)
         self.geometry("600x400")
 
     ##########

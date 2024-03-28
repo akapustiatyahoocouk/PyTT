@@ -29,7 +29,8 @@
     <Compile Include="admin_skin_impl\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="annotations.py" />
+    <Compile Include="util.py" />
+    <Compile Include="util_impl\Annotations.py" />
     <Compile Include="awt.py" />
     <Compile Include="awt_impl\Action.py" />
     <Compile Include="awt_impl\BaseWidgetMixin.py" />
@@ -72,7 +73,7 @@
     <Compile Include="dialogs_impl\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="friends.py" />
+    <Compile Include="util_impl\Friends.py" />
     <Compile Include="pnp.py" />
     <Compile Include="pnp_impl\Plugin.py" />
     <Compile Include="pnp_impl\PluginManager.py" />
@@ -80,11 +81,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="pytt.py" />
-    <Compile Include="resources.py" />
-    <Compile Include="resources_impl\Resources.py" />
-    <Compile Include="resources_impl\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="util_impl\UtilResources.py" />
     <Compile Include="settings.py" />
     <Compile Include="skin.py" />
     <Compile Include="skin_impl\ActiveSkin.py" />
@@ -96,6 +93,10 @@
     <Compile Include="sqlite_db_impl\SqliteDatabaseAddress.py" />
     <Compile Include="sqlite_db_impl\SqliteDatabaseType.py" />
     <Compile Include="sqlite_db_impl\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="util_impl\Metaclasses.py" />
+    <Compile Include="util_impl\__init__.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ws.py" />
@@ -111,14 +112,16 @@
     <Folder Include="db_impl\" />
     <Folder Include="dialogs_impl\" />
     <Folder Include="pnp_impl\" />
-    <Folder Include="resources_impl\" />
-    <Folder Include="resources_impl\images\" />
     <Folder Include="skin_impl\" />
     <Folder Include="sqlite_db_impl\" />
+    <Folder Include="util_impl\" />
+    <Folder Include="util_impl\resources\" />
+    <Folder Include="util_impl\resources\images\" />
     <Folder Include="ws_impl\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="resources_impl\images\PyTT.gif" />
+    <Content Include="util_impl\resources\images\PyTTLarge.gif" />
+    <Content Include="util_impl\resources\images\PyTTSmall.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

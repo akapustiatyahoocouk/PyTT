@@ -8,7 +8,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 import awt
-import resources
+import util
 
 @final
 class AboutDialogResult(Enum):
@@ -31,10 +31,10 @@ class AboutDialog(awt.Dialog):
         self.__pan1 = awt.Label(self.__pan0)
         self.__pan2 = awt.Label(self.__pan0)
         
-        self.__pic1 = awt.Label(self.__pan1, image = resources.Resources.PRODUCT_ICON)
-        self.__msg1 = awt.Label(self.__pan2, text = resources.Resources.PRODUCT_NAME, anchor=tk.CENTER)
-        self.__msg2 = awt.Label(self.__pan2, text = "Version " + resources.Resources.PRODUCT_VERSION, anchor=tk.CENTER)
-        self.__msg3 = awt.Label(self.__pan2, text = resources.Resources.PRODUCT_COPYRIGHT, anchor=tk.CENTER)
+        self.__pic1 = awt.Label(self.__pan1, image = util.UtilResources.PRODUCT_ICON_LARGE)
+        self.__msg1 = awt.Label(self.__pan2, text = util.UtilResources.PRODUCT_NAME, anchor=tk.CENTER)
+        self.__msg2 = awt.Label(self.__pan2, text = "Version " + util.UtilResources.PRODUCT_VERSION, anchor=tk.CENTER)
+        self.__msg3 = awt.Label(self.__pan2, text = util.UtilResources.PRODUCT_COPYRIGHT, anchor=tk.CENTER)
         self.__separator = awt.Separator(self, orient="horizontal")
         self.__ok_button = awt.Button(self, text="OK", default="active", command=self.__on_ok)
 

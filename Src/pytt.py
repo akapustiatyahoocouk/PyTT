@@ -2,6 +2,7 @@
     PyTT launcher.
 """
 from typing import final
+from abc import abstractproperty
 
 import atexit
 import sys
@@ -12,30 +13,12 @@ import ws
 import skin
 import dialogs
 import pnp
-import resources
+import util
 
-from annotations import staticproperty
+from util import staticproperty, ABCWithConstants
 
-import re
-from abc import ABC, ABCMeta, abstractproperty
 
-class ClassConstantsMeta(type):
-    def __setattr__(cls: type, attr: str, value) -> None:
-        #print(cls.__name__, attr, value)
-        if re.match("^[A-Z0-9_]+$", attr):
-            raise Exception("Cannot change class constant value " + cls.__name__ + "." + attr)
-        type.__setattr__(cls, attr, value)
-
-class ClassConstants(metaclass=ClassConstantsMeta):
-    pass
-
-class ClassConstantsABCMeta(ABCMeta, ClassConstantsMeta):
-    pass
-
-class ClassConstantsABC(metaclass=ClassConstantsABCMeta):
-    pass
-
-class C1(ClassConstantsABC):
+class C1(ABCWithConstants):
     @staticproperty
     def X() -> str:
         return "123"
@@ -43,10 +26,6 @@ class C1(ClassConstantsABC):
     @abstractproperty
     def Z() -> str:
         return "zzz"
-
-c = C1.X
-#c1 = C1()
-C1.X = "456"
 
 @final
 class SplashScreen:
@@ -68,11 +47,11 @@ class SplashScreen:
         #pp = splash_screen.pack_propagate()
         splash_screen.pack_propagate(1)
 
-        splash_icon = awt.Label(splash_screen, image = resources.Resources.PRODUCT_ICON, background="white")
-        splash_label1 = awt.Label(splash_screen, text=resources.Resources.PRODUCT_NAME, font="Helvetica 18", background="white", foreground="blue", anchor="center")
-        splash_label2 = awt.Label(splash_screen, text='Version ' + resources.Resources.PRODUCT_VERSION, font="Helvetica 12", background="white", foreground="blue", anchor="center")
+        splash_icon = awt.Label(splash_screen, image = util.UtilResources.PRODUCT_ICON_LARGE, background="white")
+        splash_label1 = awt.Label(splash_screen, text=util.UtilResources.PRODUCT_NAME, font="Helvetica 18", background="white", foreground="blue", anchor="center")
+        splash_label2 = awt.Label(splash_screen, text='Version ' + util.UtilResources.PRODUCT_VERSION, font="Helvetica 12", background="white", foreground="blue", anchor="center")
         splash_separator = awt.Separator(splash_screen, orient="horizontal")
-        splash_label3 = awt.Label(splash_screen, text=resources.Resources.PRODUCT_COPYRIGHT, font="Helvetica 10", background="white", foreground="gray", anchor="center")
+        splash_label3 = awt.Label(splash_screen, text=util.UtilResources.PRODUCT_COPYRIGHT, font="Helvetica 10", background="white", foreground="gray", anchor="center")
 
         splash_screen.rowconfigure(0, weight=1)
         splash_screen.rowconfigure(4, weight=1)
@@ -94,7 +73,7 @@ class SplashScreen:
 # def test1():
 #     f1 = tk.Toplevel(master=GuiRoot.tk)
 #     f1.transient(GuiRoot.tk)
-#     f1.title(resources.Resources.PRODUCT_NAME + ' - Administrator mode')
+#     f1.title(util.UtilResources.PRODUCT_NAME + ' - Administrator mode')
 #     f1.btn1 = ttk.Button(f1, text='popup', command=GuiRoot.tk.destroy)
 #     f1.btn1.pack()
 #     f1.geometry("600x400")

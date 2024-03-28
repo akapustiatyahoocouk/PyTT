@@ -3,7 +3,7 @@ import inspect
 
 from abc import ABC, ABCMeta
 
-class FriendlyMeta(type):
+class FriendlyClassMeta(type):
     """ TODO document """
 
     ##########
@@ -42,7 +42,7 @@ class FriendlyMeta(type):
         return type.__getattribute__(cls, attr)
 
 
-class FriendlyClass(metaclass=FriendlyMeta, friends = ()):
+class FriendlyClass(metaclass=FriendlyClassMeta, friends = ()):
     """ 
         The base class for non-abstract classes that allow declared
         "friend" casses to access private properties of the dclared 
@@ -72,7 +72,7 @@ class FriendlyClass(metaclass=FriendlyMeta, friends = ()):
 
 #   TODO FriendlyABC, etc.
 
-class FriendlyABCMeta(ABCMeta, FriendlyMeta):
+class FriendlyABCMeta(ABCMeta, FriendlyClassMeta):
     """ TODO document """
     #def __new__(mcls, name, bases, namespace, /, **kwargs):
     #    ABCMeta.__new__(mcls, name, bases, namespace, **kwargs)

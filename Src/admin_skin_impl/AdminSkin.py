@@ -1,6 +1,6 @@
 """ Implements the "Admin: skin. """
 
-from annotations import staticproperty
+from util import staticproperty
 import skin_impl.ISkin
 import admin_skin_impl.MainFrame
 

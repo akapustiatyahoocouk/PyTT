@@ -1,3 +1,7 @@
+"""
+    Various annotations used throughout the code base.
+    These will typically be imported via "from util import <annotation(s)>".
+"""
 from typing import Any
 
 class classproperty():
@@ -14,7 +18,7 @@ class classproperty():
 
 
 class staticproperty():
-    """ A property annotation for a static (class-level) property """
+    """ A property annotation for a static (class-level wth no "cls") property """
     def __init__(self, f):
         self.f = f
 

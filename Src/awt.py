@@ -1,6 +1,6 @@
 from typing import TypeAlias
 
-import resources
+import util
 
 ##########
 #   AWT implementation

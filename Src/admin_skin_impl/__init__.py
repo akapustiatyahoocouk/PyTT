@@ -2,7 +2,7 @@ from typing import final
 
 print('Loading package', __file__)
 
-from annotations import staticproperty
+from util import staticproperty
 import pnp_impl.Plugin
 import skin_impl.ISkin
 
