@@ -59,7 +59,7 @@ class PluginManager:
     #   Implementation
     @staticmethod
     def __load_packages(directory: str, package_name: str):
-        #print("Scanning", directory, "for plugins")
+        #print("Scanning", directory, "for packages")
         entry_names = os.listdir(directory)
         for entry_name in entry_names:
             entry_path = os.path.join(directory, entry_name)

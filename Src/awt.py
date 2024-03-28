@@ -12,10 +12,12 @@ import awt_impl.VirtualKey
 import awt_impl.KeyStroke
 import awt_impl.KeyEvent
 import awt_impl.ActionEvent
+import awt_impl.PropertyChangeEvent
 
 #   Events processing mixing
 import awt_impl.KeyEventProcessorMixin
 import awt_impl.ActionEventProcessorMixin
+import awt_impl.PropertyChangeEventProcessorMixin
 
 #   UI widgets
 import awt_impl.Widget
@@ -35,7 +37,7 @@ import awt_impl.MenuItem
 import awt_impl.Menu
 import awt_impl.MenuBar
 import awt_impl.Submenu
-import awt_impl.TextMenuItem
+import awt_impl.SimpleMenuItem
 
 
 ##########
@@ -51,10 +53,13 @@ KeyEvent: TypeAlias = awt_impl.KeyEvent.KeyEvent
 KeyListener: TypeAlias = awt_impl.KeyEvent.KeyListener
 ActionEvent: TypeAlias = awt_impl.ActionEvent.ActionEvent
 ActionListener: TypeAlias = awt_impl.ActionEvent.ActionListener
+PropertyChangeEvent: TypeAlias = awt_impl.PropertyChangeEvent.PropertyChangeEvent
+PropertyChangeListener: TypeAlias = awt_impl.PropertyChangeEvent.PropertyChangeListener
 
 #   Events processing mixing
 KeyEventProcessorMixin: TypeAlias = awt_impl.KeyEventProcessorMixin.KeyEventProcessorMixin
 ActionEventProcessorMixin: TypeAlias = awt_impl.ActionEventProcessorMixin.ActionEventProcessorMixin
+PropertyChangeEventProcessorMixin: TypeAlias = awt_impl.PropertyChangeEventProcessorMixin.PropertyChangeEventProcessorMixin
 
 #   UI widgets
 Widget: TypeAlias = awt_impl.Widget.Widget
@@ -74,4 +79,4 @@ MenuItem: TypeAlias = awt_impl.MenuItem.MenuItem
 Menu: TypeAlias = awt_impl.Menu.Menu
 MenuBar: TypeAlias = awt_impl.MenuBar.MenuBar
 Submenu: TypeAlias = awt_impl.Submenu.Submenu
-TextMenuItem: TypeAlias = awt_impl.TextMenuItem.TextMenuItem
+SimpleMenuItem: TypeAlias = awt_impl.SimpleMenuItem.SimpleMenuItem

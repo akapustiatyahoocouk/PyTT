@@ -24,11 +24,19 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="admin_skin_impl\actions\ActionBase.py" />
+    <Compile Include="admin_skin_impl\actions\ActionSet.py" />
+    <Compile Include="admin_skin_impl\actions\ExitAction.py" />
+    <Compile Include="admin_skin_impl\actions\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="admin_skin_impl\AdminSkin.py" />
     <Compile Include="admin_skin_impl\MainFrame.py" />
     <Compile Include="admin_skin_impl\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="awt_impl\PropertyChangeEvent.py" />
+    <Compile Include="awt_impl\PropertyChangeEventProcessorMixin.py" />
     <Compile Include="util.py" />
     <Compile Include="util_impl\Annotations.py" />
     <Compile Include="awt.py" />
@@ -41,7 +49,7 @@
     <Compile Include="awt_impl\MenuBar.py" />
     <Compile Include="awt_impl\MenuItem.py" />
     <Compile Include="awt_impl\Submenu.py" />
-    <Compile Include="awt_impl\TextMenuItem.py" />
+    <Compile Include="awt_impl\SimpleMenuItem.py" />
     <Compile Include="awt_impl\Widget.py" />
     <Compile Include="awt_impl\Separator.py" />
     <Compile Include="awt_impl\Label.py" />
@@ -108,6 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="admin_skin_impl\" />
+    <Folder Include="admin_skin_impl\actions\" />
     <Folder Include="awt_impl\" />
     <Folder Include="db_impl\" />
     <Folder Include="dialogs_impl\" />

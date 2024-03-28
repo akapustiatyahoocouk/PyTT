@@ -19,12 +19,15 @@ class MainFrame(awt.TopFrame):
         
         self.__destroy_underway = False
         
+        import admin_skin_impl.actions.ActionSet
+        action_set = admin_skin_impl.actions.ActionSet.ActionSet(self)
+        
         #   Create controls
         self.__popupButton = awt.Button(self, text="popup")
         self.__quitButton = awt.Button(self, text="quit")
 
         file_menu = awt.Submenu('&File')
-        fi1 = file_menu.items.append('E&xit')
+        fi1 = file_menu.items.append(action_set.exit)
         fi2 = file_menu.items.append('Exit&1')
         fi3 = file_menu.items.append('Exit&2')
         fi4 = file_menu.items.append('Exit&3')

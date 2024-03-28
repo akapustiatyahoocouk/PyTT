@@ -17,16 +17,6 @@ import util
 
 from util import staticproperty, ABCWithConstants
 
-
-class C1(ABCWithConstants):
-    @staticproperty
-    def X() -> str:
-        return "123"
-    
-    @abstractproperty
-    def Z() -> str:
-        return "zzz"
-
 @final
 class SplashScreen:
     #   TODO a simple private function would do!

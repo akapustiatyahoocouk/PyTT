@@ -1,6 +1,8 @@
+from typing import Optional
 from abc import ABC, abstractproperty, abstractmethod
 
 import awt_impl.ActionEventProcessorMixin
+import awt_impl.KeyStroke
 
 class MenuItem(ABC,
                awt_impl.ActionEventProcessorMixin.ActionEventProcessorMixin):

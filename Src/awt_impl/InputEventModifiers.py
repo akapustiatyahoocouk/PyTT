@@ -1,17 +1,10 @@
 from typing import final
 import re
 
-from util import staticproperty
-
-class _InputEventModifiers(type):
-    def __setattr__(cls: type, attr: str, value) -> None:
-        #print(cls.__name__, attr, value)
-        if re.match("^[A-Z0-9_]+$", attr):
-            raise Exception("Cannot change class constant value " + cls.__name__ + "." + attr)
-        type.__setattr__(cls, attr, value)
+from util import staticproperty, ClassWithConstants
 
 @final
-class InputEventModifiers(metaclass=_InputEventModifiers):
+class InputEventModifiers(ClassWithConstants):
     """ 
         An instance of this class represents a combination of zero
         or more "input event modifiers".

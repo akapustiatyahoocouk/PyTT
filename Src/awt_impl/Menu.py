@@ -4,7 +4,6 @@ from typing import final, Any, Tuple
 from abc import ABC
 
 import awt_impl.MenuItem
-import awt_impl.TextMenuItem
 
 @final
 class MenuItems:
@@ -15,20 +14,32 @@ class MenuItems:
         self.__menu_items = list()
        
     ##########
-    #   Operations    
+    #   Operations
     def append(self, item: Any) -> awt_impl.MenuItem:
+        import awt_impl.Submenu
+        import awt_impl.Action
+        import awt_impl.SimpleMenuItem
+        
         assert item is not None
         if isinstance(item, str):
-            #   Appending a string item to a menu
+            #   menu.append('menu item text', **kwargs)
+            #       Appending a string item to a menu
             (text_, underline_) = self.__process_label(item)
-            text_menu_item = awt_impl.TextMenuItem.TextMenuItem(item)
+            text_menu_item = awt_impl.SimpleMenuItem.SimpleMenuItem(item)
             self.__menu._Menu__impl.add_command(label=text_, underline=underline_, command=text_menu_item._on_tk_click)
             self.__menu_items.append(text_menu_item)
             text_menu_item.__menu = self.__menu
             return text_menu_item
-        elif (item.__class__.__name__ == "Submenu" and
-              item.__module__ == "awt_impl.Submenu"):
-            #   Appending a sub-menu to a menu
+        
+        elif (isinstance(item, awt_impl.Action.Action)):
+            #   menu.append(action: Action, **kwargs)
+            #       Appending an Action-based item to a menu
+            #   TODO implement properly
+            pass
+            
+        elif (isinstance(item, awt_impl.Submenu.Submenu)):
+            #   menu.append(submenu: Submenu, **kwargs)
+            #       Appending a sub-menu to a menu
             assert item._MenuItem__menu is None
             (text_, underline_) = self.__process_label(item.label)
             self.__menu._Menu__impl.add_cascade(label=text_, underline=underline_, menu=item._Menu__impl)
