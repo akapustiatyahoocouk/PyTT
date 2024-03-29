@@ -29,13 +29,15 @@ class MainFrame(awt.TopFrame):
         file_menu.items.remove_at(2)
         
         help_menu = awt.Submenu('&Help')
-        help_menu.items.append('Help')
+        help_menu.items.append('&Help')
         ha = help_menu.items.append(action_set.about)
-        help_menu.items.append('Index')
-        help_menu.items.append('Search').enabled = False
+        hi = help_menu.items.append('&Index')
+        help_menu.items.append('&Search').enabled = False
 
         action_set.about.enabled = False
         action_set.about.name = '&About PyTT...'
+        hi.shortcut = awt.KeyStroke(awt.VirtualKey.VK_F1, awt.InputEventModifiers.ALT)
+        action_set.about.shortcut = awt.KeyStroke(awt.VirtualKey.VK_F1)
         
         menu_bar = awt.MenuBar()
         menu_bar.items.append(file_menu)

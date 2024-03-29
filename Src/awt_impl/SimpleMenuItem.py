@@ -1,3 +1,4 @@
+from ast import Or
 from typing import Optional
 
 import tkinter as tk
@@ -44,13 +45,34 @@ class SimpleMenuItem(awt_impl.MenuItem.MenuItem):
         
         if (self._MenuItem__menu is not None) and (new_label != self.__label):
             #   this menu item is part of the menu
-            self.__label = new_label
             tk_menu : tk.Menu = self._MenuItem__menu._Menu__impl
             tk_menu_item_index = self._MenuItem__menu._Menu__items._MenuItems__menu_items.index(self)
             (tk_text, tk_underline) = awt_impl._TkHelpers._analyze_label(new_label)
             tk_menu.entryconfig(tk_menu_item_index, 
                                 label=tk_text, 
                                 underline=tk_underline)
+        #   Record the new label
+        self.__label = new_label
+
+    @property
+    def shortcut(self) -> str:
+        return self.__shortcut
+
+    @label.setter
+    def shortcut(self, new_shortcut: awt_impl.KeyStroke.KeyStroke) -> None:
+        assert ((new_shortcut is None) or
+                isinstance(new_shortcut, awt_impl.KeyStroke.KeyStroke))
+        
+        if (self._MenuItem__menu is not None) and (new_shortcut != self.__shortcut):
+            #   this menu item is part of the menu
+            tk_menu : tk.Menu = self._MenuItem__menu._Menu__impl
+            tk_menu_item_index = self._MenuItem__menu._Menu__items._MenuItems__menu_items.index(self)
+            if new_shortcut is None:
+                tk_menu.entryconfig(tk_menu_item_index, accelerator=None)
+            else:
+                tk_menu.entryconfig(tk_menu_item_index, accelerator=str(new_shortcut))
+        #   Record the new shortcut
+        self.__shortcut = new_shortcut
 
     ##########
     #   Implementation    
@@ -58,6 +80,8 @@ class SimpleMenuItem(awt_impl.MenuItem.MenuItem):
         match evt.changed_property:
             case awt_impl.Action.Action.NAME_PROPERTY_NAME:
                 self.label = self.__action.name
+            case awt_impl.Action.Action.SHORTCUT_PROPERTY_NAME:
+                self.shortcut = self.__action.shortcut
             case awt_impl.Action.Action.ENABLED_PROPERTY_NAME:
                 self.enabled = self.__action.enabled
             case _:

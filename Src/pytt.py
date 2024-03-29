@@ -17,6 +17,8 @@ import util
 
 from util import staticproperty, ABCWithConstants
 
+print('Python is', sys.version_info)
+
 @final
 class SplashScreen:
     #   TODO a simple private function would do!

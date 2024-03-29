@@ -13,7 +13,7 @@ class MenuItem(ABC,
     def __init__(self):
         ABC.__init__(self)
         awt_impl.ActionEventProcessorMixin.ActionEventProcessorMixin.__init__(self)
-        self.__menu = None
+        self.__menu = None  #   ..to which this MenuItem belongs
         self.__enabled = True
 
     ##########

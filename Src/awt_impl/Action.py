@@ -91,6 +91,16 @@ class Action(ABCWithConstants,
         """ The keyboard shortcut of the action (optional, can be None). """
         return self.__shortcut
 
+    @shortcut.setter
+    def shortcut(self, new_shortcut: Optional[awt_impl.KeyStroke.KeyStroke]):    
+        """ Sets the kryboard shortcut of this Action, None == bo shortcut. """
+        assert (new_shortcut is None) or isinstance(new_shortcut, awt_impl.KeyStroke.KeyStroke)
+        if new_shortcut != self.__shortcut:
+            self.__shortcut = new_shortcut
+            #   Notify interested listeners
+            evt = awt_impl.PropertyChangeEvent.PropertyChangeEvent(self, self, Action.SHORTCUT_PROPERTY_NAME)
+            self._process_property_change_event(evt)
+
     @property   # TODO add setter
     def enabled(self) -> bool:    
         """ True if this action is enabled, false if disabled; cannot be None. """
