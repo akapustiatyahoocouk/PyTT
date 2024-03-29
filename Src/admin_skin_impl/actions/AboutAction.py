@@ -1,3 +1,6 @@
+"""
+    Defines the "About PyTT" admin skin action.
+"""
 from typing import final
 
 from awt import KeyStroke, VirtualKey, InputEventModifiers, ActionEvent
@@ -5,9 +8,10 @@ from dialogs import AboutDialog
 from admin_skin_impl.MainFrame import MainFrame
 from admin_skin_impl.actions.ActionBase import ActionBase
 
+@final
 class AboutAction(ActionBase):
     """ The "About PyTT" action. """
-    
+
     ##########
     #   Construction
     def __init__(self, main_frame: MainFrame):

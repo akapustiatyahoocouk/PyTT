@@ -72,8 +72,8 @@
     <Compile Include="db.py" />
     <Compile Include="db_impl\DatabaseTypeRegistry.py" />
     <Compile Include="db_impl\exceptions.py" />
-    <Compile Include="db_impl\IDatabaseAddress.py" />
-    <Compile Include="db_impl\IDatabaseType.py" />
+    <Compile Include="db_impl\DatabaseAddress.py" />
+    <Compile Include="db_impl\DatabaseType.py" />
     <Compile Include="db_impl\__init__.py">
       <SubType>Code</SubType>
     </Compile>

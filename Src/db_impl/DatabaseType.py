@@ -1,6 +1,6 @@
 from abc import ABC, abstractproperty, abstractmethod
 
-class IDatabaseType(ABC):
+class DatabaseType(ABC):
     """ A "database type" corresponds to a technology used to
         keep the data persistent (database engine type, etc.)"""
     
@@ -24,7 +24,7 @@ class IDatabaseType(ABC):
     ##########
     #   Database address handling
     @abstractmethod
-    def parse_database_address(self, externa_form: str) -> "IDatabaseAddress":
+    def parse_database_address(self, externa_form: str) -> "DatabaseAddress":
         """
             Parses an external (re-parsable) form of a database address
             of this type.
@@ -40,6 +40,6 @@ class IDatabaseType(ABC):
         raise NotImplementedError()
 
     @abstractproperty
-    def default_database_address(self) -> "IDatabaseAddress":
+    def default_database_address(self) -> "DatabaseAddress":
         raise NotImplementedError()
 

@@ -1,6 +1,6 @@
-from db_impl.IDatabaseAddress import IDatabaseAddress
+from db_impl.DatabaseAddress import DatabaseAddress
 
-class SqliteDatabaseAddress(IDatabaseAddress):
+class SqliteDatabaseAddress(DatabaseAddress):
     """ An address of a SQLite database is its full path. """
 
     ##########
@@ -9,7 +9,7 @@ class SqliteDatabaseAddress(IDatabaseAddress):
         self.__path = os.path.abspath(path)
 
     ##########7
-    #   IDatabaseAddress - Properties
+    #   DatabaseAddress - Properties
     @property
     def database_type(self) -> "SqliteDatabaseType":
         """ The database type to which this database address belongs. """
