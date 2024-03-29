@@ -1,8 +1,8 @@
 from typing import Callable
 from inspect import signature
 
-import awt_impl.Event
-import awt_impl.KeyEvent
+from awt_impl.Event import Event
+from awt_impl.KeyEvent import KeyEvent, KeyListener
 
 class KeyEventProcessorMixin:
     """ A mix-in class that can process key events. """
@@ -17,7 +17,7 @@ class KeyEventProcessorMixin:
     
     ##########
     #   Event dispatch
-    def add_key_listener(self, l: awt_impl.KeyEvent.KeyListener) -> None:
+    def add_key_listener(self, l: KeyListener) -> None:
         """ Regsters the specified listener to be notified when
             a key event is processed.
             A given listener can be registered at most once;
@@ -27,7 +27,7 @@ class KeyEventProcessorMixin:
         if l not in self.__key_listeners:
             self.__key_listeners.append(l)
 
-    def remove_key_listener(self, l: awt_impl.KeyEvent.KeyListener) -> None:
+    def remove_key_listener(self, l: KeyListener) -> None:
         """ Un-regsters the specified listener to no longer be 
             notified when a key event is processed.
             A given listener can be un-registered at most once;
@@ -38,13 +38,13 @@ class KeyEventProcessorMixin:
             self.__key_listeners.remove(l)
 
     @property
-    def key_listeners(self) -> list[awt_impl.KeyEvent.KeyListener]:
+    def key_listeners(self) -> list[KeyListener]:
         """ The list of all key event listeners registered so far. """
         return self.__key_listeners.copy()
 
     ##########
     #   Operations (event processing) - normally, don't touch!
-    def _process_key_event(self, event : awt_impl.KeyEvent.KeyEvent) -> bool:
+    def _process_key_event(self, event : KeyEvent) -> bool:
         """ 
             Called to process a KeyEvent.
             
@@ -55,7 +55,7 @@ class KeyEventProcessorMixin:
             @return:
                 True if the event was processed, else false.
         """
-        assert isinstance(event, awt_impl.KeyEvent.KeyEvent)
+        assert isinstance(event, KeyEvent)
         #   TODO if the event has NOY been processed, the default
         #   implementation should dispatch it to the "parent" event
         #   processor.
@@ -63,7 +63,7 @@ class KeyEventProcessorMixin:
             l(event)    #   TODO catch & log exception, then go to the next listener
         return True
     
-    def _process_event(self, event : awt_impl.Event.Event) -> bool:
+    def _process_event(self, event : Event) -> bool:
         """ 
             Called to process a generic Event.
             Default implementation analyses the event type and then

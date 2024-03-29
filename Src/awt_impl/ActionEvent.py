@@ -1,10 +1,9 @@
 from typing import final, Optional, TypeAlias, Callable
 from enum import Enum
-import tkinter as tk
 
-import awt_impl.Event
+from awt_impl.Event import Event
 
-class ActionEvent(awt_impl.Event.Event):
+class ActionEvent(Event):
     """ An "action" event - signals that an action has occurred
         in the event source (e.g. a Button is pressed, etc.) """
 

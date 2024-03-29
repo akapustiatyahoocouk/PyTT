@@ -1,18 +1,16 @@
 from typing import Callable
 from inspect import signature
 
-import tkinter as tk
 import tkinter.ttk as ttk
 
-import awt_impl.BaseWidgetMixin
-import awt_impl.ActionEvent
-import awt_impl.ActionEventProcessorMixin
-import awt_impl.Action
-import awt_impl._TkHelpers
+from awt_impl.Event import Event
+from awt_impl.BaseWidgetMixin import BaseWidgetMixin
+from awt_impl.ActionEvent import ActionEvent
+from awt_impl.ActionEventProcessorMixin import ActionEventProcessorMixin
+from awt_impl._TkHelpers import _analyze_label
 
 class Button(ttk.Button, 
-             awt_impl.BaseWidgetMixin.BaseWidgetMixin,
-             awt_impl.ActionEventProcessorMixin.ActionEventProcessorMixin):
+             BaseWidgetMixin, ActionEventProcessorMixin):
     """ A ttk.Button with AWT extensions. """
 
     ##########
@@ -22,17 +20,17 @@ class Button(ttk.Button,
         ttk.Button.__init__(self, 
                             master, 
                             **Button.__filter_tk_kwargs(kwargs))
-        awt_impl.BaseWidgetMixin.BaseWidgetMixin.__init__(self)
-        awt_impl.ActionEventProcessorMixin.ActionEventProcessorMixin.__init__(self)
+        BaseWidgetMixin.__init__(self)
+        ActionEventProcessorMixin.__init__(self)
 
         #   Bind the newly created Button with the Action?
         self.__action : awt_impl.Action = kwargs.get('action', None)
         if self.__action is not None:
-            (tk_text, tk_underline) = awt_impl._TkHelpers._analyze_label(self.__action.name)
+            (tk_text, tk_underline) = _analyze_label(self.__action.name)
             self.configure(text=tk_text, underline=tk_underline)
             #   TODO make Button listen to action property changes
         else:
-            (tk_text, tk_underline) = awt_impl._TkHelpers._analyze_label(kwargs["text"])
+            (tk_text, tk_underline) = _analyze_label(kwargs["text"])
             self.configure(text=tk_text, underline=tk_underline)
 
         #   Done
@@ -40,9 +38,9 @@ class Button(ttk.Button,
 
     ##########
     #   Operations (event processing) - normally, don't touch!
-    def _process_event(self, event : awt_impl.Event.Event):
-        return (awt_impl.BaseWidgetMixin.BaseWidgetMixin._process_event(self, event) or
-                awt_impl.ActionEventProcessorMixin.ActionEventProcessorMixin._process_event(self, event))
+    def _process_event(self, event : Event):
+        return (BaseWidgetMixin._process_event(self, event) or
+                ActionEventProcessorMixin._process_event(self, event))
 
     ##########
     #   Implementation helpers
@@ -56,7 +54,7 @@ class Button(ttk.Button,
     ##########
     #   Event listeners
     def __on_tk_click(self):
-        evt = awt_impl.ActionEvent.ActionEvent(self)
+        evt = ActionEvent(self)
         if self.__action is not None:
             self.__action.execute(evt)
         self._process_action_event(evt)

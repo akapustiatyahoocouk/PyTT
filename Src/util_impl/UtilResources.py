@@ -1,7 +1,6 @@
 from typing import final
 
 import os
-import re
 import tkinter as tk
 
 from util_impl.Annotations import staticproperty

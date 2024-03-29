@@ -1,34 +1,30 @@
 
 from typing import final
-import sys
 
-import tkinter as tk
-import tkinter.ttk as ttk
-
-import awt
-import ws
-import dialogs
+from awt import TopFrame, Button, GuiRoot
+from awt import KeyStroke, VirtualKey, InputEventModifiers
+from awt import MenuBar, Submenu
 
 @final
-class MainFrame(awt.TopFrame):
+class MainFrame(TopFrame):
     """ The main frame of the "Admin" skin. """
     
     def __init__(self):
-        awt.TopFrame.__init__(self)
+        TopFrame.__init__(self)
 
         self.__destroy_underway = False
         
         import admin_skin_impl.actions.ActionSet
         action_set = admin_skin_impl.actions.ActionSet.ActionSet(self)
         
-        file_menu = awt.Submenu('&File')
+        file_menu = Submenu('&File')
         fi1 = file_menu.items.append(action_set.exit)
         fi2 = file_menu.items.append('Exit&1')
         fi3 = file_menu.items.append('Exit&2')
         fi4 = file_menu.items.append('Exit&3')
         file_menu.items.remove_at(2)
         
-        help_menu = awt.Submenu('&Help')
+        help_menu = Submenu('&Help')
         help_menu.items.append('&Help')
         ha = help_menu.items.append(action_set.about)
         hi = help_menu.items.append('&Index')
@@ -36,10 +32,10 @@ class MainFrame(awt.TopFrame):
 
         action_set.about.enabled = False
         action_set.about.name = '&About PyTT...'
-        hi.shortcut = awt.KeyStroke(awt.VirtualKey.VK_F1, awt.InputEventModifiers.ALT)
-        action_set.about.shortcut = awt.KeyStroke(awt.VirtualKey.VK_F1)
+        hi.shortcut = KeyStroke(VirtualKey.VK_F1, InputEventModifiers.ALT)
+        action_set.about.shortcut = KeyStroke(VirtualKey.VK_F1)
         
-        menu_bar = awt.MenuBar()
+        menu_bar = MenuBar()
         menu_bar.items.append(file_menu)
         menu_bar.items.append(help_menu)
 
@@ -48,8 +44,8 @@ class MainFrame(awt.TopFrame):
         mb2 = self.menu_bar
 
         #   Create controls
-        self.__aboutButton = awt.Button(self, action=action_set.about)
-        self.__quitButton = awt.Button(self, action=action_set.exit)
+        self.__aboutButton = Button(self, action=action_set.about)
+        self.__quitButton = Button(self, action=action_set.exit)
 
         #self.menu_bar = None
 
@@ -93,7 +89,7 @@ class MainFrame(awt.TopFrame):
         if not self.__destroy_underway:
             self.__destroy_underway =True
             self.protocol("WM_DELETE_WINDOW", lambda: None)
-            awt.GuiRoot.tk.quit()
+            GuiRoot.tk.quit()
     
     ##########
     #   Implementation helpers    

@@ -95,7 +95,7 @@
     <Compile Include="settings.py" />
     <Compile Include="skin.py" />
     <Compile Include="skin_impl\ActiveSkin.py" />
-    <Compile Include="skin_impl\ISkin.py" />
+    <Compile Include="skin_impl\Skin.py" />
     <Compile Include="skin_impl\SkinRegistry.py" />
     <Compile Include="skin_impl\__init__.py">
       <SubType>Code</SubType>
@@ -109,10 +109,10 @@
     <Compile Include="util_impl\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ws.py" />
-    <Compile Include="ws_impl\Credentials.py" />
-    <Compile Include="ws_impl\CurrentCredentials.py" />
-    <Compile Include="ws_impl\__init__.py">
+    <Compile Include="workspace.py" />
+    <Compile Include="workspace_impl\Credentials.py" />
+    <Compile Include="workspace_impl\CurrentCredentials.py" />
+    <Compile Include="workspace_impl\__init__.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -128,7 +128,7 @@
     <Folder Include="util_impl\" />
     <Folder Include="util_impl\resources\" />
     <Folder Include="util_impl\resources\images\" />
-    <Folder Include="ws_impl\" />
+    <Folder Include="workspace_impl\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="util_impl\resources\images\PyTTLarge.gif" />

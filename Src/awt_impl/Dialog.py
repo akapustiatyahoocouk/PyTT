@@ -7,12 +7,10 @@ from enum import Enum
 import tkinter as tk
 import tkinter.ttk as ttk
 
-import awt_impl.GuiRoot
-import awt_impl.BaseWidgetMixin
-import awt_impl.Button
+from awt_impl.BaseWidgetMixin import BaseWidgetMixin
+from awt_impl.Button import Button
 
-class Dialog(tk.Toplevel,
-             awt_impl.BaseWidgetMixin.BaseWidgetMixin):
+class Dialog(tk.Toplevel, BaseWidgetMixin):
     """ A common base class for all dialogs. """
     
     ##########
@@ -21,14 +19,14 @@ class Dialog(tk.Toplevel,
         tk.Toplevel.__init__(self,
                              parent if parent is not None else awt_impl.GuiRoot.GuiRoot.tk,
                              padx=4, pady=4)
-        awt_impl.BaseWidgetMixin.BaseWidgetMixin.__init__(self)
+        BaseWidgetMixin.__init__(self)
         
         self.__parent = awt_impl.GuiRoot.GuiRoot.tk if parent is None else parent.winfo_toplevel()
         self.title(title)
         # TODO keep? kill? self.resizable(False, False)
         
-        self.__ok_button : awt_impl.Button.Button = None
-        self.__cancel_button : awt_impl.Button.Button = None
+        self.__ok_button : Button = None
+        self.__cancel_button : Button = None
 
         self.__running_modal = False
         
@@ -60,9 +58,9 @@ class Dialog(tk.Toplevel,
         return self.__ok_button
 
     @ok_button.setter
-    def ok_button(self, button: awt_impl.Button.Button):
+    def ok_button(self, button: Button):
         #   TODO document
-        assert (button is None) or isinstance(button, awt_impl.Button.Button)
+        assert (button is None) or isinstance(button, Button)
         self.__ok_button = button
 
     @property    
@@ -71,9 +69,9 @@ class Dialog(tk.Toplevel,
         return self.__cancelLDi_button
 
     @ok_button.setter
-    def cancel_button(self, button: awt_impl.Button.Button):
+    def cancel_button(self, button: Button):
         #   TODO document
-        assert (button is None) or isinstance(button, awt_impl.Button.Button)
+        assert (button is None) or isinstance(button, Button)
         self.__cancel_button = button
 
     ##########

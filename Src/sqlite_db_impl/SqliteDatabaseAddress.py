@@ -1,8 +1,6 @@
-import os
+from db_impl.IDatabaseAddress import IDatabaseAddress
 
-import db_impl.IDatabaseAddress
-
-class SqliteDatabaseAddress(db_impl.IDatabaseAddress.IDatabaseAddress):
+class SqliteDatabaseAddress(IDatabaseAddress):
     """ An address of a SQLite database is its full path. """
 
     ##########

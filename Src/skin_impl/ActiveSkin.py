@@ -1,6 +1,6 @@
 from typing import final, Optional
 
-import skin_impl.ISkin
+from skin_impl.Skin import Skin
 
 @final
 class ActiveSkin:
@@ -8,15 +8,16 @@ class ActiveSkin:
 
     ##########
     #   Implementation
-    __activeSkin : skin_impl.ISkin.ISkin = None
+    __activeSkin : Skin = None
     
     ##########
     #   Construction - disable (this is an utility class)
     def __init__(self):
         assert False, str(self.__class__) + " is a utility class"
-        
+    
+    #   TODO can we move this functionality to "Skin.current" static property ?
     @staticmethod
-    def get() -> Optional[skin_impl.ISkin.ISkin]:
+    def get() -> Optional[Skin]:
         """
             Returns the currently "active" skin (if there is one).
 
@@ -26,7 +27,7 @@ class ActiveSkin:
         return ActiveSkin.__activeSkin
 
     @staticmethod
-    def set(skin: skin_impl.ISkin.ISkin) -> None:
+    def set(skin: Optional[Skin]) -> None:
         """
             Sets the currently "active" skin.
 
@@ -34,6 +35,8 @@ class ActiveSkin:
                 The skin to select as a currently "active" skin,
                 None to make sure there is no currently "active" skin.
         """
+        assert (skin is None) or isinstance(skin, Skin)
+
         if (ActiveSkin.__activeSkin is skin):
             return  # Nothing to do!
 
@@ -42,4 +45,3 @@ class ActiveSkin:
         ActiveSkin.__activeSkin = skin
         if ActiveSkin.__activeSkin is not None:
             ActiveSkin.__activeSkin.activate()
-

@@ -1,5 +1,4 @@
 from typing import final
-import re
 
 from util import staticproperty, ClassWithConstants
 

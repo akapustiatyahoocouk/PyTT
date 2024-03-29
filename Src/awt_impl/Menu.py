@@ -1,11 +1,9 @@
-from distutils.util import execute
 import tkinter as tk
 
 from typing import final, Any, Tuple
 from abc import ABC
 
-import awt_impl.MenuItem
-import awt_impl._TkHelpers
+from awt_impl.MenuItem import MenuItem
 
 @final
 class MenuItems:
@@ -19,7 +17,7 @@ class MenuItems:
        
     ##########`
     #   Operations
-    def append(self, item: Any, **kwargs) -> awt_impl.MenuItem.MenuItem:
+    def append(self, item: Any, **kwargs) -> MenuItem:
         import awt_impl.Submenu
         import awt_impl.Action
         import awt_impl.SimpleMenuItem

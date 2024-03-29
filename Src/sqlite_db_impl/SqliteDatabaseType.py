@@ -1,8 +1,8 @@
 from util import staticproperty
-import db_impl.IDatabaseType
-import db_impl.IDatabaseAddress
+from db_impl.IDatabaseType import IDatabaseType
+from db_impl.IDatabaseAddress import IDatabaseAddress
 
-class SqliteDatabaseType(db_impl.IDatabaseType.IDatabaseType):
+class SqliteDatabaseType(IDatabaseType):
     """ A database type that uses SQLite as data storage. """
     
     ##########
@@ -15,7 +15,7 @@ class SqliteDatabaseType(db_impl.IDatabaseType.IDatabaseType):
 
     ##########
     #   Singleton
-    __instance :  db_impl.IDatabaseType.IDatabaseType = None
+    __instance :  IDatabaseType = None
 
     def __init__(self):
         assert SqliteDatabaseType.__instance is None, "Use SqliteDatabaseType.instance() instead"
@@ -44,11 +44,11 @@ class SqliteDatabaseType(db_impl.IDatabaseType.IDatabaseType):
         return 'SQLite'
 
     ##########
-    #   Properties (database address handling)
+    #   IDatabaseType - Properties (database address handling)
     def parse_database_address(self, externa_form: str) -> "IDatabaseAddress":
         assert externa_form is not None
         return db.sqlite_impl.SqliteDatabaseAddress.SqliteDatabaseAddress(externa_form)
 
     @property    
-    def default_database_address(self) -> db_impl.IDatabaseAddress.IDatabaseAddress:
+    def default_database_address(self) -> IDatabaseAddress:
         return None #   SQLite has no concept of a "default" database

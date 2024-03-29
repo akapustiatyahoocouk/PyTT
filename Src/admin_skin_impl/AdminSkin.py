@@ -1,10 +1,11 @@
 """ Implements the "Admin: skin. """
 
 from util import staticproperty
-import skin_impl.ISkin
-import admin_skin_impl.MainFrame
 
-class AdminSkin(skin_impl.ISkin.ISkin):
+from skin_impl.Skin import Skin
+from admin_skin_impl.MainFrame import MainFrame
+
+class AdminSkin(Skin):
     """ A database type that uses SQLite as data storage. """
 
     ##########
@@ -14,11 +15,11 @@ class AdminSkin(skin_impl.ISkin.ISkin):
 
     ##########
     #   Singleton
-    __instance :  skin_impl.ISkin.ISkin = None
+    __instance :  Skin = None
 
     def __init__(self):
         assert AdminSkin.__instance is None, "Use AdminSkin.instance instead"
-        self.__main_frame = admin_skin_impl.MainFrame.MainFrame()
+        self.__main_frame = MainFrame()
         self.__main_frame.deactivate()
 
     @staticproperty

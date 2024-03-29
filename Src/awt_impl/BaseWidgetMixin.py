@@ -3,12 +3,10 @@ from inspect import signature
 
 import tkinter as tk
 
-import awt_impl.Event
-import awt_impl.InputEvent
-import awt_impl.KeyEvent
-import awt_impl.ActionEvent
+from awt_impl.KeyEvent import KeyEvent, KeyEventType
+from awt_impl.KeyEventProcessorMixin import KeyEventProcessorMixin
 
-class BaseWidgetMixin(awt_impl.KeyEventProcessorMixin.KeyEventProcessorMixin):
+class BaseWidgetMixin(KeyEventProcessorMixin):
     """ A mix-in class that adds functionality to BaseWidgets. """
 
     ##########
@@ -17,7 +15,7 @@ class BaseWidgetMixin(awt_impl.KeyEventProcessorMixin.KeyEventProcessorMixin):
         """ The class constructor - DON'T FORGET to call from the
             constructors of the derived classes that implement
             this mixin. """
-        awt_impl.KeyEventProcessorMixin.KeyEventProcessorMixin.__init__(self)
+        KeyEventProcessorMixin.__init__(self)
 
         self.bind("<KeyPress>", self.__on_tk_keydown)
         self.bind("<KeyRelease>", self.__on_tk_keyup)
@@ -73,14 +71,14 @@ class BaseWidgetMixin(awt_impl.KeyEventProcessorMixin.KeyEventProcessorMixin):
     #   Tk event handlers        
     def __on_tk_keydown(self, evt: tk.Event):
         #print(evt)
-        ke = awt_impl.KeyEvent.KeyEvent(self, awt_impl.KeyEvent.KeyEventType.KEY_DOWN, evt)
+        ke = KeyEvent(self, KeyEventType.KEY_DOWN, evt)
         self._process_key_event(ke)
         if ke.keychar is not None:
-            ce = awt_impl.KeyEvent.KeyEvent(self, awt_impl.KeyEvent.KeyEventType.KEY_CHAR, evt)
+            ce = KeyEvent(self, KeyEventType.KEY_CHAR, evt)
             self._process_key_event(ce)
     
     def __on_tk_keyup(self, evt: tk.Event):
         #print(evt)
-        ke = awt_impl.KeyEvent.KeyEvent(self, awt_impl.KeyEvent.KeyEventType.KEY_UP, evt)
+        ke = KeyEvent(self, KeyEventType.KEY_UP, evt)
         self._process_key_event(ke)
             

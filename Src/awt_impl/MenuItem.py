@@ -1,18 +1,17 @@
 from typing import Optional
 from abc import ABC, abstractproperty, abstractmethod
 
-import awt_impl.ActionEventProcessorMixin
-import awt_impl.KeyStroke
+from awt_impl.ActionEventProcessorMixin import ActionEventProcessorMixin
 
-class MenuItem(ABC,
-               awt_impl.ActionEventProcessorMixin.ActionEventProcessorMixin):
+class MenuItem(ABC, ActionEventProcessorMixin):
     """ A generic "menu item" represents a single item within a menu. """
 
     ##########
     #   Construction
     def __init__(self):
         ABC.__init__(self)
-        awt_impl.ActionEventProcessorMixin.ActionEventProcessorMixin.__init__(self)
+        ActionEventProcessorMixin.__init__(self)
+
         self.__menu = None  #   ..to which this MenuItem belongs
         self.__enabled = True
 

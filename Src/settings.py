@@ -1,9 +1,6 @@
 from typing import final
 from abc import ABC
 
-import pathlib
-import configparser
-
 __ini_file_path = pathlib.Path.home() / ".pytt.ini"
 __config = configparser.ConfigParser()
 __config.read(__ini_file_path)

@@ -3,19 +3,10 @@ import platform
 
 import tkinter as tk
 
-import util
+from util import staticproperty, UtilResources
 
-class _GuiRootType(type):
-    ##########
-    #   object
-    def __getattribute__(cls, name):
-        attribute = super().__getattribute__(name)
-        try:
-            return attribute.__get__(cls, type(cls))
-        except AttributeError:
-            return attribute
 @final
-class GuiRoot(metaclass=_GuiRootType):
+class GuiRoot:
     """ Provider of the one and only tkinter.Tk instance. """
 
     ##########
@@ -29,13 +20,13 @@ class GuiRoot(metaclass=_GuiRootType):
 
     ##########
     #   Properties (all static)    
-    @property
-    def tk(cls) -> tk.Tk:
+    @staticproperty
+    def tk() -> tk.Tk:
         """ The one and only tkinter.Tk instance. """
         if GuiRoot.__tk is None:
             GuiRoot.__tk = tk.Tk()
-            GuiRoot.__tk.title(util.UtilResources.PRODUCT_NAME)
-            GuiRoot.__tk.wm_iconphoto(True, util.UtilResources.PRODUCT_ICON_LARGE)
+            GuiRoot.__tk.title(UtilResources.PRODUCT_NAME)
+            GuiRoot.__tk.wm_iconphoto(True, UtilResources.PRODUCT_ICON_LARGE)
             
             print('Platfom is', platform.system())
             

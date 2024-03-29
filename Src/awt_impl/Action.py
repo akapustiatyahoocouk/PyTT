@@ -2,13 +2,12 @@ from typing import Optional
 from abc import ABC, abstractmethod
 
 from util import ABCWithConstants
-import awt_impl.KeyStroke
-import awt_impl.ActionEvent
-import awt_impl.PropertyChangeEventProcessorMixin
-import awt_impl.PropertyChangeEvent
+from awt_impl.KeyStroke import KeyStroke
+from awt_impl.ActionEvent import ActionEvent
+from awt_impl.PropertyChangeEventProcessorMixin import PropertyChangeEventProcessorMixin
+from awt_impl.PropertyChangeEvent import PropertyChangeEvent
 
-class Action(ABCWithConstants,
-             awt_impl.PropertyChangeEventProcessorMixin.PropertyChangeEventProcessorMixin):
+class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
     """ A generic "action" is an agent that encapsulates properties 
         of an activity that can be triggered by the user. """
         
@@ -31,7 +30,7 @@ class Action(ABCWithConstants,
     def __init__(self, 
                  name: str, 
                  description: Optional[str] = None, 
-                 shortcut: Optional[awt_impl.KeyStroke.KeyStroke] = None,
+                 shortcut: Optional[KeyStroke] = None,
                  enabled: Optional[bool] = True) -> None:
         """
             Constructs the action.
@@ -47,11 +46,11 @@ class Action(ABCWithConstants,
                 construct an initially disabled property (default True).
         """
         ABCWithConstants.__init__(self)
-        awt_impl.PropertyChangeEventProcessorMixin.PropertyChangeEventProcessorMixin.__init__(self)
+        PropertyChangeEventProcessorMixin.__init__(self)
 
         assert isinstance(name, str)
         assert (description is None) or isinstance(description, str)
-        assert (shortcut is None) or isinstance(shortcut, awt_impl.KeyStroke.KeyStroke)
+        assert (shortcut is None) or isinstance(shortcut, KeyStroke)
         assert isinstance(enabled, bool)
 
         self.__name = name
@@ -78,7 +77,7 @@ class Action(ABCWithConstants,
         if new_name != self.__name:
             self.__name = new_name
             #   Notify interested listeners
-            evt = awt_impl.PropertyChangeEvent.PropertyChangeEvent(self, self, Action.NAME_PROPERTY_NAME)
+            evt = PropertyChangeEvent(self, self, Action.NAME_PROPERTY_NAME)
             self._process_property_change_event(evt)
 
     @property   # TODO add setter
@@ -87,18 +86,18 @@ class Action(ABCWithConstants,
         return self.__description
     
     @property   # TODO add setter
-    def shortcut(self) -> Optional[awt_impl.KeyStroke.KeyStroke]:    
+    def shortcut(self) -> Optional[KeyStroke]:    
         """ The keyboard shortcut of the action (optional, can be None). """
         return self.__shortcut
 
     @shortcut.setter
-    def shortcut(self, new_shortcut: Optional[awt_impl.KeyStroke.KeyStroke]):    
+    def shortcut(self, new_shortcut: Optional[KeyStroke]):    
         """ Sets the kryboard shortcut of this Action, None == bo shortcut. """
-        assert (new_shortcut is None) or isinstance(new_shortcut, awt_impl.KeyStroke.KeyStroke)
+        assert (new_shortcut is None) or isinstance(new_shortcut, KeyStroke)
         if new_shortcut != self.__shortcut:
             self.__shortcut = new_shortcut
             #   Notify interested listeners
-            evt = awt_impl.PropertyChangeEvent.PropertyChangeEvent(self, self, Action.SHORTCUT_PROPERTY_NAME)
+            evt = PropertyChangeEvent(self, self, Action.SHORTCUT_PROPERTY_NAME)
             self._process_property_change_event(evt)
 
     @property   # TODO add setter
@@ -113,13 +112,13 @@ class Action(ABCWithConstants,
         if new_enabled != self.__enabled:
             self.__enabled = new_enabled
             #   Notify interested listeners
-            evt = awt_impl.PropertyChangeEvent.PropertyChangeEvent(self, self, Action.ENABLED_PROPERTY_NAME)
+            evt = PropertyChangeEvent(self, self, Action.ENABLED_PROPERTY_NAME)
             self._process_property_change_event(evt)
 
     ##########
     #   Operations
     @abstractmethod
-    def execute(self, evt: awt_impl.ActionEvent) -> None:
+    def execute(self, evt: ActionEvent) -> None:
         """ 
             Called by framework to "execute" this action.
             

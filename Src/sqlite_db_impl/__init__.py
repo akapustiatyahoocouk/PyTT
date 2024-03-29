@@ -3,10 +3,10 @@ print('Loading package', __file__)
 from typing import final
 
 from util import staticproperty
-import pnp_impl.Plugin
+from pnp_impl.Plugin import Plugin
 
 @final
-class SqliteDbPlugin(pnp_impl.Plugin.Plugin):
+class SqliteDbPlugin(Plugin):
     
     ##########
     #   Singleton

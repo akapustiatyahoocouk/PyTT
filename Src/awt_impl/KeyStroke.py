@@ -1,7 +1,7 @@
 from typing import final
 
-import awt_impl.VirtualKey
-import awt_impl.InputEventModifiers
+from awt_impl.VirtualKey import VirtualKey
+from awt_impl.InputEventModifiers import InputEventModifiers
 
 @final
 class KeyStroke:
@@ -9,11 +9,10 @@ class KeyStroke:
     ##########
     #   Construction
     def __init__(self, 
-                 keycode: awt_impl.VirtualKey.VirtualKey, 
-                 modifiers: awt_impl.InputEventModifiers.InputEventModifiers =
-                    awt_impl.InputEventModifiers.InputEventModifiers.NONE) -> None:
-        assert isinstance(keycode, awt_impl.VirtualKey.VirtualKey)
-        assert keycode is not awt_impl.VirtualKey.VirtualKey.VK_NONE
+                 keycode: VirtualKey, 
+                 modifiers: InputEventModifiers = InputEventModifiers.NONE) -> None:
+        assert isinstance(keycode, VirtualKey)
+        assert keycode is not VirtualKey.VK_NONE
         assert modifiers is not None
         
         self.__keycode = keycode
@@ -48,11 +47,11 @@ class KeyStroke:
     ##########
     #   Properties
     @property
-    def keycode(self) -> awt_impl.VirtualKey.VirtualKey:
+    def keycode(self) -> VirtualKey:
         """ The virtual key code of this keystroke, never None. """
         return self.__keycode
 
     @property
-    def keycode(self) -> awt_impl.InputEventModifiers.InputEventModifiers:
+    def keycode(self) -> InputEventModifiers:
         """ The modifiers of this keystroke, never None. """
         return self.__modifiers

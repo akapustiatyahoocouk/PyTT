@@ -4,18 +4,16 @@
 from typing import final
 from abc import abstractproperty
 
-import atexit
+import atexit   # TODO is it needed HERE?
 import sys
 import os.path
 
-import awt
-import ws
-import skin
-import dialogs
-import pnp
-import util
-
-from util import staticproperty, ABCWithConstants
+from awt import GuiRoot, TopFrame, Label, Separator
+from workspace import CurrentCredentials
+from skin import ActiveSkin, SkinRegistry
+from dialogs import LoginDialog, LoginDialogResult
+from pnp import PluginManager
+from util import UtilResources
 
 print('Python is', sys.version_info)
 
@@ -32,18 +30,18 @@ class SplashScreen:
     @staticmethod
     def show():
         # Create objects
-        splash_screen = awt.TopFrame()
+        splash_screen = TopFrame()
         splash_screen.geometry("320x100")
         splash_screen.wait_visibility()
         splash_screen.configure(borderwidth=1, relief='solid', bg="white",)
         #pp = splash_screen.pack_propagate()
         splash_screen.pack_propagate(1)
 
-        splash_icon = awt.Label(splash_screen, image = util.UtilResources.PRODUCT_ICON_LARGE, background="white")
-        splash_label1 = awt.Label(splash_screen, text=util.UtilResources.PRODUCT_NAME, font="Helvetica 18", background="white", foreground="blue", anchor="center")
-        splash_label2 = awt.Label(splash_screen, text='Version ' + util.UtilResources.PRODUCT_VERSION, font="Helvetica 12", background="white", foreground="blue", anchor="center")
-        splash_separator = awt.Separator(splash_screen, orient="horizontal")
-        splash_label3 = awt.Label(splash_screen, text=util.UtilResources.PRODUCT_COPYRIGHT, font="Helvetica 10", background="white", foreground="gray", anchor="center")
+        splash_icon = Label(splash_screen, image = UtilResources.PRODUCT_ICON_LARGE, background="white")
+        splash_label1 = Label(splash_screen, text=UtilResources.PRODUCT_NAME, font="Helvetica 18", background="white", foreground="blue", anchor="center")
+        splash_label2 = Label(splash_screen, text='Version ' + UtilResources.PRODUCT_VERSION, font="Helvetica 12", background="white", foreground="blue", anchor="center")
+        splash_separator = Separator(splash_screen, orient="horizontal")
+        splash_label3 = Label(splash_screen, text=UtilResources.PRODUCT_COPYRIGHT, font="Helvetica 10", background="white", foreground="gray", anchor="center")
 
         splash_screen.rowconfigure(0, weight=1)
         splash_screen.rowconfigure(4, weight=1)
@@ -105,14 +103,14 @@ class SplashScreen:
 #         f2.deiconify()
 #         f1.focus_force()
 #         f2.attributes("-topmost", True)
-#         f2.geometry(f"320x200+{awt.GuiRoot.usable_width-320}+{awt.GuiRoot.usable_height-200}")
+#         f2.geometry(f"320x200+{GuiRoot.usable_width-320}+{GuiRoot.usable_height-200}")
 
 #     def yyy(*args):
 #         f1.withdraw()
 #         f2.withdraw()
 
-#     awt.GuiRoot.tk.bind("<Unmap>", yyy)
-#     awt.GuiRoot.tk.bind("<Map>", xxx)
+#     GuiRoot.tk.bind("<Unmap>", yyy)
+#     GuiRoot.tk.bind("<Map>", xxx)
 
 #     #GuiRoot.tk.tkraise()
 #     #GuiRoot.tk.focus()
@@ -124,7 +122,7 @@ class SplashScreen:
 #     #GuiRoot.tk.withdraw()
 #     #GuiRoot.tk.deiconify()
 
-#     awt.GuiRoot.tk.mainloop()
+#     GuiRoot.tk.mainloop()
 
 #     sys.exit()
 
@@ -143,32 +141,32 @@ if __name__ == "__main__":
     sys.path.insert(0, root_directory)
 
     SplashScreen.show()    
-    pnp.PluginManager.load_plugins(root_directory)
+    PluginManager.load_plugins(root_directory)
     
     atexit.register(__exit_handler)
 
     #   Perform initial login
     #   TODO use last successful login by default
-    with dialogs.LoginDialog(awt.GuiRoot.tk) as dlg:
-        dlg.transient(awt.GuiRoot.tk)
+    with LoginDialog(GuiRoot.tk) as dlg:
+        dlg.transient(GuiRoot.tk)
         dlg.attributes("-topmost", True)
         dlg.do_modal()
         #try:
-        #    awt.GuiRoot.tk.mainloop()
+        #    GuiRoot.tk.mainloop()
         #except:
         #    pass
-        if dlg.result is not dialogs.LoginDialogResult.OK:
+        if dlg.result is not LoginDialogResult.OK:
             sys.exit()
-        ws.CurrentCredentials.set(dlg.credentials)
-    awt.GuiRoot.tk.withdraw()
+        CurrentCredentials.set(dlg.credentials)
+    GuiRoot.tk.withdraw()
     
     #   Select the initial skin TODO properly - use active skin from previous session!
-    skin.ActiveSkin.set(skin.SkinRegistry.get_default_skin())
+    ActiveSkin.set(SkinRegistry.default_skin)
 
     #   Go!
-    awt.GuiRoot.tk.mainloop()
+    GuiRoot.tk.mainloop()
 
     #   Cleanup & exit
-    skin.ActiveSkin.set(None)
+    ActiveSkin.set(None)
     print('exit main loop')
-    awt.GuiRoot.tk.destroy()
+    GuiRoot.tk.destroy()

@@ -3,11 +3,11 @@ print('Loading package', __file__)
 from typing import final
 
 from util import staticproperty
-import pnp_impl.Plugin
-import skin_impl.ISkin
+from pnp import Plugin
+from skin_impl.Skin import Skin
 
 @final
-class AdminSkinPlugin(pnp_impl.Plugin.Plugin):
+class AdminSkinPlugin(Plugin):
     
     ##########
     #   Singleton

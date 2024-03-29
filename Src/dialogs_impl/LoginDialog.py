@@ -5,10 +5,9 @@ from typing import final, Optional, Callable
 from enum import Enum
 
 import tkinter as tk
-import tkinter.ttk as ttk
 
-import awt
-import ws
+from awt import Dialog, Label, Entry, Separator, Button
+from workspace import Credentials
 
 @final
 class LoginDialogResult(Enum):
@@ -20,7 +19,7 @@ class LoginDialogResult(Enum):
     """ Dialog cancelled by user. """
 
 @final
-class LoginDialog(awt.Dialog):
+class LoginDialog(Dialog):
     """ The modal "login" dialog. """
 
     ##########
@@ -48,18 +47,18 @@ class LoginDialog(awt.Dialog):
         self.__passwordVar = tk.StringVar()
         
         #   Create controls
-        self.__pan0 = awt.Label(self)
+        self.__pan0 = Label(self)
         
-        self.__loginLabel = awt.Label(self.__pan0, text = 'Login:', anchor=tk.E)
-        self.__loginEntry = awt.Entry(self.__pan0, width=40, textvariable=self.__loginVar)
+        self.__loginLabel = Label(self.__pan0, text = 'Login:', anchor=tk.E)
+        self.__loginEntry = Entry(self.__pan0, width=40, textvariable=self.__loginVar)
 
-        self.__passwordLabel = awt.Label(self.__pan0, text = 'Password:', anchor=tk.E)
-        self.__passwordEntry = awt.Entry(self.__pan0, width=40, show="\u2022", textvariable=self.__passwordVar)
+        self.__passwordLabel = Label(self.__pan0, text = 'Password:', anchor=tk.E)
+        self.__passwordEntry = Entry(self.__pan0, width=40, show="\u2022", textvariable=self.__passwordVar)
         
-        self.__separator = awt.Separator(self, orient="horizontal")
+        self.__separator = Separator(self, orient="horizontal")
 
-        self.__ok_button = awt.Button(self, text='OK', default="active")
-        self.__cancel_button = awt.Button(self, text='Cancel')
+        self.__ok_button = Button(self, text='OK', default="active")
+        self.__cancel_button = Button(self, text='Cancel')
 
         #   Set up control structure
         self.__pan0.pack(fill=tk.X, padx=0, pady=0)
@@ -102,7 +101,7 @@ class LoginDialog(awt.Dialog):
         return self.__result
 
     @property
-    def credentials(self) -> Optional[ws.Credentials]:
+    def credentials(self) -> Optional[Credentials]:
         """ The entered user credentials or None if the dialog
             was cancelled by the user. """
         return self.__credentials
@@ -127,7 +126,7 @@ class LoginDialog(awt.Dialog):
             return
         login = self.__loginVar.get()
         password = self.__passwordVar.get()
-        self.__credentials = ws.Credentials(login, password)
+        self.__credentials = Credentials(login, password)
         self.__result = LoginDialogResult.OK
         self.end_modal()
 

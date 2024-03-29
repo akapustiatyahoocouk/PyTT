@@ -1,26 +1,24 @@
 from typing import final
 
-import awt
-import dialogs
-import admin_skin_impl.MainFrame
-import admin_skin_impl.actions.ActionBase
+from awt import KeyStroke, VirtualKey, InputEventModifiers, ActionEvent
+from dialogs import AboutDialog
+from admin_skin_impl.MainFrame import MainFrame
+from admin_skin_impl.actions.ActionBase import ActionBase
 
-class AboutAction(admin_skin_impl.actions.ActionBase.ActionBase):
+class AboutAction(ActionBase):
     """ The "About PyTT" action. """
     
     ##########
     #   Construction
-    def __init__(self, 
-                 main_frame: admin_skin_impl.MainFrame.MainFrame):
-        admin_skin_impl.actions.ActionBase.ActionBase.__init__(
-            self,
-            main_frame,
-            "A&bout", 
-            "Shows PyTT bersion and copyright information",
-            awt.KeyStroke(awt.VirtualKey.VK_F1, awt.InputEventModifiers.CONTROL))
+    def __init__(self, main_frame: MainFrame):
+        ActionBase.__init__(self,
+                            main_frame,
+                            "A&bout", 
+                            "Shows PyTT bersion and copyright information",
+                            KeyStroke(VirtualKey.VK_F1, InputEventModifiers.CONTROL))
 
     ##########
-    #   awt.Action - Operations
-    def execute(self, evt: awt.ActionEvent) -> None:
-        with dialogs.AboutDialog(self.main_frame) as dlg:
+    #   Action - Operations
+    def execute(self, evt: ActionEvent) -> None:
+        with AboutDialog(self.main_frame) as dlg:
             dlg.do_modal()

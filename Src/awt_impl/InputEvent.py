@@ -1,22 +1,21 @@
 from abc import ABCMeta
 from typing import Any
-import re
 
-import awt_impl.Event
-import awt_impl.InputEventModifiers
+from awt_impl.Event import Event
+from awt_impl.InputEventModifiers import InputEventModifiers
 
-class InputEvent(awt_impl.Event.Event):
+class InputEvent(Event):
     """ A generic user input event. """
 
     ##########
     #   Construction
     def __init__(self, source, 
-                 modifiers: awt_impl.InputEventModifiers = None):
+                 modifiers: InputEventModifiers = None):
         """ Constructs the event with the specified source and modifiers. """
         super().__init__(source)
         
-        assert (modifiers is None) or isinstance(modifiers, awt_impl.InputEventModifiers.InputEventModifiers)
-        self.__modifiers = awt_impl.InputEventModifiers.NONE if (modifiers is None) else modifiers
+        assert (modifiers is None) or isinstance(modifiers, InputEventModifiers)
+        self.__modifiers = InputEventModifiers.NONE if (modifiers is None) else modifiers
 
     ##########
     #   Properties

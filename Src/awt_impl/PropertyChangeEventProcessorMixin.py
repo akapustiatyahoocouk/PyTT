@@ -1,8 +1,8 @@
 from typing import Callable
 from inspect import signature
 
-import awt_impl.Event
-import awt_impl.PropertyChangeEvent
+from awt_impl.Event import Event
+from awt_impl.PropertyChangeEvent import PropertyChangeEvent, PropertyChangeListener
 
 class PropertyChangeEventProcessorMixin:
     """ A mix-in class that can process property change events. """
@@ -17,7 +17,7 @@ class PropertyChangeEventProcessorMixin:
     
     ##########
     #   Event dispatch
-    def add_property_change_listener(self, l: awt_impl.PropertyChangeEvent.PropertyChangeListener) -> None:
+    def add_property_change_listener(self, l: PropertyChangeListener) -> None:
         """ Regsters the specified listener to be notified when
             a property change event is processed.
             A given listener can be registered at most once;
@@ -27,7 +27,7 @@ class PropertyChangeEventProcessorMixin:
         if l not in self.__property_change_listeners:
             self.__property_change_listeners.append(l)
 
-    def remove_property_change_listener(self, l: awt_impl.PropertyChangeEvent.PropertyChangeListener) -> None:
+    def remove_property_change_listener(self, l: PropertyChangeListener) -> None:
         """ Un-regsters the specified listener to no longer be 
             notified when a property change event is processed.
             A given listener can be un-registered at most once;
@@ -38,13 +38,13 @@ class PropertyChangeEventProcessorMixin:
             self.__property_change_listeners.remove(l)
 
     @property
-    def property_change_listeners(self) -> list[awt_impl.PropertyChangeEvent.PropertyChangeListener]:
+    def property_change_listeners(self) -> list[PropertyChangeListener]:
         """ The list of all property change listeners registered so far. """
         return self.__property_change_listeners.copy()
 
     ##########
     #   Operations (event processing) - normally, don't touch!
-    def _process_property_change_event(self, event : awt_impl.PropertyChangeEvent.PropertyChangeEvent) -> bool:
+    def _process_property_change_event(self, event : PropertyChangeEvent) -> bool:
         """ 
             Called to process an PropertyChangeEvent.
             
@@ -53,7 +53,7 @@ class PropertyChangeEventProcessorMixin:
             @param event:
                 The property change event to process.
         """
-        assert isinstance(event, awt_impl.PropertyChangeEvent.PropertyChangeEvent)
+        assert isinstance(event, PropertyChangeEvent)
         #   TODO if the event has NOY been processed, the default
         #   implementation should dispatch it to the "parent" event
         #   processor.
@@ -61,7 +61,7 @@ class PropertyChangeEventProcessorMixin:
             l(event)    #   TODO catch & log exception, then go to the next listener
         return True
     
-    def _process_event(self, event : awt_impl.Event.Event) -> bool:
+    def _process_event(self, event : Event) -> bool:
         """ 
             Called to process a generic Event.
             Default implementation analyses the event type and then

@@ -1,10 +1,11 @@
 from typing import final, Optional, TypeAlias, Callable
 from enum import Enum
+
 import tkinter as tk
 
-import awt_impl.InputEventModifiers
-import awt_impl.InputEvent
-import awt_impl.VirtualKey
+from awt_impl.InputEventModifiers import InputEventModifiers
+from awt_impl.InputEvent import InputEvent
+from awt_impl.VirtualKey import VirtualKey
 
 @final
 class KeyEventType(Enum):
@@ -22,15 +23,14 @@ class KeyEventType(Enum):
     """ A key was pressed that represents a typed character;
         always occurs between KEY_DOWN and KEY_UP key events. """
 
-class KeyEvent(awt_impl.InputEvent.InputEvent):
+class KeyEvent(InputEvent):
     """ A key input event. """
 
     ##########
     #   Construction
     def __init__(self, source, event_type: KeyEventType, tk_evt: tk.Event):
         """ Constructs the event from the specified tk key event. """
-        super().__init__(source, 
-                         awt_impl.InputEventModifiers.InputEventModifiers(tk_evt.state))
+        super().__init__(source, InputEventModifiers(tk_evt.state))
         
         assert ((event_type is KeyEventType.KEY_DOWN) or
                 (event_type is KeyEventType.KEY_UP) or
@@ -44,7 +44,7 @@ class KeyEvent(awt_impl.InputEvent.InputEvent):
         else:
             self.__keychar = None
             
-        self.__keycode = awt_impl.VirtualKey.VirtualKey.from_tk_string(tk_evt.keysym)
+        self.__keycode = VirtualKey.from_tk_string(tk_evt.keysym)
 
     ##########
     #   object
@@ -86,7 +86,7 @@ class KeyEvent(awt_impl.InputEvent.InputEvent):
         return self.__event_type
 
     @property
-    def keycode(self) -> awt_impl.VirtualKey.VirtualKey:
+    def keycode(self) -> VirtualKey:
         """ The virtual key code, None if not known. """
         return self.__keycode
 

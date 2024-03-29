@@ -1,5 +1,4 @@
 from typing import  Any
-import inspect
 
 from abc import ABC, ABCMeta
 

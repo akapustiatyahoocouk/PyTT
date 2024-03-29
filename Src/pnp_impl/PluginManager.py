@@ -1,13 +1,12 @@
 from genericpath import isdir
 from typing import final
 import os
-import os.path
 import importlib
 import traceback
 
 from util import staticproperty
 
-import pnp_impl.Plugin
+from pnp_impl.Plugin import Plugin
 
 @final
 class PluginManager:
@@ -15,8 +14,8 @@ class PluginManager:
     
     ##########
     #   Implementation helpers
-    __discovered_plugins: set[pnp_impl.Plugin.Plugin] = set()
-    __initialised_plugins: set[pnp_impl.Plugin.Plugin] = set()
+    __discovered_plugins: set[Plugin] = set()
+    __initialised_plugins: set[Plugin] = set()
     
     ##########
     #   Construction - disable (this is an utility class)
@@ -26,11 +25,11 @@ class PluginManager:
     ##########
     #   Properties
     @staticproperty
-    def discovered_plugins() -> list[pnp_impl.Plugin]:
+    def discovered_plugins() -> list[Plugin]:
         return list(PluginManager.__discovered_plugins)
 
     @staticproperty
-    def initialised_plugins(cls) -> list[pnp_impl.Plugin]:
+    def initialised_plugins(cls) -> list[Plugin]:
         return list(PluginManager.__initialised_plugins)
 
     ##########
@@ -39,7 +38,7 @@ class PluginManager:
     def load_plugins(root_directory: str):
         #   Discover plugins...
         PluginManager.__load_packages(root_directory, '')
-        for p in pnp_impl.Plugin.Plugin.__discovered_plugins:
+        for p in Plugin.__discovered_plugins:
             PluginManager.__discovered_plugins.add(p)
         for p in PluginManager.__discovered_plugins:     
             print("    Discovered plugin:", p)

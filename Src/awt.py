@@ -1,82 +1,36 @@
-from typing import TypeAlias
-
-import util
-
 ##########
 #   AWT implementation
 
 #   Events & event listeners
-import awt_impl.InputEventModifiers
-import awt_impl.InputEvent
-import awt_impl.VirtualKey
-import awt_impl.KeyStroke
-import awt_impl.KeyEvent
-import awt_impl.ActionEvent
-import awt_impl.PropertyChangeEvent
+from awt_impl.InputEventModifiers import *
+from awt_impl.InputEvent import *
+from awt_impl.VirtualKey import *
+from awt_impl.KeyStroke import *
+from awt_impl.KeyEvent import *
+from awt_impl.ActionEvent import *
+from awt_impl.PropertyChangeEvent import *
 
 #   Events processing mixing
-import awt_impl.KeyEventProcessorMixin
-import awt_impl.ActionEventProcessorMixin
-import awt_impl.PropertyChangeEventProcessorMixin
+from awt_impl.KeyEventProcessorMixin import *
+from awt_impl.ActionEventProcessorMixin import *
+from awt_impl.PropertyChangeEventProcessorMixin import *
 
 #   UI widgets
-import awt_impl.Widget
-import awt_impl.Label
-import awt_impl.Button
-import awt_impl.Entry
-import awt_impl.Separator
+from awt_impl.Widget import *
+from awt_impl.Label import *
+from awt_impl.Button import *
+from awt_impl.Entry import *
+from awt_impl.Separator import *
 
 #   UI top-level windows
-import awt_impl.GuiRoot
-import awt_impl.TopFrame
-import awt_impl.Dialog
+from awt_impl.GuiRoot import *
+from awt_impl.TopFrame import *
+from awt_impl.Dialog import *
 
 #   TODO how to name this section?
-import awt_impl.Action
-import awt_impl.MenuItem
-import awt_impl.Menu
-import awt_impl.MenuBar
-import awt_impl.Submenu
-import awt_impl.SimpleMenuItem
-
-
-##########
-#   AWT aliases
-
-#   Events & event listeners
-InputEventModifiers: TypeAlias = awt_impl.InputEventModifiers.InputEventModifiers
-InputEvent: TypeAlias = awt_impl.InputEvent.InputEvent
-VirtualKey: TypeAlias = awt_impl.VirtualKey.VirtualKey
-KeyStroke: TypeAlias = awt_impl.KeyStroke.KeyStroke
-KeyEventType: TypeAlias = awt_impl.KeyEvent.KeyEventType
-KeyEvent: TypeAlias = awt_impl.KeyEvent.KeyEvent
-KeyListener: TypeAlias = awt_impl.KeyEvent.KeyListener
-ActionEvent: TypeAlias = awt_impl.ActionEvent.ActionEvent
-ActionListener: TypeAlias = awt_impl.ActionEvent.ActionListener
-PropertyChangeEvent: TypeAlias = awt_impl.PropertyChangeEvent.PropertyChangeEvent
-PropertyChangeListener: TypeAlias = awt_impl.PropertyChangeEvent.PropertyChangeListener
-
-#   Events processing mixing
-KeyEventProcessorMixin: TypeAlias = awt_impl.KeyEventProcessorMixin.KeyEventProcessorMixin
-ActionEventProcessorMixin: TypeAlias = awt_impl.ActionEventProcessorMixin.ActionEventProcessorMixin
-PropertyChangeEventProcessorMixin: TypeAlias = awt_impl.PropertyChangeEventProcessorMixin.PropertyChangeEventProcessorMixin
-
-#   UI widgets
-Widget: TypeAlias = awt_impl.Widget.Widget
-Label: TypeAlias = awt_impl.Label.Label
-Button: TypeAlias = awt_impl.Button.Button
-Entry: TypeAlias = awt_impl.Entry.Entry
-Separator: TypeAlias = awt_impl.Separator.Separator
-
-#   UI top-level windows
-GuiRoot: TypeAlias = awt_impl.GuiRoot.GuiRoot
-TopFrame: TypeAlias = awt_impl.TopFrame.TopFrame
-Dialog: TypeAlias = awt_impl.Dialog.Dialog
-
-#   TODO how to name this section?
-Action: TypeAlias = awt_impl.Action.Action
-MenuItem: TypeAlias = awt_impl.MenuItem.MenuItem
-Menu: TypeAlias = awt_impl.Menu.Menu
-MenuBar: TypeAlias = awt_impl.MenuBar.MenuBar
-Submenu: TypeAlias = awt_impl.Submenu.Submenu
-SimpleMenuItem: TypeAlias = awt_impl.SimpleMenuItem.SimpleMenuItem
+from awt_impl.Action import *
+from awt_impl.MenuItem import *
+from awt_impl.Menu import *
+from awt_impl.MenuBar import *
+from awt_impl.Submenu import *
+from awt_impl.SimpleMenuItem import *

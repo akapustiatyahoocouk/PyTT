@@ -1,11 +1,10 @@
 
-import awt_impl.MenuItem
-import awt_impl.ActionEventProcessorMixin
+from awt_impl.MenuItem import MenuItem
 
-class SimpleMenuItem(awt_impl.MenuItem.MenuItem):
+class SimpleMenuItem(MenuItem):
     
     def __init__(self, label: str):
-        awt_impl.MenuItem.MenuItem.__init__(self)
+        MenuItem.__init__(self)
         
         assert isinstance(label, str)
         self.__label = label

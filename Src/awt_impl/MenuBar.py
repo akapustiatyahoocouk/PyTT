@@ -1,8 +1,8 @@
-import tkinter as tk
+from awt_impl.Menu import Menu
 
-import awt_impl.Menu
+class MenuBar(Menu):
 
-class MenuBar(awt_impl.Menu.Menu):
-
+    ##########
+    #   Construction
     def __init__(self):
-        awt_impl.Menu.Menu.__init__(self)
+        Menu.__init__(self)

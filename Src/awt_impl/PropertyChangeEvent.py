@@ -1,10 +1,9 @@
 from typing import final, Optional, TypeAlias, Callable, Any
 from enum import Enum
-import tkinter as tk
 
-import awt_impl.Event
+from awt_impl.Event import Event
 
-class PropertyChangeEvent(awt_impl.Event.Event):
+class PropertyChangeEvent(Event):
     """ A "property change" event - signals that an observable
         property of some object has changed. """
 

@@ -1,28 +1,25 @@
 from typing import final, Optional
 
 import tkinter as tk
-import tkinter.ttk as ttk
 
-import util
-import awt_impl.GuiRoot
-import awt_impl.BaseWidgetMixin
-import awt_impl.BaseWidgetMixin
-import awt_impl.MenuBar
+from util import UtilResources
+from awt_impl.GuiRoot import GuiRoot
+from awt_impl.BaseWidgetMixin import BaseWidgetMixin
+from awt_impl.MenuBar import MenuBar
 
 @final
-class TopFrame(tk.Toplevel,
-               awt_impl.BaseWidgetMixin.BaseWidgetMixin):
+class TopFrame(tk.Toplevel, BaseWidgetMixin):
     """ The generic top-level UI frame. """
     
     def __init__(self):
-        tk.Toplevel.__init__(self, awt_impl.GuiRoot.GuiRoot.tk)
-        awt_impl.BaseWidgetMixin.BaseWidgetMixin.__init__(self)
+        tk.Toplevel.__init__(self, GuiRoot.tk)
+        BaseWidgetMixin.__init__(self)
         
         self.__menu_bar = None
 
         #self.transient(awt_impl.GuiRoot.GuiRoot.tk)
-        self.title(awt_impl.GuiRoot.GuiRoot.tk.title())
-        self.wm_iconphoto(True, util.UtilResources.PRODUCT_ICON_LARGE)
+        self.title(GuiRoot.tk.title())
+        self.wm_iconphoto(True, UtilResources.PRODUCT_ICON_LARGE)
         self.geometry("600x400")
 
     ##########
@@ -33,18 +30,18 @@ class TopFrame(tk.Toplevel,
     ##########
     #   Properties
     @property
-    def menu_bar(self) -> Optional[awt_impl.MenuBar.MenuBar]:
+    def menu_bar(self) -> Optional[MenuBar]:
         return self.__menu_bar
 
     @menu_bar.setter
-    def menu_bar(self, mb: Optional[awt_impl.MenuBar.MenuBar]) -> None:
+    def menu_bar(self, mb: Optional[MenuBar]) -> None:
         if mb is None:
             if self.__menu_bar is not None:
                 self.__menu_bar._Menu__impl.master = None
             self["menu"] = ""
             self.__menu_bar = None
         else:
-            assert isinstance(mb, Optional[awt_impl.MenuBar.MenuBar])
+            assert isinstance(mb, Optional[MenuBar])
             mb._Menu__impl.master._impl = self
             self["menu"] = mb._Menu__impl
             self.__menu_bar = mb

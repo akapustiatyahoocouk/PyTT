@@ -1,6 +1,9 @@
+"""
+    Define a concept of "skin" - a certain way of presenting a UI.
+"""
 from abc import ABC, abstractmethod, abstractproperty
 
-class ISkin(ABC):
+class Skin(ABC):
     """ A common base class for all "skins" - GUI variants. """
 
     ##########

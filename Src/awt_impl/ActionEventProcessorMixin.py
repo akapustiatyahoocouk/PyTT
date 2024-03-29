@@ -1,8 +1,8 @@
 from typing import Callable
 from inspect import signature
 
-import awt_impl.Event
-import awt_impl.ActionEvent
+from awt_impl.Event import Event
+from awt_impl.ActionEvent import ActionEvent, ActionListener
 
 class ActionEventProcessorMixin:
     """ A mix-in class that can process action events. """
@@ -17,7 +17,7 @@ class ActionEventProcessorMixin:
     
     ##########
     #   Event dispatch
-    def add_action_listener(self, l: awt_impl.ActionEvent.ActionListener) -> None:
+    def add_action_listener(self, l: ActionListener) -> None:
         """ Regsters the specified listener to be notified when
             an action event is processed.
             A given listener can be registered at most once;
@@ -27,7 +27,7 @@ class ActionEventProcessorMixin:
         if l not in self.__action_listeners:
             self.__action_listeners.append(l)
 
-    def remove_action_listener(self, l: awt_impl.ActionEvent.ActionListener) -> None:
+    def remove_action_listener(self, l: ActionListener) -> None:
         """ Un-regsters the specified listener to no longer be 
             notified when an action event is processed.
             A given listener can be un-registered at most once;
@@ -38,13 +38,13 @@ class ActionEventProcessorMixin:
             self.__action_listeners.remove(l)
 
     @property
-    def action_listeners(self) -> list[awt_impl.ActionEvent.ActionListener]:
+    def action_listeners(self) -> list[ActionListener]:
         """ The list of all action event listeners registered so far. """
         return self.__action_listeners.copy()
 
     ##########
     #   Operations (event processing) - normally, don't touch!
-    def _process_action_event(self, event : awt_impl.ActionEvent.ActionEvent) -> bool:
+    def _process_action_event(self, event : ActionEvent) -> bool:
         """ 
             Called to process an ActionEvent.
             
@@ -53,7 +53,7 @@ class ActionEventProcessorMixin:
             @param event:
                 The action event to process.
         """
-        assert isinstance(event, awt_impl.ActionEvent.ActionEvent)
+        assert isinstance(event, ActionEvent)
         #   TODO if the event has NOY been processed, the default
         #   implementation should dispatch it to the "parent" event
         #   processor.
@@ -61,7 +61,7 @@ class ActionEventProcessorMixin:
             l(event)    #   TODO catch & log exception, then go to the next listener
         return True
     
-    def _process_event(self, event : awt_impl.Event.Event) -> bool:
+    def _process_event(self, event : Event) -> bool:
         """ 
             Called to process a generic Event.
             Default implementation analyses the event type and then

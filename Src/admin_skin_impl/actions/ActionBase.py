@@ -1,20 +1,20 @@
 from typing import Optional
 
-import awt
-import admin_skin_impl.MainFrame
+from awt import Action, KeyStroke
+from admin_skin_impl.MainFrame import MainFrame
 
-class ActionBase(awt.Action):
+class ActionBase(Action):
     """ The common base class for all "admin" skin actions. """
     
     ##########
     #   Construction
     def __init__(self, 
-                 main_frame: admin_skin_impl.MainFrame.MainFrame,
+                 main_frame: MainFrame,
                  name: str, 
                  description: Optional[str] = None, 
-                 shortcut: Optional[awt.KeyStroke] = None):
-        awt.Action.__init__(self, name=name, description=description, shortcut=shortcut)
-        assert isinstance(main_frame, admin_skin_impl.MainFrame.MainFrame)
+                 shortcut: Optional[KeyStroke] = None):
+        Action.__init__(self, name=name, description=description, shortcut=shortcut)
+        assert isinstance(main_frame, MainFrame)
         
         self.__main_frame = main_frame
         

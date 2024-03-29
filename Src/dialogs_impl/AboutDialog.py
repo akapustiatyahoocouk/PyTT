@@ -5,10 +5,9 @@ from typing import final
 from enum import Enum
 
 import tkinter as tk
-import tkinter.ttk as ttk
 
-import awt
-import util
+from awt import Dialog, Label, Separator, Button
+from util import UtilResources
 
 @final
 class AboutDialogResult(Enum):
@@ -17,7 +16,7 @@ class AboutDialogResult(Enum):
     """ Dialog closed, by whatever means necessary. """
 
 @final
-class AboutDialog(awt.Dialog):
+class AboutDialog(Dialog):
     """ The modal "about..." dialog. """
 
     ##########
@@ -27,16 +26,16 @@ class AboutDialog(awt.Dialog):
         self.__result = AboutDialogResult.OK
 
         #   Create controls
-        self.__pan0 = awt.Label(self)
-        self.__pan1 = awt.Label(self.__pan0)
-        self.__pan2 = awt.Label(self.__pan0)
+        self.__pan0 = Label(self)
+        self.__pan1 = Label(self.__pan0)
+        self.__pan2 = Label(self.__pan0)
         
-        self.__pic1 = awt.Label(self.__pan1, image = util.UtilResources.PRODUCT_ICON_LARGE)
-        self.__msg1 = awt.Label(self.__pan2, text = util.UtilResources.PRODUCT_NAME, anchor=tk.CENTER)
-        self.__msg2 = awt.Label(self.__pan2, text = "Version " + util.UtilResources.PRODUCT_VERSION, anchor=tk.CENTER)
-        self.__msg3 = awt.Label(self.__pan2, text = util.UtilResources.PRODUCT_COPYRIGHT, anchor=tk.CENTER)
-        self.__separator = awt.Separator(self, orient="horizontal")
-        self.__ok_button = awt.Button(self, text="OK", default="active", command=self.__on_ok)
+        self.__pic1 = Label(self.__pan1, image = UtilResources.PRODUCT_ICON_LARGE)
+        self.__msg1 = Label(self.__pan2, text = UtilResources.PRODUCT_NAME, anchor=tk.CENTER)
+        self.__msg2 = Label(self.__pan2, text = "Version " + UtilResources.PRODUCT_VERSION, anchor=tk.CENTER)
+        self.__msg3 = Label(self.__pan2, text = UtilResources.PRODUCT_COPYRIGHT, anchor=tk.CENTER)
+        self.__separator = Separator(self, orient="horizontal")
+        self.__ok_button = Button(self, text="OK", default="active", command=self.__on_ok)
 
         #   Set up control structure
         self.__pan0.pack(fill=tk.X, padx=0, pady=0)

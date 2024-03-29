@@ -1,13 +1,11 @@
 from typing import Callable
 from inspect import signature
 
-import tkinter as tk
 import tkinter.ttk as ttk
 
-import awt_impl.BaseWidgetMixin
+from awt_impl.BaseWidgetMixin import BaseWidgetMixin
 
-class Widget(ttk.Widget, 
-             awt_impl.BaseWidgetMixin.BaseWidgetMixin):
+class Widget(ttk.Widget, BaseWidgetMixin):
     """ A ttk.Widget with AWT extensions. """
 
     ##########

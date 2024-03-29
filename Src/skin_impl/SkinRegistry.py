@@ -1,7 +1,7 @@
 from typing import final, Optional
 
-import skin_impl.ISkin
-import admin_skin_impl.AdminSkin
+from util import staticproperty
+from skin_impl.Skin import Skin
 
 @final
 class SkinRegistry:
@@ -10,7 +10,7 @@ class SkinRegistry:
 
     ##########
     #   Implementation data
-    __registry : dict[str, skin_impl.ISkin.ISkin] = {}
+    __registry : dict[str, Skin] = {}
 
     ##########
     #   Construction - not allowed - this is an utility class
@@ -20,10 +20,20 @@ class SkinRegistry:
     ##########
     #   Operations
     @staticmethod
-    def register_skin(skin: skin_impl.ISkin.ISkin) -> bool:
-        """ "Registers" the specified skin.
-            Returns True on  success, False on failure. """
+    def register_skin(skin: Skin) -> bool:
+        """
+            "Registers" the specified skin.
+
+            @param skin:
+                The skin to register.
+            @return:
+                True on successful registration, False on failure.
+        """
+        assert isinstance(skin, Skin) and (skin.mnemonic is not None)
+
+        #   Use some sort of progress bar on a splash screen instead ?
         print("Registering", skin.display_name, "skin [" + skin.mnemonic + "]")
+
         if skin.mnemonic in SkinRegistry.__registry:
             return SkinRegistry.__registry[skin.mnemonic] is skin
         else:
@@ -31,18 +41,25 @@ class SkinRegistry:
             return True
         
     @staticmethod
-    def find_skin(mnemonic: str) -> Optional[skin_impl.ISkin.ISkin]:
-        """ Finds a registered skinby mnemonic;
-            returns None if not found. """
+    def find_skin(mnemonic: str) -> Optional[Skin]:
+        """ 
+            Finds a registered skin by mnemonic.
+
+            @param mnemonic:
+                The mnemonic to look for.
+            @return:
+                The skin with the required mnemonic, None if not found.
+        """
         return SkinRegistry.__registry.get(mnemonic, None)
 
-    @staticmethod
-    def get_all_skins() -> set[skin_impl.ISkin.ISkin]:
-        """ Returns a 'set' of all registered skins. """
+    @staticproperty
+    def all_skins() -> set[Skin]:
+        """ The set of all registered skins. """
         return set(SkinRegistry.__registry.values())
 
-    @staticmethod
-    def get_default_skin() -> skin_impl.ISkin.ISkin:
-        #return SkinRegistry.find_skin("admin")
-        return admin_skin_impl.AdminSkin.AdminSkin.instance
+    @staticproperty
+    def default_skin() -> Skin:
+        """ The "default" skin to use. """
+        from admin_skin_impl.AdminSkin import AdminSkin
+        return AdminSkin.instance
 
