@@ -31,6 +31,17 @@ class PropertyChangeEvent(awt_impl.Event.Event):
                 repr(self.__affected_object) + "," +
                 self.__changed_property + ")")
 
-PropertyChangeListener: TypeAlias = Callable[[PropertyChangeEvent,Any,str], None]
+    ##########
+    #   Properties
+    @property
+    def affected_object(self) -> Any:
+        return self.__affected_object
+    
+    @property
+    def changed_property(self) -> str:
+        return self.__changed_property
+
+
+PropertyChangeListener: TypeAlias = Callable[[PropertyChangeEvent], None]
 """ A signature of a listener to property change events - a function
     or a bound method. """

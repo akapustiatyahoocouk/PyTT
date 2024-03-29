@@ -58,7 +58,7 @@ class ActionEventProcessorMixin:
         #   implementation should dispatch it to the "parent" event
         #   processor.
         for l in self.__action_listeners:
-            l(event)
+            l(event)    #   TODO catch & log exception, then go to the next listener
         return True
     
     def _process_event(self, event : awt_impl.Event.Event) -> bool:

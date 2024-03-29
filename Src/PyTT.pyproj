@@ -26,6 +26,7 @@
   <ItemGroup>
     <Compile Include="admin_skin_impl\actions\ActionBase.py" />
     <Compile Include="admin_skin_impl\actions\ActionSet.py" />
+    <Compile Include="admin_skin_impl\actions\AboutAction.py" />
     <Compile Include="admin_skin_impl\actions\ExitAction.py" />
     <Compile Include="admin_skin_impl\actions\__init__.py">
       <SubType>Code</SubType>
@@ -37,6 +38,7 @@
     </Compile>
     <Compile Include="awt_impl\PropertyChangeEvent.py" />
     <Compile Include="awt_impl\PropertyChangeEventProcessorMixin.py" />
+    <Compile Include="awt_impl\_TkHelpers.py" />
     <Compile Include="util.py" />
     <Compile Include="util_impl\Annotations.py" />
     <Compile Include="awt.py" />

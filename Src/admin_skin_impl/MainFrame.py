@@ -8,7 +8,6 @@ import tkinter.ttk as ttk
 import awt
 import ws
 import dialogs
-import settings
 
 @final
 class MainFrame(awt.TopFrame):
@@ -16,16 +15,12 @@ class MainFrame(awt.TopFrame):
     
     def __init__(self):
         awt.TopFrame.__init__(self)
-        
+
         self.__destroy_underway = False
         
         import admin_skin_impl.actions.ActionSet
         action_set = admin_skin_impl.actions.ActionSet.ActionSet(self)
         
-        #   Create controls
-        self.__popupButton = awt.Button(self, text="popup")
-        self.__quitButton = awt.Button(self, text="quit")
-
         file_menu = awt.Submenu('&File')
         fi1 = file_menu.items.append(action_set.exit)
         fi2 = file_menu.items.append('Exit&1')
@@ -34,9 +29,14 @@ class MainFrame(awt.TopFrame):
         file_menu.items.remove_at(2)
         
         help_menu = awt.Submenu('&Help')
-        ha = help_menu.items.append('A&bout')
-        ha.add_action_listener(self.__popup)
+        help_menu.items.append('Help')
+        ha = help_menu.items.append(action_set.about)
+        help_menu.items.append('Index')
+        help_menu.items.append('Search').enabled = False
 
+        action_set.about.enabled = False
+        action_set.about.name = '&About PyTT...'
+        
         menu_bar = awt.MenuBar()
         menu_bar.items.append(file_menu)
         menu_bar.items.append(help_menu)
@@ -44,6 +44,11 @@ class MainFrame(awt.TopFrame):
         mb1 = self.menu_bar
         self.menu_bar = menu_bar
         mb2 = self.menu_bar
+
+        #   Create controls
+        self.__aboutButton = awt.Button(self, action=action_set.about)
+        self.__quitButton = awt.Button(self, action=action_set.exit)
+
         #self.menu_bar = None
 
         #self.__menu_bar = tk.Menu(self)
@@ -57,16 +62,13 @@ class MainFrame(awt.TopFrame):
         #self.__help_menu.add_command(label='About', underline=1, accelerator="Ctrl+F1", command=self.__popup)
         
         #   Set up control structure
-        self.__popupButton.pack()
+        self.__aboutButton.pack()
         self.__quitButton.pack()
 
         #   Set up event handlers
         self.__initialLoginPerformed = False
         self.protocol("WM_DELETE_WINDOW", self.destroy)
         
-        self.__popupButton.add_action_listener(self.__popup)
-        self.__quitButton.add_action_listener(self.__quit)
-    
         self.add_key_listener(lambda e: print(e))
 
     ##########
@@ -93,9 +95,5 @@ class MainFrame(awt.TopFrame):
     
     ##########
     #   Implementation helpers    
-    def __popup(self, *args) -> None:
-        with dialogs.AboutDialog(self.__popupButton) as dlg:
-            dlg.do_modal()
-
     def __quit(self, *args) -> None:
         self.destroy()

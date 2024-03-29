@@ -8,6 +8,7 @@ import awt_impl.BaseWidgetMixin
 import awt_impl.ActionEvent
 import awt_impl.ActionEventProcessorMixin
 import awt_impl.Action
+import awt_impl._TkHelpers
 
 class Button(ttk.Button, 
              awt_impl.BaseWidgetMixin.BaseWidgetMixin,
@@ -18,13 +19,23 @@ class Button(ttk.Button,
     #   Construction
     def __init__(self, master=None, **kwargs):
         """Construct an awt Button widget with the parent master. """
-        ttk.Button.__init__(self, master, **kwargs)
+        ttk.Button.__init__(self, 
+                            master, 
+                            **Button.__filter_tk_kwargs(kwargs))
         awt_impl.BaseWidgetMixin.BaseWidgetMixin.__init__(self)
         awt_impl.ActionEventProcessorMixin.ActionEventProcessorMixin.__init__(self)
 
+        #   Bind the newly created Button with the Action?
         self.__action : awt_impl.Action = kwargs.get('action', None)
         if self.__action is not None:
-            self.configure(text=self.__action.name)
+            (tk_text, tk_underline) = awt_impl._TkHelpers._analyze_label(self.__action.name)
+            self.configure(text=tk_text, underline=tk_underline)
+            #   TODO make Button listen to action property changes
+        else:
+            (tk_text, tk_underline) = awt_impl._TkHelpers._analyze_label(kwargs["text"])
+            self.configure(text=tk_text, underline=tk_underline)
+
+        #   Done
         self.configure(command = self.__on_tk_click)
 
     ##########
@@ -32,6 +43,15 @@ class Button(ttk.Button,
     def _process_event(self, event : awt_impl.Event.Event):
         return (awt_impl.BaseWidgetMixin.BaseWidgetMixin._process_event(self, event) or
                 awt_impl.ActionEventProcessorMixin.ActionEventProcessorMixin._process_event(self, event))
+
+    ##########
+    #   Implementation helpers
+    @staticmethod
+    def __filter_tk_kwargs(kwargs) -> dict:
+        result = dict(kwargs)
+        result.pop("action", None)
+        result.pop("text", None)
+        return result
 
     ##########
     #   Event listeners

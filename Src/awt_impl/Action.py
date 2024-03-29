@@ -15,20 +15,24 @@ class Action(ABCWithConstants,
     ##########
     #   Constants (observable property names)
     NAME_PROPERTY_NAME = "name"
-    """ The name of the "name" property of an Action. """
+    """ The name of the "name: str" property of an Action. """
     
     DESCRIPTION_PROPERTY_NAME = "description"
-    """ The name of the "description" property of an Action. """
+    """ The name of the "description: str" property of an Action. """
 
     SHORTCUT_PROPERTY_NAME = "shortcut"
-    """ The name of the "shortcut" property of an Action. """
+    """ The name of the "shortcut: KeyStroke" property of an Action. """
     
+    ENABLED_PROPERTY_NAME = "enabled"
+    """ The name of the "enabled: bool" property of an Action. """
+
     ##########
     #   Construction
     def __init__(self, 
                  name: str, 
                  description: Optional[str] = None, 
-                 shortcut: Optional[awt_impl.KeyStroke.KeyStroke] = None) -> None:
+                 shortcut: Optional[awt_impl.KeyStroke.KeyStroke] = None,
+                 enabled: Optional[bool] = True) -> None:
         """
             Constructs the action.
             
@@ -38,6 +42,9 @@ class Action(ABCWithConstants,
                 The 1-line user-readable description of the action (optional).
             @param shortcut:
                 The keyboard shortcut of the action (optional).
+            @param enabled:
+                True to construct an initially enabled property, False to
+                construct an initially disabled property (default True).
         """
         ABCWithConstants.__init__(self)
         awt_impl.PropertyChangeEventProcessorMixin.PropertyChangeEventProcessorMixin.__init__(self)
@@ -45,10 +52,12 @@ class Action(ABCWithConstants,
         assert isinstance(name, str)
         assert (description is None) or isinstance(description, str)
         assert (shortcut is None) or isinstance(shortcut, awt_impl.KeyStroke.KeyStroke)
+        assert isinstance(enabled, bool)
 
         self.__name = name
         self.__description = description
         self.__shortcut = shortcut
+        self.__enabled = enabled
 
     ##########
     #   Properties
@@ -67,7 +76,7 @@ class Action(ABCWithConstants,
         """
         assert isinstance(new_name, str)
         if new_name != self.__name:
-            self.__name
+            self.__name = new_name
             #   Notify interested listeners
             evt = awt_impl.PropertyChangeEvent.PropertyChangeEvent(self, self, Action.NAME_PROPERTY_NAME)
             self._process_property_change_event(evt)
@@ -81,6 +90,21 @@ class Action(ABCWithConstants,
     def shortcut(self) -> Optional[awt_impl.KeyStroke.KeyStroke]:    
         """ The keyboard shortcut of the action (optional, can be None). """
         return self.__shortcut
+
+    @property   # TODO add setter
+    def enabled(self) -> bool:    
+        """ True if this action is enabled, false if disabled; cannot be None. """
+        return self.__enabled
+
+    @enabled.setter
+    def enabled(self, new_enabled: bool):    
+        """ True to enable this action, false to disable; cannot be None. """
+        assert isinstance(new_enabled, bool)
+        if new_enabled != self.__enabled:
+            self.__enabled = new_enabled
+            #   Notify interested listeners
+            evt = awt_impl.PropertyChangeEvent.PropertyChangeEvent(self, self, Action.ENABLED_PROPERTY_NAME)
+            self._process_property_change_event(evt)
 
     ##########
     #   Operations
