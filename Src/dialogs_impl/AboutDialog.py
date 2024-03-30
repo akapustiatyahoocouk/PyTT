@@ -22,7 +22,7 @@ class AboutDialog(Dialog):
     ##########
     #   Construction    
     def __init__(self, parent: tk.BaseWidget):
-        super().__init__(parent, 'About PyTT')
+        Dialog.__init__(self, parent, 'About PyTT')
         self.__result = AboutDialogResult.OK
 
         #   Create controls
@@ -35,7 +35,7 @@ class AboutDialog(Dialog):
         self.__msg2 = Label(self.__pan2, text = "Version " + UtilResources.PRODUCT_VERSION, anchor=tk.CENTER)
         self.__msg3 = Label(self.__pan2, text = UtilResources.PRODUCT_COPYRIGHT, anchor=tk.CENTER)
         self.__separator = Separator(self, orient="horizontal")
-        self.__ok_button = Button(self, text="OK", default="active", command=self.__on_ok)
+        self.__ok_button = Button(self, text="OK", command=self.__on_ok)
 
         #   Set up control structure
         self.__pan0.pack(fill=tk.X, padx=0, pady=0)

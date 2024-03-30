@@ -6,7 +6,7 @@ from awt_impl.MenuItem import MenuItem
 from awt_impl.Action import Action
 from awt_impl.ActionEvent import ActionEvent
 from awt_impl.PropertyChangeEvent import PropertyChangeEvent
-from awt_impl._TkHelpers import _analyze_label
+from awt_impl._TkHelpers import _tk_analyze_label
 
 class SimpleMenuItem(MenuItem):
 
@@ -30,8 +30,9 @@ class SimpleMenuItem(MenuItem):
         self.__action = action
         
         #   Bind with Action
-        if self.__action is not None:
-            self.__action.add_property_change_listener(self.__on_action_property_changed)
+        if action is not None:
+            action.add_property_change_listener(self.__on_action_property_changed)
+            self.add_action_listener(action.execute)
 
     ##########
     #   MenuItem (Properties)
@@ -43,11 +44,11 @@ class SimpleMenuItem(MenuItem):
     def label(self, new_label: str) -> None:
         assert isinstance(new_label, str)
         
-        if (self._MenuItem__menu is not None) and (new_label != self.__label):
+        if (self.menu is not None) and (new_label != self.__label):
             #   this menu item is part of the menu
-            tk_menu : tk.Menu = self._MenuItem__menu._Menu__impl
-            tk_menu_item_index = self._MenuItem__menu._Menu__items._MenuItems__menu_items.index(self)
-            (tk_text, tk_underline) = _analyze_label(new_label)
+            tk_menu : tk.Menu = self.menu._Menu__tk_impl
+            tk_menu_item_index = self.menu.items._MenuItems__menu_items.index(self)
+            (tk_text, tk_underline) = _tk_analyze_label(new_label)
             tk_menu.entryconfig(tk_menu_item_index, 
                                 label=tk_text, 
                                 underline=tk_underline)
@@ -63,10 +64,10 @@ class SimpleMenuItem(MenuItem):
         assert ((new_shortcut is None) or
                 isinstance(new_shortcut, KeyStroke))
         
-        if (self._MenuItem__menu is not None) and (new_shortcut != self.__shortcut):
+        if (self.menu is not None) and (new_shortcut != self.__shortcut):
             #   this menu item is part of the menu
-            tk_menu : tk.Menu = self._MenuItem__menu._Menu__impl
-            tk_menu_item_index = self._MenuItem__menu._Menu__items._MenuItems__menu_items.index(self)
+            tk_menu : tk.Menu = self.menu._Menu__tk_impl
+            tk_menu_item_index = self.menu.items._MenuItems__menu_items.index(self)
             if new_shortcut is None:
                 tk_menu.entryconfig(tk_menu_item_index, accelerator=None)
             else:
@@ -75,7 +76,7 @@ class SimpleMenuItem(MenuItem):
         self.__shortcut = new_shortcut
 
     ##########
-    #   Implementation    
+    #   Event listeners
     def __on_action_property_changed(self, evt: PropertyChangeEvent) -> None:
         match evt.changed_property:
             case Action.NAME_PROPERTY_NAME:

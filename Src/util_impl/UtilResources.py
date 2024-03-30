@@ -34,15 +34,13 @@ class UtilResources(ClassWithConstants):
     @staticproperty
     def PRODUCT_ICON_SMALL() -> tk.PhotoImage:
         """ The 16x16 icon representing PyTT. """
-        #   TODO kill off print(cls.__name__)
         if UtilResources.__product_icon_small is None:
-            UtilResources.__product_icon_small = tk.PhotoImage(file = os.path.join(os.path.dirname(__file__), "resources/images/PyTTSmall.gif"))
+            UtilResources.__product_icon_small = tk.PhotoImage(file = os.path.join(os.path.dirname(__file__), "resources/images/PyTTSmall.png"))
         return UtilResources.__product_icon_small
 
     @staticproperty
     def PRODUCT_ICON_LARGE() -> tk.PhotoImage:
         """ The 32x32 icon representing PyTT. """
-        #   TODO kill off print(cls.__name__)
         if UtilResources.__product_icon_large is None:
-            UtilResources.__product_icon_large = tk.PhotoImage(file = os.path.join(os.path.dirname(__file__), "resources/images/PyTTLarge.gif"))
+            UtilResources.__product_icon_large = tk.PhotoImage(file = os.path.join(os.path.dirname(__file__), "resources/images/PyTTLarge.png"))
         return UtilResources.__product_icon_large

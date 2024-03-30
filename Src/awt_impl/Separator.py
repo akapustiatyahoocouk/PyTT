@@ -14,3 +14,5 @@ class Separator(ttk.Separator, BaseWidgetMixin):
         """Construct an awt Separator widget with the parent master. """
         ttk.Separator.__init__(self, master, **kwargs)
         BaseWidgetMixin.__init__(self)
+
+        self.configure(takefocus=0)

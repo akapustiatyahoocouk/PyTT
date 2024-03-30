@@ -30,7 +30,7 @@ class MainFrame(TopFrame):
         hi = help_menu.items.append('&Index')
         help_menu.items.append('&Search').enabled = False
 
-        action_set.about.enabled = False
+        #action_set.about.enabled = False
         action_set.about.name = '&About PyTT...'
         hi.shortcut = KeyStroke(VirtualKey.VK_F1, InputEventModifiers.ALT)
         action_set.about.shortcut = KeyStroke(VirtualKey.VK_F1)

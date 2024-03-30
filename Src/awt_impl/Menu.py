@@ -15,31 +15,41 @@ class MenuItems:
         self.__menu = menu
         self.__menu_items = list()
        
+    ##########
+    #   Properties
+    @property
+    def menu(self) -> "Menu":
+        """ The menu to which this list-of-menu-items belongs; never None. """
+        return self.__menu
+
     ##########`
     #   Operations
     def append(self, item: Any, **kwargs) -> MenuItem:
-        import awt_impl.Submenu
-        import awt_impl.Action
-        import awt_impl.SimpleMenuItem
-        import awt_impl.KeyStroke
+        from awt_impl.Submenu import Submenu
+        from awt_impl.Action import Action
+        from awt_impl.SimpleMenuItem import SimpleMenuItem
+        from awt_impl.KeyStroke import KeyStroke
+        from awt_impl._TkHelpers import _tk_analyze_label
         
         assert item is not None
         if isinstance(item, str):
             #   menu.append('menu item text', **kwargs)
             #       Appending a string item to a menu
             #   TODO report unsupported kwargs
-            (text_, underline_) = awt_impl._TkHelpers._analyze_label(item)
-            text_menu_item = awt_impl.SimpleMenuItem.SimpleMenuItem(item)
-            self.__menu._Menu__impl.add_command(label=text_, underline=underline_, command=text_menu_item._on_tk_click)
+            (tk_text, tk_underline) = _tk_analyze_label(item)
+            text_menu_item = SimpleMenuItem(item)
+            self.__menu._Menu__tk_impl.add_command(label=tk_text, 
+                                                   underline=tk_underline, 
+                                                   command=text_menu_item._on_tk_click)
             self.__menu_items.append(text_menu_item)
             text_menu_item._MenuItem__menu = self.__menu
             return text_menu_item
         
-        elif (isinstance(item, awt_impl.Action.Action)):
+        elif (isinstance(item, Action)):
             #   menu.append(action: Action, **kwargs)
             #       Appending an Action-based item to a menu
             #   TODO report unsupported kwargs
-            action: awt_impl.Action.Action = item
+            action: Action = item
             #   Prepare properties for the menu item
             menu_item_label = kwargs.get("label", None)
             if not isinstance(menu_item_label, str):
@@ -48,41 +58,39 @@ class MenuItems:
             if not isinstance(menu_item_description, str):
                 menu_item_description = action.description;
             menu_item_shortcut = kwargs.get("shortcut", None)
-            if not isinstance(menu_item_shortcut, awt_impl.KeyStroke.KeyStroke):
+            if not isinstance(menu_item_shortcut, KeyStroke):
                 menu_item_shortcut = action.shortcut;
             #   Create menu item
-            (tk_text, tk_underline) = awt_impl._TkHelpers._analyze_label(menu_item_label)
+            (tk_text, tk_underline) = _tk_analyze_label(menu_item_label)
             tk_accelerator = None
             if action.shortcut is not None:
                 tk_accelerator = str(action.shortcut)
-            simple_menu_item = awt_impl.SimpleMenuItem.SimpleMenuItem(menu_item_label,
-                                                                      description=menu_item_description,
-                                                                      shortcut=menu_item_shortcut,
-                                                                      action=action)
-            self.__menu._Menu__impl.add_command(label=tk_text, 
-                                                underline=tk_underline, 
-                                                accelerator=tk_accelerator,
-                                                command=simple_menu_item._on_tk_click)
+            simple_menu_item = SimpleMenuItem(menu_item_label,
+                                              description=menu_item_description,
+                                              shortcut=menu_item_shortcut,
+                                              action=action)
+            self.__menu._Menu__tk_impl.add_command(label=tk_text, 
+                                                   underline=tk_underline, 
+                                                   accelerator=tk_accelerator,
+                                                   command=simple_menu_item._on_tk_click)
             self.__menu_items.append(simple_menu_item)
             simple_menu_item._MenuItem__menu = self.__menu
-            #   Bind menu item with the action
-            simple_menu_item.add_action_listener(action.execute)
-            #   TODO make simple_menu_item listen to action property changes
-            action.add_property_change_listener
             #   Done creating the item
             return simple_menu_item
             
-        elif (isinstance(item, awt_impl.Submenu.Submenu)):
+        elif (isinstance(item, Submenu)):
             #   menu.append(submenu: Submenu, **kwargs)
             #       Appending a sub-menu to a menu
             #   TODO report unsupported kwargs
-            assert item._MenuItem__menu is None
+            assert item.menu is None
             submenu: awt_impl.Submenu.Submenu = item
             #   Create menu item
-            (text_, underline_) = awt_impl._TkHelpers._analyze_label(submenu.label)
-            self.__menu._Menu__impl.add_cascade(label=text_, underline=underline_, menu=item._Menu__impl)
+            (tk_text, tk_underline) = _tk_analyze_label(submenu.label)
+            self.__menu._Menu__tk_impl.add_cascade(label=tk_text, 
+                                                   underline=tk_underline, 
+                                                   menu=item._Menu__tk_impl)
             self.__menu_items.append(item)
-            item._Menu__impl.master = self.__menu._Menu__impl
+            item._Menu__tk_impl.master = self.__menu._Menu__tk_impl
             item._MenuItem__menu = self.__menu
             return item
 
@@ -92,7 +100,7 @@ class MenuItems:
     def remove_at(self, index: int) -> None:
         assert isinstance(index, int)
         self.__menu_items.remove(self.__menu_items[index])
-        self.__menu._Menu__impl.delete(index)
+        self.__menu._Menu__tk_impl.delete(index)
 
 
 class Menu(ABC):
@@ -102,7 +110,7 @@ class Menu(ABC):
     #   Construction
     def __init__(self):
         self.__items = MenuItems(self)
-        self.__impl = tk.Menu(tearoff=0)
+        self.__tk_impl = tk.Menu(tearoff=0)
 
     ##########
     #   Properties    

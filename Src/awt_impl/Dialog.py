@@ -61,8 +61,15 @@ class Dialog(tk.Toplevel, BaseWidgetMixin):
     def ok_button(self, button: Button):
         #   TODO document
         assert (button is None) or isinstance(button, Button)
+        
+        if button is self.__ok_button:
+            return  #   Nothing to do
+        if self.__ok_button is not None:
+            self.__ok_button.configure(default="normal")
         self.__ok_button = button
-
+        if self.__ok_button is not None:
+            self.__ok_button.configure(default="active")
+        
     @property    
     def cancel_button(self):
         #   TODO document

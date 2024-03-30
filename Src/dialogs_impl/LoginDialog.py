@@ -57,7 +57,7 @@ class LoginDialog(Dialog):
         
         self.__separator = Separator(self, orient="horizontal")
 
-        self.__ok_button = Button(self, text='OK', default="active")
+        self.__ok_button = Button(self, text='OK')
         self.__cancel_button = Button(self, text='Cancel')
 
         #   Set up control structure

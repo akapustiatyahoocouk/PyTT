@@ -47,8 +47,8 @@ class MenuItem(ABC, ActionEventProcessorMixin):
         if (self.__menu is not None) and (new_enabled != self.__enabled):
             #   this menu item is part of the menu
             self.__enabled = new_enabled
-            tk_menu : tk.Menu = self.__menu._Menu__impl
-            tk_menu_item_index = self.__menu._Menu__items._MenuItems__menu_items.index(self)
+            tk_menu : tk.Menu = self.__menu._Menu__tk_impl
+            tk_menu_item_index = self.__menu.items._MenuItems__menu_items.index(self)
             if new_enabled:
                 tk_menu.entryconfig(tk_menu_item_index, state="normal")
             else:

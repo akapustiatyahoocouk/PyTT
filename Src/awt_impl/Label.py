@@ -14,3 +14,5 @@ class Label(ttk.Label, BaseWidgetMixin):
         """Construct an awt Label widget with the parent master. """
         ttk.Label.__init__(self, master, **kwargs)
         BaseWidgetMixin.__init__(self)
+        
+        self.configure(takefocus=0)

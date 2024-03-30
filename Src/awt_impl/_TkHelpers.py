@@ -2,7 +2,7 @@
     Private classes and services required for Tk/Ttk integration.
 """
 
-def _analyze_label(label: str) -> tuple[str, int]:
+def _tk_analyze_label(label: str) -> tuple[str, int]:
     """ Given a "label" of an AWT control (i.e. button text, menu
         item text, etc.) where '&' can be used to mark the 'hotchar',
         returns a tuple of Tk-style widget label and the underline

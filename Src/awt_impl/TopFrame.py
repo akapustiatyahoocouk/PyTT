@@ -35,13 +35,15 @@ class TopFrame(tk.Toplevel, BaseWidgetMixin):
 
     @menu_bar.setter
     def menu_bar(self, mb: Optional[MenuBar]) -> None:
+        if mb is self.__menu_bar:
+            return#   Already there
         if mb is None:
             if self.__menu_bar is not None:
-                self.__menu_bar._Menu__impl.master = None
+                self.__menu_bar._Menu__tk_impl.master = None
             self["menu"] = ""
             self.__menu_bar = None
         else:
             assert isinstance(mb, Optional[MenuBar])
-            mb._Menu__impl.master._impl = self
-            self["menu"] = mb._Menu__impl
+            mb._Menu__tk_impl.master._impl = self
+            self["menu"] = mb._Menu__tk_impl
             self.__menu_bar = mb
