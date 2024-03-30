@@ -1,5 +1,7 @@
-from typing import final, Optional, TypeAlias, Callable
-from enum import Enum
+"""
+    Defines the ActionEvent API.
+"""
+from typing import TypeAlias, Callable
 
 from awt.Event import Event
 
@@ -11,7 +13,7 @@ class ActionEvent(Event):
     #   Construction
     def __init__(self, source):
         """ Constructs the event. """
-        super().__init__(source)
+        Event.__init__(self, source)
 
     ##########
     #   object

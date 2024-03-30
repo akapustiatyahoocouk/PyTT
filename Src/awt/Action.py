@@ -1,5 +1,8 @@
+"""
+    Defines the Action API.
+"""
 from typing import Optional
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 
 import tkinter as tk
 
@@ -12,18 +15,18 @@ from awt.PropertyChangeEvent import PropertyChangeEvent
 class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
     """ A generic "action" is an agent that encapsulates properties 
         of an activity that can be triggered by the user. """
-        
+
     ##########
     #   Constants (observable property names)
     NAME_PROPERTY_NAME = "name"
     """ The name of the "name: str" property of an Action. """
-    
+
     DESCRIPTION_PROPERTY_NAME = "description"
     """ The name of the "description: str" property of an Action. """
 
     SHORTCUT_PROPERTY_NAME = "shortcut"
     """ The name of the "shortcut: KeyStroke" property of an Action. """
-    
+
     ENABLED_PROPERTY_NAME = "enabled"
     """ The name of the "enabled: bool" property of an Action. """
 
@@ -35,9 +38,9 @@ class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
 
     ##########
     #   Construction
-    def __init__(self, 
-                 name: str, 
-                 description: Optional[str] = None, 
+    def __init__(self,
+                 name: str,
+                 description: Optional[str] = None,
                  shortcut: Optional[KeyStroke] = None,
                  enabled: Optional[bool] = True,
                  small_image: Optional[tk.PhotoImage] = None,
@@ -76,8 +79,8 @@ class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
         self.__description = description
         self.__shortcut = shortcut
         self.__enabled = enabled
-        self.__small_image = small_image;
-        self.__large_image = large_image;
+        self.__small_image = small_image
+        self.__large_image = large_image
 
     ##########
     #   Properties
@@ -105,14 +108,14 @@ class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
     def description(self) -> Optional[str]:
         """ The 1-line user-readable description of the action (optional, can be None). """
         return self.__description
-    
+
     @property   # TODO add setter
-    def shortcut(self) -> Optional[KeyStroke]:    
+    def shortcut(self) -> Optional[KeyStroke]:
         """ The keyboard shortcut of the action (optional, can be None). """
         return self.__shortcut
 
     @shortcut.setter
-    def shortcut(self, new_shortcut: Optional[KeyStroke]):    
+    def shortcut(self, new_shortcut: Optional[KeyStroke]):
         """ Sets the kryboard shortcut of this Action, None == bo shortcut. """
         assert (new_shortcut is None) or isinstance(new_shortcut, KeyStroke)
         if new_shortcut != self.__shortcut:
@@ -122,12 +125,12 @@ class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
             self._process_property_change_event(evt)
 
     @property   # TODO add setter
-    def enabled(self) -> bool:    
+    def enabled(self) -> bool:
         """ True if this action is enabled, false if disabled; cannot be None. """
         return self.__enabled
 
     @enabled.setter
-    def enabled(self, new_enabled: bool):    
+    def enabled(self, new_enabled: bool):
         """ True to enable this action, false to disable; cannot be None. """
         assert isinstance(new_enabled, bool)
         if new_enabled != self.__enabled:
