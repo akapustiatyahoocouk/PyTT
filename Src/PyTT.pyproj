@@ -46,9 +46,7 @@
     <Compile Include="gui\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="util_api.py" />
     <Compile Include="util\Annotations.py" />
-    <Compile Include="awt_api.py" />
     <Compile Include="awt\Action.py" />
     <Compile Include="awt\BaseWidgetMixin.py" />
     <Compile Include="awt\Entry.py" />
@@ -76,21 +74,18 @@
     <Compile Include="awt\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="db_api.py" />
     <Compile Include="db\Exceptions.py" />
     <Compile Include="db\DatabaseAddress.py" />
     <Compile Include="db\DatabaseType.py" />
     <Compile Include="db\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="gui_api.py" />
     <Compile Include="gui\dialogs\AboutDialog.py" />
     <Compile Include="gui\dialogs\LoginDialog.py" />
     <Compile Include="gui\dialogs\__init__.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="util\Friends.py" />
-    <Compile Include="pnp_api.py" />
     <Compile Include="pnp\Plugin.py" />
     <Compile Include="pnp\PluginManager.py" />
     <Compile Include="pnp\__init__.py">
@@ -113,7 +108,6 @@
     <Compile Include="util\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="workspace_api.py" />
     <Compile Include="workspace\Credentials.py" />
     <Compile Include="workspace\CurrentCredentials.py" />
     <Compile Include="workspace\__init__.py">

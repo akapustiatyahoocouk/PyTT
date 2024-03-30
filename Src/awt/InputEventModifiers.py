@@ -1,6 +1,7 @@
 from typing import final
 
-from util_api import staticproperty, ClassWithConstants
+from util.Annotations import staticproperty
+from util.Metaclasses import ClassWithConstants
 
 @final
 class InputEventModifiers(ClassWithConstants):

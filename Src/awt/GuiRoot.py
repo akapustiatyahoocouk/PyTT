@@ -3,7 +3,8 @@ import platform
 
 import tkinter as tk
 
-from util_api import staticproperty, UtilResources
+from util.Annotations import staticproperty
+from util.UtilResources import UtilResources
 
 @final
 class GuiRoot:

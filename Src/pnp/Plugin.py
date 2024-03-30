@@ -1,6 +1,6 @@
 from abc import ABC, abstractproperty, abstractmethod
 
-from util_api import FriendlyABC
+from util.Friends import FriendlyABC
 
 class Plugin(FriendlyABC, friends=("PluginManager",)):
     """ A generic "plugin" - an agent discovered and initialised

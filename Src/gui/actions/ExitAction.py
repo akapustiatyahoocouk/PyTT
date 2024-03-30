@@ -3,7 +3,11 @@
 """
 from typing import final
 
-from awt_api import KeyStroke, VirtualKey, InputEventModifiers, ActionEvent
+from awt.KeyStroke import KeyStroke
+from awt.VirtualKey import VirtualKey
+from awt.InputEventModifiers import InputEventModifiers
+from awt.ActionEvent import ActionEvent
+
 from gui.skins.admin.MainFrame import MainFrame # TODO actions are for ALL skins!
 from gui.actions.ActionBase import ActionBase
 

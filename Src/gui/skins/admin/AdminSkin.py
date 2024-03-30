@@ -1,7 +1,6 @@
 """ Implements the "Admin: skin. """
 
-from util_api import staticproperty
-
+from util.Annotations import staticproperty
 from gui.skins.Skin import Skin
 from gui.skins.admin.MainFrame import MainFrame # TODO Actions are for ALL skins!
 

@@ -1,7 +1,7 @@
 from typing import Optional
 from abc import ABC, abstractproperty, abstractmethod
 
-from util_api import staticproperty
+from util.Annotations import staticproperty
 
 class DatabaseType(ABC):
     """ A "database type" corresponds to a technology used to

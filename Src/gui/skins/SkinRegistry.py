@@ -1,6 +1,6 @@
 from typing import final, Optional
 
-from util_api import staticproperty
+from util.Annotations import staticproperty
 from gui.skins.Skin import Skin
 
 @final

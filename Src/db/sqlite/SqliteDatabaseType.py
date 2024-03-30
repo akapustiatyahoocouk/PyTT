@@ -1,4 +1,4 @@
-from util_api import staticproperty
+from util.Annotations import staticproperty
 from db.DatabaseType import DatabaseType
 from db.DatabaseAddress import DatabaseAddress
 

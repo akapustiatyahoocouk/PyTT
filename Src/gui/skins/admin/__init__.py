@@ -5,8 +5,8 @@ print('Loading package', __file__)
 
 from typing import final
 
-from util_api import staticproperty
-from pnp_api import Plugin
+from util.Annotations import staticproperty
+from pnp.Plugin import Plugin
 from gui.skins.Skin import Skin
 
 @final

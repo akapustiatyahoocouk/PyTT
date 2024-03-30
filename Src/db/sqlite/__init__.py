@@ -2,7 +2,7 @@ print('Loading package', __file__)
 
 from typing import final
 
-from util_api import staticproperty
+from util.Annotations import staticproperty
 from pnp.Plugin import Plugin
 
 @final

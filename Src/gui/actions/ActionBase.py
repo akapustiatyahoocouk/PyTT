@@ -3,7 +3,9 @@
 """
 from typing import Optional
 
-from awt_api import Action, KeyStroke
+from awt.Action import Action
+from awt.KeyStroke import KeyStroke
+
 from gui.skins.admin.MainFrame import MainFrame # TODO Acions are for all skins!
 
 class ActionBase(Action):

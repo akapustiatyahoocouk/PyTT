@@ -1,10 +1,16 @@
 
 from typing import final
 
-from awt_api import TopFrame, Button, GuiRoot
-from awt_api import KeyStroke, VirtualKey, InputEventModifiers
-from awt_api import MenuBar, Submenu
+from awt.TopFrame import TopFrame
+from awt.Button import Button
+from awt.GuiRoot import GuiRoot
 
+from awt.KeyStroke import KeyStroke
+from awt.VirtualKey import VirtualKey
+from awt.InputEventModifiers import InputEventModifiers
+
+from awt.MenuBar import MenuBar
+from awt.Submenu import Submenu
 
 @final
 class MainFrame(TopFrame):

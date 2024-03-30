@@ -1,10 +1,14 @@
+"""
+    Defines the Plugin Manager API.
+"""
+
 from genericpath import isdir
 from typing import final
 import os
 import importlib
 import traceback
 
-from util_api import staticproperty
+from util.Annotations import staticproperty
 
 from pnp.Plugin import Plugin
 

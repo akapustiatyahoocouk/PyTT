@@ -2,7 +2,7 @@ from typing import final, Optional
 
 import tkinter as tk
 
-from util_api import UtilResources
+from util.UtilResources import UtilResources
 from awt.GuiRoot import GuiRoot
 from awt.BaseWidgetMixin import BaseWidgetMixin
 from awt.MenuBar import MenuBar

@@ -3,8 +3,11 @@
 """
 from typing import final
 
-from awt_api import KeyStroke, VirtualKey, InputEventModifiers, ActionEvent
-from gui_api import AboutDialog
+from awt.KeyStroke import KeyStroke
+from awt.VirtualKey import VirtualKey
+from awt.InputEventModifiers import InputEventModifiers
+from awt.ActionEvent import ActionEvent
+from gui.dialogs.AboutDialog import AboutDialog
 from gui.skins.admin.MainFrame import MainFrame
 from gui.actions.ActionBase import ActionBase
 

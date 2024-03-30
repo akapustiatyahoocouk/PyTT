@@ -6,8 +6,11 @@ from enum import Enum
 
 import tkinter as tk
 
-from awt_api import Dialog, Label, Separator, Button
-from util_api import UtilResources
+from awt.Dialog import Dialog
+from awt.Label import Label
+from awt.Separator import Separator
+from awt.Button import Button
+from util.UtilResources import UtilResources
 
 @final
 class AboutDialogResult(Enum):

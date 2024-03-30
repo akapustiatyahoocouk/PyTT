@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 import tkinter as tk
 
-from util_api import ABCWithConstants
+from util.Metaclasses import ABCWithConstants
 from awt.KeyStroke import KeyStroke
 from awt.ActionEvent import ActionEvent
 from awt.PropertyChangeEventProcessorMixin import PropertyChangeEventProcessorMixin

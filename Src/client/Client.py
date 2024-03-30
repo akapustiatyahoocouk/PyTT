@@ -8,13 +8,18 @@ import atexit   # TODO is it needed HERE?
 import sys
 import os.path
 
-from awt_api import GuiRoot, TopFrame, Label, Separator
-from workspace_api import CurrentCredentials
-from gui_api import LoginDialog, LoginDialogResult, ActiveSkin, SkinRegistry
-from pnp_api import PluginManager
-from util_api import UtilResources
+from awt.GuiRoot import GuiRoot
+from awt.TopFrame import TopFrame
+from awt.Label import Label
+from awt.Separator import Separator
+from workspace.CurrentCredentials import CurrentCredentials
+from gui.dialogs.LoginDialog import LoginDialog, LoginDialogResult
+from gui.skins.ActiveSkin import ActiveSkin
+from gui.skins.SkinRegistry import SkinRegistry
+from pnp.PluginManager import PluginManager
+from util.UtilResources import UtilResources
 
-from client.CommandLine import CommandLine
+from CommandLine import CommandLine
 
 print('Python is', sys.version_info)
 

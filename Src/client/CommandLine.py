@@ -2,7 +2,7 @@ from typing import final
 
 import sys
 
-from util_api import staticproperty
+from util.Annotations import staticproperty
 
 @final
 class CommandLine:

@@ -6,8 +6,12 @@ from enum import Enum
 
 import tkinter as tk
 
-from awt_api import Dialog, Label, Entry, Separator, Button
-from workspace_api import Credentials
+from awt.Dialog import Dialog
+from awt.Label import Label
+from awt.Entry import Entry
+from awt.Separator import Separator
+from awt.Button import Button
+from workspace.Credentials import Credentials
 
 @final
 class LoginDialogResult(Enum):
