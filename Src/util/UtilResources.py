@@ -1,3 +1,6 @@
+"""
+    Resource definitions for "util" component.
+"""
 from typing import final
 
 import os
@@ -8,13 +11,8 @@ from util.Metaclasses import ClassWithConstants
 
 @final
 class UtilResources(ClassWithConstants):
-    """ Resources provided by the util package. """
+    """ Resources provided by the "util" component. """
 
-    ##########    
-    #   Resources requiring lazy load
-    __product_icon_small = None
-    __product_icon_large = None
-    
     ##########
     #   Construction - disable (this is an utility class)
     def __init__(self):
@@ -34,13 +32,22 @@ class UtilResources(ClassWithConstants):
     @staticproperty
     def PRODUCT_ICON_SMALL() -> tk.PhotoImage:
         """ The 16x16 icon representing PyTT. """
-        if UtilResources.__product_icon_small is None:
-            UtilResources.__product_icon_small = tk.PhotoImage(file = os.path.join(os.path.dirname(__file__), "resources/images/PyTTSmall.png"))
-        return UtilResources.__product_icon_small
+        return UtilResources.__load_image("PyTTSmall.png")
 
     @staticproperty
     def PRODUCT_ICON_LARGE() -> tk.PhotoImage:
         """ The 32x32 icon representing PyTT. """
-        if UtilResources.__product_icon_large is None:
-            UtilResources.__product_icon_large = tk.PhotoImage(file = os.path.join(os.path.dirname(__file__), "resources/images/PyTTLarge.png"))
-        return UtilResources.__product_icon_large
+        return UtilResources.__load_image("PyTTLarge.png")
+
+    ##########
+    #   Implementation
+    __icon_cache: dict[str, tk.PhotoImage] = {}
+    
+    @staticmethod
+    def __load_image(image_name: str) -> tk.PhotoImage:
+        image = UtilResources.__icon_cache.get(image_name, None)
+        if image is None:
+            image = tk.PhotoImage(file = os.path.join(os.path.dirname(__file__), "resources/images/" + image_name))
+            UtilResources.__icon_cache[image_name] = image
+        return image
+    

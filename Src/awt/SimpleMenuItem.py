@@ -1,12 +1,11 @@
-from ast import Or
 from typing import Optional
+import tkinter as tk
 
 from awt.KeyStroke import KeyStroke
 from awt.MenuItem import MenuItem
 from awt.Action import Action
 from awt.ActionEvent import ActionEvent
 from awt.PropertyChangeEvent import PropertyChangeEvent
-from awt._TkHelpers import _tk_analyze_label
 
 class SimpleMenuItem(MenuItem):
 
@@ -14,19 +13,25 @@ class SimpleMenuItem(MenuItem):
     #   Construction
     def __init__(self, 
                  label: str,
+                 hotkey: Optional[str] = None,
                  description: Optional[str] = None, 
                  shortcut: Optional[KeyStroke] = None,
+                 image: Optional[tk.PhotoImage] = None,
                  action: Optional[Action] = None):
         MenuItem.__init__(self)
         
         assert isinstance(label, str)
+        assert (hotkey is None) or isinstance(hotkey, str)
         assert (description is None) or isinstance(description, str)
         assert (shortcut is None) or isinstance(shortcut, KeyStroke)
+        assert (image is None) or isinstance(image, tk.PhotoImage)
         assert (action is None) or isinstance(action, Action)
 
         self.__label = label
+        self.__hotkey = hotkey
         self.__description = description
         self.__shortcut = shortcut
+        self.__image = image
         self.__action = action
         
         #   Bind with Action
@@ -48,12 +53,32 @@ class SimpleMenuItem(MenuItem):
             #   this menu item is part of the menu
             tk_menu : tk.Menu = self.menu._Menu__tk_impl
             tk_menu_item_index = self.menu.items._MenuItems__menu_items.index(self)
-            (tk_text, tk_underline) = _tk_analyze_label(new_label)
-            tk_menu.entryconfig(tk_menu_item_index, 
-                                label=tk_text, 
-                                underline=tk_underline)
+            tk_menu.entryconfig(tk_menu_item_index, label=new_label)
         #   Record the new label
         self.__label = new_label
+
+    @property
+    def hotkey(self) -> str:
+        return self.__hotkey
+
+    @hotkey.setter
+    def hotkey(self, new_hotkey: str) -> None:
+        assert (new_hotkey is None) or isinstance(new_hotkey, str)
+        
+        if (self.menu is not None) and (new_hotkey != self.__hotkey):
+            #   this menu item is part of the menu
+            tk_menu : tk.Menu = self.menu._Menu__tk_impl
+            tk_menu_item_index = self.menu.items._MenuItems__menu_items.index(self)
+            if new_hotkey is None:
+                tk_menu.entryconfig(tk_menu_item_index, underline=None)
+            else:
+                try:
+                    tk_underline = self.__label.lower().index(new_hotkey.lower())
+                except:
+                    tk_underline = None
+                tk_menu.entryconfig(tk_menu_item_index, underline=tk_underline)
+        #   Record the new hotkey
+        self.__hotkey = new_hotkey
 
     @property
     def shortcut(self) -> str:
@@ -81,6 +106,8 @@ class SimpleMenuItem(MenuItem):
         match evt.changed_property:
             case Action.NAME_PROPERTY_NAME:
                 self.label = self.__action.name
+            case Action.HOTKEY_PROPERTY_NAME:
+                self.hotkey = self.__action.hotkey
             case Action.SHORTCUT_PROPERTY_NAME:
                 self.shortcut = self.__action.shortcut
             case Action.ENABLED_PROPERTY_NAME:

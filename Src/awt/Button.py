@@ -10,7 +10,6 @@ from awt.Action import Action
 from awt.ActionEvent import ActionEvent
 from awt.ActionEventProcessorMixin import ActionEventProcessorMixin
 from awt.PropertyChangeEvent import PropertyChangeEvent
-from awt._TkHelpers import _tk_analyze_label
 
 class Button(ttk.Button, 
              BaseWidgetMixin, ActionEventProcessorMixin):
@@ -49,16 +48,26 @@ class Button(ttk.Button,
         action = kwargs.get('action', None)
         if isinstance(action, Action):
             self.__action = action
-            (tk_text, tk_underline) = _tk_analyze_label(action.name)
-            self.configure(text=tk_text, underline=tk_underline)
+            tk_text = action.name
+            try:
+                tk_underline = action.name.lower().index(action.hotkey.lower())
+            except:
+                tk_underline = None
+            tk_image = kwargs["image"] if "image" in kwargs else action.small_image
+
+            self.configure(text=tk_text, underline=tk_underline,
+                           image=tk_image, compound=tk.LEFT)
             self.enabled = action.enabled
             #   Link this Button with the Action
             action.add_property_change_listener(self.__on_action_property_changed)
             self.add_action_listener(action.execute)
         else:
             self.__action = None
-            (tk_text, tk_underline) = _tk_analyze_label(kwargs["text"])
-            self.configure(text=tk_text, underline=tk_underline)
+            tk_text = kwargs["text"]
+            tk_underline = None # TODO hotkey ?
+            tk_image = kwargs.get("image", None)
+            self.configure(text=tk_text, underline=tk_underline,
+                           image=tk_image, compound=tk.LEFT)
 
         #   Done
         self.configure(command = self.__on_tk_click)

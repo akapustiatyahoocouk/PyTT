@@ -21,6 +21,9 @@ class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
     NAME_PROPERTY_NAME = "name"
     """ The name of the "name: str" property of an Action. """
 
+    HOTKEY_PROPERTY_NAME = "hotkey"
+    """ The name of the "hotkey: str" property of an Action. """
+
     DESCRIPTION_PROPERTY_NAME = "description"
     """ The name of the "description: str" property of an Action. """
 
@@ -40,6 +43,7 @@ class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
     #   Construction
     def __init__(self,
                  name: str,
+                 hotkey: Optional[str] = None,
                  description: Optional[str] = None,
                  shortcut: Optional[KeyStroke] = None,
                  enabled: Optional[bool] = True,
@@ -50,6 +54,9 @@ class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
             
             @param name:
                 The short user-readable name of the action; canot be None.
+            @param hotkey:
+                The character to display as underlined when the action name
+                appears in e.g. menu item, buttion text, etc. (optional, can be None).
             @param description:
                 The 1-line user-readable description of the action (optional, can be None).
             @param shortcut:
@@ -69,6 +76,7 @@ class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
         PropertyChangeEventProcessorMixin.__init__(self)
 
         assert isinstance(name, str)
+        assert (hotkey is None) or isinstance(hotkey, str)
         assert (description is None) or isinstance(description, str)
         assert (shortcut is None) or isinstance(shortcut, KeyStroke)
         assert isinstance(enabled, bool)
@@ -76,6 +84,7 @@ class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
         assert (large_image is None) or isinstance(large_image, tk.PhotoImage)
 
         self.__name = name
+        self.__hotkey = None if hotkey is None or len(hotkey) != 1 else hotkey
         self.__description = description
         self.__shortcut = shortcut
         self.__enabled = enabled
@@ -102,6 +111,27 @@ class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
             self.__name = new_name
             #   Notify interested listeners
             evt = PropertyChangeEvent(self, self, Action.NAME_PROPERTY_NAME)
+            self._process_property_change_event(evt)
+
+    @property
+    def hotkey(self) -> str:
+        """ The character to display as underlined when the action name
+            appears in e.g. menu item, buttion text, etc. (optional, can be None). """
+        return self.__hotkey
+
+    @hotkey.setter
+    def hotkey(self, new_hotkey: str):
+        """ 
+            Sets the hotkey of the action.
+            
+            @param new_hotkey:
+                The new hotkey of the action; None for none.
+        """
+        assert (new_hotkey is None) or isinstance(new_hotkey, str)
+        if new_hotkey != self.__hotkey:
+            self.__hotkey = new_hotkey
+            #   Notify interested listeners
+            evt = PropertyChangeEvent(self, self, Action.HOTKEY_PROPERTY_NAME)
             self._process_property_change_event(evt)
 
     @property   # TODO add setter

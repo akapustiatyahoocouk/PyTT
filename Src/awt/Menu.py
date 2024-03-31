@@ -36,7 +36,14 @@ class MenuItems:
             #   menu.append('menu item text', **kwargs)
             #       Appending a string item to a menu
             #   TODO report unsupported kwargs
-            (tk_text, tk_underline) = _tk_analyze_label(item)
+            menu_item_hotkey = kwargs.get("hotkey", None)
+            tk_text = item
+            try:
+                tk_underline = tk_text.lower().index(menu_item_hotkey.lower())
+            except:
+                tk_underline = None
+            #   TODO associated image
+            #   TODO accelerator
             text_menu_item = SimpleMenuItem(item)
             self.__menu._Menu__tk_impl.add_command(label=tk_text, 
                                                    underline=tk_underline, 
@@ -53,26 +60,39 @@ class MenuItems:
             #   Prepare properties for the menu item
             menu_item_label = kwargs.get("label", None)
             if not isinstance(menu_item_label, str):
-                menu_item_label = action.name;
+                menu_item_label = action.name
+            menu_item_hotkey = kwargs.get("hotkey", None)
+            if not isinstance(menu_item_hotkey, str):
+                menu_item_hotkey = action.hotkey
             menu_item_description = kwargs.get("description", None)
             if not isinstance(menu_item_description, str):
-                menu_item_description = action.description;
+                menu_item_description = action.description
             menu_item_shortcut = kwargs.get("shortcut", None)
             if not isinstance(menu_item_shortcut, KeyStroke):
-                menu_item_shortcut = action.shortcut;
+                menu_item_shortcut = action.shortcut
+            menu_item_image = kwargs.get("image", None)
+            if not isinstance(menu_item_image, tk.PhotoImage):
+                menu_item_image = action.small_image
             #   Create menu item
-            (tk_text, tk_underline) = _tk_analyze_label(menu_item_label)
+            tk_text = menu_item_label
+            try:
+                tk_underline = tk_text.lower().index(menu_item_hotkey.lower())
+            except:
+                tk_underline = None
             tk_accelerator = None
             if action.shortcut is not None:
                 tk_accelerator = str(action.shortcut)
             simple_menu_item = SimpleMenuItem(menu_item_label,
                                               description=menu_item_description,
                                               shortcut=menu_item_shortcut,
+                                              image=menu_item_image,
                                               action=action)
             self.__menu._Menu__tk_impl.add_command(label=tk_text, 
                                                    underline=tk_underline, 
                                                    accelerator=tk_accelerator,
-                                                   command=simple_menu_item._on_tk_click)
+                                                   command=simple_menu_item._on_tk_click,
+                                                   image=menu_item_image,
+                                                   compound=tk.LEFT)
             self.__menu_items.append(simple_menu_item)
             simple_menu_item._MenuItem__menu = self.__menu
             #   Done creating the item
@@ -85,7 +105,12 @@ class MenuItems:
             assert item.menu is None
             submenu: awt.Submenu.Submenu = item
             #   Create menu item
-            (tk_text, tk_underline) = _tk_analyze_label(submenu.label)
+            tk_text = submenu.label
+            try:
+                tk_underline = tk_text.lower().index(submenu.hotkey.lower())
+            except:
+                tk_underline = None
+            #   TODO hotkey
             self.__menu._Menu__tk_impl.add_cascade(label=tk_text, 
                                                    underline=tk_underline, 
                                                    menu=item._Menu__tk_impl)

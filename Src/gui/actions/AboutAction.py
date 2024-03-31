@@ -10,6 +10,7 @@ from awt.ActionEvent import ActionEvent
 from gui.dialogs.AboutDialog import AboutDialog
 from gui.skins.admin.MainFrame import MainFrame
 from gui.actions.ActionBase import ActionBase
+from gui.GuiResources import GuiResources
 
 @final
 class AboutAction(ActionBase):
@@ -20,9 +21,12 @@ class AboutAction(ActionBase):
     def __init__(self, main_frame: MainFrame):
         ActionBase.__init__(self,
                             main_frame,
-                            "A&bout", 
-                            "Shows PyTT bersion and copyright information",
-                            KeyStroke(VirtualKey.VK_F1, InputEventModifiers.CONTROL))
+                            name=GuiResources.ACTIONS_ABOUT_NAME, 
+                            hotkey=GuiResources.ACTIONS_ABOUT_HOTKEY,
+                            description=GuiResources.ACTIONS_ABOUT_DESCRIPTION,
+                            shortcut=KeyStroke(VirtualKey.VK_F1, InputEventModifiers.CONTROL),  # TODO from from GuiResources
+                            small_image=GuiResources.ACTIONS_ABOUT_SMALL_IMAGE,
+                            large_image=GuiResources.ACTIONS_ABOUT_LARGE_IMAGE)
 
     ##########
     #   Action - Operations

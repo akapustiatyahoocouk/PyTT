@@ -34,6 +34,17 @@ class MenuItem(ABC, ActionEventProcessorMixin):
         """ Sets the textual label of this menu item; cannot become None. """
         raise NotImplementedError()
 
+    @abstractproperty
+    def hotkey(self) -> str:
+        """ The hotkey of this menu item, None if none. """
+        raise NotImplementedError()
+
+    @label.setter
+    @abstractmethod
+    def hotkey(self, hk: str) -> None:
+        """ Sets the hotkey of this menu item; None for none. """
+        raise NotImplementedError()
+
     @property
     def enabled(self) -> bool:
         """ True if this menu item is enabled, Fase if disabled; never None. """

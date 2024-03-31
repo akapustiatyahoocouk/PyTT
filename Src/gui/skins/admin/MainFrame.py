@@ -24,21 +24,22 @@ class MainFrame(TopFrame):
         from gui.actions.ActionSet import ActionSet
         action_set = ActionSet(self)
         
-        file_menu = Submenu('&File')
+        file_menu = Submenu('File', hotkey='F')
         fi1 = file_menu.items.append(action_set.exit)
         fi2 = file_menu.items.append('Exit&1')
         fi3 = file_menu.items.append('Exit&2')
         fi4 = file_menu.items.append('Exit&3')
         file_menu.items.remove_at(2)
         
-        help_menu = Submenu('&Help')
-        help_menu.items.append('&Help')
+        help_menu = Submenu('Help', hotkey='H')
+        help_menu.items.append('Help', hotkey="H")
         ha = help_menu.items.append(action_set.about)
         hi = help_menu.items.append('&Index')
         help_menu.items.append('&Search').enabled = False
 
         #action_set.about.enabled = False
-        action_set.about.name = '&About PyTT... 1234567890'
+        #action_set.about.name = 'About PyTT... 1234567890'
+        #action_set.about.hotkey = "A"
         hi.shortcut = KeyStroke(VirtualKey.VK_F1, InputEventModifiers.ALT)
         action_set.about.shortcut = KeyStroke(VirtualKey.VK_F1)
         
