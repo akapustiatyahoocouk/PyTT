@@ -2,6 +2,7 @@
 from typing import Optional
 import tkinter as tk
 
+#   Internal dependencies on modules within the same component
 from awt.KeyStroke import KeyStroke
 from awt.MenuItem import MenuItem
 from awt.Action import Action

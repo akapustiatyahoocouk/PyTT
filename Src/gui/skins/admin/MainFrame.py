@@ -1,16 +1,8 @@
 
 from typing import final
 
-from awt.TopFrame import TopFrame
-from awt.Button import Button
-from awt.GuiRoot import GuiRoot
-
-from awt.KeyStroke import KeyStroke
-from awt.VirtualKey import VirtualKey
-from awt.InputEventModifiers import InputEventModifiers
-
-from awt.MenuBar import MenuBar
-from awt.Submenu import Submenu
+#   Dependencies on other PyTT components
+from awt.api import *
 
 @final
 class MainFrame(TopFrame):

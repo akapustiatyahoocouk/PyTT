@@ -2,6 +2,7 @@
 from typing import Optional
 from abc import ABC, abstractproperty, abstractmethod
 
+#   Dependencies on other PyTT components
 from util.api import *
 
 class DatabaseType(ABC):

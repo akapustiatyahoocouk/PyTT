@@ -17,10 +17,12 @@ class SqliteDatabaseType(DatabaseType):
 
     ##########
     #   Singleton
-    __instance :  DatabaseType = None
+    __instance_acquisition_in_progress = False
+    __instance : DatabaseType = None
 
     def __init__(self):
-        assert SqliteDatabaseType.__instance is None, "Use SqliteDatabaseType.instance() instead"
+        assert SqliteDatabaseType.__instance_acquisition_in_progress, "Use SqliteDatabaseType.instance() instead"
+        DatabaseType.__init__(self)
     
     @staticproperty
     def instance() -> "SqliteDatabaseType":
@@ -32,7 +34,9 @@ class SqliteDatabaseType(DatabaseType):
                 The one and only instance of this class.
         """
         if SqliteDatabaseType.__instance is None:
+            SqliteDatabaseType.__instance_acquisition_in_progress = True
             SqliteDatabaseType.__instance = SqliteDatabaseType()
+            SqliteDatabaseType.__instance_acquisition_in_progress = False
         return SqliteDatabaseType.__instance
     
     ##########

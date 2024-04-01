@@ -7,11 +7,7 @@ from enum import Enum
 import tkinter as tk
 
 #   Dependencies on other PyTT components
-from awt.Dialog import Dialog
-from awt.Label import Label
-from awt.Entry import Entry
-from awt.Separator import Separator
-from awt.Button import Button
+from awt.api import *
 from workspace.api import *
 
 @final

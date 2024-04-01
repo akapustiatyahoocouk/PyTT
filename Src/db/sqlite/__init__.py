@@ -12,11 +12,12 @@ class SqliteDbPlugin(Plugin):
     
     ##########
     #   Singleton
-    __instance : "SqliteDbPlugin" = None
+    __instance_acquisition_in_progress = False
+    __instance : Plugin = None
 
     def __init__(self):
-        assert SqliteDbPlugin.__instance is None, "Use SqliteDbPlugin.instance instead"
-        super().__init__()
+        assert SqliteDbPlugin.__instance_acquisition_in_progress, "Use SqliteDbPlugin.instance instead"
+        Plugin.__init__(self)
     
     @staticproperty
     def instance() -> "SqliteDbPlugin":
@@ -28,7 +29,9 @@ class SqliteDbPlugin(Plugin):
                 The one and only instance of this class.
         """
         if SqliteDbPlugin.__instance is None:
+            SqliteDbPlugin.__instance_acquisition_in_progress = True
             SqliteDbPlugin.__instance = SqliteDbPlugin()
+            SqliteDbPlugin.__instance_acquisition_in_progress = False
         return SqliteDbPlugin.__instance
 
     ##########

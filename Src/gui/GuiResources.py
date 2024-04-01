@@ -6,8 +6,9 @@ from typing import final, Optional
 import os
 import tkinter as tk
 
+#   Dependencies on other PyTT components
+from awt.api import *
 from util.api import *
-from awt.KeyStroke import KeyStroke
 
 @final
 class GuiResources(ClassWithConstants):

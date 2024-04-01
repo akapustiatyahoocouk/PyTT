@@ -8,6 +8,7 @@ import os
 import atexit
 from configparser import ConfigParser
 
+#   Internal dependencies on modules within the same component
 from util.ComponentSettings import ComponentSettings
 
 ##########

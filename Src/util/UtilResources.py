@@ -7,6 +7,7 @@ from typing import final
 import os
 import tkinter as tk
 
+#   Internal dependencies on modules within the same component
 from util.Annotations import staticproperty
 from util.FileResourceFactory import FileResourceFactory
 from util.Locale import Locale

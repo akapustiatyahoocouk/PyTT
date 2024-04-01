@@ -4,6 +4,7 @@ from inspect import signature
 
 import tkinter.ttk as ttk
 
+#   Internal dependencies on modules within the same component
 from awt.BaseWidgetMixin import BaseWidgetMixin
 
 class Separator(ttk.Separator, BaseWidgetMixin):

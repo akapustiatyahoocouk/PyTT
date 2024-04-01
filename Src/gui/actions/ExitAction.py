@@ -4,10 +4,8 @@
 #   Python standard library
 from typing import final
 
-from awt.KeyStroke import KeyStroke
-from awt.VirtualKey import VirtualKey
-from awt.InputEventModifiers import InputEventModifiers
-from awt.ActionEvent import ActionEvent
+#   Dependencies on other PyTT components
+from awt.api import *
 
 from gui.skins.admin.MainFrame import MainFrame # TODO actions are for ALL skins!
 from gui.actions.ActionBase import ActionBase

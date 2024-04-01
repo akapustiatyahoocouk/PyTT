@@ -1,10 +1,10 @@
 #   Python standard library
 from typing import Callable
 from inspect import signature
-
 import tkinter as tk
 import tkinter.ttk as ttk
 
+#   Internal dependencies on modules within the same component
 from awt.Event import Event
 from awt.BaseWidgetMixin import BaseWidgetMixin
 from awt.Action import Action

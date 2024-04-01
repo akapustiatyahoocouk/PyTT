@@ -2,7 +2,7 @@
     Defines exceptions thrown by the low-level (data storage) database API.
 """
 
-class DatabaseException(Exception):
+class DatabaseError(Exception):
     """ The common base class for all db.api - level exceptions. """
     
     ##########
@@ -16,7 +16,7 @@ class DatabaseException(Exception):
         return self.__message
 
 
-class InvalidDatabaseAddressException(DatabaseException):
+class InvalidDatabaseAddressError(DatabaseError):
     """ Thrown when an invalid database address is supplied to a db API service. """
 
     ##########

@@ -18,10 +18,12 @@ class AdminSkin(Skin):
 
     ##########
     #   Singleton
-    __instance :  Skin = None
+    __instance_acquisition_in_progress = False
+    __instance : Skin = None
 
     def __init__(self):
-        assert AdminSkin.__instance is None, "Use AdminSkin.instance instead"
+        assert AdminSkin.__instance_acquisition_in_progress, "Use AdminSkin.instance instead"
+        Skin.__init__(self)
         self.__main_frame = MainFrame()
         self.__main_frame.deactivate()
 
@@ -35,7 +37,9 @@ class AdminSkin(Skin):
                 The one and only instance of this class.
         """
         if AdminSkin.__instance is None:
+            AdminSkin.__instance_acquisition_in_progress = True
             AdminSkin.__instance = AdminSkin()
+            AdminSkin.__instance_acquisition_in_progress = False
         return AdminSkin.__instance
 
     ##########

@@ -6,10 +6,8 @@ from typing import final
 from enum import Enum
 import tkinter as tk
 
-from awt.Dialog import Dialog
-from awt.Label import Label
-from awt.Separator import Separator
-from awt.Button import Button
+#   Dependencies on other PyTT components
+from awt.api import *
 from util.api import *
 
 @final

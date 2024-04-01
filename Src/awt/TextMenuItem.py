@@ -1,4 +1,6 @@
 #   Python standard library
+
+#   Internal dependencies on modules within the same component
 from awt.MenuItem import MenuItem
 from awt.ActionEvent import ActionEvent
 

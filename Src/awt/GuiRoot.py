@@ -3,6 +3,7 @@ from typing import final
 import platform
 import tkinter as tk
 
+#   Dependencies on other PyTT components
 from util.api import *
 
 @final

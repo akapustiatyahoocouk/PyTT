@@ -6,7 +6,10 @@ from typing import Optional
 from abc import abstractmethod
 import tkinter as tk
 
+#   Dependencies on other PyTT components
 from util.api import *
+
+#   Internal dependencies on modules within the same component
 from awt.KeyStroke import KeyStroke
 from awt.ActionEvent import ActionEvent
 from awt.PropertyChangeEventProcessorMixin import PropertyChangeEventProcessorMixin

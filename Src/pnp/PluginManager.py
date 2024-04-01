@@ -2,7 +2,6 @@
     Defines the Plugin Manager API.
 """
 #   Python standard library
-from genericpath import isdir
 from typing import final
 import os
 import importlib

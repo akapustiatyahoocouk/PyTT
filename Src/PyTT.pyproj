@@ -24,6 +24,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="awt\api.py" />
     <Compile Include="client\CommandLine.py" />
     <Compile Include="client\__init__.py">
       <SubType>Code</SubType>
@@ -39,7 +40,7 @@
     <Compile Include="gui\api.py" />
     <Compile Include="gui\GuiResources.py" />
     <Compile Include="gui\skins\admin\AdminSkin.py" />
-    <Compile Include="gui\skins\admin\AdminSkinSetting.py" />
+    <Compile Include="gui\skins\admin\AdminSkinSettings.py" />
     <Compile Include="gui\skins\admin\MainFrame.py" />
     <Compile Include="gui\skins\admin\__init__.py">
       <SubType>Code</SubType>

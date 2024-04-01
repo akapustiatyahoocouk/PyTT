@@ -4,6 +4,7 @@ from enum import Enum
 
 import tkinter as tk
 
+#   Internal dependencies on modules within the same component
 from awt.InputEventModifiers import InputEventModifiers
 from awt.InputEvent import InputEvent
 from awt.VirtualKey import VirtualKey

@@ -4,6 +4,7 @@ import os
 import re
 import tkinter as tk
 
+#   Internal dependencies on modules within the same component
 from util.Locale import Locale
 from util.ResourceFactory import ResourceFactory
 from util.FileResourceBundle import FileResourceBundle

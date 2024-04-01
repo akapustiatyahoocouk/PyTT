@@ -3,6 +3,7 @@ from typing import final, Any, Tuple
 from abc import ABC
 import tkinter as tk
 
+#   Internal dependencies on modules within the same component
 from awt.MenuItem import MenuItem
 
 @final

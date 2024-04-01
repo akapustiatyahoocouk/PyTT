@@ -1,6 +1,7 @@
 #   Python standard library
 from typing import final
 
+#   Internal dependencies on modules within the same component
 from awt.VirtualKey import VirtualKey
 from awt.InputEventModifiers import InputEventModifiers
 

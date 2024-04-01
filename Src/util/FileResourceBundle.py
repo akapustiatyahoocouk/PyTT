@@ -3,6 +3,7 @@ from typing import Any
 import os
 import tkinter as tk
 
+#   Internal dependencies on modules within the same component
 from util.Locale import Locale
 from util.ResourceType import ResourceType
 from util.ResourceBundle import ResourceBundle

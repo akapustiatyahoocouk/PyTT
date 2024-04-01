@@ -2,6 +2,7 @@
 from typing import final, Optional, TypeAlias, Callable, Any
 from enum import Enum
 
+#   Internal dependencies on modules within the same component
 from awt.Event import Event
 
 class PropertyChangeEvent(Event):

@@ -7,6 +7,7 @@ from enum import Enum
 import tkinter as tk
 import tkinter.ttk as ttk
 
+#   Internal dependencies on modules within the same component
 from awt.BaseWidgetMixin import BaseWidgetMixin
 from awt.Button import Button
 

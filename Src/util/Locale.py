@@ -1,6 +1,7 @@
 #   Python standard library
 from typing import final, Optional
 
+#   Internal dependencies on modules within the same component
 from util.Annotations import staticproperty
 
 class LocaleMeta(type):

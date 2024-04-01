@@ -5,8 +5,8 @@
 from typing import Optional
 import tkinter as tk
 
-from awt.Action import Action
-from awt.KeyStroke import KeyStroke
+#   Dependencies on other PyTT components
+from awt.api import *
 
 from gui.skins.admin.MainFrame import MainFrame # TODO Acions are for all skins!
 

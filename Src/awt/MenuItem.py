@@ -2,6 +2,7 @@
 from typing import Optional
 from abc import ABC, abstractproperty, abstractmethod
 
+#   Internal dependencies on modules within the same component
 from awt.ActionEventProcessorMixin import ActionEventProcessorMixin
 
 class MenuItem(ABC, ActionEventProcessorMixin):

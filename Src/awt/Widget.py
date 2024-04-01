@@ -1,9 +1,9 @@
 #   Python standard library
 from typing import Callable
 from inspect import signature
-
 import tkinter.ttk as ttk
 
+#   Internal dependencies on modules within the same component
 from awt.BaseWidgetMixin import BaseWidgetMixin
 
 class Widget(ttk.Widget, BaseWidgetMixin):

@@ -7,6 +7,7 @@ from typing import Any
 from abc import ABC, abstractmethod, abstractproperty
 import tkinter as tk
 
+#   Internal dependencies on modules within the same component
 from util.Locale import Locale
 
 class ResourceFactory(ABC):

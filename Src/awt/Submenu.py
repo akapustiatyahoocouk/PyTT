@@ -1,6 +1,7 @@
 #   Python standard library
 from typing import Optional
 
+#   Internal dependencies on modules within the same component
 from awt.MenuItem import MenuItem
 from awt.Menu import Menu
 

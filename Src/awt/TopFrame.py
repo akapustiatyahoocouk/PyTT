@@ -2,8 +2,10 @@
 from typing import final, Optional
 import tkinter as tk
 
+#   Dependencies on other PyTT components
 from util.api import *
 
+#   Internal dependencies on modules within the same component
 from awt.GuiRoot import GuiRoot
 from awt.BaseWidgetMixin import BaseWidgetMixin
 from awt.MenuBar import MenuBar

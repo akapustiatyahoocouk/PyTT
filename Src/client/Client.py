@@ -8,11 +8,8 @@ import sys
 import os.path
 
 #   Dependencies on other PyTT components
-from awt.GuiRoot import GuiRoot
-from awt.TopFrame import TopFrame
-from awt.Label import Label
-from awt.Separator import Separator
 from gui.api import *
+from awt.api import *
 from workspace.api import *
 from pnp.api import *
 from util.api import *

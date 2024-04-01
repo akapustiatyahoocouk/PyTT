@@ -3,6 +3,7 @@ from typing import Callable
 from inspect import signature
 import tkinter as tk
 
+#   Internal dependencies on modules within the same component
 from awt.KeyEvent import KeyEvent, KeyEventType
 from awt.KeyEventProcessorMixin import KeyEventProcessorMixin
 

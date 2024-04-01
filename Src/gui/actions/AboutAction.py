@@ -4,10 +4,8 @@
 #   Python standard library
 from typing import final
 
-from awt.KeyStroke import KeyStroke
-from awt.VirtualKey import VirtualKey
-from awt.InputEventModifiers import InputEventModifiers
-from awt.ActionEvent import ActionEvent
+#   Dependencies on other PyTT components
+from awt.api import *
 
 #   Internal dependencies on modules within the same component
 from gui.dialogs.AboutDialog import AboutDialog

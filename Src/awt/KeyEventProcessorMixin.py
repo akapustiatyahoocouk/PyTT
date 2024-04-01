@@ -2,6 +2,7 @@
 from typing import Callable
 from inspect import signature
 
+#   Internal dependencies on modules within the same component
 from awt.Event import Event
 from awt.KeyEvent import KeyEvent, KeyListener
 

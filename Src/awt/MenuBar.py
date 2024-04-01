@@ -5,6 +5,7 @@
 """
 #   Python standard library
 
+#   Internal dependencies on modules within the same component
 from awt.Menu import Menu
 
 class MenuBar(Menu):

@@ -4,6 +4,7 @@
 #   Python standard library
 from typing import TypeAlias, Callable
 
+#   Internal dependencies on modules within the same component
 from awt.Event import Event
 
 class ActionEvent(Event):
