@@ -95,6 +95,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="client\Client.py" />
+    <Compile Include="util\Locale.py" />
+    <Compile Include="util\ResourceBundle.py" />
+    <Compile Include="util\ResourceFactory.py" />
     <Compile Include="util\Settings.py" />
     <Compile Include="util\UtilResources.py" />
     <Compile Include="gui\skins\ActiveSkin.py" />
@@ -140,8 +143,16 @@
   <ItemGroup>
     <Content Include="gui\resources\images\actions\AboutLarge.png" />
     <Content Include="gui\resources\images\actions\AboutSmall.png" />
+    <Content Include="gui\resources\images\actions\CloseWorkspaceLarge.png" />
+    <Content Include="gui\resources\images\actions\CloseWorkspaceSmall.png" />
+    <Content Include="gui\resources\images\actions\CreateWorkspaceLarge.png" />
+    <Content Include="gui\resources\images\actions\CreateWorkspaceSmall.png" />
+    <Content Include="gui\resources\images\actions\DestroyWorkspaceLarge.png" />
+    <Content Include="gui\resources\images\actions\DestroyWorkspaceSmall.png" />
     <Content Include="gui\resources\images\actions\ExitLarge.png" />
     <Content Include="gui\resources\images\actions\ExitSmall.png" />
+    <Content Include="gui\resources\images\actions\OpenWorkspaceLarge.png" />
+    <Content Include="gui\resources\images\actions\OpenWorkspaceSmall.png" />
     <Content Include="util\resources\images\PyTTLarge.gif" />
     <Content Include="util\resources\images\PyTTSmall.gif" />
   </ItemGroup>

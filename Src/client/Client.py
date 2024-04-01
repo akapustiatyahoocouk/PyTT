@@ -18,10 +18,9 @@ from gui.skins.ActiveSkin import ActiveSkin
 from gui.skins.SkinRegistry import SkinRegistry
 from pnp.PluginManager import PluginManager
 from util.UtilResources import UtilResources
+from util.Locale import Locale
 
 from CommandLine import CommandLine
-
-print('Python is', sys.version_info)
 
 @final
 class SplashScreen:
@@ -140,6 +139,9 @@ def __exit_handler():
 ##########
 #   PyTT entry point
 if __name__ == "__main__":
+
+    print('Python is', sys.version_info)
+    print('System locale is', Locale.default)
 
     root_directory = os.path.dirname(os.path.dirname(__file__))
     print("Starting PyTT from", root_directory)
