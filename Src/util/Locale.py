@@ -82,6 +82,9 @@ class Locale(metaclass=LocaleMeta):
 
     ##########
     #   object
+    def __hash__(self) -> int:
+        return hash(repr(self))
+    
     def __str__(self) -> str:
         if self.__language is None:
             return "Invariant"
@@ -132,8 +135,8 @@ class Locale(metaclass=LocaleMeta):
         if self.__language is None:
             return self
         elif self.__country is None:
-            return Locale(self.__language)
+            return Locale.ROOT
         elif self.__variant is None:
-            return Locale(self.__language, self.__country)
+            return Locale(self.__language)
         else:
-            return Locale(self.__language, self.__country, self.__variant)
+            return Locale(self.__language, self.__country)

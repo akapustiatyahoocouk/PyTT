@@ -5,22 +5,10 @@
 from pickle import NONE
 from typing import final
 from abc import ABC, abstractproperty, abstractmethod
-from enum import Enum
+import tkinter as tk
 
 from util.Locale import Locale
-
-@final
-class ResourceType(Enum):
-    NONE
-    """ The resource does not exist OR its type cannot be determined. """
-    
-    STRING
-    """ The resource is a string (str). """
-
-    IMAGE
-    """ The resource is an image (tk.PhotoImage). """
-    
-    #   TODO keystroke, etc.
+from util.ResourceType import ResourceType
 
 class ResourceBundle(ABC):
     """ A bundle of resources for a specific locale. """
@@ -52,6 +40,7 @@ class ResourceBundle(ABC):
                 ResourceType.NONE if the resource does not exist OR 
                 its type cannot be determined.
         """
+        raise NotImplementedError()
 
     @abstractmethod
     def get_string(self, key: str) -> str:
@@ -65,5 +54,20 @@ class ResourceBundle(ABC):
             @raise KeyError:
                 If the specified key does not exist in this resource
                 bundle OR the resource identified by the key is not a string.
+         """
+        raise NotImplementedError()
+
+    @abstractmethod
+    def get_image(self, key: str) -> tk.PhotoImage:
+        """ 
+            Returns the image resource for the specified key.
+            
+            @param key:
+                The key to return a string resource for.
+            @return:
+                The string resource for the specified key.
+            @raise KeyError:
+                If the specified key does not exist in this resource
+                bundle OR the resource identified by the key is not an image.
          """
         raise NotImplementedError()

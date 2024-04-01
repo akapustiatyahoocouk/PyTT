@@ -1,0 +1,3 @@
+PyTT.ProductName=PyTT Time Tracker
+PyTT.ProductVersion=1.0.0 (build 20240316)
+PyTT.ProductCopyright=Copyleft (C) 2024, Andrey Kapustin

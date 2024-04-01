@@ -88,6 +88,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="util\ComponentSettings.py" />
+    <Compile Include="util\FileResourceBundle.py" />
+    <Compile Include="util\FileResourceFactory.py" />
     <Compile Include="util\Friends.py" />
     <Compile Include="pnp\Plugin.py" />
     <Compile Include="pnp\PluginManager.py" />
@@ -98,6 +100,7 @@
     <Compile Include="util\Locale.py" />
     <Compile Include="util\ResourceBundle.py" />
     <Compile Include="util\ResourceFactory.py" />
+    <Compile Include="util\ResourceType.py" />
     <Compile Include="util\Settings.py" />
     <Compile Include="util\UtilResources.py" />
     <Compile Include="gui\skins\ActiveSkin.py" />
@@ -155,6 +158,8 @@
     <Content Include="gui\resources\images\actions\OpenWorkspaceSmall.png" />
     <Content Include="util\resources\images\PyTTLarge.gif" />
     <Content Include="util\resources\images\PyTTSmall.gif" />
+    <Content Include="util\resources\Resources_en.txt" />
+    <Content Include="util\resources\Resources.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

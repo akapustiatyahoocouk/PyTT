@@ -7,28 +7,26 @@ import os
 import tkinter as tk
 
 from util.Annotations import staticproperty
-from util.Metaclasses import ClassWithConstants
+from util.FileResourceFactory import FileResourceFactory
+from util.Locale import Locale
 
 @final
-class UtilResources(ClassWithConstants):
+class UtilResources:
     """ Resources provided by the "util" component. """
 
+    __impl = FileResourceFactory(os.path.join(os.path.dirname(__file__), "resources/Resources.txt"))
+    
     ##########
     #   Construction - disable (this is an utility class)
     def __init__(self):
         assert False, str(self.__class__) + " is a utility class"
 
+    @staticmethod
+    def string(key: str, locale: Locale = Locale.default) -> str:
+        return UtilResources.__impl.get_string(key, locale)
+
     ##########
     #   Properties - PyTT version information
-    PRODUCT_NAME = 'PyTT Time Tracker'
-    """ The product name string ,"""
-    
-    PRODUCT_VERSION = '1.0.0 (build 20240316)'
-    """ The product version string, """
-
-    PRODUCT_COPYRIGHT = 'Copyleft (C) 2024, Andrey Kapustin'
-    """ The product copyright string, """
-
     @staticproperty
     def PRODUCT_ICON_SMALL() -> tk.PhotoImage:
         """ The 16x16 icon representing PyTT. """

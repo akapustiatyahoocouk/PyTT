@@ -26,7 +26,7 @@ class GuiRoot:
         """ The one and only tkinter.Tk instance. """
         if GuiRoot.__tk is None:
             GuiRoot.__tk = tk.Tk()
-            GuiRoot.__tk.title(UtilResources.PRODUCT_NAME)
+            GuiRoot.__tk.title(UtilResources.string("PyTT.ProductName"))
             GuiRoot.__tk.wm_iconphoto(True, UtilResources.PRODUCT_ICON_LARGE)
             
             print('Platfom is', platform.system())
