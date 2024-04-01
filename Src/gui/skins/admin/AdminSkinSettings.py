@@ -6,6 +6,8 @@ from typing import final
 #   Dependencies on other PyTT components
 from util.api import *
 
+##########
+#   Public entities
 @final
 class AdminSkinSettings:
     """ Persistent settings. """
@@ -24,4 +26,3 @@ class AdminSkinSettings:
     @staticproperty
     def main_frame_x() -> int:
         pass
-        

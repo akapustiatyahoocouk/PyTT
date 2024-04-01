@@ -10,9 +10,12 @@ import tkinter as tk
 from awt.api import *
 from workspace.api import *
 
+##########
+#   Public entities
 @final
 class LoginDialogResult(Enum):
     """ The result of modal invocation of the LoginDialog. """
+
     OK = 1
     """ User has supplied the login details. """
     

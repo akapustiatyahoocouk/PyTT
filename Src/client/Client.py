@@ -17,6 +17,8 @@ from util.api import *
 #   Internal dependencies on modules within the same component
 from client.CommandLine import CommandLine
 
+##########
+#   Public entities
 @final
 class SplashScreen:
     #   TODO a simple private function would do?

@@ -6,6 +6,8 @@ from inspect import signature
 from awt.Event import Event
 from awt.KeyEvent import KeyEvent, KeyListener
 
+##########
+#   Public entities
 class KeyEventProcessorMixin:
     """ A mix-in class that can process key events. """
 
@@ -83,7 +85,5 @@ class KeyEventProcessorMixin:
                 True if the event was processed, else false.
         """
         if isinstance(event, KeyEvent):
-            process_key_event(self, event)
-            return True
-        else:
-            return False
+            return self._process_key_event(event)
+        return False

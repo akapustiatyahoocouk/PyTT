@@ -4,6 +4,8 @@ from typing import final, Optional
 #   Internal dependencies on modules within the same component
 from gui.skins.Skin import Skin
 
+##########
+#   Public entities
 @final
 class ActiveSkin:
     """ The "currently active" skin. """

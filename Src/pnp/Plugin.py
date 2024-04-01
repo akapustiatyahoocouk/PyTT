@@ -4,6 +4,8 @@ from abc import ABC, abstractproperty, abstractmethod
 #   Dependencies on other PyTT components
 from util.api import *
 
+##########
+#   Public entities
 class Plugin(FriendlyABC, friends=("PluginManager",)):
     """ A generic "plugin" - an agent discovered and initialised
         at origram load time. """
@@ -11,19 +13,19 @@ class Plugin(FriendlyABC, friends=("PluginManager",)):
     ##########
     #   Implementation helpers
     __discovered_plugins = set()
-    
+
     ##########
     #   Construction
     def __init__(self):
         Plugin.__discovered_plugins.add(self)
         self.__initialized = False
-        
+    
     ##########
     #   Properties
     @abstractproperty
     def display_name(self) -> str:
         """ The user-readable display name of this plugin.
-            IMPORTANT: 
+            IMPORTANT:
                 Base implementation throws a NotImplementedError,
                 so don't call it from the overriding method
                 in a concrete plugin. """
@@ -34,14 +36,14 @@ class Plugin(FriendlyABC, friends=("PluginManager",)):
     @abstractmethod
     def initialize(self) -> None:
         """
-            Called by PluginManager at mose once to initialise 
+            Called by PluginManager at mose once to initialise
             the plugin.
-            
-            IMPORTANT: 
+
+            IMPORTANT:
                 Base implementation throws a NotImplementedError,
                 so don't call it from the overriding method
                 in a concrete plugin.
-            
+
             @raise Exception:
                 If the plugin initialisation fails.
         """

@@ -5,6 +5,8 @@ from typing import Optional
 from awt.MenuItem import MenuItem
 from awt.Menu import Menu
 
+##########
+#   Public entities
 class Submenu(MenuItem, Menu):
 
     ##########

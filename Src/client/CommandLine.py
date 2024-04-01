@@ -5,6 +5,8 @@ import sys
 #   Dependencies on other PyTT components
 from util.api import *
 
+##########
+#   Public entities
 @final
 class CommandLine:
     """ The PyTT Client command line.. """

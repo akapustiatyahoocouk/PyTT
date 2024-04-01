@@ -10,6 +10,8 @@ from awt.GuiRoot import GuiRoot
 from awt.BaseWidgetMixin import BaseWidgetMixin
 from awt.MenuBar import MenuBar
 
+##########
+#   Public entities
 @final
 class TopFrame(tk.Toplevel, BaseWidgetMixin):
     """ The generic top-level UI frame. """

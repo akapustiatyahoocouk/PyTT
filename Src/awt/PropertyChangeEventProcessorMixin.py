@@ -6,6 +6,8 @@ from inspect import signature
 from awt.Event import Event
 from awt.PropertyChangeEvent import PropertyChangeEvent, PropertyChangeListener
 
+##########
+#   Public entities
 class PropertyChangeEventProcessorMixin:
     """ A mix-in class that can process property change events. """
 
@@ -79,9 +81,7 @@ class PropertyChangeEventProcessorMixin:
                 The event to process.
         """
         if isinstance(event, PropertyChangeEvent):
-            process_property_change_event(self, event)
-            return True
-        else:
-            return False
+            return self._process_property_change_event(event)
+        return False
 
 

@@ -11,6 +11,8 @@ import tkinter as tk
 from util.Locale import Locale
 from util.ResourceType import ResourceType
 
+##########
+#   Public entities
 class ResourceBundle(ABC):
     """ A bundle of resources for a specific locale. """
     

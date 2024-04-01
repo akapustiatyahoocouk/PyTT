@@ -8,6 +8,8 @@ from util.api import *
 #   Internal dependencies on modules within the same component
 from gui.skins.admin.MainFrame import MainFrame # TODO Actions are for ALL skins!
 
+##########
+#   Public entities
 class AdminSkin(Skin):
     """ A database type that uses SQLite as data storage. """
 

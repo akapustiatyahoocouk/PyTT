@@ -28,6 +28,8 @@ def _exit_handler():
         pass    #   TODO log ?
 atexit.register(_exit_handler)
 
+##########
+#   Public entities
 @final
 class Settings:
     """ Persistent settings. """

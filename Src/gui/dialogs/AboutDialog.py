@@ -10,9 +10,12 @@ import tkinter as tk
 from awt.api import *
 from util.api import *
 
+##########
+#   Public entities
 @final
 class AboutDialogResult(Enum):
     """ The result of modal invocation of the AboutDialog. """
+    
     OK = 1
     """ Dialog closed, by whatever means necessary. """
 

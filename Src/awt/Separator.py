@@ -7,6 +7,8 @@ import tkinter.ttk as ttk
 #   Internal dependencies on modules within the same component
 from awt.BaseWidgetMixin import BaseWidgetMixin
 
+##########
+#   Public entities
 class Separator(ttk.Separator, BaseWidgetMixin):
     """ A ttk.Separator with AWT extensions. """
 

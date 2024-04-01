@@ -13,6 +13,8 @@ from util.api import *
 #   Internal dependencies on modules within the same component
 from pnp.Plugin import Plugin
 
+##########
+#   Public entities
 @final
 class PluginManager:
     """ The loader & manager of available plugins. """

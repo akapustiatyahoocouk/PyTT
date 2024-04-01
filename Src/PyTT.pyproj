@@ -25,6 +25,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="awt\api.py" />
+    <Compile Include="awt\KeyEventType.py" />
     <Compile Include="client\CommandLine.py" />
     <Compile Include="client\__init__.py">
       <SubType>Code</SubType>

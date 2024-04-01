@@ -4,6 +4,8 @@ from abc import ABC, abstractproperty
 #   Internal dependencies on modules within the same component
 from db.DatabaseType import DatabaseType
 
+##########
+#   Public entities
 class DatabaseAddress(ABC):
     """ A "database address" uniquely identifies the location of
         a database and is database type - specific."""

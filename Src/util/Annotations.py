@@ -5,6 +5,8 @@
 #   Python standard library
 from typing import Any
 
+##########
+#   Public entities
 class classproperty():
     """ A property annotation for a static (class-level) property """
     def __init__(self, f):

@@ -2,6 +2,8 @@
     The "gui" component API.
 """
 
+##########
+#   Public entities
 from gui.GuiResources import *
 
 from gui.actions.AboutAction import *

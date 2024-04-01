@@ -9,6 +9,8 @@ from awt.Action import Action
 from awt.ActionEvent import ActionEvent
 from awt.PropertyChangeEvent import PropertyChangeEvent
 
+##########
+#   Public entities
 class SimpleMenuItem(MenuItem):
 
     ##########    

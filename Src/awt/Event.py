@@ -2,6 +2,8 @@
 from abc import ABC
 from typing import Any
 
+##########
+#   Public entities
 class Event(ABC):
     """ The common base class for all events. """
 
@@ -10,7 +12,7 @@ class Event(ABC):
     def __init__(self, source):
         """ Constructs the event with the specified source. """
         self.__source = source
-        
+
     ##########
     #   Properties
     @property

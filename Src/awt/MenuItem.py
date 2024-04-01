@@ -5,6 +5,8 @@ from abc import ABC, abstractproperty, abstractmethod
 #   Internal dependencies on modules within the same component
 from awt.ActionEventProcessorMixin import ActionEventProcessorMixin
 
+##########
+#   Public entities
 class MenuItem(ABC, ActionEventProcessorMixin):
     """ A generic "menu item" represents a single item within a menu. """
 

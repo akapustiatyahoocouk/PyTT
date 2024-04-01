@@ -15,8 +15,10 @@ from awt.ActionEvent import ActionEvent
 from awt.PropertyChangeEventProcessorMixin import PropertyChangeEventProcessorMixin
 from awt.PropertyChangeEvent import PropertyChangeEvent
 
+##########
+#   Public entities
 class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
-    """ A generic "action" is an agent that encapsulates properties 
+    """ A generic "action" is an agent that encapsulates properties
         of an activity that can be triggered by the user. """
 
     ##########
@@ -54,7 +56,7 @@ class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
                  large_image: Optional[tk.PhotoImage] = None) -> None:
         """
             Constructs the action.
-            
+
             @param name:
                 The short user-readable name of the action; canot be None.
             @param hotkey:
@@ -103,9 +105,9 @@ class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
 
     @name.setter
     def name(self, new_name: str):
-        """ 
+        """
             Sets the short user-readable name of the action.
-            
+
             @param new_name:
                 The new short user-readable name of the action; cannot be None.
         """
@@ -124,9 +126,9 @@ class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
 
     @hotkey.setter
     def hotkey(self, new_hotkey: str):
-        """ 
+        """
             Sets the hotkey of the action.
-            
+
             @param new_hotkey:
                 The new hotkey of the action; None for none.
         """
@@ -188,9 +190,9 @@ class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
     #   Operations
     @abstractmethod
     def execute(self, evt: ActionEvent) -> None:
-        """ 
+        """
             Called by framework to "execute" this action.
-            
+
             @param evt:
                 The ActionEvent that has triggered the execution of this action.
         """

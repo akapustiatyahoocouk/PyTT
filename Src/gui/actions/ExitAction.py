@@ -7,10 +7,13 @@ from typing import final
 #   Dependencies on other PyTT components
 from awt.api import *
 
+#   Internal dependencies on modules within the same component
 from gui.skins.admin.MainFrame import MainFrame # TODO actions are for ALL skins!
 from gui.actions.ActionBase import ActionBase
 from gui.GuiResources import GuiResources
 
+##########
+#   Public entities
 @final
 class ExitAction(ActionBase):
     """ The "Exit PyTT" action. """

@@ -10,6 +10,8 @@ import tkinter as tk
 from awt.api import *
 from util.api import *
 
+##########
+#   Public entities
 @final
 class GuiResources(ClassWithConstants):
     """ Resources provided by the "gui" component. """

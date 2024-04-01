@@ -3,6 +3,8 @@
 """
 from abc import ABC, abstractmethod, abstractproperty
 
+##########
+#   Public entities
 class Skin(ABC):
     """ A common base class for all "skins" - GUI variants. """
 

@@ -4,9 +4,11 @@ from typing import final
 #   Dependencies on other PyTT components
 from util.api import *
 
+##########
+#   Public entities
 @final
 class InputEventModifiers(ClassWithConstants):
-    """ 
+    """
         An instance of this class represents a combination of zero
         or more "input event modifiers".
         IMPORTANT: Uses tk.Event - style encoding!
@@ -29,7 +31,7 @@ class InputEventModifiers(ClassWithConstants):
         __ALT_FLAG: "Alt",
         __NUMPAD_FLAG: "NumPad"
     }
-    
+
     __shift_instance = None
     __lock_instance = None
     __control_instance = None
@@ -45,7 +47,7 @@ class InputEventModifiers(ClassWithConstants):
         if InputEventModifiers.__shift_instance is None:
             InputEventModifiers.__shift_instance = InputEventModifiers(InputEventModifiers.__SHIFT_FLAG)
         return InputEventModifiers.__shift_instance
-    
+
     @staticproperty
     def LOCK() -> 'InputEventModifiers':
         if InputEventModifiers.__lock_instance is None:
@@ -103,7 +105,7 @@ class InputEventModifiers(ClassWithConstants):
                 result += "+"
                 result += InputEventModifiers.__FLAG_NAMES[flag];
         return result if len(result) == 0 else result[1:]
-    
+
     def __contains__(self, item: 'InputEventModifiers') -> bool:
         assert isinstance(self, InputEventModifiers)
         assert isinstance(item, InputEventModifiers)

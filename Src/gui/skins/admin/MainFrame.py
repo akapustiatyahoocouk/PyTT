@@ -4,6 +4,8 @@ from typing import final
 #   Dependencies on other PyTT components
 from awt.api import *
 
+##########
+#   Public entities
 @final
 class MainFrame(TopFrame):
     """ The main frame of the "Admin" skin. """

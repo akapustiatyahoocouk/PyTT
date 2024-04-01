@@ -7,6 +7,8 @@ from typing import TypeAlias, Callable
 #   Internal dependencies on modules within the same component
 from awt.Event import Event
 
+##########
+#   Public entities
 class ActionEvent(Event):
     """ An "action" event - signals that an action has occurred
         in the event source (e.g. a Button is pressed, etc.) """

@@ -9,6 +9,8 @@ from util.Locale import Locale
 from util.ResourceFactory import ResourceFactory
 from util.FileResourceBundle import FileResourceBundle
 
+##########
+#   Public entities
 class FileResourceFactory(ResourceFactory):
     """ A resource factory that reads resources from a bunch 
         of textual resource files related by common name pattern. """

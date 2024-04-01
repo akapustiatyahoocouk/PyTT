@@ -8,6 +8,8 @@ from util.Locale import Locale
 from util.ResourceType import ResourceType
 from util.ResourceBundle import ResourceBundle
 
+##########
+#   Public entities
 class FileResourceBundle(ResourceBundle):
     """ A resource bundle that reads resources from a text file. """
     

@@ -6,6 +6,8 @@ import tkinter as tk
 #   Dependencies on other PyTT components
 from util.api import *
 
+##########
+#   Public entities
 @final
 class GuiRoot:
     """ Provider of the one and only tkinter.Tk instance. """
@@ -20,7 +22,7 @@ class GuiRoot:
         assert False, str(self.__class__) + " is a utility class"
 
     ##########
-    #   Properties (all static)    
+    #   Properties (all static)
     @staticproperty
     def tk() -> tk.Tk:
         """ The one and only tkinter.Tk instance. """
@@ -28,9 +30,9 @@ class GuiRoot:
             GuiRoot.__tk = tk.Tk()
             GuiRoot.__tk.title(UtilResources.string("PyTT.ProductName"))
             GuiRoot.__tk.wm_iconphoto(True, UtilResources.image("PyTT.LargeImage"))
-            
+
             print('Platfom is', platform.system())
-            
+
             if "windows" in platform.system().lower():
                 #   Windows family
                 GuiRoot.__tk.withdraw()
@@ -62,31 +64,31 @@ class GuiRoot:
 
     @property
     def usable_x(cls) -> int:
-        """ The X-coordinate of the top-left corner of the usable 
-            (client) area of screen - that's the part of the screen 
+        """ The X-coordinate of the top-left corner of the usable
+            (client) area of screen - that's the part of the screen
             that is not covered by e.g. taskbars, docked system
             menus, etc. """
         return GuiRoot.__usable_x
 
     @property
     def usable_y(cls) -> int:
-        """ The Y-coordinate of the top-left corner of the usable 
-            (client) area of screen - that's the part of the screen 
+        """ The Y-coordinate of the top-left corner of the usable
+            (client) area of screen - that's the part of the screen
             that is not covered by e.g. taskbars, docked system
             menus, etc. """
         return GuiRoot.__usable_y
 
     @property
     def usable_width(cls) -> int:
-        """ The width of the usable (client) area of screen - that's 
-            the part of the screen that is not covered by e.g. taskbars, 
+        """ The width of the usable (client) area of screen - that's
+            the part of the screen that is not covered by e.g. taskbars,
             docked system menus, etc. """
         return GuiRoot.__usable_width
 
     @property
     def usable_height(cls) -> int:
-        """ The height of the usable (client) area of screen - that's 
-            the part of the screen that is not covered by e.g. taskbars, 
+        """ The height of the usable (client) area of screen - that's
+            the part of the screen that is not covered by e.g. taskbars,
             docked system menus, etc. """
         return GuiRoot.__usable_height
 
@@ -99,4 +101,3 @@ class GuiRoot:
     def screen_height(cls) -> int:
         """ The height of the screen. """
         return GuiRoot.__screen_height
- 

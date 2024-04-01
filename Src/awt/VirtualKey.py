@@ -2,6 +2,8 @@
 from typing import final
 from enum import Enum
 
+##########
+#   Public entities
 @final
 class VirtualKey(Enum):
     """ The keyboard key ID. """

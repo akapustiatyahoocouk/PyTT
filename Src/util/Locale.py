@@ -4,6 +4,8 @@ from typing import final, Optional
 #   Internal dependencies on modules within the same component
 from util.Annotations import staticproperty
 
+##########
+#   Public entities
 class LocaleMeta(type):
     
     @property

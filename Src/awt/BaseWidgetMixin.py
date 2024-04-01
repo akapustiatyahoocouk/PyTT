@@ -7,6 +7,8 @@ import tkinter as tk
 from awt.KeyEvent import KeyEvent, KeyEventType
 from awt.KeyEventProcessorMixin import KeyEventProcessorMixin
 
+##########
+#   Public entities
 class BaseWidgetMixin(KeyEventProcessorMixin):
     """ A mix-in class that adds functionality to BaseWidgets. """
 
@@ -23,16 +25,16 @@ class BaseWidgetMixin(KeyEventProcessorMixin):
 
     ##########
     #   Operations
-    @property    
+    @property
     def enabled(self):
         """ True if this Button is enabled, False if disabled. """
         return tk.DISABLED not in self.state()
 
     @enabled.setter
     def enabled(self, yes: bool):
-        """ 
+        """
             Enables or disables this BasePlugin.
-            
+
             @param value:
                 True to enable this BasePlugin, false to disable.
         """
@@ -69,7 +71,7 @@ class BaseWidgetMixin(KeyEventProcessorMixin):
         self.geometry("%dx%d+%d+%d" % (w, h, x, y))
 
     ##########
-    #   Tk event handlers        
+    #   Tk event handlers
     def __on_tk_keydown(self, evt: tk.Event):
         #print(evt)
         ke = KeyEvent(self, KeyEventType.KEY_DOWN, evt)
@@ -77,9 +79,8 @@ class BaseWidgetMixin(KeyEventProcessorMixin):
         if ke.keychar is not None:
             ce = KeyEvent(self, KeyEventType.KEY_CHAR, evt)
             self._process_key_event(ce)
-    
+
     def __on_tk_keyup(self, evt: tk.Event):
         #print(evt)
         ke = KeyEvent(self, KeyEventType.KEY_UP, evt)
         self._process_key_event(ke)
-            

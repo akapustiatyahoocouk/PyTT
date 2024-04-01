@@ -4,6 +4,8 @@ from util.api import staticproperty
 #   Dependencies on other PyTT components
 from db.api import *
 
+##########
+#   Public entities
 class SqliteDatabaseType(DatabaseType):
     """ A database type that uses SQLite as data storage. """
     

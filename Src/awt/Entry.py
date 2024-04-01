@@ -6,6 +6,8 @@ import tkinter.ttk as ttk
 #   Internal dependencies on modules within the same component
 from awt.BaseWidgetMixin import BaseWidgetMixin
 
+##########
+#   Public entities
 class Entry(ttk.Entry, BaseWidgetMixin):
     """ A ttk.Entry with AWT extensions. """
 

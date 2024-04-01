@@ -13,6 +13,8 @@ from gui.skins.admin.MainFrame import MainFrame
 from gui.actions.ActionBase import ActionBase
 from gui.GuiResources import GuiResources
 
+##########
+#   Public entities
 @final
 class AboutAction(ActionBase):
     """ The "About PyTT" action. """

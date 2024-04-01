@@ -8,8 +8,11 @@ import tkinter as tk
 #   Dependencies on other PyTT components
 from awt.api import *
 
+#   Internal dependencies on modules within the same component
 from gui.skins.admin.MainFrame import MainFrame # TODO Acions are for all skins!
 
+##########
+#   Public entities
 class ActionBase(Action):
     """ The common base class for all "admin" skin actions. """
 

@@ -5,6 +5,8 @@ from enum import Enum
 #   Internal dependencies on modules within the same component
 from awt.Event import Event
 
+##########
+#   Public entities
 class PropertyChangeEvent(Event):
     """ A "property change" event - signals that an observable
         property of some object has changed. """

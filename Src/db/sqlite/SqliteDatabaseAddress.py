@@ -3,6 +3,8 @@
 #   Dependencies on other PyTT components
 from db.DatabaseAddress import DatabaseAddress
 
+##########
+#   Public entities
 class SqliteDatabaseAddress(DatabaseAddress):
     """ An address of a SQLite database is its full path. """
 

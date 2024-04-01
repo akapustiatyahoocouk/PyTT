@@ -7,6 +7,8 @@ from util.api import *
 #   Internal dependencies on modules within the same component
 from gui.skins.Skin import Skin
 
+##########
+#   Public entities
 @final
 class SkinRegistry: #   TODO move static services to Skin!
     """ The registry of known skins. 

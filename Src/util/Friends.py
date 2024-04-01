@@ -2,6 +2,8 @@
 from typing import  Any
 from abc import ABC, ABCMeta
 
+##########
+#   Public entities
 class FriendlyClassMeta(type):
     """ TODO document """
 

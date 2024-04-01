@@ -4,6 +4,8 @@ from typing import final, Optional
 #   Internal dependencies on modules within the same component
 from workspace.Credentials import Credentials
 
+##########
+#   Public entities
 #   TODO Move this class' logic into the static "Credentials.current" property ?        
 @final
 class CurrentCredentials:

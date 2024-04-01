@@ -5,6 +5,8 @@ from typing import final
 from awt.VirtualKey import VirtualKey
 from awt.InputEventModifiers import InputEventModifiers
 
+##########
+#   Public entities
 @final
 class KeyStroke:
     

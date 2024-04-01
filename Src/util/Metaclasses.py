@@ -2,6 +2,8 @@
 from abc import ABC, ABCMeta, abstractproperty
 from re import match
 
+##########
+#   Public entities
 class ClassWithConstantsMeta(type):
     def __setattr__(cls: type, attr: str, value) -> None:
         #print(cls.__name__, attr, value)

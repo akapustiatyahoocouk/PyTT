@@ -2,6 +2,8 @@
     Defines exceptions thrown by the low-level (data storage) database API.
 """
 
+##########
+#   Public entities
 class DatabaseError(Exception):
     """ The common base class for all db.api - level exceptions. """
     
@@ -23,4 +25,3 @@ class InvalidDatabaseAddressError(DatabaseError):
     #   Construction
     def __init__(self):
         super().__init__('Invalid database address')
-    

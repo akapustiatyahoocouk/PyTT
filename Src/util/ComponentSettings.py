@@ -5,6 +5,8 @@
 from typing import final, Optional
 from configparser import ConfigParser
 
+##########
+#   Public entities
 @final
 class ComponentSettings:
     """ Implements persistent settings of a single component. """

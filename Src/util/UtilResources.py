@@ -12,6 +12,8 @@ from util.Annotations import staticproperty
 from util.FileResourceFactory import FileResourceFactory
 from util.Locale import Locale
 
+##########
+#   Public entities
 @final
 class UtilResources:
     """ Resources provided by the "util" component. """

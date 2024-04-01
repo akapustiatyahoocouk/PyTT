@@ -1,30 +1,15 @@
 #   Python standard library
-from typing import final, Optional, TypeAlias, Callable
-from enum import Enum
-
+from typing import Optional, TypeAlias, Callable
 import tkinter as tk
 
 #   Internal dependencies on modules within the same component
 from awt.InputEventModifiers import InputEventModifiers
 from awt.InputEvent import InputEvent
 from awt.VirtualKey import VirtualKey
+from awt.KeyEventType import KeyEventType
 
-@final
-class KeyEventType(Enum):
-    """ The key event type. """
-
-    ##########
-    #   Constants
-    KEY_DOWN = 1
-    """ A key was pressed. """
-
-    KEY_UP = 2
-    """ A key was released. """
-
-    KEY_CHAR = 3
-    """ A key was pressed that represents a typed character;
-        always occurs between KEY_DOWN and KEY_UP key events. """
-
+##########
+#   Public entities
 class KeyEvent(InputEvent):
     """ A key input event. """
 

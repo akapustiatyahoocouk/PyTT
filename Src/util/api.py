@@ -2,6 +2,8 @@
     The "util" component API.
 """
 
+##########
+#   Public entities
 from util.Annotations import *
 from util.ComponentSettings import *
 from util.FileResourceBundle import *

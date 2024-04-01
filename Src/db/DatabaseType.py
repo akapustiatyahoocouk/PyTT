@@ -5,6 +5,8 @@ from abc import ABC, abstractproperty, abstractmethod
 #   Dependencies on other PyTT components
 from util.api import *
 
+##########
+#   Public entities
 class DatabaseType(ABC):
     """ A "database type" corresponds to a technology used to
         keep the data persistent (database engine type, etc.)"""

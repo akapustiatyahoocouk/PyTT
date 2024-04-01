@@ -6,6 +6,8 @@ import tkinter as tk
 #   Internal dependencies on modules within the same component
 from awt.MenuItem import MenuItem
 
+##########
+#   Public entities
 @final
 class MenuItems:
     """ An ordered list of items in a Menu. """

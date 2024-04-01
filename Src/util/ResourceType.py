@@ -2,8 +2,12 @@
 from typing import final
 from enum import Enum
 
+##########
+#   Public entities
 @final
 class ResourceType(Enum):
+    """ The supported resource types. """
+    
     NONE = 0
     """ The resource does not exist OR its type cannot be determined. """
     

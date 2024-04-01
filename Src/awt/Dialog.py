@@ -11,9 +11,11 @@ import tkinter.ttk as ttk
 from awt.BaseWidgetMixin import BaseWidgetMixin
 from awt.Button import Button
 
+##########
+#   Public entities
 class Dialog(tk.Toplevel, BaseWidgetMixin):
     """ A common base class for all dialogs. """
-    
+
     ##########
     #   Construction
     def __init__(self, parent: tk.BaseWidget, title: str):
@@ -21,24 +23,24 @@ class Dialog(tk.Toplevel, BaseWidgetMixin):
                              parent if parent is not None else awt.GuiRoot.GuiRoot.tk,
                              padx=4, pady=4)
         BaseWidgetMixin.__init__(self)
-        
+
         self.__parent = awt.GuiRoot.GuiRoot.tk if parent is None else parent.winfo_toplevel()
         self.title(title)
         # TODO keep? kill? self.resizable(False, False)
-        
+
         self.__ok_button : Button = None
         self.__cancel_button : Button = None
 
         self.__running_modal = False
-        
+
         #   Set up event handlers
         self.bind("<Escape>", self.__on_tk_escape)
         self.bind("<Return>", self.__on_tk_return)
-        
+
         self.protocol("WM_DELETE_WINDOW", self.__on_tk_escape)
 
     ##########
-    ##   object        
+    #   object
     def __enter__(self) -> None:
         return self
 
@@ -46,14 +48,14 @@ class Dialog(tk.Toplevel, BaseWidgetMixin):
         self.destroy()
 
     ##########
-    #   Properties    
+    #   Properties
     @property
     def parent(self) -> ttk.Widget | None:
         """ Returns the parent top-level widget of this Dialog. """
         #   TODO add to TopFrame ?
         return self.__parent
-    
-    @property    
+
+    @property
     def ok_button(self):
         #   TODO document
         return self.__ok_button
@@ -62,7 +64,7 @@ class Dialog(tk.Toplevel, BaseWidgetMixin):
     def ok_button(self, button: Button):
         #   TODO document
         assert (button is None) or isinstance(button, Button)
-        
+
         if button is self.__ok_button:
             return  #   Nothing to do
         if self.__ok_button is not None:
@@ -70,8 +72,8 @@ class Dialog(tk.Toplevel, BaseWidgetMixin):
         self.__ok_button = button
         if self.__ok_button is not None:
             self.__ok_button.configure(default="active")
-        
-    @property    
+
+    @property
     def cancel_button(self):
         #   TODO document
         return self.__cancelLDi_button
@@ -90,12 +92,12 @@ class Dialog(tk.Toplevel, BaseWidgetMixin):
             the user closes the dialog by whatever means are allowed.
         """
         assert not self.__running_modal
-        
+
         self.wait_visibility()
         self.center_in_parent()
         self.grab_set()
         self.transient(self.__parent)
-        
+
         self.__running_modal = True
         self.__parent.wait_window(self)
 
@@ -110,15 +112,15 @@ class Dialog(tk.Toplevel, BaseWidgetMixin):
     # def dialog_closing(self) -> bool:
     #     #   TODO document
     #     return True # by default - allow closing the Dialog
-    
+
     # def dialog_close(self):
     #     #   TODO document
     #     if self.dialog_closing():
-    #        #   The default recation is to push the "cancel" button 
+    #        #   The default recation is to push the "cancel" button
     #        if ((self.__cancel_button is not None) and self.__cancel_button.enabled):
     #            #   TODO and visible, with all the parents!!!
     #            self.__cancel_button.invoke()
- 
+
     ##########
     #   Tk event handlers
     def __on_tk_escape(self, *args):
@@ -128,7 +130,7 @@ class Dialog(tk.Toplevel, BaseWidgetMixin):
             self.__cancel_button.invoke()
 
     def __on_tk_return(self, *args):
-        if ((self.__ok_button is not None) and self.__ok_button.winfo_exists() and 
+        if ((self.__ok_button is not None) and self.__ok_button.winfo_exists() and
             self.__ok_button.enabled):
             #   TODO and visible, with all the parents!!!
             self.__ok_button.invoke()

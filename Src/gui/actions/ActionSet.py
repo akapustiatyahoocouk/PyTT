@@ -4,10 +4,13 @@
 #   Python standard library
 from typing import final
 
+#   Internal dependencies on modules within the same component
 from gui.skins.admin.MainFrame import MainFrame # TODO Acions are for all skins!
 from gui.actions.ExitAction import ExitAction
 from gui.actions.AboutAction import AboutAction
 
+##########
+#   Public entities
 @final
 class ActionSet:
     """ The set of all Actions provided by the Admin skin. """

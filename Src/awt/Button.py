@@ -12,7 +12,9 @@ from awt.ActionEvent import ActionEvent
 from awt.ActionEventProcessorMixin import ActionEventProcessorMixin
 from awt.PropertyChangeEvent import PropertyChangeEvent
 
-class Button(ttk.Button, 
+##########
+#   Public entities
+class Button(ttk.Button,
              BaseWidgetMixin, ActionEventProcessorMixin):
     """ A ttk.Button with AWT extensions. """
 
@@ -21,26 +23,26 @@ class Button(ttk.Button,
     def __init__(self, parent: tk.BaseWidget = None, **kwargs):
         """
             Constructs the button.
-            
+
             @param parent:
                 The parent widget for the Button; cannot be None.
             @param kwargs:
                 Keyword arguments.
-        
+
                 STANDARD OPTIONS (passed directly to ttk)
-                    class, compound, cursor, image, state, style, 
+                    class, compound, cursor, image, state, style,
                     takefocus, text, textvariable, underline, width
 
                 WIDGET-SPECIFIC OPTIONS
                     action: the awt.Action to bind to this Button.
                             *   When the Button is pressed, the Action is invoked.
-                            *   When Action's properties change, the Button 
+                            *   When Action's properties change, the Button
                                 appearance changes.
         """
         assert isinstance(parent, tk.BaseWidget)
-        
-        ttk.Button.__init__(self, 
-                            parent, 
+
+        ttk.Button.__init__(self,
+                            parent,
                             **Button.__filter_tk_kwargs(kwargs))
         BaseWidgetMixin.__init__(self)
         ActionEventProcessorMixin.__init__(self)

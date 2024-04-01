@@ -10,6 +10,8 @@ import tkinter as tk
 #   Internal dependencies on modules within the same component
 from util.Locale import Locale
 
+##########
+#   Public entities
 class ResourceFactory(ABC):
     """ An agent responsible for creation of localizable resources. """
     

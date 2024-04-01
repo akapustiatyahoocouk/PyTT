@@ -6,6 +6,8 @@ import tkinter.ttk as ttk
 #   Internal dependencies on modules within the same component
 from awt.BaseWidgetMixin import BaseWidgetMixin
 
+##########
+#   Public entities
 class Label(ttk.Label, BaseWidgetMixin):
     """ A ttk.Label with AWT extensions. """
 

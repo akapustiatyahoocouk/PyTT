@@ -8,6 +8,8 @@
 #   Internal dependencies on modules within the same component
 from awt.Menu import Menu
 
+##########
+#   Public entities
 class MenuBar(Menu):
 
     ##########
