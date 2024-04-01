@@ -33,7 +33,7 @@ class AboutDialog(Dialog):
         self.__pan1 = Label(self.__pan0)
         self.__pan2 = Label(self.__pan0)
         
-        self.__pic1 = Label(self.__pan1, image = UtilResources.PRODUCT_ICON_LARGE)
+        self.__pic1 = Label(self.__pan1, image = UtilResources.image("PyTT.LargeImage"))
         self.__msg1 = Label(self.__pan2, text = UtilResources.string("PyTT.ProductName"), anchor=tk.CENTER)
         self.__msg2 = Label(self.__pan2, text = "Version " + UtilResources.string("PyTT.ProductVersion"), anchor=tk.CENTER)
         self.__msg3 = Label(self.__pan2, text = UtilResources.string("PyTT.ProductCopyright"), anchor=tk.CENTER)

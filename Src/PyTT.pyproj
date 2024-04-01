@@ -156,8 +156,6 @@
     <Content Include="gui\resources\images\actions\ExitSmall.png" />
     <Content Include="gui\resources\images\actions\OpenWorkspaceLarge.png" />
     <Content Include="gui\resources\images\actions\OpenWorkspaceSmall.png" />
-    <Content Include="util\resources\images\PyTTLarge.gif" />
-    <Content Include="util\resources\images\PyTTSmall.gif" />
     <Content Include="util\resources\Resources_en.txt" />
     <Content Include="util\resources\Resources.txt" />
   </ItemGroup>

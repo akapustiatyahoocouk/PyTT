@@ -27,7 +27,7 @@ class GuiRoot:
         if GuiRoot.__tk is None:
             GuiRoot.__tk = tk.Tk()
             GuiRoot.__tk.title(UtilResources.string("PyTT.ProductName"))
-            GuiRoot.__tk.wm_iconphoto(True, UtilResources.PRODUCT_ICON_LARGE)
+            GuiRoot.__tk.wm_iconphoto(True, UtilResources.image("PyTT.LargeImage"))
             
             print('Platfom is', platform.system())
             

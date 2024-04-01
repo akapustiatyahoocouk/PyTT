@@ -21,7 +21,7 @@ class TopFrame(tk.Toplevel, BaseWidgetMixin):
         #self.state("withdrawn")
         #self.transient(awt.GuiRoot.GuiRoot.tk)
         self.title(GuiRoot.tk.title())
-        self.wm_iconphoto(True, UtilResources.PRODUCT_ICON_LARGE)
+        self.wm_iconphoto(True, UtilResources.image("PyTT.LargeImage"))
         self.geometry("600x400")
 
     ##########

@@ -25,27 +25,7 @@ class UtilResources:
     def string(key: str, locale: Locale = Locale.default) -> str:
         return UtilResources.__impl.get_string(key, locale)
 
-    ##########
-    #   Properties - PyTT version information
-    @staticproperty
-    def PRODUCT_ICON_SMALL() -> tk.PhotoImage:
-        """ The 16x16 icon representing PyTT. """
-        return UtilResources.__load_image("PyTTSmall.png")
-
-    @staticproperty
-    def PRODUCT_ICON_LARGE() -> tk.PhotoImage:
-        """ The 32x32 icon representing PyTT. """
-        return UtilResources.__load_image("PyTTLarge.png")
-
-    ##########
-    #   Implementation
-    __icon_cache: dict[str, tk.PhotoImage] = {}
-    
     @staticmethod
-    def __load_image(image_name: str) -> tk.PhotoImage:
-        image = UtilResources.__icon_cache.get(image_name, None)
-        if image is None:
-            image = tk.PhotoImage(file = os.path.join(os.path.dirname(__file__), "resources/images/" + image_name))
-            UtilResources.__icon_cache[image_name] = image
-        return image
+    def image(key: str, locale: Locale = Locale.default) -> tk.PhotoImage:
+        return UtilResources.__impl.get_image(key, locale)
     

@@ -75,4 +75,14 @@ class FileResourceFactory(ResourceFactory):
         assert isinstance(key, str)
         assert isinstance(locale, Locale)
         
-        raise NotImplementedError()
+        while True:        
+            resource_bundle = self.__resource_bundles.get(locale, None)
+            if resource_bundle is not None:
+                try:
+                    return resource_bundle.get_image(key)
+                except:
+                    pass
+            #   Try parent locale
+            if locale == Locale.ROOT:
+                raise NotImplementedError() # TODO throw KeyError!
+            locale = locale.parent

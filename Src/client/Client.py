@@ -42,11 +42,11 @@ class SplashScreen:
         #pp = splash_screen.pack_propagate()
         splash_screen.pack_propagate(1)
 
-        splash_icon = Label(splash_screen, image=UtilResources.PRODUCT_ICON_LARGE, background="white")
-        splash_label1 = Label(splash_screen, text=UtilResources.PRODUCT_NAME, font="Helvetica 18", background="white", foreground="blue", anchor="center")
-        splash_label2 = Label(splash_screen, text='Version ' + UtilResources.PRODUCT_VERSION, font="Helvetica 12", background="white", foreground="blue", anchor="center")
+        splash_icon = Label(splash_screen, image=UtilResources.image("PyTT.LargeImage"), background="white")
+        splash_label1 = Label(splash_screen, text=UtilResources.string("PyTT.ProductName"), font="Helvetica 18", background="white", foreground="blue", anchor="center")
+        splash_label2 = Label(splash_screen, text='Version ' + UtilResources.string("PyTT.ProductVersion"), font="Helvetica 12", background="white", foreground="blue", anchor="center")
         splash_separator = Separator(splash_screen, orient="horizontal")
-        splash_label3 = Label(splash_screen, text=UtilResources.PRODUCT_COPYRIGHT, font="Helvetica 10", background="white", foreground="gray", anchor="center")
+        splash_label3 = Label(splash_screen, text=UtilResources.string("PyTT.ProductCopyright"), font="Helvetica 10", background="white", foreground="gray", anchor="center")
 
         splash_screen.rowconfigure(0, weight=1)
         splash_screen.rowconfigure(4, weight=1)
