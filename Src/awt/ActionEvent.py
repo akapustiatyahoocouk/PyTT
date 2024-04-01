@@ -1,6 +1,7 @@
 """
     Defines the ActionEvent API.
 """
+#   Python standard library
 from typing import TypeAlias, Callable
 
 from awt.Event import Event

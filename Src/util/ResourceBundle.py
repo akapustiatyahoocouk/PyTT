@@ -2,8 +2,8 @@
     A generic "resource bundle" provides resources for a 
     specific locale.
 """
-from pickle import NONE
-from typing import final
+#   Python standard library
+from typing import final, Any
 from abc import ABC, abstractproperty, abstractmethod
 import tkinter as tk
 
@@ -15,6 +15,11 @@ class ResourceBundle(ABC):
     
     ##########
     #   Properties
+    @abstractproperty
+    def name(self) -> str:
+        """ The name of this resource bundle. """
+        raise NotImplementedError()
+
     @abstractproperty
     def locale(self) -> Locale:
         """ The Locale for which this resource bundle defines resources. """
@@ -43,6 +48,20 @@ class ResourceBundle(ABC):
         raise NotImplementedError()
 
     @abstractmethod
+    def get_resource(self, key: str) -> Any:
+        """ 
+            Returns the resource for the specified key.
+            
+            @param key:
+                The key to return a resource for.
+            @return:
+                The resource for the specified key.
+            @raise KeyError:
+                If the specified key does not exist in this resource
+                bundle.
+         """
+        raise NotImplementedError()
+
     def get_string(self, key: str) -> str:
         """ 
             Returns the string resource for the specified key.
@@ -55,9 +74,12 @@ class ResourceBundle(ABC):
                 If the specified key does not exist in this resource
                 bundle OR the resource identified by the key is not a string.
          """
-        raise NotImplementedError()
+        resource = self.get_resource(key) # May throw KeyError
+        if isinstance(resource, str):
+            return resource
+        raise KeyError("The string resource '" + key +
+                        "' does not exist in " + self.name)
 
-    @abstractmethod
     def get_image(self, key: str) -> tk.PhotoImage:
         """ 
             Returns the image resource for the specified key.
@@ -70,4 +92,8 @@ class ResourceBundle(ABC):
                 If the specified key does not exist in this resource
                 bundle OR the resource identified by the key is not an image.
          """
-        raise NotImplementedError()
+        resource = self.get_resource(key) # May throw KeyError
+        if isinstance(resource, tk.PhotoImage):
+            return resource
+        raise KeyError("The image resource '" + key +
+                        "' does not exist in " + self.name)

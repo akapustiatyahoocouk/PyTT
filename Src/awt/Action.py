@@ -1,12 +1,12 @@
 """
     Defines the Action API.
 """
+#   Python standard library
 from typing import Optional
 from abc import abstractmethod
-
 import tkinter as tk
 
-from util.Metaclasses import ABCWithConstants
+from util.api import *
 from awt.KeyStroke import KeyStroke
 from awt.ActionEvent import ActionEvent
 from awt.PropertyChangeEventProcessorMixin import PropertyChangeEventProcessorMixin

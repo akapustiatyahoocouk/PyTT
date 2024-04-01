@@ -1,7 +1,7 @@
-import tkinter as tk
-
+#   Python standard library
 from typing import final, Any, Tuple
 from abc import ABC
+import tkinter as tk
 
 from awt.MenuItem import MenuItem
 
@@ -29,7 +29,6 @@ class MenuItems:
         from awt.Action import Action
         from awt.SimpleMenuItem import SimpleMenuItem
         from awt.KeyStroke import KeyStroke
-        from awt._TkHelpers import _tk_analyze_label
         
         assert item is not None
         if isinstance(item, str):

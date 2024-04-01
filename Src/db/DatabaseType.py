@@ -1,7 +1,8 @@
+#   Python standard library
 from typing import Optional
 from abc import ABC, abstractproperty, abstractmethod
 
-from util.Annotations import staticproperty
+from util.api import *
 
 class DatabaseType(ABC):
     """ A "database type" corresponds to a technology used to

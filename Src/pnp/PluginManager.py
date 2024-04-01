@@ -1,15 +1,17 @@
 """
     Defines the Plugin Manager API.
 """
-
+#   Python standard library
 from genericpath import isdir
 from typing import final
 import os
 import importlib
 import traceback
 
-from util.Annotations import staticproperty
+#   Dependencies on other PyTT components
+from util.api import *
 
+#   Internal dependencies on modules within the same component
 from pnp.Plugin import Plugin
 
 @final

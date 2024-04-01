@@ -1,3 +1,4 @@
+#   Python standard library
 from typing import final, Optional
 
 from util.Annotations import staticproperty

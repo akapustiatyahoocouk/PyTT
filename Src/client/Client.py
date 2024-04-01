@@ -1,30 +1,28 @@
 """
     PyTT Client launcher.
 """
+#   Python standard library
 from typing import final
 from abc import abstractproperty
-
-import atexit   # TODO is it needed HERE?
 import sys
 import os.path
 
+#   Dependencies on other PyTT components
 from awt.GuiRoot import GuiRoot
 from awt.TopFrame import TopFrame
 from awt.Label import Label
 from awt.Separator import Separator
-from workspace.CurrentCredentials import CurrentCredentials
-from gui.dialogs.LoginDialog import LoginDialog, LoginDialogResult
-from gui.skins.ActiveSkin import ActiveSkin
-from gui.skins.SkinRegistry import SkinRegistry
-from pnp.PluginManager import PluginManager
-from util.UtilResources import UtilResources
-from util.Locale import Locale
+from gui.api import *
+from workspace.api import *
+from pnp.api import *
+from util.api import *
 
-from CommandLine import CommandLine
+#   Internal dependencies on modules within the same component
+from client.CommandLine import CommandLine
 
 @final
 class SplashScreen:
-    #   TODO a simple private function would do!
+    #   TODO a simple private function would do?
     ##########
     #   Construction - disable (this is an utility class)
     def __init__(self):
@@ -132,11 +130,6 @@ class SplashScreen:
 #     sys.exit()
 
 ##########
-#   Implementation helpers
-def __exit_handler():
-    print('My application is ending!')
-
-##########
 #   PyTT entry point
 if __name__ == "__main__":
 
@@ -154,8 +147,6 @@ if __name__ == "__main__":
 
     PluginManager.load_plugins(root_directory)
     
-    atexit.register(__exit_handler)
-
     #   Perform initial login
     #   TODO use last successful login by default
     with LoginDialog(GuiRoot.tk) as dlg:

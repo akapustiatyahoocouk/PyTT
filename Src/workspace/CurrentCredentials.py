@@ -1,7 +1,10 @@
+#   Python standard library
 from typing import final, Optional
 
+#   Internal dependencies on modules within the same component
 from workspace.Credentials import Credentials
 
+#   TODO Move this class' logic into the static "Credentials.current" property ?        
 @final
 class CurrentCredentials:
     """ The "current" credentials. """
@@ -15,7 +18,6 @@ class CurrentCredentials:
     def __init__(self):
         assert False, str(self.__class__) + ' is a utility class'
 
-    #   TODO Move this class' logic into the static "Credentials.current" property ?        
     @staticmethod
     def get() -> Optional[Credentials]:
         return CurrentCredentials.__currentCredentials

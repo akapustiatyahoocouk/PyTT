@@ -1,17 +1,18 @@
 """
     Implements "Login to PyTT" modal dialog.
 """
+#   Python standard library
 from typing import final, Optional, Callable
 from enum import Enum
-
 import tkinter as tk
 
+#   Dependencies on other PyTT components
 from awt.Dialog import Dialog
 from awt.Label import Label
 from awt.Entry import Entry
 from awt.Separator import Separator
 from awt.Button import Button
-from workspace.Credentials import Credentials
+from workspace.api import *
 
 @final
 class LoginDialogResult(Enum):

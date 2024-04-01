@@ -1,6 +1,8 @@
-from util.Annotations import staticproperty
-from db.DatabaseType import DatabaseType
-from db.DatabaseAddress import DatabaseAddress
+#   Python standard library
+from util.api import staticproperty
+
+#   Dependencies on other PyTT components
+from db.api import *
 
 class SqliteDatabaseType(DatabaseType):
     """ A database type that uses SQLite as data storage. """

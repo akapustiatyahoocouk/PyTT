@@ -1,3 +1,6 @@
+#   Python standard library
+
+#   Dependencies on other PyTT components
 from db.DatabaseAddress import DatabaseAddress
 
 class SqliteDatabaseAddress(DatabaseAddress):

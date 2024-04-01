@@ -1,5 +1,7 @@
+#   Python standard library
 from typing import final, Optional
 
+#   Internal dependencies on modules within the same component
 from gui.skins.Skin import Skin
 
 @final

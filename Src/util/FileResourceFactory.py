@@ -1,3 +1,5 @@
+#   Python standard library
+from typing import Any
 import os
 import re
 import tkinter as tk
@@ -19,6 +21,7 @@ class FileResourceFactory(ResourceFactory):
         resource_directory = os.path.dirname(base_resource_file_name)
         resource_file_name_prefix, resource_file_name_suffix = \
             os.path.splitext(os.path.basename(base_resource_file_name))
+        self.__base_resource_file_name = base_resource_file_name
         
         self.__resource_bundles: dict[Locale, FileResourceBundle] = dict()
         entry_names = os.listdir(resource_directory)
@@ -50,12 +53,17 @@ class FileResourceFactory(ResourceFactory):
     ##########
     #   ResourceFactory - Properties
     @property
+    def name(self) -> str:
+        """ The name of this resource bundle. """
+        return self.__base_resource_file_name
+
+    @property
     def supported_locales() -> set[Locale]:
         return set(self.__resource_bundles.keys())
         
     ##########
     #   ResourceFactory - Operations
-    def get_string(self, key: str, locale: Locale = Locale.default) -> str:
+    def get_resource(self, key: str, locale: Locale = Locale.default) -> Any:
         assert isinstance(key, str)
         assert isinstance(locale, Locale)
 
@@ -63,26 +71,13 @@ class FileResourceFactory(ResourceFactory):
             resource_bundle = self.__resource_bundles.get(locale, None)
             if resource_bundle is not None:
                 try:
-                    return resource_bundle.get_string(key)
+                    return resource_bundle.get_resource(key)
                 except:
                     pass
             #   Try parent locale
             if locale == Locale.ROOT:
-                raise NotImplementedError() # TODO throw KeyError!
-            locale = locale.parent
-
-    def get_image(self, key: str, locale: Locale = Locale.default) -> tk.PhotoImage:
-        assert isinstance(key, str)
-        assert isinstance(locale, Locale)
-        
-        while True:        
-            resource_bundle = self.__resource_bundles.get(locale, None)
-            if resource_bundle is not None:
-                try:
-                    return resource_bundle.get_image(key)
-                except:
-                    pass
-            #   Try parent locale
-            if locale == Locale.ROOT:
-                raise NotImplementedError() # TODO throw KeyError!
+                #  No point in going to the next-level parent
+                raise KeyError("The resource '" + key +
+                               "' does not exist in " + self.name +
+                               " or related resources")
             locale = locale.parent

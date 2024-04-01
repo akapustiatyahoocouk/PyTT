@@ -1,7 +1,11 @@
 """ Implements the "Admin: skin. """
+#   Python standard library
 
-from util.Annotations import staticproperty
-from gui.skins.Skin import Skin
+#   Dependencies on other PyTT components
+from gui.api import *
+from util.api import *
+
+#   Internal dependencies on modules within the same component
 from gui.skins.admin.MainFrame import MainFrame # TODO Actions are for ALL skins!
 
 class AdminSkin(Skin):

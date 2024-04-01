@@ -1,8 +1,9 @@
+#   Python standard library
 from typing import final
-
 import sys
 
-from util.Annotations import staticproperty
+#   Dependencies on other PyTT components
+from util.api import *
 
 @final
 class CommandLine:

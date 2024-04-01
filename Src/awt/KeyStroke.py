@@ -1,3 +1,4 @@
+#   Python standard library
 from typing import final
 
 from awt.VirtualKey import VirtualKey
@@ -55,3 +56,32 @@ class KeyStroke:
     def keycode(self) -> InputEventModifiers:
         """ The modifiers of this keystroke, never None. """
         return self.__modifiers
+    
+    ##########
+    #  Operations
+    @staticmethod
+    def parse(s: str) -> "KeyStroke":
+        assert isinstance(s, str)
+        
+        #   Consume modifiers
+        modifiers = InputEventModifiers.NONE
+        modifiers_map = {
+            str(InputEventModifiers.CONTROL).lower(): InputEventModifiers.CONTROL,
+            str(InputEventModifiers.SHIFT).lower(): InputEventModifiers.SHIFT,
+            str(InputEventModifiers.ALT).lower(): InputEventModifiers.ALT}
+        keep_going = True
+        while keep_going:
+            keep_going = False
+            #   Does "s" start with "<modifier>+" ?
+            for (key, value) in modifiers_map.items():
+                prefix = key + "+"
+                if s.lower().startswith(prefix):
+                    s = s[len(prefix):]
+                    modifiers |= value
+                    keep_going = True
+                    break
+        #   Consume virtual key
+        for vk in VirtualKey:
+            if str(vk).lower() == s.lower():
+                return KeyStroke(vk, modifiers)
+        raise ValueError("Invalid KeyStroke specification'" + s + "'")

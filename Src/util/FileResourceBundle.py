@@ -1,3 +1,4 @@
+#   Python standard library
 from typing import Any
 import os
 import tkinter as tk
@@ -37,6 +38,10 @@ class FileResourceBundle(ResourceBundle):
     ##########
     #   ResourceBundle - Properties
     @property
+    def name(self) -> str:
+        return self.__file_name
+
+    @property
     def locale(self) -> Locale:
         return self.__locale
         
@@ -51,43 +56,23 @@ class FileResourceBundle(ResourceBundle):
         
         return self.__resource_types.get(key, ResourceType.NONE)
 
-    def get_string(self, key: str) -> str:
+    def get_resource(self, key: str) -> Any:
         assert isinstance(key, str)
 
         #   Resource already prepared ?
         result = self.__resources.get(key, None)
-        if isinstance(result, str):
+        if result is not None:
             return result
         #   Prepare string resource NOW
         resource_definition = self.__resource_definitions.get(key, None)
         if resource_definition is None:
-            raise NotImplementedError() # TODO throw KeyError!
+            raise KeyError("The resource '" + key +
+                            "' does not exist in " + self.name)
         resource_type, resource_value = self.__prepare_resource(resource_definition)
-        if isinstance(resource_value, str):
-            self.__resource_definitions.pop(key, None)
-            self.__resource_types[key] = resource_type
-            self.__resources[key] = resource_value
-            return resource_value
-        raise NotImplementedError() # TODO throw KeyError!
-
-    def get_image(self, key: str) -> tk.PhotoImage:
-        assert isinstance(key, str)
-
-        #   Resource already prepared ?
-        result = self.__resources.get(key, None)
-        if isinstance(result, tk.PhotoImage):
-            return result
-        #   Prepare string resource NOW
-        resource_definition = self.__resource_definitions.get(key, None)
-        if resource_definition is None:
-            raise NotImplementedError() # TODO throw KeyError!
-        resource_type, resource_value = self.__prepare_resource(resource_definition)
-        if isinstance(resource_value, tk.PhotoImage):
-            self.__resource_definitions.pop(key, None)
-            self.__resource_types[key] = resource_type
-            self.__resources[key] = resource_value
-            return resource_value
-        raise NotImplementedError() # TODO throw KeyError!
+        self.__resource_definitions.pop(key, None)
+        self.__resource_types[key] = resource_type
+        self.__resources[key] = resource_value
+        return resource_value
 
     ##########
     #   Implementation helpers

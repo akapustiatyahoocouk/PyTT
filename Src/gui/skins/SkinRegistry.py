@@ -1,6 +1,10 @@
+#   Python standard library
 from typing import final, Optional
 
-from util.Annotations import staticproperty
+#   Dependencies on other PyTT components
+from util.api import *
+
+#   Internal dependencies on modules within the same component
 from gui.skins.Skin import Skin
 
 @final

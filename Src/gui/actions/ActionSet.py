@@ -1,6 +1,7 @@
 """
     The set of actions defined by Admin skin.
 """
+#   Python standard library
 from typing import final
 
 from gui.skins.admin.MainFrame import MainFrame # TODO Acions are for all skins!

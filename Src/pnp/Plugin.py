@@ -1,6 +1,8 @@
+#   Python standard library
 from abc import ABC, abstractproperty, abstractmethod
 
-from util.Friends import FriendlyABC
+#   Dependencies on other PyTT components
+from util.api import *
 
 class Plugin(FriendlyABC, friends=("PluginManager",)):
     """ A generic "plugin" - an agent discovered and initialised

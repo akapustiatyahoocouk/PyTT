@@ -3,11 +3,13 @@
 """
 print('Loading package', __file__)
 
+#   Python standard library
 from typing import final
 
-from util.Annotations import staticproperty
-from pnp.Plugin import Plugin
-from gui.skins.Skin import Skin
+#   Dependencies on other PyTT components
+from gui.api import *
+from pnp.api import *
+from util.api import *
 
 @final
 class AdminSkinPlugin(Plugin):

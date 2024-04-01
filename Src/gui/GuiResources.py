@@ -1,13 +1,12 @@
 """
     Resource definitions for "gui" component.
 """
+#   Python standard library
 from typing import final, Optional
-
 import os
 import tkinter as tk
 
-from util.Annotations import staticproperty
-from util.Metaclasses import ClassWithConstants
+from util.api import *
 from awt.KeyStroke import KeyStroke
 
 @final

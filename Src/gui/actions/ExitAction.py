@@ -1,6 +1,7 @@
 """
     Defnes "exit PyTT" admin skin action.
 """
+#   Python standard library
 from typing import final
 
 from awt.KeyStroke import KeyStroke

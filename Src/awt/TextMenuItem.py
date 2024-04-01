@@ -1,4 +1,4 @@
-
+#   Python standard library
 from awt.MenuItem import MenuItem
 from awt.ActionEvent import ActionEvent
 

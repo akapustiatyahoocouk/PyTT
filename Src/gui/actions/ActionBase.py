@@ -1,7 +1,7 @@
 """
     Defines the common base for all Admin skin actions.
 """
-from cgitb import small
+#   Python standard library
 from typing import Optional
 import tkinter as tk
 

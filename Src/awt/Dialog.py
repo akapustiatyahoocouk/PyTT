@@ -1,9 +1,9 @@
 """
     Dialog definition facilities.
 """
+#   Python standard library
 from typing import Optional
 from enum import Enum
-
 import tkinter as tk
 import tkinter.ttk as ttk
 

@@ -1,6 +1,7 @@
 """
     Implementa persistent settings.
 """
+#   Python standard library
 from typing import final
 from pathlib import Path
 import os

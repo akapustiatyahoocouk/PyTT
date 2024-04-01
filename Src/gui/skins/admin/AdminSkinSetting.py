@@ -3,9 +3,7 @@
 """
 from typing import final
 
-from util.Annotations import staticproperty
-from util.ComponentSettings import ComponentSettings
-from util.Settings import Settings
+from util.api import *
 
 @final
 class AdminSkinSettings:

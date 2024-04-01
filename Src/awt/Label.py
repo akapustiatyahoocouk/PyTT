@@ -1,6 +1,6 @@
+#   Python standard library
 from typing import Callable
 from inspect import signature
-
 import tkinter.ttk as ttk
 
 from awt.BaseWidgetMixin import BaseWidgetMixin

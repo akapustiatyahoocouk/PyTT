@@ -1,8 +1,9 @@
+#   Python standard library
 from typing import final, Optional
-
 import tkinter as tk
 
-from util.UtilResources import UtilResources
+from util.api import *
+
 from awt.GuiRoot import GuiRoot
 from awt.BaseWidgetMixin import BaseWidgetMixin
 from awt.MenuBar import MenuBar

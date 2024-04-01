@@ -28,6 +28,7 @@
     <Compile Include="client\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="db\api.py" />
     <Compile Include="gui\actions\ActionBase.py" />
     <Compile Include="gui\actions\ActionSet.py" />
     <Compile Include="gui\actions\AboutAction.py" />
@@ -35,6 +36,7 @@
     <Compile Include="gui\actions\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="gui\api.py" />
     <Compile Include="gui\GuiResources.py" />
     <Compile Include="gui\skins\admin\AdminSkin.py" />
     <Compile Include="gui\skins\admin\AdminSkinSetting.py" />
@@ -44,10 +46,10 @@
     </Compile>
     <Compile Include="awt\PropertyChangeEvent.py" />
     <Compile Include="awt\PropertyChangeEventProcessorMixin.py" />
-    <Compile Include="awt\_TkHelpers.py" />
     <Compile Include="gui\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="pnp\api.py" />
     <Compile Include="util\Annotations.py" />
     <Compile Include="awt\Action.py" />
     <Compile Include="awt\BaseWidgetMixin.py" />
@@ -87,6 +89,7 @@
     <Compile Include="gui\dialogs\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="util\api.py" />
     <Compile Include="util\ComponentSettings.py" />
     <Compile Include="util\FileResourceBundle.py" />
     <Compile Include="util\FileResourceFactory.py" />
@@ -118,6 +121,7 @@
     <Compile Include="util\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="workspace\api.py" />
     <Compile Include="workspace\Credentials.py" />
     <Compile Include="workspace\CurrentCredentials.py" />
     <Compile Include="workspace\__init__.py">

@@ -3,6 +3,8 @@
     top-level window (e.g. a frame or a dialog) to appear at
     the top of that top-level window.
 """
+#   Python standard library
+
 from awt.Menu import Menu
 
 class MenuBar(Menu):

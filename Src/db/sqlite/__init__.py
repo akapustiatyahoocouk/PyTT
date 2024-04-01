@@ -1,9 +1,11 @@
 print('Loading package', __file__)
 
+#   Python standard library
 from typing import final
 
-from util.Annotations import staticproperty
-from pnp.Plugin import Plugin
+#   Dependencies on other PyTT components
+from pnp.api import *
+from util.api import *
 
 @final
 class SqliteDbPlugin(Plugin):

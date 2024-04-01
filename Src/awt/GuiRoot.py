@@ -1,10 +1,9 @@
+#   Python standard library
 from typing import final
 import platform
-
 import tkinter as tk
 
-from util.Annotations import staticproperty
-from util.UtilResources import UtilResources
+from util.api import *
 
 @final
 class GuiRoot:

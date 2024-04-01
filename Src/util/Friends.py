@@ -1,5 +1,5 @@
+#   Python standard library
 from typing import  Any
-
 from abc import ABC, ABCMeta
 
 class FriendlyClassMeta(type):

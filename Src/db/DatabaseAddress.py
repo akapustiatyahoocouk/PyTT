@@ -1,5 +1,7 @@
+#   Python standard library
 from abc import ABC, abstractproperty
 
+#   Internal dependencies on modules within the same component
 from db.DatabaseType import DatabaseType
 
 class DatabaseAddress(ABC):

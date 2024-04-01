@@ -1,7 +1,7 @@
+#   Python standard library
 from typing import final
 
-from util.Annotations import staticproperty
-from util.Metaclasses import ClassWithConstants
+from util.api import *
 
 @final
 class InputEventModifiers(ClassWithConstants):
