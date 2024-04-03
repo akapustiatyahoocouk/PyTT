@@ -4,7 +4,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>26db45fa-ea9b-4bf7-8ce3-ffb7966fa73d</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>client\Client.py</StartupFile>
+    <StartupFile>
+    </StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -23,148 +24,6 @@
     <DebugSymbols>true</DebugSymbols>
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="awt\api.py" />
-    <Compile Include="awt\KeyEventType.py" />
-    <Compile Include="client\CommandLine.py" />
-    <Compile Include="client\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="db\api.py" />
-    <Compile Include="gui\actions\ActionBase.py" />
-    <Compile Include="gui\actions\ActionSet.py" />
-    <Compile Include="gui\actions\AboutAction.py" />
-    <Compile Include="gui\actions\ExitAction.py" />
-    <Compile Include="gui\actions\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="gui\api.py" />
-    <Compile Include="gui\GuiResources.py" />
-    <Compile Include="gui\skins\admin\AdminSkin.py" />
-    <Compile Include="gui\skins\admin\AdminSkinSettings.py" />
-    <Compile Include="gui\skins\admin\MainFrame.py" />
-    <Compile Include="gui\skins\admin\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="awt\PropertyChangeEvent.py" />
-    <Compile Include="awt\PropertyChangeEventProcessorMixin.py" />
-    <Compile Include="gui\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="pnp\api.py" />
-    <Compile Include="util\Annotations.py" />
-    <Compile Include="awt\Action.py" />
-    <Compile Include="awt\BaseWidgetMixin.py" />
-    <Compile Include="awt\Entry.py" />
-    <Compile Include="awt\InputEventModifiers.py" />
-    <Compile Include="awt\KeyStroke.py" />
-    <Compile Include="awt\Menu.py" />
-    <Compile Include="awt\MenuBar.py" />
-    <Compile Include="awt\MenuItem.py" />
-    <Compile Include="awt\Submenu.py" />
-    <Compile Include="awt\SimpleMenuItem.py" />
-    <Compile Include="awt\Widget.py" />
-    <Compile Include="awt\Separator.py" />
-    <Compile Include="awt\Label.py" />
-    <Compile Include="awt\Button.py" />
-    <Compile Include="awt\Dialog.py" />
-    <Compile Include="awt\Event.py" />
-    <Compile Include="awt\ActionEventProcessorMixin.py" />
-    <Compile Include="awt\KeyEventProcessorMixin.py" />
-    <Compile Include="awt\GuiRoot.py" />
-    <Compile Include="awt\InputEvent.py" />
-    <Compile Include="awt\ActionEvent.py" />
-    <Compile Include="awt\KeyEvent.py" />
-    <Compile Include="awt\TopFrame.py" />
-    <Compile Include="awt\VirtualKey.py" />
-    <Compile Include="awt\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="db\Exceptions.py" />
-    <Compile Include="db\DatabaseAddress.py" />
-    <Compile Include="db\DatabaseType.py" />
-    <Compile Include="db\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="gui\dialogs\AboutDialog.py" />
-    <Compile Include="gui\dialogs\LoginDialog.py" />
-    <Compile Include="gui\dialogs\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="util\api.py" />
-    <Compile Include="util\ComponentSettings.py" />
-    <Compile Include="util\FileResourceBundle.py" />
-    <Compile Include="util\FileResourceFactory.py" />
-    <Compile Include="util\Friends.py" />
-    <Compile Include="pnp\Plugin.py" />
-    <Compile Include="pnp\PluginManager.py" />
-    <Compile Include="pnp\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="client\Client.py" />
-    <Compile Include="util\Locale.py" />
-    <Compile Include="util\ResourceBundle.py" />
-    <Compile Include="util\ResourceFactory.py" />
-    <Compile Include="util\ResourceType.py" />
-    <Compile Include="util\Settings.py" />
-    <Compile Include="util\UtilResources.py" />
-    <Compile Include="gui\skins\ActiveSkin.py" />
-    <Compile Include="gui\skins\Skin.py" />
-    <Compile Include="gui\skins\SkinRegistry.py" />
-    <Compile Include="gui\skins\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="db\sqlite\SqliteDatabaseAddress.py" />
-    <Compile Include="db\sqlite\SqliteDatabaseType.py" />
-    <Compile Include="db\sqlite\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="util\Metaclasses.py" />
-    <Compile Include="util\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="workspace\api.py" />
-    <Compile Include="workspace\Credentials.py" />
-    <Compile Include="workspace\CurrentCredentials.py" />
-    <Compile Include="workspace\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="client\" />
-    <Folder Include="gui\resources\" />
-    <Folder Include="gui\resources\images\" />
-    <Folder Include="gui\resources\images\actions\" />
-    <Folder Include="gui\skins\admin\" />
-    <Folder Include="gui\actions\" />
-    <Folder Include="awt\" />
-    <Folder Include="db\" />
-    <Folder Include="gui\dialogs\" />
-    <Folder Include="gui\" />
-    <Folder Include="pnp\" />
-    <Folder Include="gui\skins\" />
-    <Folder Include="db\sqlite\" />
-    <Folder Include="util\" />
-    <Folder Include="util\resources\" />
-    <Folder Include="util\resources\images\" />
-    <Folder Include="workspace\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="gui\resources\images\actions\AboutLarge.png" />
-    <Content Include="gui\resources\images\actions\AboutSmall.png" />
-    <Content Include="gui\resources\images\actions\CloseWorkspaceLarge.png" />
-    <Content Include="gui\resources\images\actions\CloseWorkspaceSmall.png" />
-    <Content Include="gui\resources\images\actions\CreateWorkspaceLarge.png" />
-    <Content Include="gui\resources\images\actions\CreateWorkspaceSmall.png" />
-    <Content Include="gui\resources\images\actions\DestroyWorkspaceLarge.png" />
-    <Content Include="gui\resources\images\actions\DestroyWorkspaceSmall.png" />
-    <Content Include="gui\resources\images\actions\ExitLarge.png" />
-    <Content Include="gui\resources\images\actions\ExitSmall.png" />
-    <Content Include="gui\resources\images\actions\OpenWorkspaceLarge.png" />
-    <Content Include="gui\resources\images\actions\OpenWorkspaceSmall.png" />
-    <Content Include="util\resources\Resources_en.txt" />
-    <Content Include="util\resources\Resources.txt" />
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
        Visual Studio and specify your pre- and post-build commands in
