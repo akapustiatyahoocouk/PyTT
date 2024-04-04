@@ -8,6 +8,10 @@ import sys
 import os.path
 
 #   Dependencies on other PyTT components
+root_directory = os.path.dirname(os.path.dirname(__file__))
+print("Starting PyTT from", root_directory)
+sys.path.insert(0, root_directory)
+
 from gui.api import *
 from awt.api import *
 from workspace.api import *
@@ -135,11 +139,7 @@ if __name__ == "__main__":
     print('Python is', sys.version_info)
     print('System locale is', Locale.default)
 
-    root_directory = os.path.dirname(os.path.dirname(__file__))
-    print("Starting PyTT from", root_directory)
-
     CommandLine.parse()
-    sys.path.insert(0, root_directory)
 
     if CommandLine.show_splash_screen:
         SplashScreen.show()    

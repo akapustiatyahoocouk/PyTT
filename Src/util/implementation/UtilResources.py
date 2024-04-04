@@ -8,9 +8,9 @@ import os
 import tkinter as tk
 
 #   Internal dependencies on modules within the same component
-from util.Annotations import staticproperty
-from util.FileResourceFactory import FileResourceFactory
-from util.Locale import Locale
+from util.implementation.Annotations import staticproperty
+from util.implementation.FileResourceFactory import FileResourceFactory
+from util.implementation.Locale import Locale
 
 ##########
 #   Public entities
@@ -18,7 +18,8 @@ from util.Locale import Locale
 class UtilResources:
     """ Resources provided by the "util" component. """
 
-    __impl = FileResourceFactory(os.path.join(os.path.dirname(__file__), "resources/Resources.txt"))
+    __impl = FileResourceFactory(os.path.join(
+        os.path.dirname(os.path.dirname(__file__)), "resources/Resources.txt"))
     
     ##########
     #   Construction - disable (this is an utility class)

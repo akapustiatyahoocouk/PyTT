@@ -9,7 +9,7 @@ import atexit
 from configparser import ConfigParser
 
 #   Internal dependencies on modules within the same component
-from util.ComponentSettings import ComponentSettings
+from util.implementation.ComponentSettings import ComponentSettings
 
 ##########
 #   Implementation helpers (persistence)

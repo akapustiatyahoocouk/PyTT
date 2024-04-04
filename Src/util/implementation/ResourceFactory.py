@@ -8,7 +8,8 @@ from abc import ABC, abstractmethod, abstractproperty
 import tkinter as tk
 
 #   Internal dependencies on modules within the same component
-from util.Locale import Locale
+from util.implementation.Locale import Locale
+from util.implementation.ResourceType import ResourceType
 
 ##########
 #   Public entities
@@ -29,6 +30,25 @@ class ResourceFactory(ABC):
         
     ##########
     #   Operations
+    @abstractmethod
+    def get_resource_type(self, key: str, locale: Locale = Locale.default) -> ResourceType:
+        """
+            Returns the type of the specified resource.
+            It this cannot be done, attempts to do the same for the parent
+            locale of rht "locale", then for the grand-parent, etc. before
+            giving up.
+            
+            @param key:
+                The key to return a string resource for.
+            @param locale:
+                The required resource locale.
+            @return:
+                The type of the resource for the specified key;
+                ResourceType.NONE if the resource does not exist OR 
+                its type cannot be determined.
+        """
+        raise NotImplementedError()
+
     @abstractmethod
     def get_resource(self, key: str, locale: Locale = Locale.default) -> Any:
         """ 

@@ -4,15 +4,15 @@
 
 ##########
 #   Public entities
-from util.Annotations import *
-from util.ComponentSettings import *
-from util.FileResourceBundle import *
-from util.FileResourceFactory import *
-from util.Friends import *
-from util.Locale import *
-from util.Metaclasses import *
-from util.ResourceBundle import *
-from util.ResourceFactory import *
-from util.ResourceType import *
-from util.Settings import *
-from util.UtilResources import *
+from util.implementation.Annotations import *
+from util.implementation.ComponentSettings import *
+from util.implementation.FileResourceBundle import *
+from util.implementation.FileResourceFactory import *
+from util.implementation.Friends import *
+from util.implementation.Locale import *
+from util.implementation.Metaclasses import *
+from util.implementation.ResourceBundle import *
+from util.implementation.ResourceFactory import *
+from util.implementation.ResourceType import *
+from util.implementation.Settings import *
+from util.implementation.UtilResources import *

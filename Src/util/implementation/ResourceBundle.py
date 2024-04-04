@@ -8,8 +8,8 @@ from abc import ABC, abstractproperty, abstractmethod
 import tkinter as tk
 
 #   Internal dependencies on modules within the same component
-from util.Locale import Locale
-from util.ResourceType import ResourceType
+from util.implementation.Locale import Locale
+from util.implementation.ResourceType import ResourceType
 
 ##########
 #   Public entities

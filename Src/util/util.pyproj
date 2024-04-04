@@ -21,6 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="implementation\" />
     <Folder Include="resources\" />
     <Folder Include="resources\images\" />
   </ItemGroup>
@@ -31,19 +32,19 @@
     <Content Include="resources\Resources_en.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Annotations.py" />
+    <Compile Include="implementation\Annotations.py" />
     <Compile Include="api.py" />
-    <Compile Include="ComponentSettings.py" />
-    <Compile Include="FileResourceBundle.py" />
-    <Compile Include="FileResourceFactory.py" />
-    <Compile Include="Friends.py" />
-    <Compile Include="Locale.py" />
-    <Compile Include="Metaclasses.py" />
-    <Compile Include="ResourceBundle.py" />
-    <Compile Include="ResourceFactory.py" />
-    <Compile Include="ResourceType.py" />
-    <Compile Include="Settings.py" />
-    <Compile Include="UtilResources.py" />
+    <Compile Include="implementation\ComponentSettings.py" />
+    <Compile Include="implementation\FileResourceBundle.py" />
+    <Compile Include="implementation\FileResourceFactory.py" />
+    <Compile Include="implementation\Friends.py" />
+    <Compile Include="implementation\Locale.py" />
+    <Compile Include="implementation\Metaclasses.py" />
+    <Compile Include="implementation\ResourceBundle.py" />
+    <Compile Include="implementation\ResourceFactory.py" />
+    <Compile Include="implementation\ResourceType.py" />
+    <Compile Include="implementation\Settings.py" />
+    <Compile Include="implementation\UtilResources.py" />
     <Compile Include="__init__.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

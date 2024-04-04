@@ -4,9 +4,9 @@ import os
 import tkinter as tk
 
 #   Internal dependencies on modules within the same component
-from util.Locale import Locale
-from util.ResourceType import ResourceType
-from util.ResourceBundle import ResourceBundle
+from util.implementation.Locale import Locale
+from util.implementation.ResourceType import ResourceType
+from util.implementation.ResourceBundle import ResourceBundle
 
 ##########
 #   Public entities
@@ -29,7 +29,7 @@ class FileResourceBundle(ResourceBundle):
                 line = line.strip()
                 if len(line) == 0  or line.startswith("#"):
                     continue
-                print(line)
+                #print(line)
                 try:
                     (key, resource_definition) = line.split("=", 1)
                     #print(key, resource_definition)
@@ -56,8 +56,12 @@ class FileResourceBundle(ResourceBundle):
     #   ResourceBundle - Operations
     def get_resource_type(self, key: str) -> ResourceType:
         assert isinstance(key, str)
-        
-        return self.__resource_types.get(key, ResourceType.NONE)
+
+        try:        
+            r = self.get_resource(key)    # make sure self.__resource_types[key] is populated
+            return self.__resource_types.get(key, ResourceType.NONE)
+        except Exception as ex:
+            return ResourceType.NONE
 
     def get_resource(self, key: str) -> Any:
         assert isinstance(key, str)

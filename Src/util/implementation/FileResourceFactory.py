@@ -5,9 +5,10 @@ import re
 import tkinter as tk
 
 #   Internal dependencies on modules within the same component
-from util.Locale import Locale
-from util.ResourceFactory import ResourceFactory
-from util.FileResourceBundle import FileResourceBundle
+from util.implementation.Locale import Locale
+from util.implementation.ResourceType import ResourceType
+from util.implementation.ResourceFactory import ResourceFactory
+from util.implementation.FileResourceBundle import FileResourceBundle
 
 ##########
 #   Public entities
@@ -66,6 +67,22 @@ class FileResourceFactory(ResourceFactory):
         
     ##########
     #   ResourceFactory - Operations
+    def get_resource_type(self, key: str, locale: Locale = Locale.default) -> ResourceType:
+        assert isinstance(key, str)
+        assert isinstance(locale, Locale)
+
+        while True:        
+            resource_bundle = self.__resource_bundles.get(locale, None)
+            if resource_bundle is not None:
+                resource_type = resource_bundle.get_resource_type(key)
+                if resource_type is not ResourceType.NONE:
+                    return resource_type
+            #   Try parent locale
+            if locale == Locale.ROOT:
+                #  No point in going to the next-level parent
+                return ResourceType.NONE
+            locale = locale.parent
+
     def get_resource(self, key: str, locale: Locale = Locale.default) -> Any:
         assert isinstance(key, str)
         assert isinstance(locale, Locale)
