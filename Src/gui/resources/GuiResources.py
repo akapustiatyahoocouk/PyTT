@@ -18,6 +18,9 @@ class GuiResources(ClassWithConstants):
 
     ##########
     #   Implementation
+    __impl = FileResourceFactory(os.path.join(
+        os.path.dirname(os.path.dirname(__file__)), "Resources.txt"))
+
     __icon_cache: dict[str, tk.PhotoImage] = {}
 
     ##########
@@ -26,7 +29,13 @@ class GuiResources(ClassWithConstants):
         assert False, str(self.__class__) + " is a utility class"
 
     ##########
-    #   Properties (Actions)
+    #   Properties
+    @staticproperty
+    def factory() -> ResourceFactory:
+        """ The resource factory that provides the actual resources. """
+        return GuiResources.__impl
+    
+
     @staticproperty
     def ACTIONS_EXIT_NAME() -> str:
         return "Exit"

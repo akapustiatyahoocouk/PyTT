@@ -46,7 +46,7 @@ class SimpleMenuItem(MenuItem):
             self.add_action_listener(action.execute)
 
     ##########
-    #   MenuItem (Properties)
+    #   MenuItem (Properties) TODO raise to MenuItem class ?
     @property
     def label(self) -> str:
         return self.__label

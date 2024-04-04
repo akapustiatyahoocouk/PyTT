@@ -24,11 +24,16 @@
     <Compile Include="implementation\AdminSkin.py" />
     <Compile Include="implementation\AdminSkinSettings.py" />
     <Compile Include="implementation\MainFrame.py" />
+    <Compile Include="resources\AdminSkinResources.py" />
     <Compile Include="__init__.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="interface\" />
     <Folder Include="implementation\" />
+    <Folder Include="resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="resources\Resources.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

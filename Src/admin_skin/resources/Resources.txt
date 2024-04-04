@@ -1,0 +1,4 @@
+FileMenu.Label=File
+FileMenu.Hotkey=F
+HelpMenu.Label=Help
+HelpMenu.Hotkey=H

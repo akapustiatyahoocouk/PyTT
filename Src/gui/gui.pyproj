@@ -57,6 +57,7 @@
     <Content Include="resources\images\actions\ExitSmall.png" />
     <Content Include="resources\images\actions\OpenWorkspaceLarge.png" />
     <Content Include="resources\images\actions\OpenWorkspaceSmall.png" />
+    <Content Include="resources\Resources.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

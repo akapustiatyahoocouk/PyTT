@@ -4,6 +4,9 @@ from typing import final
 #   Dependencies on other PyTT components
 from awt.interface.api import *
 
+#   Internal dependencies on modules within the same component
+from admin_skin.resources.AdminSkinResources import AdminSkinResources
+
 ##########
 #   Public entities
 @final
@@ -18,26 +21,28 @@ class MainFrame(TopFrame):
         from gui.implementation.actions.ActionSet import ActionSet
         self.__action_set = ActionSet()
         
-        file_menu = Submenu('File', hotkey='F')
+        file_menu = ResourceAwareSubmenu(AdminSkinResources.factory,
+                                         DefaultLocaleProvider.instance,
+                                         "FileMenu")
         fi1 = file_menu.items.append(self.__action_set.exit)
         fi2 = file_menu.items.append('Exit&1')
         fi3 = file_menu.items.append('Exit&2')
         fi4 = file_menu.items.append('Exit&3')
         file_menu.items.remove_at(2)
         
-        help_menu = Submenu('Help', hotkey='H')
+        help_menu = ResourceAwareSubmenu(AdminSkinResources.factory,
+                                         DefaultLocaleProvider.instance,
+                                         "HelpMenu")
         help_menu.items.append('Help', hotkey="H")
-        ha = help_menu.items.append(self.__action_set.about)
-        hi = help_menu.items.append('&Index')
-        help_menu.items.append('&Search').enabled = False
+        help_menu.items.append('Search', hotkey="S").enabled = False
+        help_menu.items.append('Index', hotkey="I")
+        help_menu.items.append(self.__action_set.about)
         
         menu_bar = MenuBar()
         menu_bar.items.append(file_menu)
         menu_bar.items.append(help_menu)
 
-        mb1 = self.menu_bar
         self.menu_bar = menu_bar
-        mb2 = self.menu_bar
 
         #   Create controls
         self.__aboutButton = Button(self, action=self.__action_set.about)
