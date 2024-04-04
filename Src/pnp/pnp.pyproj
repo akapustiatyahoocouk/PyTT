@@ -21,10 +21,14 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="api.py" />
-    <Compile Include="Plugin.py" />
-    <Compile Include="PluginManager.py" />
+    <Compile Include="interface\api.py" />
+    <Compile Include="implementation\Plugin.py" />
+    <Compile Include="implementation\PluginManager.py" />
     <Compile Include="__init__.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="interface\" />
+    <Folder Include="implementation\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

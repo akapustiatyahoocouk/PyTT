@@ -17,6 +17,10 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "util", "util\util.pyproj", 
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "workspace", "workspace\workspace.pyproj", "{46C0928F-101C-4B3D-B586-BDCE61122048}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "sqlite_db", "sqlite_db\sqlite_db.pyproj", "{AE07AA39-9863-409A-A4D9-1D6D6B3082E3}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "admin_skin", "admin_skin\admin_skin.pyproj", "{B4656F0A-1C18-48EA-8F5F-1F23AA2708F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +41,10 @@ Global
 		{7347B02D-088D-447C-9202-DECFDAFCB8B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46C0928F-101C-4B3D-B586-BDCE61122048}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{46C0928F-101C-4B3D-B586-BDCE61122048}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE07AA39-9863-409A-A4D9-1D6D6B3082E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE07AA39-9863-409A-A4D9-1D6D6B3082E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4656F0A-1C18-48EA-8F5F-1F23AA2708F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4656F0A-1C18-48EA-8F5F-1F23AA2708F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

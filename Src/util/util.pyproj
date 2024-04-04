@@ -22,6 +22,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="implementation\" />
+    <Folder Include="interface\" />
     <Folder Include="resources\" />
     <Folder Include="resources\images\" />
   </ItemGroup>
@@ -33,7 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="implementation\Annotations.py" />
-    <Compile Include="api.py" />
+    <Compile Include="interface\api.py" />
     <Compile Include="implementation\ComponentSettings.py" />
     <Compile Include="implementation\FileResourceBundle.py" />
     <Compile Include="implementation\FileResourceFactory.py" />
@@ -44,7 +45,7 @@
     <Compile Include="implementation\ResourceFactory.py" />
     <Compile Include="implementation\ResourceType.py" />
     <Compile Include="implementation\Settings.py" />
-    <Compile Include="implementation\UtilResources.py" />
+    <Compile Include="resources\UtilResources.py" />
     <Compile Include="__init__.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

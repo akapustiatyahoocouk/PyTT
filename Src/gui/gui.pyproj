@@ -21,33 +21,27 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="actions\" />
-    <Folder Include="dialogs\" />
+    <Folder Include="implementation\actions\" />
+    <Folder Include="implementation\dialogs\" />
+    <Folder Include="interface\" />
+    <Folder Include="implementation\" />
     <Folder Include="resources\" />
     <Folder Include="resources\images\" />
     <Folder Include="resources\images\actions\" />
-    <Folder Include="skins\" />
-    <Folder Include="skins\admin\" />
+    <Folder Include="implementation\skins\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="actions\AboutAction.py" />
-    <Compile Include="actions\ActionBase.py" />
-    <Compile Include="actions\ActionSet.py" />
-    <Compile Include="actions\ExitAction.py" />
-    <Compile Include="actions\__init__.py" />
-    <Compile Include="api.py" />
-    <Compile Include="dialogs\AboutDialog.py" />
-    <Compile Include="dialogs\LoginDialog.py" />
-    <Compile Include="dialogs\__init__.py" />
-    <Compile Include="GuiResources.py" />
-    <Compile Include="skins\ActiveSkin.py" />
-    <Compile Include="skins\admin\AdminSkin.py" />
-    <Compile Include="skins\admin\AdminSkinSettings.py" />
-    <Compile Include="skins\admin\MainFrame.py" />
-    <Compile Include="skins\admin\__init__.py" />
-    <Compile Include="skins\Skin.py" />
-    <Compile Include="skins\SkinRegistry.py" />
-    <Compile Include="skins\__init__.py" />
+    <Compile Include="implementation\actions\AboutAction.py" />
+    <Compile Include="implementation\actions\ActionBase.py" />
+    <Compile Include="implementation\actions\ActionSet.py" />
+    <Compile Include="implementation\actions\ExitAction.py" />
+    <Compile Include="interface\api.py" />
+    <Compile Include="implementation\dialogs\AboutDialog.py" />
+    <Compile Include="implementation\dialogs\LoginDialog.py" />
+    <Compile Include="resources\GuiResources.py" />
+    <Compile Include="implementation\skins\ActiveSkin.py" />
+    <Compile Include="implementation\skins\Skin.py" />
+    <Compile Include="implementation\skins\SkinRegistry.py" />
     <Compile Include="__init__.py" />
   </ItemGroup>
   <ItemGroup>

@@ -21,16 +21,14 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="sqlite\" />
+    <Folder Include="interface\" />
+    <Folder Include="implementation\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="api.py" />
-    <Compile Include="DatabaseAddress.py" />
-    <Compile Include="DatabaseType.py" />
-    <Compile Include="Exceptions.py" />
-    <Compile Include="sqlite\SqliteDatabaseAddress.py" />
-    <Compile Include="sqlite\SqliteDatabaseType.py" />
-    <Compile Include="sqlite\__init__.py" />
+    <Compile Include="interface\api.py" />
+    <Compile Include="implementation\DatabaseAddress.py" />
+    <Compile Include="implementation\DatabaseType.py" />
+    <Compile Include="implementation\Exceptions.py" />
     <Compile Include="__init__.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

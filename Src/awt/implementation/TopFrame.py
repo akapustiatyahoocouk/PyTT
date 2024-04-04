@@ -1,0 +1,56 @@
+#   Python standard library
+from typing import final, Optional
+import tkinter as tk
+
+#   Dependencies on other PyTT components
+from util.interface.api import *
+
+#   Internal dependencies on modules within the same component
+from awt.implementation.GuiRoot import GuiRoot
+from awt.implementation.BaseWidgetMixin import BaseWidgetMixin
+from awt.implementation.MenuBar import MenuBar
+
+##########
+#   Public entities
+@final
+class TopFrame(tk.Toplevel, BaseWidgetMixin):
+    """ The generic top-level UI frame. """
+    
+    def __init__(self):
+        """ Constructs a top-level frame. """
+        tk.Toplevel.__init__(self, GuiRoot.tk)
+        BaseWidgetMixin.__init__(self)
+        
+        self.__menu_bar = None
+
+        #self.state("withdrawn")
+        #self.transient(awt.GuiRoot.GuiRoot.tk)
+        self.title(GuiRoot.tk.title())
+        self.wm_iconphoto(True, UtilResources.image("PyTT.LargeImage"))
+        self.geometry("600x400")
+
+    ##########
+    #   tkinter support
+    def tk(self) -> tk.Tk:
+        return self.__tk
+    
+    ##########
+    #   Properties
+    @property
+    def menu_bar(self) -> Optional[MenuBar]:
+        return self.__menu_bar
+
+    @menu_bar.setter
+    def menu_bar(self, mb: Optional[MenuBar]) -> None:
+        if mb is self.__menu_bar:
+            return#   Already there
+        if mb is None:
+            if self.__menu_bar is not None:
+                self.__menu_bar._Menu__tk_impl.master = None
+            self["menu"] = ""
+            self.__menu_bar = None
+        else:
+            assert isinstance(mb, Optional[MenuBar])
+            mb._Menu__tk_impl.master._impl = self
+            self["menu"] = mb._Menu__tk_impl
+            self.__menu_bar = mb
