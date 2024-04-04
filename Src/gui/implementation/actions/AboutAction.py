@@ -10,6 +10,8 @@ from awt.interface.api import *
 #   Internal dependencies on modules within the same component
 from gui.implementation.dialogs.AboutDialog import AboutDialog
 from gui.implementation.actions.ActionBase import ActionBase
+from gui.implementation.skins.Skin import Skin
+from gui.implementation.skins.ActiveSkin import ActiveSkin
 from gui.resources.GuiResources import GuiResources
 
 ##########
@@ -32,5 +34,5 @@ class AboutAction(ActionBase):
     ##########
     #   Action - Operations
     def execute(self, evt: ActionEvent) -> None:
-        with AboutDialog(self.main_frame) as dlg:
+        with AboutDialog(self.dialog_parent) as dlg:
             dlg.do_modal()

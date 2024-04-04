@@ -66,6 +66,6 @@ class SkinRegistry: #   TODO move static services to Skin!
     @staticproperty
     def default_skin() -> Skin:
         """ The "default" skin to use. """
-        from gui.implementation.skins.admin.AdminSkin import AdminSkin
+        from admin_skin.implementation.AdminSkin import AdminSkin
         return AdminSkin.instance
 

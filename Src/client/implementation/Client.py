@@ -18,11 +18,15 @@ from workspace.interface.api import *
 from pnp.interface.api import *
 from util.interface.api import *
 
+
+from util.interface.api import *
+
+dlp = DefaultLocaleProvider.instance
+dlp.locale = Locale.ROOT
+
 #   Internal dependencies on modules within the same component
 from client.implementation.CommandLine import CommandLine
 
-##########
-#   Public entities
 @final
 class SplashScreen:
     #   TODO a simple private function would do?

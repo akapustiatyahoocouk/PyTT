@@ -4,8 +4,8 @@
 #   Python standard library
 from typing import TypeAlias, Callable
 
-#   Internal dependencies on modules within the same component
-from awt.implementation.Event import Event
+#   Dependencies on other PyTT components
+from util.interface.api import *
 
 ##########
 #   Public entities

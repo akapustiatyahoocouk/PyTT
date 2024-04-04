@@ -75,12 +75,12 @@ class BaseWidgetMixin(KeyEventProcessorMixin):
     def __on_tk_keydown(self, evt: tk.Event):
         #print(evt)
         ke = KeyEvent(self, KeyEventType.KEY_DOWN, evt)
-        self._process_key_event(ke)
+        self.process_key_event(ke)
         if ke.keychar is not None:
             ce = KeyEvent(self, KeyEventType.KEY_CHAR, evt)
-            self._process_key_event(ce)
+            self.process_key_event(ce)
 
     def __on_tk_keyup(self, evt: tk.Event):
         #print(evt)
         ke = KeyEvent(self, KeyEventType.KEY_UP, evt)
-        self._process_key_event(ke)
+        self.process_key_event(ke)

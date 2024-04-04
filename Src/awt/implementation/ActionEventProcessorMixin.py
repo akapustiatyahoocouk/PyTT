@@ -5,8 +5,10 @@
 from typing import Callable
 from inspect import signature
 
+#   Dependencies on other PyTT components
+from util.interface.api import *
+
 #   Internal dependencies on modules within the same component
-from awt.implementation.Event import Event
 from awt.implementation.ActionEvent import ActionEvent, ActionListener
 
 ##########
@@ -23,7 +25,7 @@ class ActionEventProcessorMixin:
         self.__action_listeners = []
 
     ##########
-    #   Event dispatch
+    #   Operations
     def add_action_listener(self, l: ActionListener) -> None:
         """ Regsters the specified listener to be notified when
             an action event is processed.
@@ -49,9 +51,7 @@ class ActionEventProcessorMixin:
         """ The list of all action event listeners registered so far. """
         return self.__action_listeners.copy()
 
-    ##########
-    #   Operations (event processing) - normally, don't touch!
-    def _process_action_event(self, event : ActionEvent) -> bool:
+    def process_action_event(self, event : ActionEvent) -> bool:
         """
             Called to process an ActionEvent.
 
@@ -67,22 +67,3 @@ class ActionEventProcessorMixin:
         for l in self.__action_listeners:
             l(event)    #   TODO catch & log exception, then go to the next listener
         return True
-
-    def _process_event(self, event : Event) -> bool:
-        """
-            Called to process a generic Event.
-            Default implementation analyses the event type and then
-            dispatches the event to the appropriate process_XXX_event()
-            method, where XXX depends on the event type.
-
-            TODO to speed thing up, use a map of event classes to event
-                 handler methods ?
-
-            @param self:
-                The EventProcessor on which the method has been called.
-            @param event:
-                The event to process.
-        """
-        if isinstance(event, ActionEvent):
-            return self._process_action_event(event)
-        return False

@@ -2,6 +2,7 @@
     Define a concept of "skin" - a certain way of presenting a UI.
 """
 from abc import ABC, abstractmethod, abstractproperty
+import tkinter as tk
 
 ##########
 #   Public entities
@@ -28,6 +29,12 @@ class Skin(ABC):
     @abstractproperty
     def is_active(self) -> bool:
         """ True if this skin is currently active, else false. """
+        raise NotImplementedError()
+
+    @abstractproperty
+    def dialog_parent(self) -> tk.BaseWidget:
+        """ The widget/window to use as a "parent" foa modal 
+            dialogs when this Skin is active; nener None. """
         raise NotImplementedError()
 
     ##########

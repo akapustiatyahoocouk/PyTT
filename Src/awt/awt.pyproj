@@ -29,7 +29,6 @@
     <Compile Include="implementation\Button.py" />
     <Compile Include="implementation\Dialog.py" />
     <Compile Include="implementation\Entry.py" />
-    <Compile Include="implementation\Event.py" />
     <Compile Include="implementation\GuiRoot.py" />
     <Compile Include="implementation\InputEvent.py" />
     <Compile Include="implementation\InputEventModifiers.py" />
@@ -41,12 +40,9 @@
     <Compile Include="implementation\Menu.py" />
     <Compile Include="implementation\MenuBar.py" />
     <Compile Include="implementation\MenuItem.py" />
-    <Compile Include="implementation\PropertyChangeEvent.py" />
-    <Compile Include="implementation\PropertyChangeEventProcessorMixin.py" />
     <Compile Include="implementation\Separator.py" />
     <Compile Include="implementation\SimpleMenuItem.py" />
     <Compile Include="implementation\Submenu.py" />
-    <Compile Include="implementation\TextMenuItem.py" />
     <Compile Include="implementation\TopFrame.py" />
     <Compile Include="implementation\VirtualKey.py" />
     <Compile Include="implementation\Widget.py" />

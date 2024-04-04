@@ -2,8 +2,10 @@
 from abc import ABCMeta
 from typing import Any
 
+#   Dependencies on other PyTT components
+from util.interface.api import *
+
 #   Internal dependencies on modules within the same component
-from awt.implementation.Event import Event
 from awt.implementation.InputEventModifiers import InputEventModifiers
 
 ##########

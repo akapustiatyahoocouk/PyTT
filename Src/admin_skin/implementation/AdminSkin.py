@@ -56,12 +56,18 @@ class AdminSkin(Skin):
 
     @property
     def is_active(self) -> bool:
-        return (self.__main_frame is not None) and self.__main_frame.winfo_exists
+        return self.__main_frame.winfo_exists
+
+    @property
+    def dialog_parent(self) -> tk.BaseWidget:
+        return self.__main_frame
 
     ##########
     #   ISkin - Operations
     def activate(self) -> None:
         self.__main_frame.activate()
+        self.__main_frame.wait_visibility()
+        self.__main_frame.focus_force()
 
     def deactivate(self) -> None:
         self.__main_frame.deactivate()

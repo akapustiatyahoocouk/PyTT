@@ -12,8 +12,6 @@ from util.interface.api import *
 #   Internal dependencies on modules within the same component
 from awt.implementation.KeyStroke import KeyStroke
 from awt.implementation.ActionEvent import ActionEvent
-from awt.implementation.PropertyChangeEventProcessorMixin import PropertyChangeEventProcessorMixin
-from awt.implementation.PropertyChangeEvent import PropertyChangeEvent
 
 ##########
 #   Public entities
@@ -116,7 +114,7 @@ class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
             self.__name = new_name
             #   Notify interested listeners
             evt = PropertyChangeEvent(self, self, Action.NAME_PROPERTY_NAME)
-            self._process_property_change_event(evt)
+            self.process_property_change_event(evt)
 
     @property
     def hotkey(self) -> str:
@@ -137,7 +135,7 @@ class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
             self.__hotkey = new_hotkey
             #   Notify interested listeners
             evt = PropertyChangeEvent(self, self, Action.HOTKEY_PROPERTY_NAME)
-            self._process_property_change_event(evt)
+            self.process_property_change_event(evt)
 
     @property   # TODO add setter
     def description(self) -> Optional[str]:
@@ -157,7 +155,7 @@ class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
             self.__shortcut = new_shortcut
             #   Notify interested listeners
             evt = PropertyChangeEvent(self, self, Action.SHORTCUT_PROPERTY_NAME)
-            self._process_property_change_event(evt)
+            self.process_property_change_event(evt)
 
     @property   # TODO add setter
     def enabled(self) -> bool:
@@ -172,7 +170,7 @@ class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
             self.__enabled = new_enabled
             #   Notify interested listeners
             evt = PropertyChangeEvent(self, self, Action.ENABLED_PROPERTY_NAME)
-            self._process_property_change_event(evt)
+            self.process_property_change_event(evt)
 
     @property   # TODO add setter
     def small_image(self) -> Optional[tk.PhotoImage]:

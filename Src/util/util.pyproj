@@ -34,6 +34,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="implementation\Annotations.py" />
+    <Compile Include="implementation\DefaultLocaleProvider.py" />
+    <Compile Include="implementation\Event.py" />
+    <Compile Include="implementation\LocaleProvider.py" />
+    <Compile Include="implementation\PropertyChangeEvent.py" />
+    <Compile Include="implementation\PropertyChangeEventProcessorMixin.py" />
     <Compile Include="interface\api.py" />
     <Compile Include="implementation\ComponentSettings.py" />
     <Compile Include="implementation\FileResourceBundle.py" />

@@ -2,8 +2,10 @@
 from typing import Callable
 from inspect import signature
 
+#   Dependencies on other PyTT components
+from util.interface.api import *
+
 #   Internal dependencies on modules within the same component
-from awt.implementation.Event import Event
 from awt.implementation.KeyEvent import KeyEvent, KeyListener
 
 ##########
@@ -20,7 +22,7 @@ class KeyEventProcessorMixin:
         self.__key_listeners = list()
     
     ##########
-    #   Event dispatch
+    #   Operations
     def add_key_listener(self, l: KeyListener) -> None:
         """ Regsters the specified listener to be notified when
             a key event is processed.
@@ -46,9 +48,7 @@ class KeyEventProcessorMixin:
         """ The list of all key event listeners registered so far. """
         return self.__key_listeners.copy()
 
-    ##########
-    #   Operations (event processing) - normally, don't touch!
-    def _process_key_event(self, event : KeyEvent) -> bool:
+    def process_key_event(self, event : KeyEvent) -> bool:
         """ 
             Called to process a KeyEvent.
             
@@ -66,24 +66,3 @@ class KeyEventProcessorMixin:
         for l in self.__key_listeners:
             l(event)    #   TODO catch & log exception, then go to the next listener
         return True
-    
-    def _process_event(self, event : Event) -> bool:
-        """ 
-            Called to process a generic Event.
-            Default implementation analyses the event type and then
-            dispatches the event to the appropriate process_XXX_event()
-            method, where XXX depends on the event type.
-            
-            TODO to speed thing up, use a map of event classes to event
-                 handler methods ?
-            
-            @param self:
-                The EventProcessor on which the method has been called.
-            @param event:
-                The event to process.
-            @return:
-                True if the event was processed, else false.
-        """
-        if isinstance(event, KeyEvent):
-            return self._process_key_event(event)
-        return False

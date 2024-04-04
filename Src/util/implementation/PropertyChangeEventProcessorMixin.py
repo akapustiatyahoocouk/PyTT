@@ -3,8 +3,8 @@ from typing import Callable
 from inspect import signature
 
 #   Internal dependencies on modules within the same component
-from awt.implementation.Event import Event
-from awt.implementation.PropertyChangeEvent import PropertyChangeEvent, PropertyChangeListener
+from util.implementation.Event import Event
+from util.implementation.PropertyChangeEvent import PropertyChangeEvent, PropertyChangeListener
 
 ##########
 #   Public entities
@@ -20,7 +20,7 @@ class PropertyChangeEventProcessorMixin:
         self.__property_change_listeners = list()
     
     ##########
-    #   Event dispatch
+    #   Operations
     def add_property_change_listener(self, l: PropertyChangeListener) -> None:
         """ Regsters the specified listener to be notified when
             a property change event is processed.
@@ -46,9 +46,7 @@ class PropertyChangeEventProcessorMixin:
         """ The list of all property change listeners registered so far. """
         return self.__property_change_listeners.copy()
 
-    ##########
-    #   Operations (event processing) - normally, don't touch!
-    def _process_property_change_event(self, event : PropertyChangeEvent) -> bool:
+    def process_property_change_event(self, event : PropertyChangeEvent) -> bool:
         """ 
             Called to process an PropertyChangeEvent.
             
@@ -60,28 +58,7 @@ class PropertyChangeEventProcessorMixin:
         assert isinstance(event, PropertyChangeEvent)
         #   TODO if the event has NOY been processed, the default
         #   implementation should dispatch it to the "parent" event
-        #   processor.
+        #   processor TODO really ???.
         for l in self.__property_change_listeners:
             l(event)    #   TODO catch & log exception, then go to the next listener
         return True
-    
-    def _process_event(self, event : Event) -> bool:
-        """ 
-            Called to process a generic Event.
-            Default implementation analyses the event type and then
-            dispatches the event to the appropriate process_XXX_event()
-            method, where XXX depends on the event type.
-            
-            TODO to speed thing up, use a map of event classes to event
-                 handler methods ?
-            
-            @param self:
-                The EventProcessor on which the method has been called.
-            @param event:
-                The event to process.
-        """
-        if isinstance(event, PropertyChangeEvent):
-            return self._process_property_change_event(event)
-        return False
-
-

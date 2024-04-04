@@ -2,12 +2,14 @@
 from typing import Optional
 import tkinter as tk
 
+#   Dependencies on other PyTT components
+from util.interface.api import *
+
 #   Internal dependencies on modules within the same component
 from awt.implementation.KeyStroke import KeyStroke
 from awt.implementation.MenuItem import MenuItem
 from awt.implementation.Action import Action
 from awt.implementation.ActionEvent import ActionEvent
-from awt.implementation.PropertyChangeEvent import PropertyChangeEvent
 
 ##########
 #   Public entities
@@ -121,4 +123,4 @@ class SimpleMenuItem(MenuItem):
     
     def _on_tk_click(self):
         evt = ActionEvent(self)
-        self._process_action_event(evt)
+        self.process_action_event(evt)

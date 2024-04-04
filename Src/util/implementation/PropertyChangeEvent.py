@@ -1,9 +1,9 @@
 #   Python standard library
-from typing import final, Optional, TypeAlias, Callable, Any
+from typing import final, Optional, Callable, Any, TypeAlias
 from enum import Enum
 
 #   Internal dependencies on modules within the same component
-from awt.implementation.Event import Event
+from util.implementation.Event import Event
 
 ##########
 #   Public entities
@@ -14,8 +14,18 @@ class PropertyChangeEvent(Event):
     ##########
     #   Construction
     def __init__(self, source, affected_object: Any, changed_property: str):
-        """ Constructs the event. """
-        super().__init__(source)
+        """
+            Constructs the event.
+            
+            @param source:
+                The event source, cannot be None.
+            @param affected_object:
+                The object whose property has changed; cannot be None.
+            @param changed_property:
+                The name of the property (of the affected_object) that has 
+                changed; cannot be None.
+        """
+        Event.__init__(self, source)
         
         assert affected_object is not None
         assert isinstance(changed_property, str)
@@ -38,10 +48,13 @@ class PropertyChangeEvent(Event):
     #   Properties
     @property
     def affected_object(self) -> Any:
+        """ The object whose property has changed; cannot be None. """
         return self.__affected_object
     
     @property
     def changed_property(self) -> str:
+        """ The name of the property (of the affected_object) that 
+            has changed; cannot be None. """
         return self.__changed_property
 
 

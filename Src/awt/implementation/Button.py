@@ -4,13 +4,14 @@ from inspect import signature
 import tkinter as tk
 import tkinter.ttk as ttk
 
+#   Dependencies on other PyTT components
+from util.interface.api import *
+
 #   Internal dependencies on modules within the same component
-from awt.implementation.Event import Event
 from awt.implementation.BaseWidgetMixin import BaseWidgetMixin
 from awt.implementation.Action import Action
 from awt.implementation.ActionEvent import ActionEvent
 from awt.implementation.ActionEventProcessorMixin import ActionEventProcessorMixin
-from awt.implementation.PropertyChangeEvent import PropertyChangeEvent
 
 ##########
 #   Public entities
@@ -76,12 +77,6 @@ class Button(ttk.Button,
         self.configure(command = self.__on_tk_click)
 
     ##########
-    #   Operations (event processing) - normally, don't touch!
-    def _process_event(self, event : Event):
-        return (BaseWidgetMixin._process_event(self, event) or
-                ActionEventProcessorMixin._process_event(self, event))
-
-    ##########
     #   Implementation helpers
     @staticmethod
     def __filter_tk_kwargs(kwargs) -> dict:
@@ -107,4 +102,4 @@ class Button(ttk.Button,
 
     def __on_tk_click(self):
         evt = ActionEvent(self)
-        self._process_action_event(evt)
+        self.process_action_event(evt)

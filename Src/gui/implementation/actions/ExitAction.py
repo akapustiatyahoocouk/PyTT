@@ -31,4 +31,4 @@ class ExitAction(ActionBase):
     ##########
     #   awt.Action - Operations
     def execute(self, evt: ActionEvent) -> None:
-        self.main_frame.destroy()
+        GuiRoot.tk.quit()

@@ -42,7 +42,15 @@ class LocaleMeta(type):
     @default.setter
     def default(cls, value):
         assert isinstance(value, Locale)
-        cls._Locale__default_locale = value
+        if value != cls._Locale__default_locale:
+            from util.implementation.PropertyChangeEvent import PropertyChangeEvent
+            from util.implementation.LocaleProvider import LocaleProvider
+            from util.implementation.DefaultLocaleProvider import DefaultLocaleProvider
+            cls._Locale__default_locale = value
+            evt = PropertyChangeEvent(cls, cls, LocaleProvider.LOCALE_PROPERTY_NAME)
+            DefaultLocaleProvider.instance.process_property_change_event(evt)
+            
+            
 
 @final
 class Locale(metaclass=LocaleMeta):

@@ -88,7 +88,7 @@ class PluginManager:
                 entry_name != "__init__.py"):
                 separator = "" if len(package_name) == 0 else "."
                 module_name = package_name + separator + entry_name[:len(entry_name) - 3]
-                #print("Found module", module_name)
+                print("Found module", module_name)
                 m = importlib.import_module(module_name)
                 pass
             elif os.path.isdir(entry_path):

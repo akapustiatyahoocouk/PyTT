@@ -16,10 +16,10 @@ class MainFrame(TopFrame):
         self.__destroy_underway = False
         
         from gui.implementation.actions.ActionSet import ActionSet
-        action_set = ActionSet()
+        self.__action_set = ActionSet()
         
         file_menu = Submenu('File', hotkey='F')
-        fi1 = file_menu.items.append(action_set.exit)
+        fi1 = file_menu.items.append(self.__action_set.exit)
         fi2 = file_menu.items.append('Exit&1')
         fi3 = file_menu.items.append('Exit&2')
         fi4 = file_menu.items.append('Exit&3')
@@ -27,15 +27,9 @@ class MainFrame(TopFrame):
         
         help_menu = Submenu('Help', hotkey='H')
         help_menu.items.append('Help', hotkey="H")
-        ha = help_menu.items.append(action_set.about)
+        ha = help_menu.items.append(self.__action_set.about)
         hi = help_menu.items.append('&Index')
         help_menu.items.append('&Search').enabled = False
-
-        #action_set.about.enabled = False
-        #action_set.about.name = 'About PyTT... 1234567890'
-        #action_set.about.hotkey = "A"
-        hi.shortcut = KeyStroke(VirtualKey.VK_F1, InputEventModifiers.ALT)
-        action_set.about.shortcut = KeyStroke(VirtualKey.VK_F1)
         
         menu_bar = MenuBar()
         menu_bar.items.append(file_menu)
@@ -46,8 +40,8 @@ class MainFrame(TopFrame):
         mb2 = self.menu_bar
 
         #   Create controls
-        self.__aboutButton = Button(self, action=action_set.about)
-        self.__quitButton = Button(self, action=action_set.exit)
+        self.__aboutButton = Button(self, action=self.__action_set.about)
+        self.__quitButton = Button(self, action=self.__action_set.exit)
 
         #self.menu_bar = None
 
@@ -91,7 +85,9 @@ class MainFrame(TopFrame):
         if not self.__destroy_underway:
             self.__destroy_underway =True
             self.protocol("WM_DELETE_WINDOW", lambda: None)
-            GuiRoot.tk.quit()
+            evt = ActionEvent(self)
+            self.__action_set.exit.execute(evt)
+            #GuiRoot.tk.quit()
     
     ##########
     #   Implementation helpers    

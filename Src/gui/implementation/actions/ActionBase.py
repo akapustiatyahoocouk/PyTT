@@ -9,6 +9,7 @@ import tkinter as tk
 from awt.interface.api import *
 
 #   Internal dependencies on modules within the same component
+from gui.implementation.skins.ActiveSkin import ActiveSkin
 
 ##########
 #   Public entities
@@ -27,3 +28,10 @@ class ActionBase(Action):
         Action.__init__(self, name=name, hotkey=hotkey, description=description, 
                         shortcut=shortcut, small_image=small_image, large_image=large_image)
         assert isinstance(name, str)
+        
+    ##########
+    #   Properties
+    @property
+    def dialog_parent(self) -> tk.BaseWidget:
+        active_skin = ActiveSkin.get()
+        return active_skin.dialog_parent if active_skin is not None else GuiRoot.tk

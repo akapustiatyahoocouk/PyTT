@@ -10,6 +10,7 @@ import tkinter.ttk as ttk
 #   Internal dependencies on modules within the same component
 from awt.implementation.BaseWidgetMixin import BaseWidgetMixin
 from awt.implementation.Button import Button
+from awt.implementation.GuiRoot import GuiRoot
 
 ##########
 #   Public entities
@@ -93,15 +94,23 @@ class Dialog(tk.Toplevel, BaseWidgetMixin):
         """
         assert not self.__running_modal
 
+        if self.__parent is GuiRoot.tk:
+            GuiRoot.tk.deiconify()
+
         self.wait_visibility()
         self.center_in_parent()
         self.grab_set()
         self.transient(self.__parent)
 
         self.__running_modal = True
+        self.focus_force()
+        #self.tk_focusNext().focus_force()
         self.__parent.wait_window(self)
 
         self.grab_release()
+
+        if self.__parent is GuiRoot.tk:
+            GuiRoot.tk.withdraw()
 
     def end_modal(self):
         assert self.__running_modal

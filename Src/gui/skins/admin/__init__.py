@@ -46,7 +46,7 @@ class AdminSkinPlugin(Plugin):
 
     def initialize(self) -> None:
         from gui.skins.SkinRegistry import SkinRegistry
-        from gui.skins.admin.AdminSkin import AdminSkin
+        from admin_skin.implementation.AdminSkin import AdminSkin
         SkinRegistry.register_skin(AdminSkin.instance)
 
 AdminSkinPlugin.instance
