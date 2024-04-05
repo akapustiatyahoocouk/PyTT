@@ -6,10 +6,10 @@ import tkinter as tk
 from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
-from awt.implementation.KeyStroke import KeyStroke
-from awt.implementation.MenuItem import MenuItem
-from awt.implementation.Action import Action
-from awt.implementation.ActionEvent import ActionEvent
+from .KeyStroke import KeyStroke
+from .MenuItem import MenuItem
+from .Action import Action
+from .ActionEvent import ActionEvent
 
 ##########
 #   Public entities

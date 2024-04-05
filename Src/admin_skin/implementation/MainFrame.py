@@ -24,11 +24,11 @@ class MainFrame(TopFrame):
         file_menu = ResourceAwareSubmenu(AdminSkinResources.factory,
                                          DefaultLocaleProvider.instance,
                                          "FileMenu")
-        fi1 = file_menu.items.append(self.__action_set.exit)
-        fi2 = file_menu.items.append('Exit&1')
-        fi3 = file_menu.items.append('Exit&2')
-        fi4 = file_menu.items.append('Exit&3')
-        file_menu.items.remove_at(2)
+        file_menu.items.append(self.__action_set.create_workspace)
+        file_menu.items.append(self.__action_set.open_workspace)
+        file_menu.items.append(self.__action_set.close_workspace)
+        file_menu.items.append(self.__action_set.destroy_workspace)
+        file_menu.items.append(self.__action_set.exit)
         
         help_menu = ResourceAwareSubmenu(AdminSkinResources.factory,
                                          DefaultLocaleProvider.instance,
@@ -70,6 +70,9 @@ class MainFrame(TopFrame):
         
         self.add_key_listener(lambda e: print(e))
 
+        dlp = DefaultLocaleProvider.instance
+        dlp.locale = Locale.ROOT
+        
     ##########
     #   Properties
     @property

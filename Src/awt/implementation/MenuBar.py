@@ -6,7 +6,7 @@
 #   Python standard library
 
 #   Internal dependencies on modules within the same component
-from awt.implementation.Menu import Menu
+from .Menu import Menu
 
 ##########
 #   Public entities

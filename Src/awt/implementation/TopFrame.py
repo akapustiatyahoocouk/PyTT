@@ -6,9 +6,9 @@ import tkinter as tk
 from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
-from awt.implementation.GuiRoot import GuiRoot
-from awt.implementation.BaseWidgetMixin import BaseWidgetMixin
-from awt.implementation.MenuBar import MenuBar
+from .GuiRoot import GuiRoot
+from .BaseWidgetMixin import BaseWidgetMixin
+from .MenuBar import MenuBar
 
 ##########
 #   Public entities

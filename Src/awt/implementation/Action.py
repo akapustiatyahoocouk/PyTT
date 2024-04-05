@@ -10,8 +10,8 @@ import tkinter as tk
 from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
-from awt.implementation.KeyStroke import KeyStroke
-from awt.implementation.ActionEvent import ActionEvent
+from .KeyStroke import KeyStroke
+from .ActionEvent import ActionEvent
 
 ##########
 #   Public entities
@@ -137,19 +137,34 @@ class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
             evt = PropertyChangeEvent(self, self, Action.HOTKEY_PROPERTY_NAME)
             self.process_property_change_event(evt)
 
-    @property   # TODO add setter
+    @property
     def description(self) -> Optional[str]:
         """ The 1-line user-readable description of the action (optional, can be None). """
         return self.__description
 
-    @property   # TODO add setter
+    @description.setter
+    def description(self, new_description: str):
+        """
+            Sets the description of the action.
+
+            @param new_description:
+                The new description of the action; None for none.
+        """
+        assert (new_description is None) or isinstance(new_description, str)
+        if new_description != self.__description:
+            self.__description = new_description
+            #   Notify interested listeners
+            evt = PropertyChangeEvent(self, self, Action.DESCRIPTION_PROPERTY_NAME)
+            self.process_property_change_event(evt)
+
+    @property
     def shortcut(self) -> Optional[KeyStroke]:
         """ The keyboard shortcut of the action (optional, can be None). """
         return self.__shortcut
 
     @shortcut.setter
     def shortcut(self, new_shortcut: Optional[KeyStroke]):
-        """ Sets the kryboard shortcut of this Action, None == bo shortcut. """
+        """ Sets the keyboard shortcut of this Action, None == no shortcut. """
         assert (new_shortcut is None) or isinstance(new_shortcut, KeyStroke)
         if new_shortcut != self.__shortcut:
             self.__shortcut = new_shortcut
@@ -157,7 +172,7 @@ class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
             evt = PropertyChangeEvent(self, self, Action.SHORTCUT_PROPERTY_NAME)
             self.process_property_change_event(evt)
 
-    @property   # TODO add setter
+    @property
     def enabled(self) -> bool:
         """ True if this action is enabled, false if disabled; cannot be None. """
         return self.__enabled
@@ -172,17 +187,39 @@ class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
             evt = PropertyChangeEvent(self, self, Action.ENABLED_PROPERTY_NAME)
             self.process_property_change_event(evt)
 
-    @property   # TODO add setter
+    @property
     def small_image(self) -> Optional[tk.PhotoImage]:
         """ The small (typically 16x16) image representing this action
             (optional, can be None). """
         return self.__small_image
 
-    @property   # TODO add setter
+    @small_image.setter
+    def small_image(self, new_small_image: Optional[tk.PhotoImage]):
+        """ Sets the small (typically 16x16) image representing of this 
+            Action, None == no small image. """
+        assert (new_small_image is None) or isinstance(new_small_image, tk.PhotoImage)
+        if new_small_image != self.__small_image:
+            self.__small_image = new_small_image
+            #   Notify interested listeners
+            evt = PropertyChangeEvent(self, self, Action.SMALL_IMAGE_PROPERTY_NAME)
+            self.process_property_change_event(evt)
+
+    @property
     def large_image(self) -> Optional[tk.PhotoImage]:
         """ The large (typically 32x32) image representing this action
             (optional, can be None). """
         return self.__large_image
+
+    @large_image.setter
+    def large_image(self, new_large_image: Optional[tk.PhotoImage]):
+        """ Sets the large (typically 32x32) image representing of this 
+            Action, None == no large image. """
+        assert (new_large_image is None) or isinstance(new_large_image, tk.PhotoImage)
+        if new_large_image != self.__large_image:
+            self.__large_image = new_large_image
+            #   Notify interested listeners
+            evt = PropertyChangeEvent(self, self, Action.LARGE_IMAGE_PROPERTY_NAME)
+            self.process_property_change_event(evt)
 
     ##########
     #   Operations

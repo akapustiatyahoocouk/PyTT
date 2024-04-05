@@ -34,3 +34,12 @@ class AdminSkinResources(ClassWithConstants):
         """ The resource factory that provides the actual resources. """
         return AdminSkinResources.__impl
 
+    ##########
+    #   Operations
+    @staticmethod
+    def string(key: str, locale: Locale = Locale.default) -> str:
+        return UtilResources.__impl.get_string(key, locale)
+
+    @staticmethod
+    def image(key: str, locale: Locale = Locale.default) -> tk.PhotoImage:
+        return UtilResources.__impl.get_image(key, locale)

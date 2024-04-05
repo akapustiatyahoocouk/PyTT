@@ -3,7 +3,7 @@ from typing import Optional
 from abc import ABC, abstractproperty, abstractmethod
 
 #   Internal dependencies on modules within the same component
-from awt.implementation.ActionEventProcessorMixin import ActionEventProcessorMixin
+from .ActionEventProcessorMixin import ActionEventProcessorMixin
 
 ##########
 #   Public entities

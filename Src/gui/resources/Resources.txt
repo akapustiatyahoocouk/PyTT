@@ -1,4 +1,44 @@
-FileMenu.Label=File
-FileMenu.Hotkey=F
-HelpMenu.Label=Help
-HelpMenu.Hotkey=H
+
+##########
+#   Actions
+Actions.CreateWorkspace.Name=Create workspace
+Actions.CreateWorkspace.Hotkey=C
+Actions.CreateWorkspace.Description=Creates a new workspace
+Actions.CreateWorkspace.Shortcut=Ctrl+N
+Actions.CreateWorkspace.SmallImage=ImageFile:images/actions/CreateWorkspaceSmall.png
+Actions.CreateWorkspace.LargeImage=ImageFile:images/actions/CreateWorkspaceLarge.png
+
+Actions.OpenWorkspace.Name=Open workspace
+Actions.OpenWorkspace.Hotkey=O
+Actions.OpenWorkspace.Description=Opens an existing workspace
+Actions.OpenWorkspace.Shortcut=Ctrl+O
+Actions.OpenWorkspace.SmallImage=ImageFile:images/actions/OpenWorkspaceSmall.png
+Actions.OpenWorkspace.LargeImage=ImageFile:images/actions/OpenWorkspaceLarge.png
+
+Actions.CloseWorkspace.Name=Close workspace
+Actions.CloseWorkspace.Hotkey=l
+Actions.CloseWorkspace.Description=Closes the currently open workspace
+#Actions.CloseWorkspace.Shortcut=
+Actions.CloseWorkspace.SmallImage=ImageFile:images/actions/CloseWorkspaceSmall.png
+Actions.CloseWorkspace.LargeImage=ImageFile:images/actions/CloseWorkspaceLarge.png
+
+Actions.DestroyWorkspace.Name=Destroy workspace
+Actions.DestroyWorkspace.Hotkey=D
+Actions.DestroyWorkspace.Description=Destroy an existing workspace
+#Actions.DestroyWorkspace.Shortcut=
+Actions.DestroyWorkspace.SmallImage=ImageFile:images/actions/DestroyWorkspaceSmall.png
+Actions.DestroyWorkspace.LargeImage=ImageFile:images/actions/DestroyWorkspaceLarge.png
+
+Actions.Exit.Name=Exit
+Actions.Exit.Hotkey=x
+Actions.Exit.Description=Exits PyTT
+Actions.Exit.Shortcut=Alt+F4
+Actions.Exit.SmallImage=ImageFile:images/actions/ExitSmall.png
+Actions.Exit.LargeImage=ImageFile:images/actions/ExitLarge.png
+
+Actions.About.Name=About
+Actions.About.Hotkey=b
+Actions.About.Description=Shows PyTT version and copyright information
+Actions.About.Shortcut=Ctrl+F1
+Actions.About.SmallImage=ImageFile:images/actions/AboutSmall.png
+Actions.About.LargeImage=ImageFile:images/actions/AboutLarge.png

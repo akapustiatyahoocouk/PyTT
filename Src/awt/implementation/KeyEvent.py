@@ -3,10 +3,10 @@ from typing import Optional, TypeAlias, Callable
 import tkinter as tk
 
 #   Internal dependencies on modules within the same component
-from awt.implementation.InputEventModifiers import InputEventModifiers
-from awt.implementation.InputEvent import InputEvent
-from awt.implementation.VirtualKey import VirtualKey
-from awt.implementation.KeyEventType import KeyEventType
+from .InputEventModifiers import InputEventModifiers
+from .InputEvent import InputEvent
+from .VirtualKey import VirtualKey
+from .KeyEventType import KeyEventType
 
 ##########
 #   Public entities

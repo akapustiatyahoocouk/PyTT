@@ -1,5 +1,5 @@
 """
-    Defines the "About PyTT" admin skin action.
+    Defines the "Close workspace" admin skin action.
 """
 #   Python standard library
 from typing import final
@@ -8,25 +8,24 @@ from typing import final
 from awt.interface.api import *
 
 #   Internal dependencies on modules within the same component
-from ..dialogs.AboutDialog import AboutDialog
-from ..skins.Skin import Skin
-from ..skins.ActiveSkin import ActiveSkin
-from .ActionBase import ActionBase
+from gui.implementation.dialogs.AboutDialog import AboutDialog
+from gui.implementation.actions.ActionBase import ActionBase
+from gui.implementation.skins.Skin import Skin
+from gui.implementation.skins.ActiveSkin import ActiveSkin
 from gui.resources.GuiResources import GuiResources
 
 ##########
 #   Public entities
 @final
-class AboutAction(ActionBase):
-    """ The "About PyTT" action. """
+class CloseWorkspaceAction(ActionBase):
+    """ The "Close workspace" action. """
 
     ##########
     #   Construction
     def __init__(self):
-        ActionBase.__init__(self, "Actions.About")
+        ActionBase.__init__(self, "Actions.CloseWorkspace")
 
     ##########
     #   Action - Operations
     def execute(self, evt: ActionEvent) -> None:
-        with AboutDialog(self.dialog_parent) as dlg:
-            dlg.do_modal()
+        pass

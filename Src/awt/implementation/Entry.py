@@ -4,7 +4,7 @@ from inspect import signature
 import tkinter.ttk as ttk
 
 #   Internal dependencies on modules within the same component
-from awt.implementation.BaseWidgetMixin import BaseWidgetMixin
+from .BaseWidgetMixin import BaseWidgetMixin
 
 ##########
 #   Public entities

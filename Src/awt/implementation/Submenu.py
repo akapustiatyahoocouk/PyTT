@@ -2,8 +2,8 @@
 from typing import Optional
 
 #   Internal dependencies on modules within the same component
-from awt.implementation.MenuItem import MenuItem
-from awt.implementation.Menu import Menu
+from .MenuItem import MenuItem
+from .Menu import Menu
 
 ##########
 #   Public entities

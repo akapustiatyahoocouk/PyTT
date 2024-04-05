@@ -6,7 +6,7 @@ from inspect import signature
 from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
-from awt.implementation.KeyEvent import KeyEvent, KeyListener
+from .KeyEvent import KeyEvent, KeyListener
 
 ##########
 #   Public entities
@@ -19,6 +19,7 @@ class KeyEventProcessorMixin:
         """ The class constructor - DON'T FORGET to call from the
             constructors of the derived classes that implement
             this mixin. """
+        #   TODO make list elements WEAK references to actual listeners
         self.__key_listeners = list()
     
     ##########

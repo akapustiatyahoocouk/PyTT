@@ -31,6 +31,10 @@
     <Folder Include="implementation\skins\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="implementation\actions\CloseWorkspaceAction.py" />
+    <Compile Include="implementation\actions\DestroyWorkspaceAction.py" />
+    <Compile Include="implementation\actions\OpenWorkspaceAction.py" />
+    <Compile Include="implementation\actions\CreateWorkspaceAction.py" />
     <Compile Include="implementation\actions\AboutAction.py" />
     <Compile Include="implementation\actions\ActionBase.py" />
     <Compile Include="implementation\actions\ActionSet.py" />

@@ -4,8 +4,8 @@ from inspect import signature
 import tkinter as tk
 
 #   Internal dependencies on modules within the same component
-from awt.implementation.KeyEvent import KeyEvent, KeyEventType
-from awt.implementation.KeyEventProcessorMixin import KeyEventProcessorMixin
+from .KeyEvent import KeyEvent, KeyEventType
+from .KeyEventProcessorMixin import KeyEventProcessorMixin
 
 ##########
 #   Public entities

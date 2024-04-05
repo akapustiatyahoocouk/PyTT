@@ -22,6 +22,7 @@ from awt.implementation.Label import *
 from awt.implementation.Menu import *
 from awt.implementation.MenuBar import *
 from awt.implementation.MenuItem import *
+from awt.implementation.ResourceAwareAction import *
 from awt.implementation.ResourceAwareSubmenu import *
 from awt.implementation.Separator import *
 from awt.implementation.SimpleMenuItem import *

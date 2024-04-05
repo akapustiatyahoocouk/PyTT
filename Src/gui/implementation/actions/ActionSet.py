@@ -5,8 +5,12 @@
 from typing import final
 
 #   Internal dependencies on modules within the same component
-from gui.implementation.actions.ExitAction import ExitAction
-from gui.implementation.actions.AboutAction import AboutAction
+from .CreateWorkspaceAction import CreateWorkspaceAction
+from .OpenWorkspaceAction import OpenWorkspaceAction
+from .CloseWorkspaceAction import CloseWorkspaceAction
+from .DestroyWorkspaceAction import DestroyWorkspaceAction
+from .ExitAction import ExitAction
+from .AboutAction import AboutAction
 
 ##########
 #   Public entities
@@ -17,11 +21,35 @@ class ActionSet:
     ##########
     #   Construction
     def __init__(self):
+        self.__create_workspace = CreateWorkspaceAction()
+        self.__open_workspace = OpenWorkspaceAction()
+        self.__close_workspace = CloseWorkspaceAction()
+        self.__destroy_workspace = DestroyWorkspaceAction()
         self.__exit = ExitAction()
         self.__about = AboutAction()
 
     ##########
     #   Actions
+    @property
+    def create_workspace(self) -> ExitAction:
+        """ The "Create workspace" action. """
+        return self.__create_workspace
+
+    @property
+    def open_workspace(self) -> ExitAction:
+        """ The "Open workspace" action. """
+        return self.__open_workspace
+
+    @property
+    def close_workspace(self) -> ExitAction:
+        """ The "Close workspace" action. """
+        return self.__close_workspace
+
+    @property
+    def destroy_workspace(self) -> ExitAction:
+        """ The "Destroy workspace" action. """
+        return self.__destroy_workspace
+
     @property
     def exit(self) -> ExitAction:
         """ The "Exit PyTT" action. """

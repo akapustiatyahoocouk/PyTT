@@ -9,7 +9,7 @@ from inspect import signature
 from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
-from awt.implementation.ActionEvent import ActionEvent, ActionListener
+from .ActionEvent import ActionEvent, ActionListener
 
 ##########
 #   Public entities
@@ -22,6 +22,7 @@ class ActionEventProcessorMixin:
         """ The class constructor - DON'T FORGET to call from the
             constructors of the derived classes that implement
             this mixin. """
+        #   TODO make list elements WEAK references to actual listeners
         self.__action_listeners = []
 
     ##########

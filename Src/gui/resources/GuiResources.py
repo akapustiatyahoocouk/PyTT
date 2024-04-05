@@ -18,8 +18,7 @@ class GuiResources(ClassWithConstants):
 
     ##########
     #   Implementation
-    __impl = FileResourceFactory(os.path.join(
-        os.path.dirname(os.path.dirname(__file__)), "Resources.txt"))
+    __impl = FileResourceFactory(os.path.join(os.path.dirname(__file__), "Resources.txt"))
 
     __icon_cache: dict[str, tk.PhotoImage] = {}
 

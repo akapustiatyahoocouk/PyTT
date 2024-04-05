@@ -10,24 +10,21 @@ from awt.interface.api import *
 
 #   Internal dependencies on modules within the same component
 from gui.implementation.skins.ActiveSkin import ActiveSkin
+from gui.resources.GuiResources import GuiResources
 
 ##########
 #   Public entities
-class ActionBase(Action):
+class ActionBase(ResourceAwareAction):
     """ The common base class for all "admin" skin actions. """
 
     ##########
     #   Construction
     def __init__(self,
-                 name: str,
-                 hotkey: Optional[str] = None,
-                 description: Optional[str] = None,
-                 shortcut: Optional[KeyStroke] = None,
-                 small_image: Optional[tk.PhotoImage] = None,
-                 large_image: Optional[tk.PhotoImage] = None):
-        Action.__init__(self, name=name, hotkey=hotkey, description=description, 
-                        shortcut=shortcut, small_image=small_image, large_image=large_image)
-        assert isinstance(name, str)
+                 resource_key_base: str):
+        ResourceAwareAction.__init__(self, 
+                                     resource_factory=GuiResources.factory,
+                                     locale_provider=DefaultLocaleProvider.instance,
+                                     resource_key_base=resource_key_base)
         
     ##########
     #   Properties

@@ -8,9 +8,9 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 #   Internal dependencies on modules within the same component
-from awt.implementation.BaseWidgetMixin import BaseWidgetMixin
-from awt.implementation.Button import Button
-from awt.implementation.GuiRoot import GuiRoot
+from .BaseWidgetMixin import BaseWidgetMixin
+from .Button import Button
+from .GuiRoot import GuiRoot
 
 ##########
 #   Public entities
@@ -104,7 +104,7 @@ class Dialog(tk.Toplevel, BaseWidgetMixin):
 
         self.__running_modal = True
         self.focus_force()
-        #self.tk_focusNext().focus_force()
+        fn = self.tk_focusNext().tk_focusNext()
         self.__parent.wait_window(self)
 
         self.grab_release()

@@ -8,10 +8,10 @@ import tkinter.ttk as ttk
 from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
-from awt.implementation.BaseWidgetMixin import BaseWidgetMixin
-from awt.implementation.Action import Action
-from awt.implementation.ActionEvent import ActionEvent
-from awt.implementation.ActionEventProcessorMixin import ActionEventProcessorMixin
+from .BaseWidgetMixin import BaseWidgetMixin
+from .Action import Action
+from .ActionEvent import ActionEvent
+from .ActionEventProcessorMixin import ActionEventProcessorMixin
 
 ##########
 #   Public entities

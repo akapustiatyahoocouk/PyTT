@@ -6,7 +6,7 @@ from typing import Any
 from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
-from awt.implementation.InputEventModifiers import InputEventModifiers
+from .InputEventModifiers import InputEventModifiers
 
 ##########
 #   Public entities

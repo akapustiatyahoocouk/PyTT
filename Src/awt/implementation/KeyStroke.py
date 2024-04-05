@@ -2,8 +2,8 @@
 from typing import final
 
 #   Internal dependencies on modules within the same component
-from awt.implementation.VirtualKey import VirtualKey
-from awt.implementation.InputEventModifiers import InputEventModifiers
+from .VirtualKey import VirtualKey
+from .InputEventModifiers import InputEventModifiers
 
 ##########
 #   Public entities
