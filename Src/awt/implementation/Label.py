@@ -18,4 +18,4 @@ class Label(ttk.Label, BaseWidgetMixin):
         ttk.Label.__init__(self, master, **kwargs)
         BaseWidgetMixin.__init__(self)
         
-        self.configure(takefocus=0)
+        self.focusable = False

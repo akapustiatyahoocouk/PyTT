@@ -7,14 +7,17 @@ from enum import Enum
 import tkinter as tk
 import tkinter.ttk as ttk
 
+from numpy import char
+
 #   Internal dependencies on modules within the same component
+from .TopWindowMixin import TopWindowMixin
 from .BaseWidgetMixin import BaseWidgetMixin
 from .Button import Button
 from .GuiRoot import GuiRoot
 
 ##########
 #   Public entities
-class Dialog(tk.Toplevel, BaseWidgetMixin):
+class Dialog(tk.Toplevel, TopWindowMixin, BaseWidgetMixin):
     """ A common base class for all dialogs. """
 
     ##########
@@ -23,6 +26,7 @@ class Dialog(tk.Toplevel, BaseWidgetMixin):
         tk.Toplevel.__init__(self,
                              parent if parent is not None else awt.GuiRoot.GuiRoot.tk,
                              padx=4, pady=4)
+        TopWindowMixin.__init__(self)
         BaseWidgetMixin.__init__(self)
 
         self.__parent = awt.GuiRoot.GuiRoot.tk if parent is None else parent.winfo_toplevel()
@@ -35,6 +39,7 @@ class Dialog(tk.Toplevel, BaseWidgetMixin):
         self.__running_modal = False
 
         #   Set up event handlers
+        self.focusable = False
         self.bind("<Escape>", self.__on_tk_escape)
         self.bind("<Return>", self.__on_tk_return)
 
@@ -47,6 +52,11 @@ class Dialog(tk.Toplevel, BaseWidgetMixin):
 
     def __exit__(self, exception_type, exception_value, traceback) -> None:
         self.destroy()
+
+    ##########
+    #   tk.Wm
+    def attributes(self, *args):
+        raise NotImplementedError("Use AWT-defined properties instead")
 
     ##########
     #   Properties
@@ -97,14 +107,14 @@ class Dialog(tk.Toplevel, BaseWidgetMixin):
         if self.__parent is GuiRoot.tk:
             GuiRoot.tk.deiconify()
 
-        self.wait_visibility()
+        #self.wait_visibility()
         self.center_in_parent()
         self.grab_set()
         self.transient(self.__parent)
 
         self.__running_modal = True
-        self.focus_force()
-        fn = self.tk_focusNext().tk_focusNext()
+        self.initial_focus.focus_force()
+        
         self.__parent.wait_window(self)
 
         self.grab_release()
@@ -117,18 +127,25 @@ class Dialog(tk.Toplevel, BaseWidgetMixin):
         self.__running_modal = False
         self.destroy()
 
-    # TODO kill off
-    # def dialog_closing(self) -> bool:
-    #     #   TODO document
-    #     return True # by default - allow closing the Dialog
+    @property
+    def initial_focus(self) -> tk.BaseWidget:
+        """ The dialog widget which gets the focus when Dialog
+            is shown; default is first visible focusable enabled
+            widget of the dialog. """
+        ff = Dialog.__find_first_focusable_widget(self)
+        return ff if ff is not None else self
 
-    # def dialog_close(self):
-    #     #   TODO document
-    #     if self.dialog_closing():
-    #        #   The default recation is to push the "cancel" button
-    #        if ((self.__cancel_button is not None) and self.__cancel_button.enabled):
-    #            #   TODO and visible, with all the parents!!!
-    #            self.__cancel_button.invoke()
+    ##########
+    #   Implementation
+    @staticmethod
+    def __find_first_focusable_widget(parent: tk.BaseWidget)  -> tk.BaseWidget:
+        if parent.visible and parent.enabled and parent.focusable:
+            return parent
+        for child in parent.winfo_children():
+            ff = Dialog.__find_first_focusable_widget(child)
+            if ff is not None:
+                return ff
+        return None
 
     ##########
     #   Tk event handlers

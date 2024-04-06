@@ -69,9 +69,6 @@ class MainFrame(TopFrame):
         self.protocol("WM_DELETE_WINDOW", self.destroy)
         
         self.add_key_listener(lambda e: print(e))
-
-        dlp = DefaultLocaleProvider.instance
-        dlp.locale = Locale.ROOT
         
     ##########
     #   Properties

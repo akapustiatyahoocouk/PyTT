@@ -20,29 +20,67 @@ class BaseWidgetMixin(KeyEventProcessorMixin):
             this mixin. """
         KeyEventProcessorMixin.__init__(self)
 
+        self.__visible = True
+        self.__focusable = True
+        self.configure(takefocus=1)
+        
         self.bind("<KeyPress>", self.__on_tk_keydown)
         self.bind("<KeyRelease>", self.__on_tk_keyup)
 
     ##########
-    #   Operations
+    #   Properties
+    @property
+    def visible(self):
+        """ True if this widget is visible, False if hidden. """
+        return self.__visible
+
+    @visible.setter
+    def visible(self, new_visible: bool):
+        """
+            Shows or hides this widget.
+
+            @param new_visible:
+                True to show this widget, false to hide.
+        """
+        assert isinstance(new_visible, bool)
+        if new_visible != self.__visible:
+            self.__visible = new_visible
+            if new_visible:
+                self.pack()
+            else:
+                self.pack_forget()
+
     @property
     def enabled(self):
-        """ True if this Button is enabled, False if disabled. """
+        """ True if this widget is enabled, False if disabled. """
         return tk.DISABLED not in self.state()
 
     @enabled.setter
     def enabled(self, yes: bool):
         """
-            Enables or disables this BasePlugin.
+            Enables or disables this widget.
 
             @param value:
-                True to enable this BasePlugin, false to disable.
+                True to enable this widget, false to disable.
         """
         if yes:
             self.state(["!disabled"])
         else:
             self.state(["disabled"])
 
+    @property
+    def focusable(self) -> bool:
+        return self.__focusable
+
+    @focusable.setter
+    def focusable(self, new_focusable: bool) -> None:
+        assert isinstance(new_focusable, bool)
+        if new_focusable != self.__focusable:
+            self.__focusable = new_focusable
+            self.configure(takefocus=1 if new_focusable else 0)
+    
+    ##########
+    #   Operations
     def center_in_parent(self) -> None:
         """ TODO document. """
         if isinstance(self.parent, tk.Tk):

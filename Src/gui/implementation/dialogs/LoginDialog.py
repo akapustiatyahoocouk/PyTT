@@ -94,9 +94,16 @@ class LoginDialog(Dialog):
             self.__loginEntry.focus_set()
         self.__refresh()
         
+        #   Done
         self.wait_visibility()
         self.center_in_parent()
 
+    ##########
+    #   Dialog
+    @property
+    def initial_focus(self) -> tk.BaseWidget:
+        return self.__loginEntry if len(self.__loginVar.get()) == 0 else self.__passwordEntry
+    
     ##########
     #   Properties    
     @property

@@ -7,18 +7,20 @@ from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
 from .GuiRoot import GuiRoot
+from .TopWindowMixin import TopWindowMixin
 from .BaseWidgetMixin import BaseWidgetMixin
 from .MenuBar import MenuBar
 
 ##########
 #   Public entities
 @final
-class TopFrame(tk.Toplevel, BaseWidgetMixin):
+class TopFrame(tk.Toplevel, TopWindowMixin, BaseWidgetMixin):
     """ The generic top-level UI frame. """
     
     def __init__(self):
         """ Constructs a top-level frame. """
         tk.Toplevel.__init__(self, GuiRoot.tk)
+        TopWindowMixin.__init__(self)
         BaseWidgetMixin.__init__(self)
         
         self.__menu_bar = None
@@ -34,6 +36,11 @@ class TopFrame(tk.Toplevel, BaseWidgetMixin):
     def tk(self) -> tk.Tk:
         return self.__tk
     
+    ##########
+    #   tk.Wm
+    def attributes(self, *args):
+        raise NotImplementedError("Use AWT-defined properties instead")
+
     ##########
     #   Properties
     @property

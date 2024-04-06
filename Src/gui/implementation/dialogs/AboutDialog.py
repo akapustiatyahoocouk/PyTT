@@ -59,9 +59,10 @@ class AboutDialog(Dialog):
         self.cancel_button = self.__ok_button
 
         self.__ok_button.add_action_listener(self.__on_ok)
-
-        #  Done
-        self.__ok_button.focus_set()
+        
+        #   Done
+        self.wait_visibility()
+        self.center_in_parent()
 
     ##########
     #   Properties    

@@ -48,6 +48,7 @@ class GuiRoot:
                 GuiRoot.__tk.state("normal")
             else:
                 #   Linux, etc.
+                GuiRoot.__tk.withdraw()
                 GuiRoot.__tk.wm_attributes("-alpha", 0.5)    #   doesn't seem to work, though
                 GuiRoot.__tk.update()
                 GuiRoot.__usable_x = 0
