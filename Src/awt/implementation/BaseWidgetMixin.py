@@ -57,6 +57,12 @@ class BaseWidgetMixin(KeyEventProcessorMixin):
                 self.pack_forget()
 
     @property
+    def showing(self):
+        """ True if this widget is visible as well as all
+            its direct or indirect parent, False if hidden. """
+        return self.winfo_viewable()
+
+    @property
     def enabled(self):
         """ True if this widget is enabled, False if disabled. """
         return tk.DISABLED not in self.state()

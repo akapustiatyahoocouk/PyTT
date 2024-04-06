@@ -147,14 +147,12 @@ class Dialog(tk.Toplevel, WindowMixin):
     #   Tk event handlers
     def __on_tk_escape(self, *args):
         if ((self.__cancel_button is not None) and self.__cancel_button.winfo_exists() and
-            self.__cancel_button.enabled):
-            #   TODO and visible, with all the parents!!!
+             self.__cancel_button.showing and self.__cancel_button.enabled):
             self.__cancel_button.invoke()
         return "break"
 
     def __on_tk_return(self, *args):
         if ((self.__ok_button is not None) and self.__ok_button.winfo_exists() and
-            self.__ok_button.enabled):
-            #   TODO and visible, with all the parents!!!
+             self.__ok_button.showing and self.__ok_button.enabled):
             self.__ok_button.invoke()
         return "break"

@@ -1,15 +1,25 @@
 ========== IMMEDIATE PIPELINE ======================================
 *   Change MenuItem's "label" property to "text".
+*   Create a new class Window(tk.Toplevel) and merge WindowMixin
+    into it.
+*   In the newly created class Window streamline the handling of 
+    the WM_DELETE_WINDOW protocol via WINDOW_CLOSING/WINDOW_CLOSED 
+    events. No "tk protocol" handling shall be visible outside AWT.
 *   Create a new ActionMenuItem(MenuItem) class, for Action-based
-    MenuItems. They should REJECT attempts to set their propertes directly.
+    MenuItems. They should REJECT attempts to set their propertes 
+    directly.
+*   Rename awt..TopFrame to awt.Frame.
+*   Define class awt.Panel(tk.Frame).
+*   Define class awt.GroupBox(tk.LabelFrame).
 *   Refreshable, with request_refresh, perform_refresh and refresh()
-    callback, all done on thv EDT (a-la Jpx).
+    callback, all done on the EDT (a-la Jpx).
 
-========== NEED TO DO VENTUALLY ====================================
-*   When importing a class/feature from a module in the same package, 
-    use the "from .<module> import <feature>" form instead of the longer 
-    "from <fully qualified module name> import <feature>" form.
-    Make sure this happens throughout the code base
+========== NEED TO DO EVENTUALLY ===================================
+*   When importing a class/feature from a module in the same 
+    package, use the "from .<module> import <feature>" form instead
+    of the longer "from <fq module name> import <feature>" form.
+    Make sure this happens throughout the code base.
+*   Use menu item / action "descriotion"s as tooltips for menu 
+    items, button, etc.
 
 ========== NICE TO HAVE ============================================
-.
