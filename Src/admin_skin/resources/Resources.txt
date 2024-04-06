@@ -1,6 +1,8 @@
 
 ##########
 #   Main frame
+MainFrame.Title=PyTT Time TrackerZZZ
+
 FileMenu.Label=File
 FileMenu.Hotkey=F
 HelpMenu.Label=Help

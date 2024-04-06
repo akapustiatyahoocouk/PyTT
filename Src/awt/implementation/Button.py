@@ -100,6 +100,9 @@ class Button(ttk.Button,
             case _:
                 assert False    #   TODO implement other Action properties
 
+    ##########
+    #   Tk event handlers
     def __on_tk_click(self):
         evt = ActionEvent(self)
         self.process_action_event(evt)
+        return "break"

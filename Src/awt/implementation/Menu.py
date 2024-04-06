@@ -5,6 +5,7 @@ import tkinter as tk
 
 #   Internal dependencies on modules within the same component
 from .MenuItem import MenuItem
+from .MenuSeparator import MenuSeparator
 
 ##########
 #   Public entities
@@ -27,7 +28,22 @@ class MenuItems:
 
     ##########`
     #   Operations
-    def append(self, item: Any, **kwargs) -> MenuItem:
+    def add_seperator(self) -> MenuSeparator:
+        """
+            Adds a menu separator to the end of the containing menu.
+        
+            @return:
+                The newly created menu separator item.
+        """
+        menu_separator = MenuSeparator()
+        self.__menu._Menu__tk_impl.add_separator()
+        self.__menu_items.append(menu_separator)
+        menu_separator._MenuItem__menu = self.__menu
+        return menu_separator
+
+    #TODO define separate methods for add_item, add_action, add_submenu, etc
+
+    def add(self, item: Any, **kwargs) -> MenuItem:
         from awt.implementation.Submenu import Submenu
         from awt.implementation.Action import Action
         from awt.implementation.SimpleMenuItem import SimpleMenuItem
@@ -46,13 +62,13 @@ class MenuItems:
                 tk_underline = None
             #   TODO associated image
             #   TODO accelerator
-            text_menu_item = SimpleMenuItem(item)
+            simple_menu_item = SimpleMenuItem(item)
             self.__menu._Menu__tk_impl.add_command(label=tk_text, 
                                                    underline=tk_underline, 
-                                                   command=text_menu_item._on_tk_click)
-            self.__menu_items.append(text_menu_item)
-            text_menu_item._MenuItem__menu = self.__menu
-            return text_menu_item
+                                                   command=simple_menu_item._on_tk_click)
+            self.__menu_items.append(simple_menu_item)
+            simple_menu_item._MenuItem__menu = self.__menu
+            return simple_menu_item
         
         elif (isinstance(item, Action)):
             #   menu.append(action: Action, **kwargs)

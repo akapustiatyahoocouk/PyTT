@@ -195,7 +195,7 @@ class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
 
     @small_image.setter
     def small_image(self, new_small_image: Optional[tk.PhotoImage]):
-        """ Sets the small (typically 16x16) image representing of this 
+        """ Sets the small (typically 16x16) image representing of this
             Action, None == no small image. """
         assert (new_small_image is None) or isinstance(new_small_image, tk.PhotoImage)
         if new_small_image != self.__small_image:
@@ -212,7 +212,7 @@ class Action(ABCWithConstants, PropertyChangeEventProcessorMixin):
 
     @large_image.setter
     def large_image(self, new_large_image: Optional[tk.PhotoImage]):
-        """ Sets the large (typically 32x32) image representing of this 
+        """ Sets the large (typically 32x32) image representing of this
             Action, None == no large image. """
         assert (new_large_image is None) or isinstance(new_large_image, tk.PhotoImage)
         if new_large_image != self.__large_image:

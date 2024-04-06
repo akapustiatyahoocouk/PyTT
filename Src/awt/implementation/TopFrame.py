@@ -7,29 +7,27 @@ from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
 from .GuiRoot import GuiRoot
-from .TopWindowMixin import TopWindowMixin
-from .BaseWidgetMixin import BaseWidgetMixin
+from .WindowMixin import WindowMixin
 from .MenuBar import MenuBar
 
 ##########
 #   Public entities
 @final
-class TopFrame(tk.Toplevel, TopWindowMixin, BaseWidgetMixin):
+class TopFrame(tk.Toplevel, WindowMixin):
     """ The generic top-level UI frame. """
     
     def __init__(self):
         """ Constructs a top-level frame. """
         tk.Toplevel.__init__(self, GuiRoot.tk)
-        TopWindowMixin.__init__(self)
-        BaseWidgetMixin.__init__(self)
+        WindowMixin.__init__(self)
         
         self.__menu_bar = None
 
-        #self.state("withdrawn")
-        #self.transient(awt.GuiRoot.GuiRoot.tk)
+        #TODO kill off self.state("withdrawn")
+        #TODO kill off self.transient(awt.GuiRoot.GuiRoot.tk)
         self.title(GuiRoot.tk.title())
         self.wm_iconphoto(True, UtilResources.image("PyTT.LargeImage"))
-        self.geometry("600x400")
+        #TODO kill off self.geometry("600x400")
 
     ##########
     #   tkinter support

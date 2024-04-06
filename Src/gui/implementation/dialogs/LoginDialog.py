@@ -66,12 +66,13 @@ class LoginDialog(Dialog):
 
         #   Set up control structure
         self.__pan0.pack(fill=tk.X, padx=0, pady=0)
-
+        self.__pan0.columnconfigure(1, weight=10)
+        
         self.__loginLabel.grid(row=0, column=0, padx=2, pady=2, sticky="W")
-        self.__loginEntry.grid(row=0, column=1, padx=2, pady=2, sticky="W")
+        self.__loginEntry.grid(row=0, column=1, padx=2, pady=2, sticky="WE")
 
         self.__passwordLabel.grid(row=1, column=0, padx=2, pady=2, sticky="W")
-        self.__passwordEntry.grid(row=1, column=1, padx=2, pady=2, sticky="W")
+        self.__passwordEntry.grid(row=1, column=1, padx=2, pady=2, sticky="WE")
         
         self.__separator.pack(fill=tk.X, padx=0, pady=4)
         self.__cancel_button.pack(side=tk.RIGHT, padx=2, pady=2)
@@ -123,17 +124,17 @@ class LoginDialog(Dialog):
         login : str = self.__loginVar.get()
         if len(login.strip()) == 0:
             self.__passwordLabel.state([tk.DISABLED])
-            self.__passwordEntry.state(["disabled"])
+            self.__passwordEntry.state([tk.DISABLED])
             self.__ok_button.enabled = False
         else:
-            self.__passwordLabel.state(["!disabled"])
-            self.__passwordEntry.state(["!disabled"])
+            self.__passwordLabel.state(["!" + tk.DISABLED])
+            self.__passwordEntry.state(["!" + tk.DISABLED])
             self.__ok_button.enabled = True
     
     ##########
     #   Event listeners    
     def __on_ok(self, evt = None) -> None:
-        if "disabled" in self.__ok_button.state():
+        if not self.__ok_button.enabled:
             return
         login = self.__loginVar.get()
         password = self.__passwordVar.get()

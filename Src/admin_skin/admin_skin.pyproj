@@ -23,7 +23,7 @@
   <ItemGroup>
     <Compile Include="implementation\AdminSkin.py" />
     <Compile Include="implementation\AdminSkinSettings.py" />
-    <Compile Include="implementation\MainFrame.py" />
+    <Compile Include="implementation\AdminSkinMainFrame.py" />
     <Compile Include="resources\AdminSkinResources.py" />
     <Compile Include="__init__.py" />
   </ItemGroup>

@@ -28,6 +28,7 @@ from awt.implementation.Separator import *
 from awt.implementation.SimpleMenuItem import *
 from awt.implementation.Submenu import *
 from awt.implementation.TopFrame import *
-from awt.implementation.TopWindowMixin import *
 from awt.implementation.VirtualKey import *
 from awt.implementation.Widget import *
+from awt.implementation.WindowState import *
+from awt.implementation.WindowMixin import *

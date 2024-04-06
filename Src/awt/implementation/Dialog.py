@@ -7,17 +7,14 @@ from enum import Enum
 import tkinter as tk
 import tkinter.ttk as ttk
 
-from numpy import char
-
 #   Internal dependencies on modules within the same component
-from .TopWindowMixin import TopWindowMixin
-from .BaseWidgetMixin import BaseWidgetMixin
+from .WindowMixin import WindowMixin
 from .Button import Button
 from .GuiRoot import GuiRoot
 
 ##########
 #   Public entities
-class Dialog(tk.Toplevel, TopWindowMixin, BaseWidgetMixin):
+class Dialog(tk.Toplevel, WindowMixin):
     """ A common base class for all dialogs. """
 
     ##########
@@ -26,9 +23,8 @@ class Dialog(tk.Toplevel, TopWindowMixin, BaseWidgetMixin):
         tk.Toplevel.__init__(self,
                              parent if parent is not None else awt.GuiRoot.GuiRoot.tk,
                              padx=4, pady=4)
-        TopWindowMixin.__init__(self)
-        BaseWidgetMixin.__init__(self)
-
+        WindowMixin.__init__(self)
+     
         self.__parent = awt.GuiRoot.GuiRoot.tk if parent is None else parent.winfo_toplevel()
         self.title(title)
         # TODO keep? kill? self.resizable(False, False)
@@ -114,7 +110,7 @@ class Dialog(tk.Toplevel, TopWindowMixin, BaseWidgetMixin):
 
         self.__running_modal = True
         self.initial_focus.focus_force()
-        
+
         self.__parent.wait_window(self)
 
         self.grab_release()
@@ -154,9 +150,11 @@ class Dialog(tk.Toplevel, TopWindowMixin, BaseWidgetMixin):
             self.__cancel_button.enabled):
             #   TODO and visible, with all the parents!!!
             self.__cancel_button.invoke()
+        return "break"
 
     def __on_tk_return(self, *args):
         if ((self.__ok_button is not None) and self.__ok_button.winfo_exists() and
             self.__ok_button.enabled):
             #   TODO and visible, with all the parents!!!
             self.__ok_button.invoke()
+        return "break"

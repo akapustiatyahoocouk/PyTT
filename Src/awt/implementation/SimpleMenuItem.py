@@ -121,6 +121,9 @@ class SimpleMenuItem(MenuItem):
             case _:
                 assert False    #   TODO implement other Action properties
     
-    def _on_tk_click(self):
+    ##########
+    #   Tk event handlers
+    def _on_tk_click(self): # TODO make private (with "__" prefix instead of "_"
         evt = ActionEvent(self)
         self.process_action_event(evt)
+        return "break"

@@ -6,7 +6,7 @@ from gui.interface.api import *
 from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
-from admin_skin.implementation.MainFrame import MainFrame # TODO Actions are for ALL skins!
+from .AdminSkinMainFrame import AdminSkinMainFrame
 
 ##########
 #   Public entities
@@ -26,7 +26,7 @@ class AdminSkin(Skin):
     def __init__(self):
         assert AdminSkin.__instance_acquisition_in_progress, "Use AdminSkin.instance instead"
         Skin.__init__(self)
-        self.__main_frame = MainFrame()
+        self.__main_frame = AdminSkinMainFrame()
         self.__main_frame.deactivate()
 
     @staticproperty
@@ -34,7 +34,7 @@ class AdminSkin(Skin):
         """
             Returns one and only instance of this class, creating
             it on the first call.
-            
+
             @return:
                 The one and only instance of this class.
         """

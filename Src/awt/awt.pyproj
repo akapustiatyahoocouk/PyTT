@@ -26,7 +26,9 @@
     <Compile Include="implementation\ActionEventProcessorMixin.py" />
     <Compile Include="implementation\ResourceAwareAction.py" />
     <Compile Include="implementation\ResourceAwareSubmenu.py" />
-    <Compile Include="implementation\TopWindowMixin.py" />
+    <Compile Include="implementation\MenuSeparator.py" />
+    <Compile Include="implementation\WindowMixin.py" />
+    <Compile Include="implementation\WindowState.py" />
     <Compile Include="interface\api.py" />
     <Compile Include="implementation\BaseWidgetMixin.py" />
     <Compile Include="implementation\Button.py" />

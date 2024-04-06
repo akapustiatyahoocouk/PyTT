@@ -1,11 +1,9 @@
 ========== IMMEDIATE PIPELINE ======================================
-*   Define SeparatorMenuItem. They should REJECT attempts to set 
-    their propertes directly - it's just a menu separator.
 *   Change MenuItem's "label" property to "text".
 *   Create a new ActionMenuItem(MenuItem) class, for Action-based
     MenuItems. They should REJECT attempts to set their propertes directly.
 *   Refreshable, with request_refresh, perform_refresh and refresh()
-    callback, all done on thv EDT.
+    callback, all done on thv EDT (a-la Jpx).
 
 ========== NEED TO DO VENTUALLY ====================================
 *   When importing a class/feature from a module in the same package, 

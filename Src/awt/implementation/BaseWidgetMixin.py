@@ -23,9 +23,15 @@ class BaseWidgetMixin(KeyEventProcessorMixin):
         self.__visible = True
         self.__focusable = True
         self.configure(takefocus=1)
-        
+
         self.bind("<KeyPress>", self.__on_tk_keydown)
         self.bind("<KeyRelease>", self.__on_tk_keyup)
+        self.bind("<Configure>", self.__on_tk_configure)
+        
+        self.__last_x = self.winfo_x()
+        self.__last_y = self.winfo_y()
+        self.__last_width = self.winfo_width()
+        self.__last_height = self.winfo_height()
 
     ##########
     #   Properties
@@ -78,7 +84,7 @@ class BaseWidgetMixin(KeyEventProcessorMixin):
         if new_focusable != self.__focusable:
             self.__focusable = new_focusable
             self.configure(takefocus=1 if new_focusable else 0)
-    
+
     ##########
     #   Operations
     def center_in_parent(self) -> None:
@@ -122,3 +128,17 @@ class BaseWidgetMixin(KeyEventProcessorMixin):
         #print(evt)
         ke = KeyEvent(self, KeyEventType.KEY_UP, evt)
         self.process_key_event(ke)
+
+    def __on_tk_configure(self, evt: tk.Event):
+        print(self, evt)
+        print(self, self.winfo_x(), self.winfo_y(), self.winfo_width(), self.winfo_height())
+        
+        moved = ((self.__last_x != evt.x) or (self.__last_y != evt.y) and
+                 self.__last_width == evt.width and self.__last_height == evt.height)
+        sized = (self.__last_width != evt.width or self.__last_height != evt.height)
+        print(moved, sized)
+        self.__last_x = evt.x
+        self.__last_y = evt.y
+        self.__last_width = evt.width
+        self.__last_height = evt.height
+        return "break"
