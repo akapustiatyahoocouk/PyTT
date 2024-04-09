@@ -39,6 +39,7 @@
     <Compile Include="implementation\actions\ActionBase.py" />
     <Compile Include="implementation\actions\ActionSet.py" />
     <Compile Include="implementation\actions\ExitAction.py" />
+    <Compile Include="implementation\dialogs\CreateWorkspaceDialog.py" />
     <Compile Include="interface\api.py" />
     <Compile Include="implementation\dialogs\AboutDialog.py" />
     <Compile Include="implementation\dialogs\LoginDialog.py" />
@@ -51,6 +52,10 @@
   <ItemGroup>
     <Content Include="resources\images\actions\AboutLarge.png" />
     <Content Include="resources\images\actions\AboutSmall.png" />
+    <Content Include="resources\images\actions\BrowseLarge.png" />
+    <Content Include="resources\images\actions\BrowseSmall.png" />
+    <Content Include="resources\images\actions\CancelLarge.png" />
+    <Content Include="resources\images\actions\CancelSmall.png" />
     <Content Include="resources\images\actions\CloseWorkspaceLarge.png" />
     <Content Include="resources\images\actions\CloseWorkspaceSmall.png" />
     <Content Include="resources\images\actions\CreateWorkspaceLarge.png" />
@@ -59,6 +64,8 @@
     <Content Include="resources\images\actions\DestroyWorkspaceSmall.png" />
     <Content Include="resources\images\actions\ExitLarge.png" />
     <Content Include="resources\images\actions\ExitSmall.png" />
+    <Content Include="resources\images\actions\OkLarge.png" />
+    <Content Include="resources\images\actions\OkSmall.png" />
     <Content Include="resources\images\actions\OpenWorkspaceLarge.png" />
     <Content Include="resources\images\actions\OpenWorkspaceSmall.png" />
     <Content Include="resources\Resources.txt" />

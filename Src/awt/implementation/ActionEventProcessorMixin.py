@@ -4,6 +4,7 @@
 #   Python standard library
 from typing import Callable, Union
 from inspect import signature
+import traceback
 
 #   Dependencies on other PyTT components
 from util.interface.api import *
@@ -73,5 +74,6 @@ class ActionEventProcessorMixin:
                 else:
                     l(event)
             except Exception as ex:
+                print(traceback.format_exc())
                 pass    #   TODO log the exception
         return event.processed

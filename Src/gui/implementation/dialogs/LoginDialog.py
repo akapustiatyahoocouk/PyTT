@@ -47,17 +47,17 @@ class LoginDialog(Dialog):
         self.__credentials = None
         
         #   Create control models
-        self.__loginVar = tk.StringVar(value=login)
-        self.__passwordVar = tk.StringVar()
+        self.__login_var = tk.StringVar(value=login)
+        self.__password_var = tk.StringVar()
         
         #   Create controls
-        self.__pan0 = Panel(self)
+        self.__controls_panel = Panel(self)
         
-        self.__loginLabel = Label(self.__pan0, text = 'Login:', anchor=tk.E)
-        self.__loginEntry = Entry(self.__pan0, width=40, textvariable=self.__loginVar)
+        self.__login_label = Label(self.__controls_panel, text = 'Login:', anchor=tk.E)
+        self.__login_text_field = TextField(self.__controls_panel, width=40, textvariable=self.__login_var)
 
-        self.__passwordLabel = Label(self.__pan0, text = 'Password:', anchor=tk.E)
-        self.__passwordEntry = Entry(self.__pan0, width=40, show="\u2022", textvariable=self.__passwordVar)
+        self.__password_label = Label(self.__controls_panel, text = 'Password:', anchor=tk.E)
+        self.__password_text_field = TextField(self.__controls_panel, width=40, show="\u2022", textvariable=self.__password_var)
         
         self.__separator = Separator(self, orient="horizontal")
 
@@ -65,14 +65,14 @@ class LoginDialog(Dialog):
         self.__cancel_button = Button(self, text='Cancel')
 
         #   Set up control structure
-        self.__pan0.pack(fill=tk.X, padx=0, pady=0)
-        self.__pan0.columnconfigure(1, weight=10)
+        self.__controls_panel.pack(fill=tk.X, padx=0, pady=0)
+        self.__controls_panel.columnconfigure(1, weight=10)
         
-        self.__loginLabel.grid(row=0, column=0, padx=2, pady=2, sticky="W")
-        self.__loginEntry.grid(row=0, column=1, padx=2, pady=2, sticky="WE")
+        self.__login_label.grid(row=0, column=0, padx=2, pady=2, sticky="W")
+        self.__login_text_field.grid(row=0, column=1, padx=2, pady=2, sticky="WE")
 
-        self.__passwordLabel.grid(row=1, column=0, padx=2, pady=2, sticky="W")
-        self.__passwordEntry.grid(row=1, column=1, padx=2, pady=2, sticky="WE")
+        self.__password_label.grid(row=1, column=0, padx=2, pady=2, sticky="W")
+        self.__password_text_field.grid(row=1, column=1, padx=2, pady=2, sticky="WE")
         
         self.__separator.pack(fill=tk.X, padx=0, pady=4)
         self.__cancel_button.pack(side=tk.RIGHT, padx=2, pady=2)
@@ -82,17 +82,17 @@ class LoginDialog(Dialog):
         self.ok_button = self.__ok_button
         self.cancel_button = self.__cancel_button
 
-        self.__loginVar.trace_add("write", self.__refresh)
-        self.__passwordVar.trace_add("write", self.__refresh)
+        self.__login_var.trace_add("write", self.__refresh)
+        self.__password_var.trace_add("write", self.__refresh)
         
         self.__ok_button.add_action_listener(self.__on_ok)
         self.__cancel_button.add_action_listener(self.__on_cancel)
 
         #   Set initial focus & we're done
         if login is not None:
-            self.__passwordEntry.focus_set()
+            self.__password_text_field.focus_set()
         else:
-            self.__loginEntry.focus_set()
+            self.__login_text_field.focus_set()
         self.__refresh()
         
         #   Done
@@ -103,7 +103,7 @@ class LoginDialog(Dialog):
     #   Dialog
     @property
     def initial_focus(self) -> tk.BaseWidget:
-        return self.__loginEntry if len(self.__loginVar.get()) == 0 else self.__passwordEntry
+        return self.__login_text_field if len(self.__login_var.get()) == 0 else self.__password_text_field
     
     ##########
     #   Properties    
@@ -121,14 +121,14 @@ class LoginDialog(Dialog):
     ##########
     #   Implementation helpers
     def __refresh(self, *args) -> None:
-        login : str = self.__loginVar.get()
+        login: str = self.__login_var.get()
         if len(login.strip()) == 0:
-            self.__passwordLabel.state([tk.DISABLED])
-            self.__passwordEntry.state([tk.DISABLED])
+            self.__password_label.enabled = False
+            self.__password_text_field.enabled = False
             self.__ok_button.enabled = False
         else:
-            self.__passwordLabel.state(["!" + tk.DISABLED])
-            self.__passwordEntry.state(["!" + tk.DISABLED])
+            self.__password_label.enabled = True
+            self.__password_text_field.enabled = True
             self.__ok_button.enabled = True
     
     ##########
@@ -136,8 +136,8 @@ class LoginDialog(Dialog):
     def __on_ok(self, evt = None) -> None:
         if not self.__ok_button.enabled:
             return
-        login = self.__loginVar.get()
-        password = self.__passwordVar.get()
+        login = self.__login_var.get()
+        password = self.__password_var.get()
         self.__credentials = Credentials(login, password)
         self.__result = LoginDialogResult.OK
         self.end_modal()

@@ -8,7 +8,7 @@ from typing import final
 from awt.interface.api import *
 
 #   Internal dependencies on modules within the same component
-from gui.implementation.dialogs.AboutDialog import AboutDialog
+from gui.implementation.dialogs.CreateWorkspaceDialog import CreateWorkspaceDialog
 from gui.implementation.actions.ActionBase import ActionBase
 from gui.implementation.skins.Skin import Skin
 from gui.implementation.skins.ActiveSkin import ActiveSkin
@@ -28,4 +28,5 @@ class CreateWorkspaceAction(ActionBase):
     ##########
     #   Action - Operations
     def execute(self, evt: ActionEvent) -> None:
-        pass
+        with CreateWorkspaceDialog(self.dialog_parent) as dlg:
+            dlg.do_modal()

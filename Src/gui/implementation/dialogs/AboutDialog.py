@@ -34,9 +34,9 @@ class AboutDialog(Dialog):
         self.__result = AboutDialogResult.OK
 
         #   Create controls
-        self.__pan0 = Panel(self)
-        self.__pan1 = Panel(self.__pan0)
-        self.__pan2 = Panel(self.__pan0)
+        self.__controls_panel = Panel(self)
+        self.__pan1 = Panel(self.__controls_panel)
+        self.__pan2 = Panel(self.__controls_panel)
         
         self.__pic1 = Label(self.__pan1, image = UtilResources.image("PyTT.LargeImage"))
         self.__msg1 = Label(self.__pan2, text = UtilResources.string("PyTT.ProductName"), anchor=tk.CENTER)
@@ -46,7 +46,7 @@ class AboutDialog(Dialog):
         self.__ok_button = Button(self, text="OK", command=self.__on_ok)
 
         #   Set up control structure
-        self.__pan0.pack(fill=tk.X, padx=0, pady=0)
+        self.__controls_panel.pack(fill=tk.X, padx=0, pady=0)
         self.__pan1.pack(side=tk.LEFT, padx=0, pady=0)
         self.__pan2.pack(fill=tk.X, padx=0, pady=0)
 

@@ -26,8 +26,14 @@
     <Compile Include="implementation\ActionEvent.py" />
     <Compile Include="implementation\ActionEventProcessorMixin.py" />
     <Compile Include="implementation\ActionEventHandler.py" />
+    <Compile Include="implementation\ComboBox.py" />
+    <Compile Include="implementation\ItemEvent.py" />
+    <Compile Include="implementation\ItemEventListener.py" />
+    <Compile Include="implementation\ItemEventHandler.py" />
     <Compile Include="implementation\KeyEventListener.py" />
     <Compile Include="implementation\KeyEventHandler.py" />
+    <Compile Include="implementation\ItemEventType.py" />
+    <Compile Include="implementation\ItemEventProcessorMixin.py" />
     <Compile Include="implementation\WidgetEventProcessorMixin.py" />
     <Compile Include="implementation\Panel.py" />
     <Compile Include="implementation\WidgetEvent.py" />
@@ -47,7 +53,7 @@
     <Compile Include="implementation\BaseWidgetMixin.py" />
     <Compile Include="implementation\Button.py" />
     <Compile Include="implementation\Dialog.py" />
-    <Compile Include="implementation\Entry.py" />
+    <Compile Include="implementation\TextField.py" />
     <Compile Include="implementation\GuiRoot.py" />
     <Compile Include="implementation\InputEvent.py" />
     <Compile Include="implementation\InputEventModifiers.py" />

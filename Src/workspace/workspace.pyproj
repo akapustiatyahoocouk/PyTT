@@ -21,6 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="implementation\WorkspaceType.py" />
     <Compile Include="interface\api.py" />
     <Compile Include="implementation\Credentials.py" />
     <Compile Include="implementation\CurrentCredentials.py" />

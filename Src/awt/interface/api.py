@@ -11,12 +11,17 @@ from awt.implementation.ActionEventListener import *
 from awt.implementation.ActionEventProcessorMixin import *
 from awt.implementation.BaseWidgetMixin import *
 from awt.implementation.Button import *
+from awt.implementation.ComboBox import *
 from awt.implementation.Dialog import *
-from awt.implementation.Entry import *
 from awt.implementation.Frame import *
 from awt.implementation.GuiRoot import *
 from awt.implementation.InputEvent import *
 from awt.implementation.InputEventModifiers import *
+from awt.implementation.ItemEvent import *
+from awt.implementation.ItemEventHandler import *
+from awt.implementation.ItemEventListener import *
+from awt.implementation.ItemEventProcessorMixin import *
+from awt.implementation.ItemEventType import *
 from awt.implementation.KeyEvent import *
 from awt.implementation.KeyEventHandler import *
 from awt.implementation.KeyEventListener import *
@@ -34,6 +39,7 @@ from awt.implementation.ResourceAwareSubmenu import *
 from awt.implementation.Separator import *
 from awt.implementation.SimpleMenuItem import *
 from awt.implementation.Submenu import *
+from awt.implementation.TextField import *
 from awt.implementation.VirtualKey import *
 from awt.implementation.Widget import *
 from awt.implementation.WidgetEvent import *

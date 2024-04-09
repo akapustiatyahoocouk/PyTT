@@ -45,4 +45,12 @@ Actions.About.LargeImage=ImageFile:images/actions/AboutLarge.png
 
 ##########
 #   Dialogs
+CreateWorkspaceDialog.Icon=ImageFile:images/actions/CreateWorkspaceLarge.png
+CreateWorkspaceDialog.BrowseButton.Text=
+CreateWorkspaceDialog.BrowseButton.Icon=ImageFile:images/actions/BrowseSmall.png
+CreateWorkspaceDialog.OkButton.Text=OK
+CreateWorkspaceDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+CreateWorkspaceDialog.CancelButton.Text=Cancel
+CreateWorkspaceDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+
 AboutDialog.Icon=ImageFile:images/actions/AboutLarge.png

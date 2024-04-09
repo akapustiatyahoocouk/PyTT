@@ -16,7 +16,8 @@ from .ActionEventProcessorMixin import ActionEventProcessorMixin
 ##########
 #   Public entities
 class Button(ttk.Button,
-             BaseWidgetMixin, ActionEventProcessorMixin):
+             BaseWidgetMixin,
+             ActionEventProcessorMixin):
     """ A ttk.Button with AWT extensions. """
 
     ##########
