@@ -1,12 +1,14 @@
 #   Python standard library
-from typing import Callable
+from typing import Callable, Union
 from inspect import signature
 
 #   Dependencies on other PyTT components
 from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
-from .KeyEvent import KeyEvent, KeyListener
+from .KeyEvent import KeyEvent
+from .KeyEventListener import KeyEventListener
+from .KeyEventHandler import KeyEventHandler
 
 ##########
 #   Public entities
@@ -24,28 +26,30 @@ class KeyEventProcessorMixin:
     
     ##########
     #   Operations
-    def add_key_listener(self, l: KeyListener) -> None:
-        """ Regsters the specified listener to be notified when
-            a key event is processed.
+    def add_key_listener(self, l: Union[KeyEventListener, KeyEventHandler]) -> None:
+        """ Regsters the specified listener or handler to be 
+            notified when a key event is processed.
             A given listener can be registered at most once;
             subsequent attempts to register the same listener 
             again will have no effect. """
-        assert isinstance(l, Callable) and len(signature(l).parameters) == 1
+        assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
+                isinstance(l, KeyEventHandler))
         if l not in self.__key_listeners:
             self.__key_listeners.append(l)
 
-    def remove_key_listener(self, l: KeyListener) -> None:
-        """ Un-regsters the specified listener to no longer be 
-            notified when a key event is processed.
+    def remove_key_listener(self, l: Union[KeyEventListener, KeyEventHandler]) -> None:
+        """ Un-regsters the specified listener or handler to no 
+            longer be notified when a key event is processed.
             A given listener can be un-registered at most once;
             subsequent attempts to un-register the same listener 
             again will have no effect. """
-        assert isinstance(l, Callable) and len(signature(l).parameters) == 1
+        assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
+                isinstance(l, KeyEventHandler))
         if l in self.__key_listeners:
             self.__key_listeners.remove(l)
 
     @property
-    def key_listeners(self) -> list[KeyListener]:
+    def key_listeners(self) -> list[Union[KeyEventListener, KeyEventHandler]]:
         """ The list of all key event listeners registered so far. """
         return self.__key_listeners.copy()
 
@@ -65,5 +69,17 @@ class KeyEventProcessorMixin:
         #   implementation should dispatch it to the "parent" event
         #   processor.
         for l in self.__key_listeners:
-            l(event)    #   TODO catch & log exception, then go to the next listener
-        return True
+            try:
+                if isinstance(l, KeyEventHandler):
+                    match event.event_type:
+                        case KeyEventType.KEY_DOWN:
+                            l.on_key_down(event)
+                        case KeyEventType.KEY_UN:
+                            l.on_key_up(event)
+                        case KeyEventType.KEY_CHAR:
+                            l.on_key_char(event)
+                else:
+                    l(event)
+            except Exception as ex:
+                pass    #   TODO log the exception
+        return event.processed

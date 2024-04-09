@@ -18,7 +18,7 @@ class KeyEvent(InputEvent):
     def __init__(self, source, event_type: KeyEventType, tk_evt: tk.Event):
         """ Constructs the event from the specified tk key event. """
         super().__init__(source, InputEventModifiers(tk_evt.state))
-        
+
         assert ((event_type is KeyEventType.KEY_DOWN) or
                 (event_type is KeyEventType.KEY_UP) or
                 (event_type is KeyEventType.KEY_CHAR))
@@ -30,7 +30,7 @@ class KeyEvent(InputEvent):
             self.__keychar = tk_evt.char[0]
         else:
             self.__keychar = None
-            
+
         self.__keycode = VirtualKey.from_tk_string(tk_evt.keysym)
 
     ##########
@@ -66,7 +66,7 @@ class KeyEvent(InputEvent):
         return "KeyEvent(" + result + ")"
 
     ##########
-    #   Properties    
+    #   Properties
     @property
     def event_type(self) -> KeyEventType:
         """ The key event type, never None. """
@@ -81,9 +81,3 @@ class KeyEvent(InputEvent):
     def keychar(self) -> Optional[str]:
         """ The key character, None if not known. """
         return self.__keychar
-
-
-KeyListener: TypeAlias = Callable[[KeyEvent], None]
-""" A signature of a listener to key events - a function
-    or a bound method. """
-

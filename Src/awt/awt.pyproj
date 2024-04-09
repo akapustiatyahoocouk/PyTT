@@ -24,10 +24,17 @@
     <Compile Include="implementation\Action.py" />
     <Compile Include="implementation\ActionEvent.py" />
     <Compile Include="implementation\ActionEventProcessorMixin.py" />
+    <Compile Include="implementation\KeyEventListener.py" />
+    <Compile Include="implementation\KeyEventHandler.py" />
+    <Compile Include="implementation\WidgetEventProcessorMixin.py" />
     <Compile Include="implementation\Panel.py" />
+    <Compile Include="implementation\WidgetEvent.py" />
     <Compile Include="implementation\WindowEvent.py" />
+    <Compile Include="implementation\WidgetEventHandler.py" />
+    <Compile Include="implementation\WidgetEventListener.py" />
     <Compile Include="implementation\WindowEventListener.py" />
     <Compile Include="implementation\WindowEventHandler.py" />
+    <Compile Include="implementation\WidgetEventType.py" />
     <Compile Include="implementation\WindowEventType.py" />
     <Compile Include="implementation\ResourceAwareAction.py" />
     <Compile Include="implementation\ResourceAwareSubmenu.py" />

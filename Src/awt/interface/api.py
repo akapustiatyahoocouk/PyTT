@@ -16,6 +16,8 @@ from awt.implementation.GuiRoot import *
 from awt.implementation.InputEvent import *
 from awt.implementation.InputEventModifiers import *
 from awt.implementation.KeyEvent import *
+from awt.implementation.KeyEventHandler import *
+from awt.implementation.KeyEventListener import *
 from awt.implementation.KeyEventProcessorMixin import *
 from awt.implementation.KeyEventType import *
 from awt.implementation.KeyStroke import *
@@ -32,6 +34,11 @@ from awt.implementation.SimpleMenuItem import *
 from awt.implementation.Submenu import *
 from awt.implementation.VirtualKey import *
 from awt.implementation.Widget import *
+from awt.implementation.WidgetEvent import *
+from awt.implementation.WidgetEventHandler import *
+from awt.implementation.WidgetEventListener import *
+from awt.implementation.WidgetEventProcessorMixin import *
+from awt.implementation.WidgetEventType import *
 from awt.implementation.Window import *
 from awt.implementation.WindowEvent import *
 from awt.implementation.WindowEventHandler import *

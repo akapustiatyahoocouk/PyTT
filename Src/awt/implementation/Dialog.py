@@ -161,6 +161,6 @@ class Dialog(Window):
     ##########
     #   Event listeners
     def __window_listener(self, evt: WindowEvent):
-        if evt.event_type is WindowEventType.CLOSING:
+        if evt.event_type is WindowEventType.WINDOW_CLOSING:
             evt.processed = True
             self.__on_tk_escape()

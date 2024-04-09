@@ -14,6 +14,7 @@ from admin_skin.resources.AdminSkinResources import AdminSkinResources
 #   Public entities
 @final
 class AdminSkinMainFrame(Frame,
+                         WidgetEventHandler,
                          WindowEventHandler):
     """ The main frame of the "Admin" skin. """
 
@@ -70,21 +71,24 @@ class AdminSkinMainFrame(Frame,
         self.__aboutButton.pack()
         self.__quitButton.pack()
 
-        #TODO move this to BaseWidgetMixin, to become ComponentEvents HIDDEN and SHOWN
-        self.__aboutButton.bind("<Map>", lambda e: print(e))
-        self.__aboutButton.bind("<Unmap>", lambda e: print(e))
-        self.__quitButton.bind("<Map>", lambda e: print(e))
-        self.__quitButton.bind("<Unmap>", lambda e: print(e))
-        
         #   Restore position & state
         self.__load_position()
 
         #   Set up event handlers
         self.add_window_listener(self)
+        self.add_widget_listener(self)
 
         self.add_key_listener(lambda e: print(e))
 
         DefaultLocaleProvider.instance.add_property_change_listener(self.__on_locale_changed)
+
+    ##########
+    #   WidgetEventHandler
+    def on_widget_moved(self, evt: WidgetEvent) -> None:
+        self.__save_position()
+
+    def on_widget_resized(self, evt: WidgetEvent) -> None:
+        self.__save_position()
 
     ##########
     #   WindowEventHandler

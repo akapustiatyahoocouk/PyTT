@@ -201,13 +201,13 @@ class Window(tkinter.Toplevel, BaseWidgetMixin):
             try:
                 if isinstance(l, WindowEventHandler):
                     match event.event_type:
-                        case WindowEventType.MINIMIZE:
+                        case WindowEventType.WINDOW_MINIMIZED:
                             l.on_window_minimized(event)
-                        case WindowEventType.MAXIMIZE:
+                        case WindowEventType.WINDOW_MAXIMIZED:
                             l.on_window_maximized(event)
-                        case WindowEventType.RESTORE:
+                        case WindowEventType.WINDOW_RESTORED:
                             l.on_window_restored(event)
-                        case WindowEventType.CLOSING:
+                        case WindowEventType.WINDOW_CLOSING:
                             l.on_window_closing(event)
                 else:
                     l(event)
@@ -222,11 +222,11 @@ class Window(tkinter.Toplevel, BaseWidgetMixin):
             case WindowState.UNDEFINED:
                 return
             case WindowState.NORMAL:
-                evt = WindowEvent(self, WindowEventType.RESTORE)
+                evt = WindowEvent(self, WindowEventType.WINDOW_RESTORED)
             case WindowState.MAXIMIZED:
-                evt = WindowEvent(self, WindowEventType.MAXIMIZE)
+                evt = WindowEvent(self, WindowEventType.WINDOW_MAXIMIZED)
             case WindowState.ICONIFIED:
-                evt = WindowEvent(self, WindowEventType.MINIMIZE)
+                evt = WindowEvent(self, WindowEventType.WINDOW_MINIMIZED)
             case WindowState.WITHDRAWN:
                 return
         self.process_window_event(evt)
@@ -251,7 +251,7 @@ class Window(tkinter.Toplevel, BaseWidgetMixin):
         return BaseWidgetMixin._BaseWidgetMixin__on_tk_configure(self, evt)
 
     def __on_tk_delete_window(self, *args):
-        evt = WindowEvent(self, WindowEventType.CLOSING)
+        evt = WindowEvent(self, WindowEventType.WINDOW_CLOSING)
         if not self.process_window_event(evt):
             #   Default outcome is destroy the window
             self.destroy()

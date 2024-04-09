@@ -10,15 +10,15 @@ class WindowEventType(Enum):
 
     ##########
     #   Constants
-    MINIMIZE = 1
+    WINDOW_MINIMIZED = 1
     """ A window was minimized. """
 
-    MAXIMIZE = 2
+    WINDOW_MAXIMIZED = 2
     """ A window was maximized. """
 
-    RESTORE = 3
+    WINDOW_RESTORED = 3
     """ A window was restored to normal state after 
         having been minimized or maximized. """
 
-    CLOSING = 4
+    WINDOW_CLOSING = 4
     """ The user attempts to close the window. """

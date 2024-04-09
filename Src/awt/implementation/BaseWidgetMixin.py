@@ -6,10 +6,14 @@ import tkinter as tk
 #   Internal dependencies on modules within the same component
 from .KeyEvent import KeyEvent, KeyEventType
 from .KeyEventProcessorMixin import KeyEventProcessorMixin
+from .WidgetEvent import WidgetEvent
+from .WidgetEventType import WidgetEventType
+from .WidgetEventProcessorMixin import WidgetEventProcessorMixin
 
 ##########
 #   Public entities
-class BaseWidgetMixin(KeyEventProcessorMixin):
+class BaseWidgetMixin(KeyEventProcessorMixin,
+                      WidgetEventProcessorMixin):
     """ A mix-in class that adds functionality to BaseWidgets. """
 
     ##########
@@ -19,6 +23,7 @@ class BaseWidgetMixin(KeyEventProcessorMixin):
             constructors of the derived classes that implement
             this mixin. """
         KeyEventProcessorMixin.__init__(self)
+        WidgetEventProcessorMixin.__init__(self)
 
         self.__visible = True
         self.__focusable = True
@@ -27,6 +32,8 @@ class BaseWidgetMixin(KeyEventProcessorMixin):
         self.bind("<KeyPress>", self.__on_tk_keydown)
         self.bind("<KeyRelease>", self.__on_tk_keyup)
         self.bind("<Configure>", self.__on_tk_configure)
+        self.bind("<Map>", self.__on_tk_map)
+        self.bind("<Unmap>", self.__on_tk_unmap)
         
         self.__last_x = self.winfo_x()
         self.__last_y = self.winfo_y()
@@ -123,7 +130,7 @@ class BaseWidgetMixin(KeyEventProcessorMixin):
     ##########
     #   Tk event handlers
     def __on_tk_keydown(self, evt: tk.Event):
-        #print(evt)
+        #TODO kill off print(evt)
         ke = KeyEvent(self, KeyEventType.KEY_DOWN, evt)
         self.process_key_event(ke)
         if ke.keychar is not None:
@@ -131,20 +138,35 @@ class BaseWidgetMixin(KeyEventProcessorMixin):
             self.process_key_event(ce)
 
     def __on_tk_keyup(self, evt: tk.Event):
-        #print(evt)
+        #TODO kill off print(evt)
         ke = KeyEvent(self, KeyEventType.KEY_UP, evt)
         self.process_key_event(ke)
 
     def __on_tk_configure(self, evt: tk.Event):
-        print(self, evt)
-        print(self, self.winfo_x(), self.winfo_y(), self.winfo_width(), self.winfo_height())
-        
+        #TODO kill off print(self, evt)
         moved = ((self.__last_x != evt.x) or (self.__last_y != evt.y) and
                  self.__last_width == evt.width and self.__last_height == evt.height)
         sized = (self.__last_width != evt.width or self.__last_height != evt.height)
-        print(moved, sized)
         self.__last_x = evt.x
         self.__last_y = evt.y
         self.__last_width = evt.width
         self.__last_height = evt.height
+        if moved:
+            evt = WidgetEvent(self, WidgetEventType.WIDGET_MOVED)
+            self.process_widget_event(evt)
+        if sized:
+            evt = WidgetEvent(self, WidgetEventType.WIDGET_RESIZED)
+            self.process_widget_event(evt)
+        return "break"
+
+    def __on_tk_map(self, evt: tk.Event) -> None:
+        #TODO kill off print(self, evt)
+        evt = WidgetEvent(self, WidgetEventType.WIDGET_SHOWN)
+        self.process_widget_event(evt)
+        return "break"
+
+    def __on_tk_unmap(self, tk_evt: tk.Event) -> None:
+        #TODO kill off print(self, tk_evt)
+        evt = WidgetEvent(self, WidgetEventType.WIDGET_HIDDEN)
+        self.process_widget_event(evt)
         return "break"
