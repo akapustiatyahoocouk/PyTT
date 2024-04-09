@@ -28,7 +28,3 @@ class ActionEvent(Event):
             result += str(self.source)
         return "ActionEvent(" + result + ")"
 
-
-ActionListener: TypeAlias = Callable[[ActionEvent], None]
-""" A signature of a listener to action events - a function
-    or a bound method. """

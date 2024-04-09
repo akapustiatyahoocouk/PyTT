@@ -33,10 +33,12 @@
     <Content Include="resources\Resources_en.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="implementation\PropertyChangeEventHandler.py" />
     <Compile Include="implementation\Annotations.py" />
     <Compile Include="implementation\DefaultLocaleProvider.py" />
     <Compile Include="implementation\Event.py" />
     <Compile Include="implementation\LocaleProvider.py" />
+    <Compile Include="implementation\PropertyChangeEventListener.py" />
     <Compile Include="implementation\PropertyChangeEvent.py" />
     <Compile Include="implementation\PropertyChangeEventProcessorMixin.py" />
     <Compile Include="interface\api.py" />

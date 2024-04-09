@@ -22,8 +22,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="implementation\Action.py" />
+    <Compile Include="implementation\ActionEventListener.py" />
     <Compile Include="implementation\ActionEvent.py" />
     <Compile Include="implementation\ActionEventProcessorMixin.py" />
+    <Compile Include="implementation\ActionEventHandler.py" />
     <Compile Include="implementation\KeyEventListener.py" />
     <Compile Include="implementation\KeyEventHandler.py" />
     <Compile Include="implementation\WidgetEventProcessorMixin.py" />

@@ -9,7 +9,7 @@ class KeyEventHandler:
 
     ##########
     #   Operations
-    def on_key_work(self, evt: KeyEvent) -> None:
+    def on_key_down(self, evt: KeyEvent) -> None:
         pass
 
     def on_key_up(self, evt: KeyEvent) -> None:

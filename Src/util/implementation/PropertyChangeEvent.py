@@ -24,6 +24,8 @@ class PropertyChangeEvent(Event):
             @param changed_property:
                 The name of the property (of the affected_object) that has 
                 changed; cannot be None.
+                It is recommended to name properties using "lower_case"
+                naming scheme.
         """
         Event.__init__(self, source)
         
@@ -56,8 +58,3 @@ class PropertyChangeEvent(Event):
         """ The name of the property (of the affected_object) that 
             has changed; cannot be None. """
         return self.__changed_property
-
-
-PropertyChangeListener: TypeAlias = Callable[[PropertyChangeEvent], None]
-""" A signature of a listener to property change events - a function
-    or a bound method. """

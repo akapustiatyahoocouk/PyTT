@@ -15,6 +15,8 @@ from util.implementation.Locale import *
 from util.implementation.LocaleProvider import *
 from util.implementation.Metaclasses import *
 from util.implementation.PropertyChangeEvent import *
+from util.implementation.PropertyChangeEventHandler import *
+from util.implementation.PropertyChangeEventListener import *
 from util.implementation.PropertyChangeEventProcessorMixin import *
 from util.implementation.ResourceBundle import *
 from util.implementation.ResourceFactory import *

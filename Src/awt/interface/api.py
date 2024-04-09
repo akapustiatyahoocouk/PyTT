@@ -6,6 +6,8 @@
 #   Public entities
 from awt.implementation.Action import *
 from awt.implementation.ActionEvent import *
+from awt.implementation.ActionEventHandler import *
+from awt.implementation.ActionEventListener import *
 from awt.implementation.ActionEventProcessorMixin import *
 from awt.implementation.BaseWidgetMixin import *
 from awt.implementation.Button import *
