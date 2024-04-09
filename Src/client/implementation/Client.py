@@ -23,7 +23,7 @@ from util.interface.api import *
 from client.implementation.CommandLine import CommandLine
 
 @final
-class SplashScreen:
+class SplashScreen: #   TODO move to a separate file
     
     ##########
     #   Implementation
@@ -47,7 +47,7 @@ class SplashScreen:
 
         splash_icon = Label(SplashScreen.__splash_screen, image=UtilResources.image("PyTT.LargeImage"), background="white")
         splash_label1 = Label(SplashScreen.__splash_screen, text=UtilResources.string("PyTT.ProductName"), font="Helvetica 18", background="white", foreground="blue", anchor="center")
-        splash_label2 = Label(SplashScreen.__splash_screen, text='Version ' + UtilResources.string("PyTT.ProductVersion"), font="Helvetica 12", background="white", foreground="blue", anchor="center")
+        splash_label2 = Label(SplashScreen.__splash_screen, text=UtilResources.string("PyTT.ProductVersion"), font="Helvetica 12", background="white", foreground="blue", anchor="center")
         splash_separator = Separator(SplashScreen.__splash_screen, orient="horizontal")
         splash_label3 = Label(SplashScreen.__splash_screen, text=UtilResources.string("PyTT.ProductCopyright"), font="Helvetica 10", background="white", foreground="gray", anchor="center")
 

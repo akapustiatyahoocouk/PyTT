@@ -42,3 +42,7 @@ Actions.About.Description=Shows PyTT version and copyright information
 Actions.About.Shortcut=Ctrl+F1
 Actions.About.SmallImage=ImageFile:images/actions/AboutSmall.png
 Actions.About.LargeImage=ImageFile:images/actions/AboutLarge.png
+
+##########
+#   Dialogs
+AboutDialog.Icon=ImageFile:images/actions/AboutLarge.png

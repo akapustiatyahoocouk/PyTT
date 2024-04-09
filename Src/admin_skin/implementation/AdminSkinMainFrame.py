@@ -11,12 +11,11 @@ from admin_skin.resources.AdminSkinResources import AdminSkinResources
 ##########
 #   Public entities
 @final
-class AdminSkinMainFrame(TopFrame):
+class AdminSkinMainFrame(Frame):
     """ The main frame of the "Admin" skin. """
 
-    def __init__(self):
-        TopFrame.__init__(self)
-        self.title(AdminSkinResources.string("MainFrame.Title"))
+    def __init__(self, title=AdminSkinResources.string("MainFrame.Title")):
+        Frame.__init__(self)
 
         from gui.implementation.actions.ActionSet import ActionSet
         self.__action_set = ActionSet()
@@ -69,11 +68,10 @@ class AdminSkinMainFrame(TopFrame):
         self.__quitButton.pack()
 
         #   Set up event handlers
-        self.__initialLoginPerformed = False
-        self.protocol("WM_DELETE_WINDOW", self.destroy) # TODO move handling to TopFrame
+        self.add_window_listener(self.__window_listener)
 
         self.add_key_listener(lambda e: print(e))
-        
+
         DefaultLocaleProvider.instance.add_property_change_listener(self.__on_locale_changed)
 
     ##########
@@ -102,6 +100,12 @@ class AdminSkinMainFrame(TopFrame):
         self.destroy()
 
     ##########
-    #   Event listeners    
+    #   Event listeners
     def __on_locale_changed(self, evt) -> None:
         self.title(AdminSkinResources.string("MainFrame.Title"))
+
+    def __window_listener(self, evt: WindowEvent):
+        if evt.event_type is WindowEventType.CLOSING:
+            evt.processed = True
+            evt2 = ActionEvent(self)
+            self.__action_set.exit.execute(evt2)

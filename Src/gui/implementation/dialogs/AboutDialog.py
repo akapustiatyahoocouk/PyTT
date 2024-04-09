@@ -10,6 +10,9 @@ import tkinter as tk
 from awt.interface.api import *
 from util.interface.api import *
 
+#   Internal dependencies on modules within the same component
+from gui.resources.GuiResources import GuiResources
+
 ##########
 #   Public entities
 @final
@@ -27,6 +30,7 @@ class AboutDialog(Dialog):
     #   Construction    
     def __init__(self, parent: tk.BaseWidget):
         Dialog.__init__(self, parent, 'About PyTT')
+        #   TODO seems to break UI self.icon = GuiResources.image("AboutDialog.Icon")
         self.__result = AboutDialogResult.OK
 
         #   Create controls
@@ -36,7 +40,7 @@ class AboutDialog(Dialog):
         
         self.__pic1 = Label(self.__pan1, image = UtilResources.image("PyTT.LargeImage"))
         self.__msg1 = Label(self.__pan2, text = UtilResources.string("PyTT.ProductName"), anchor=tk.CENTER)
-        self.__msg2 = Label(self.__pan2, text = "Version " + UtilResources.string("PyTT.ProductVersion"), anchor=tk.CENTER)
+        self.__msg2 = Label(self.__pan2, text = UtilResources.string("PyTT.ProductVersion"), anchor=tk.CENTER)
         self.__msg3 = Label(self.__pan2, text = UtilResources.string("PyTT.ProductCopyright"), anchor=tk.CENTER)
         self.__separator = Separator(self, orient="horizontal")
         self.__ok_button = Button(self, text="OK", command=self.__on_ok)

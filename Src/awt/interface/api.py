@@ -11,6 +11,7 @@ from awt.implementation.BaseWidgetMixin import *
 from awt.implementation.Button import *
 from awt.implementation.Dialog import *
 from awt.implementation.Entry import *
+from awt.implementation.Frame import *
 from awt.implementation.GuiRoot import *
 from awt.implementation.InputEvent import *
 from awt.implementation.InputEventModifiers import *
@@ -27,8 +28,9 @@ from awt.implementation.ResourceAwareSubmenu import *
 from awt.implementation.Separator import *
 from awt.implementation.SimpleMenuItem import *
 from awt.implementation.Submenu import *
-from awt.implementation.TopFrame import *
 from awt.implementation.VirtualKey import *
 from awt.implementation.Widget import *
+from awt.implementation.Window import *
+from awt.implementation.WindowEvent import *
+from awt.implementation.WindowEventType import *
 from awt.implementation.WindowState import *
-from awt.implementation.WindowMixin import *

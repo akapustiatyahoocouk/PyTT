@@ -24,10 +24,12 @@
     <Compile Include="implementation\Action.py" />
     <Compile Include="implementation\ActionEvent.py" />
     <Compile Include="implementation\ActionEventProcessorMixin.py" />
+    <Compile Include="implementation\WindowEvent.py" />
+    <Compile Include="implementation\WindowEventType.py" />
     <Compile Include="implementation\ResourceAwareAction.py" />
     <Compile Include="implementation\ResourceAwareSubmenu.py" />
     <Compile Include="implementation\MenuSeparator.py" />
-    <Compile Include="implementation\WindowMixin.py" />
+    <Compile Include="implementation\Window.py" />
     <Compile Include="implementation\WindowState.py" />
     <Compile Include="interface\api.py" />
     <Compile Include="implementation\BaseWidgetMixin.py" />
@@ -48,7 +50,7 @@
     <Compile Include="implementation\Separator.py" />
     <Compile Include="implementation\SimpleMenuItem.py" />
     <Compile Include="implementation\Submenu.py" />
-    <Compile Include="implementation\TopFrame.py" />
+    <Compile Include="implementation\Frame.py" />
     <Compile Include="implementation\VirtualKey.py" />
     <Compile Include="implementation\Widget.py" />
     <Compile Include="__init__.py" />

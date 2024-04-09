@@ -8,23 +8,25 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 #   Internal dependencies on modules within the same component
-from .WindowMixin import WindowMixin
 from .Button import Button
 from .GuiRoot import GuiRoot
+from .Window import Window
+from .WindowEventType import WindowEventType
+from .WindowEvent import WindowEvent
 
 ##########
 #   Public entities
-class Dialog(tk.Toplevel, WindowMixin):
+class Dialog(Window):
     """ A common base class for all dialogs. """
 
     ##########
     #   Construction
     def __init__(self, parent: tk.BaseWidget, title: str):
-        tk.Toplevel.__init__(self,
-                             parent if parent is not None else awt.GuiRoot.GuiRoot.tk,
-                             padx=4, pady=4)
-        WindowMixin.__init__(self)
+        Window.__init__(self,
+                        parent if parent is not None else GuiRoot.tk,
+                        title)
      
+        self.configure(padx=4, pady=4)
         self.__parent = awt.GuiRoot.GuiRoot.tk if parent is None else parent.winfo_toplevel()
         self.title(title)
         # TODO keep? kill? self.resizable(False, False)
@@ -38,11 +40,10 @@ class Dialog(tk.Toplevel, WindowMixin):
         self.focusable = False
         self.bind("<Escape>", self.__on_tk_escape)
         self.bind("<Return>", self.__on_tk_return)
-
-        self.protocol("WM_DELETE_WINDOW", self.__on_tk_escape)
+        self.add_window_listener(self.__window_listener)
 
     ##########
-    #   object
+    #   object (entry/exit protocol needed for Dialog.do_modal
     def __enter__(self) -> None:
         return self
 
@@ -156,3 +157,10 @@ class Dialog(tk.Toplevel, WindowMixin):
              self.__ok_button.showing and self.__ok_button.enabled):
             self.__ok_button.invoke()
         return "break"
+
+    ##########
+    #   Event listeners
+    def __window_listener(self, evt: WindowEvent):
+        if evt.event_type is WindowEventType.CLOSING:
+            evt.processed = True
+            self.__on_tk_escape()

@@ -33,53 +33,13 @@ class GuiResources(ClassWithConstants):
     def factory() -> ResourceFactory:
         """ The resource factory that provides the actual resources. """
         return GuiResources.__impl
-    
-
-    @staticproperty
-    def ACTIONS_EXIT_NAME() -> str:
-        return "Exit"
-    @staticproperty
-    def ACTIONS_EXIT_HOTKEY() -> str:
-        return "x"
-    @staticproperty
-    def ACTIONS_EXIT_DESCRIPTION() -> str:
-        return "Exits PyTT"
-    @staticproperty
-    def ACTIONS_EXIT_SHORTCUT() ->Optional[KeyStroke]:
-        pass    # TODO implement property
-    @staticproperty
-    def ACTIONS_EXIT_SMALL_IMAGE() -> str:
-        return GuiResources.load_image("actions/ExitSmall.png")
-    @staticproperty
-    def ACTIONS_EXIT_LARGE_IMAGE() -> str:
-        return GuiResources.load_image("actions/ExitLarge.png")
-
-    @staticproperty
-    def ACTIONS_ABOUT_NAME() -> str:
-        return "About PyTT..."
-    @staticproperty
-    def ACTIONS_ABOUT_HOTKEY() -> str:
-        return "b"
-    @staticproperty
-    def ACTIONS_ABOUT_DESCRIPTION() -> str:
-        return "Shows PyTT version and copyright information"
-    @staticproperty
-    def ACTIONS_ABOUT_SHORTCUT() ->Optional[KeyStroke]:
-        pass    # TODO implement property
-    @staticproperty
-    def ACTIONS_ABOUT_SMALL_IMAGE() -> str:
-        return GuiResources.load_image("actions/AboutSmall.png")
-    @staticproperty
-    def ACTIONS_ABOUT_LARGE_IMAGE() -> str:
-        return GuiResources.load_image("actions/AboutLarge.png")
 
     ##########
     #   Operations
     @staticmethod
-    def load_image(image_name: str) -> tk.PhotoImage:
-        image = GuiResources.__icon_cache.get(image_name, None)
-        if image is None:
-            image = tk.PhotoImage(file = os.path.join(os.path.dirname(__file__), "images/" + image_name))
-            GuiResources.__icon_cache[image_name] = image
-        return image
-    
+    def string(key: str, locale: Locale = Locale.default) -> str:
+        return GuiResources.__impl.get_string(key, locale)
+
+    @staticmethod
+    def image(key: str, locale: Locale = Locale.default) -> tk.PhotoImage:
+        return GuiResources.__impl.get_image(key, locale)

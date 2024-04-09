@@ -6,7 +6,7 @@ from enum import Enum
 #   Public entities
 @final
 class KeyEventType(Enum):
-    """ The key event type. """
+    """ The type of a key event. """
 
     ##########
     #   Constants
