@@ -19,9 +19,9 @@ class WindowEvent(Event):
         """ Constructs the event. """
         super().__init__(source)
         
-        assert ((event_type is WindowEventType.MINIMIZED) or
-                (event_type is WindowEventType.MAXIMIZED) or
-                (event_type is WindowEventType.RESTORED) or
+        assert ((event_type is WindowEventType.MINIMIZE) or
+                (event_type is WindowEventType.MAXIMIZE) or
+                (event_type is WindowEventType.RESTORE) or
                 (event_type is WindowEventType.CLOSING))
         self.__event_type = event_type
 
@@ -45,8 +45,3 @@ class WindowEvent(Event):
     def event_type(self) -> WindowEventType:
         """ The window event type, never None. """
         return self.__event_type
-
-WindowListener: TypeAlias = Callable[[WindowEvent], None]
-""" A signature of a listener to window events - a function
-    or a bound method. """
-

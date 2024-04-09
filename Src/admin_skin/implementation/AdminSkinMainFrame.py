@@ -1,17 +1,20 @@
 
 from time import sleep
 from typing import final
+import re
 
 #   Dependencies on other PyTT components
 from awt.interface.api import *
 
 #   Internal dependencies on modules within the same component
+from .AdminSkinSettings import AdminSkinSettings
 from admin_skin.resources.AdminSkinResources import AdminSkinResources
 
 ##########
 #   Public entities
 @final
-class AdminSkinMainFrame(Frame):
+class AdminSkinMainFrame(Frame,
+                         WindowEventHandler):
     """ The main frame of the "Admin" skin. """
 
     def __init__(self, title=AdminSkinResources.string("MainFrame.Title")):
@@ -67,12 +70,36 @@ class AdminSkinMainFrame(Frame):
         self.__aboutButton.pack()
         self.__quitButton.pack()
 
+        #TODO move this to BaseWidgetMixin, to become ComponentEvents HIDDEN and SHOWN
+        self.__aboutButton.bind("<Map>", lambda e: print(e))
+        self.__aboutButton.bind("<Unmap>", lambda e: print(e))
+        self.__quitButton.bind("<Map>", lambda e: print(e))
+        self.__quitButton.bind("<Unmap>", lambda e: print(e))
+        
+        #   Restore position & state
+        self.__load_position()
+
         #   Set up event handlers
-        self.add_window_listener(self.__window_listener)
+        self.add_window_listener(self)
 
         self.add_key_listener(lambda e: print(e))
 
         DefaultLocaleProvider.instance.add_property_change_listener(self.__on_locale_changed)
+
+    ##########
+    #   WindowEventHandler
+    def on_window_minimized(self, evt: WindowEvent) -> None:
+        self.__save_position()
+
+    def on_window_maximized(self, evt: WindowEvent) -> None:
+        self.__save_position()
+
+    def on_window_restored(self, evt: WindowEvent) -> None:
+        self.__save_position()
+
+    def on_window_closing(self, evt: WindowEvent) -> None:
+        evt.processed = True
+        self.__action_set.exit.execute(ActionEvent(self))
 
     ##########
     #   Properties
@@ -90,22 +117,34 @@ class AdminSkinMainFrame(Frame):
     def deactivate(self):   # TODO replace with a setter property for "active" ?
         self.window_state = WindowState.WITHDRAWN
 
-    def destroy(self):
-        self.protocol("WM_DELETE_WINDOW", lambda: None)
-        self.__action_set.exit.execute(ActionEvent(self))
-
     ##########
     #   Implementation helpers
-    def __quit(self, *args) -> None:
-        self.destroy()
+    def __load_position(self):
+        self.geometry("%dx%d+%d+%d" % (AdminSkinSettings.main_frame_width,
+                                       AdminSkinSettings.main_frame_height,
+                                       AdminSkinSettings.main_frame_x,
+                                       AdminSkinSettings.main_frame_y))
+        if AdminSkinSettings.main_frame_maximized:
+            self.window_state = WindowState.MAXIMIZED
 
+    def __save_position(self):
+        if self.window_state is WindowState.NORMAL:
+            AdminSkinSettings.main_frame_maximized = False
+            #   TODO move geometry parsing to Window property whose
+            #   value is a tuple (x,y,width,height)
+            g = self.winfo_geometry()
+            find = re.search("^(-?\\d+)x(-?\\d+)([+-]?\\d+)([+-]?\\d+)$", g)
+            if find:
+                AdminSkinSettings.main_frame_width = int(find.group(1))
+                AdminSkinSettings.main_frame_height = int(find.group(2))
+                AdminSkinSettings.main_frame_x = int(find.group(3))
+                AdminSkinSettings.main_frame_y = int(find.group(4))
+        elif self.window_state is WindowState.MAXIMIZED:
+            AdminSkinSettings.main_frame_maximized = True
+            pass
+        
     ##########
     #   Event listeners
     def __on_locale_changed(self, evt) -> None:
         self.title(AdminSkinResources.string("MainFrame.Title"))
-
-    def __window_listener(self, evt: WindowEvent):
-        if evt.event_type is WindowEventType.CLOSING:
-            evt.processed = True
-            evt2 = ActionEvent(self)
-            self.__action_set.exit.execute(evt2)
+        

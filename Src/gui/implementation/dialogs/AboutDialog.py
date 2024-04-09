@@ -34,9 +34,9 @@ class AboutDialog(Dialog):
         self.__result = AboutDialogResult.OK
 
         #   Create controls
-        self.__pan0 = Label(self)
-        self.__pan1 = Label(self.__pan0)
-        self.__pan2 = Label(self.__pan0)
+        self.__pan0 = Panel(self)
+        self.__pan1 = Panel(self.__pan0)
+        self.__pan2 = Panel(self.__pan0)
         
         self.__pic1 = Label(self.__pan1, image = UtilResources.image("PyTT.LargeImage"))
         self.__msg1 = Label(self.__pan2, text = UtilResources.string("PyTT.ProductName"), anchor=tk.CENTER)

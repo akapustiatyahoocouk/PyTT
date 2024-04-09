@@ -51,7 +51,7 @@ class LoginDialog(Dialog):
         self.__passwordVar = tk.StringVar()
         
         #   Create controls
-        self.__pan0 = Label(self)
+        self.__pan0 = Panel(self)
         
         self.__loginLabel = Label(self.__pan0, text = 'Login:', anchor=tk.E)
         self.__loginEntry = Entry(self.__pan0, width=40, textvariable=self.__loginVar)

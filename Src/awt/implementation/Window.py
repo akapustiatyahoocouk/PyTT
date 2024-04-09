@@ -1,5 +1,5 @@
 #   Python standard library
-from typing import final, Optional
+from typing import final, Optional, Union
 import tkinter
 
 #   Dependencies on other PyTT components
@@ -10,8 +10,10 @@ from .GuiRoot import GuiRoot
 from .BaseWidgetMixin import BaseWidgetMixin
 from .MenuBar import MenuBar
 from .WindowState import WindowState
-from .WindowEvent import WindowEvent, WindowListener
+from .WindowEvent import WindowEvent
 from .WindowEventType import WindowEventType
+from .WindowEventListener import WindowEventListener
+from .WindowEventHandler import WindowEventHandler
 
 ##########
 #   Public entities
@@ -151,33 +153,36 @@ class Window(tkinter.Toplevel, BaseWidgetMixin):
                 self.__last_state = "withdrawn"
             case _:
                 return
-        self.wm_state([self.__last_state])
+        self.state(self.__last_state)
 
     ##########
     #   Operations
-    def add_window_listener(self, l: WindowListener) -> None:
-        """ Regsters the specified listener to be notified when
+    def add_window_listener(self, l: Union[WindowEventListener, WindowEventHandler]) -> None:
+        """ Regsters the specified listener or handler to be notified when
             a window event is processed.
             A given listener can be registered at most once;
             subsequent attempts to register the same listener
             again will have no effect. """
-        assert isinstance(l, Callable) and len(signature(l).parameters) == 1
+        assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
+                isinstance(l, WindowEventHandler))
         if l not in self.__window_listeners:
             self.__window_listeners.append(l)
 
-    def remove_window_listener(self, l: WindowListener) -> None:
-        """ Un-regsters the specified listener to no longer be
+    def remove_window_listener(self, l: Union[WindowEventListener, WindowEventHandler]) -> None:
+        """ Un-regsters the specified listener or handler to no longer be
             notified when a window event is processed.
             A given listener can be un-registered at most once;
             subsequent attempts to un-register the same listener
             again will have no effect. """
-        assert isinstance(l, Callable) and len(signature(l).parameters) == 1
+        assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
+                isinstance(l, WindowEventHandler))
         if l in self.__window_listeners:
             self.__window_listeners.remove(l)
 
     @property
-    def window_listeners(self) -> list[WindowListener]:
-        """ The list of all window event listeners registered so far. """
+    def window_listeners(self) -> list[Union[WindowEventListener, WindowEventHandler]]:
+        """ The list of all window event listeners and handlers 
+            registered so far. """
         return self.__window_listeners.copy()
 
     def process_window_event(self, event : WindowEvent) -> bool:
@@ -193,7 +198,21 @@ class Window(tkinter.Toplevel, BaseWidgetMixin):
         """
         assert isinstance(event, WindowEvent)
         for l in self.__window_listeners:
-            l(event)    #   TODO catch & log exception, then go to the next listener
+            try:
+                if isinstance(l, WindowEventHandler):
+                    match event.event_type:
+                        case WindowEventType.MINIMIZE:
+                            l.on_window_minimized(event)
+                        case WindowEventType.MAXIMIZE:
+                            l.on_window_maximized(event)
+                        case WindowEventType.RESTORE:
+                            l.on_window_restored(event)
+                        case WindowEventType.CLOSING:
+                            l.on_window_closing(event)
+                else:
+                    l(event)
+            except:
+                pass    #   TODO log the exception
         return event.processed
 
     ##########
@@ -203,11 +222,11 @@ class Window(tkinter.Toplevel, BaseWidgetMixin):
             case WindowState.UNDEFINED:
                 return
             case WindowState.NORMAL:
-                evt = WindowEvent(self, WindowEventType.RESTORED)
+                evt = WindowEvent(self, WindowEventType.RESTORE)
             case WindowState.MAXIMIZED:
-                evt = WindowEvent(self, WindowEventType.MAXIMIZED)
+                evt = WindowEvent(self, WindowEventType.MAXIMIZE)
             case WindowState.ICONIFIED:
-                evt = WindowEvent(self, WindowEventType.MINIMIZED)
+                evt = WindowEvent(self, WindowEventType.MINIMIZE)
             case WindowState.WITHDRAWN:
                 return
         self.process_window_event(evt)

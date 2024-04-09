@@ -23,6 +23,8 @@ from awt.implementation.Label import *
 from awt.implementation.Menu import *
 from awt.implementation.MenuBar import *
 from awt.implementation.MenuItem import *
+from awt.implementation.MenuSeparator import *
+from awt.implementation.Panel import *
 from awt.implementation.ResourceAwareAction import *
 from awt.implementation.ResourceAwareSubmenu import *
 from awt.implementation.Separator import *
@@ -32,5 +34,7 @@ from awt.implementation.VirtualKey import *
 from awt.implementation.Widget import *
 from awt.implementation.Window import *
 from awt.implementation.WindowEvent import *
+from awt.implementation.WindowEventHandler import *
+from awt.implementation.WindowEventListener import *
 from awt.implementation.WindowEventType import *
 from awt.implementation.WindowState import *
