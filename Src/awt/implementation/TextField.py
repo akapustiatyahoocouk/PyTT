@@ -17,3 +17,4 @@ class TextField(ttk.Entry, BaseWidgetMixin):
         """Construct an awt TextField widget with the parent master. """
         ttk.Entry.__init__(self, master, **kwargs)
         BaseWidgetMixin.__init__(self)
+

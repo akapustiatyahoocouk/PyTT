@@ -2,7 +2,7 @@
 from typing import final, Optional
 
 #   Internal dependencies on modules within the same component
-from workspace.implementation.Credentials import Credentials
+from .Credentials import Credentials
 
 ##########
 #   Public entities

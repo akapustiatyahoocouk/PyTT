@@ -19,7 +19,7 @@ class ItemEvent(Event):
     #   Construction
     def __init__(self, source, event_type: ItemEventType):
         """ Constructs the event. """
-        super().__init__(source)
+        Event.__init__(self, source)
 
         assert ((event_type is ItemEventType.ITEM_SELECTED) or
                 (event_type is ItemEventType.ITEM_UNSELECTED) or

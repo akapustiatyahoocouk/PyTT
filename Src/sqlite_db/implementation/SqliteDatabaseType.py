@@ -1,8 +1,14 @@
 #   Python standard library
+import tkinter as tk
+import tkinter.ttk as ttk
+import tkinter.filedialog as filedialog
 
 #   Dependencies on other PyTT components
 from db.interface.api import *
 from util.interface.api import *
+
+#   Internal dependencies on modules within the same component
+from .SqliteDatabaseAddress import SqliteDatabaseAddress
 
 ##########
 #   Public entities
@@ -52,11 +58,24 @@ class SqliteDatabaseType(DatabaseType):
         return 'SQLite'
 
     ##########
-    #   DatabaseType - Properties (database address handling)
-    def parse_database_address(self, externa_form: str) -> "DatabaseAddress":
-        assert externa_form is not None
-        return db.sqlite_impl.SqliteDatabaseAddress.SqliteDatabaseAddress(externa_form)
+    #   DatabaseType - Database address handling
+    def parse_database_address(self, external_form: str) -> DatabaseAddress:
+        assert external_form is not None
+        return db.sqlite_impl.SqliteDatabaseAddress.SqliteDatabaseAddress(external_form)
 
     @property    
     def default_database_address(self) -> DatabaseAddress:
         return None #   SQLite has no concept of a "default" database
+
+    def enter_new_database_address(self, parent: tk.BaseWidget) -> DatabaseAddress:
+        fn = filedialog.asksaveasfilename(
+            parent=parent.winfo_toplevel(),
+            title='Create SQLite database',
+            confirmoverwrite=True,
+            initialdir=None,    #   TODO last used UI directory
+            filetypes=(('SQLite PyTT files', SqliteDatabaseType.PREFERRED_EXTENSION), 
+                       ('All files', ".*")),
+            defaultextension=SqliteDatabaseType.PREFERRED_EXTENSION)
+        if len(fn) == 0:
+            return None
+        return SqliteDatabaseAddress(fn)

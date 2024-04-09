@@ -18,7 +18,7 @@ class InputEvent(Event):
     def __init__(self, source,
                  modifiers: InputEventModifiers = None):
         """ Constructs the event with the specified source and modifiers. """
-        super().__init__(source)
+        Event.__init__(self, source)
 
         assert (modifiers is None) or isinstance(modifiers, InputEventModifiers)
         self.__modifiers = InputEventModifiers.NONE if (modifiers is None) else modifiers

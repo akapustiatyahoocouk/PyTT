@@ -17,7 +17,7 @@ class KeyEvent(InputEvent):
     #   Construction
     def __init__(self, source, event_type: KeyEventType, tk_evt: tk.Event):
         """ Constructs the event from the specified tk key event. """
-        super().__init__(source, InputEventModifiers(tk_evt.state))
+        InputEvent.__init__(self, source, InputEventModifiers(tk_evt.state))
 
         assert ((event_type is KeyEventType.KEY_DOWN) or
                 (event_type is KeyEventType.KEY_UP) or

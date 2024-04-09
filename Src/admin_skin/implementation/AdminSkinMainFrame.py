@@ -20,6 +20,8 @@ class AdminSkinMainFrame(Frame,
 
     def __init__(self, title=AdminSkinResources.string("MainFrame.Title")):
         Frame.__init__(self)
+        WidgetEventHandler.__init__(self)
+        WindowEventHandler.__init__(self)
 
         from gui.implementation.actions.ActionSet import ActionSet
         self.__action_set = ActionSet()

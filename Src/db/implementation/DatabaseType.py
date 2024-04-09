@@ -1,6 +1,7 @@
 #   Python standard library
 from typing import Optional
 from abc import ABC, abstractproperty, abstractmethod
+import tkinter as tk
 
 #   Dependencies on other PyTT components
 from util.interface.api import *
@@ -31,23 +32,43 @@ class DatabaseType(ABCWithConstants):
     ##########
     #   Database address handling
     @abstractmethod
-    def parse_database_address(self, externa_form: str) -> "DatabaseAddress":
+    def parse_database_address(self, external_form: str) -> "DatabaseAddress":
         """
             Parses an external (re-parsable) form of a database address
             of this type.
             
-            @param externa_form:
+            @param external_form:
                 The external (re-parsable) form of a database address.
             @return:
                 The parsed database address.
             @raise InvalidDatabaseAddressException:
                 If the specified external form of a database address
-                doesnot make sense for this database type.
+                does not make sense for this database type.
         """
         raise NotImplementedError()
 
     @abstractproperty
     def default_database_address(self) -> "DatabaseAddress":
+        """ The address of the "default" database of this type;
+            None if this database type has no concept of and
+            "default" database. """
+        raise NotImplementedError()
+
+    @abstractmethod
+    def enter_new_database_address(self, parent: tk.BaseWidget) -> "DatabaseAddress":
+        """
+            Prompts the user to interactively specify an address
+            for a new database of this type.
+    
+            @param parent:
+                The widget to use as a "parent" widget for any modal
+                dialog(s) used during database address entry; None
+                to use the GuiRoot.
+            @return:
+                The database address specified by the user; None 
+                if the user has cancelled the process of database
+                address entry.
+        """
         raise NotImplementedError()
 
     ##########

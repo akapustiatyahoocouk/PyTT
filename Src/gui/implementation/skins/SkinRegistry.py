@@ -5,7 +5,7 @@ from typing import final, Optional
 from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
-from gui.implementation.skins.Skin import Skin
+from .Skin import Skin
 
 ##########
 #   Public entities

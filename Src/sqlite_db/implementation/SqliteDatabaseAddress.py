@@ -13,7 +13,28 @@ class SqliteDatabaseAddress(DatabaseAddress):
     def __init__(self, path: str):
         self.__path = os.path.abspath(path)
 
-    ##########7
+    ##########
+    #   object
+    def __hash__(self) -> int:
+        return hash(self.__path)
+    
+    def __str__(self) -> str:
+        return self.__path
+
+    def __repr__(self) -> str:
+        return self.__path
+
+    def __eq__(self, op2) -> bool:
+        if isinstance(op2, SqliteDatabaseAddress):
+            return self.__path == op2.__path
+        return False
+
+    def __ne__(self, op2) -> bool:
+        if isinstance(op2, SqliteDatabaseAddress):
+            return self.__path != op2.__path
+        return True
+
+    ##########
     #   DatabaseAddress - Properties
     @property
     def database_type(self) -> "SqliteDatabaseType":
