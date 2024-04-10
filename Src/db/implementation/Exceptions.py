@@ -25,3 +25,12 @@ class InvalidDatabaseAddressError(DatabaseError):
     #   Construction
     def __init__(self):
         super().__init__('Invalid database address')
+
+class DatabaseIoError(DatabaseError):
+    """ Thrown when an db API service fails due to an underlying
+        I/O or database engine. """
+
+    ##########
+    #   Construction
+    def __init__(self, message: str):
+        super().__init__(message)

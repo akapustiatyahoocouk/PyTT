@@ -2,8 +2,13 @@
 from typing import final, Optional
 import hashlib
 
+#   Dependencies on other PyTT components
+from util.interface.api import *
+
+##########
+#   Public entities
 @final
-class Credentials:
+class Credentials(FriendlyClass, friends=("WorkspaceType",)):
     """ The user's credentials. """
     
     ##########
@@ -21,6 +26,7 @@ class Credentials:
         assert isinstance(password, str)
         
         self.__login = login;
+        self.__password = password
         self.__password_hash = hashlib.sha1(password.encode()).hexdigest().upper()
         
     ##########

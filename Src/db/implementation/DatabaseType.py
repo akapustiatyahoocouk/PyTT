@@ -41,7 +41,7 @@ class DatabaseType(ABCWithConstants):
                 The external (re-parsable) form of a database address.
             @return:
                 The parsed database address.
-            @raise InvalidDatabaseAddressException:
+            @raise DatabaseError:
                 If the specified external form of a database address
                 does not make sense for this database type.
         """
@@ -68,6 +68,22 @@ class DatabaseType(ABCWithConstants):
                 The database address specified by the user; None 
                 if the user has cancelled the process of database
                 address entry.
+        """
+        raise NotImplementedError()
+
+    ##########
+    #   Database handling
+    def create_database(self, address: "DatabaseAddress") -> "Database":
+        """
+            Creates a new, initially empty, database at the
+            specified address.
+
+            @param address:
+                The address for the new database.
+            @return:
+                The newly created and open database.
+            @raise DatabaseError:
+                If the database creation fails for any reason.
         """
         raise NotImplementedError()
 

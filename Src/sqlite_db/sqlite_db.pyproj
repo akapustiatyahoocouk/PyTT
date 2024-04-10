@@ -21,6 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="implementation\SqliteDatabase.py" />
     <Compile Include="implementation\SqliteDatabaseAddress.py" />
     <Compile Include="implementation\SqliteDatabaseType.py" />
     <Compile Include="interface\api.py" />

@@ -51,7 +51,6 @@ class LocaleMeta(type):
             DefaultLocaleProvider.instance.process_property_change_event(evt)
             
             
-
 @final
 class Locale(metaclass=LocaleMeta):
 

@@ -25,6 +25,7 @@
     <Folder Include="implementation\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="implementation\Database.py" />
     <Compile Include="interface\api.py" />
     <Compile Include="implementation\DatabaseAddress.py" />
     <Compile Include="implementation\DatabaseType.py" />

@@ -117,6 +117,12 @@ class CreateWorkspaceDialog(Dialog):
         """ The dialog result after a modal invocation. """
         return self.__result
 
+    @property
+    def created_workspace(self) -> Workspace:
+        """ The workspace created by the user; None if the
+            user has cancelled the dialog. """
+        return self.__workspace
+    
     ##########
     #   Implementation helpers
     def __refresh(self, *args) -> None:
@@ -139,13 +145,21 @@ class CreateWorkspaceDialog(Dialog):
         wa = self.__selected_workspace_type.enter_new_workspace_address(self)
         if wa is None:
             return
-        pass
+        self.__selected_workspace_address = wa
+        self.__workspace_address_var.set(wa.display_form)
+        self.__refresh()
 
     def __on_ok(self, evt: ActionEvent) -> None:
         if not self.__ok_button.enabled:
             return
-        self.__result = CreateWorkspaceDialogResult.OK
-        self.end_modal()
+        try:
+            self.__workspace = self.__selected_workspace_type.create_workspace(
+                address=self.__selected_workspace_address,
+                credentials=CurrentCredentials.get())
+            self.__result = CreateWorkspaceDialogResult.OK
+            self.end_modal()
+        except Exception as ex:
+            pass    # TODO show error dialog to the user
 
     def __on_cancel(self, evt: ActionEvent) -> None:
         self.__result = CreateWorkspaceDialogResult.CANCEL

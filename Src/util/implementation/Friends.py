@@ -51,7 +51,7 @@ class FriendlyClass(metaclass=FriendlyClassMeta, friends = ()):
         
         In addition to allowing "friend" classes to access static
         private properties of the declared class (which is provided
-        by FriendlyMeta), the Friendly base class also includes 
+        by FriendlyClassMeta), the Friendly base class also includes 
         support for instance properties.
         
         @param friends:
@@ -62,7 +62,7 @@ class FriendlyClass(metaclass=FriendlyClassMeta, friends = ()):
     #   object (methods for instance properties access from friends)
     def __getattr__(self, name: str) -> Any:
         if name != "__name__":
-            for friend in self.__class__._FriendlyMeta__friends:
+            for friend in self.__class__._FriendlyClassMeta__friends:
                 an = name.replace(friend, self.__class__.__name__)
                 try:
                     return super().__getattribute__(an)
@@ -77,7 +77,7 @@ class FriendlyABCMeta(ABCMeta, FriendlyClassMeta):
     """ TODO document """
     #def __new__(mcls, name, bases, namespace, /, **kwargs):
     #    ABCMeta.__new__(mcls, name, bases, namespace, **kwargs)
-    #    FriendlyMeta.__new__(mcls, name, bases, namespace, **kwargs)
+    #    FriendlyClassMeta.__new__(mcls, name, bases, namespace, **kwargs)
     pass
 
 class FriendlyABC(ABC, metaclass=FriendlyABCMeta, friends = ()):

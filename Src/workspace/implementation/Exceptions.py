@@ -21,7 +21,10 @@ class WorkspaceError(Exception):
     #   Operations
     @staticmethod
     def wrap(ex: Exception) -> "WorkspaceError":
-        raise WorkspaceError(str(ex))   #   TODO implement properly
+        if isinstance(ex, WorkspaceError):
+            return ex
+        #   TODO implement properly
+        raise WorkspaceError(str(ex))   
 
 
 class InvalidWorkspaceAddressError(WorkspaceError):

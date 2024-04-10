@@ -2,6 +2,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.filedialog as filedialog
+import sqlite3
 
 #   Dependencies on other PyTT components
 from db.interface.api import *
@@ -68,7 +69,7 @@ class SqliteDatabaseType(DatabaseType):
         return None #   SQLite has no concept of a "default" database
 
     def enter_new_database_address(self, parent: tk.BaseWidget) -> DatabaseAddress:
-        fn = filedialog.asksaveasfilename(
+        file_name = filedialog.asksaveasfilename(
             parent=parent.winfo_toplevel(),
             title='Create SQLite database',
             confirmoverwrite=True,
@@ -76,6 +77,22 @@ class SqliteDatabaseType(DatabaseType):
             filetypes=(('SQLite PyTT files', SqliteDatabaseType.PREFERRED_EXTENSION), 
                        ('All files', ".*")),
             defaultextension=SqliteDatabaseType.PREFERRED_EXTENSION)
-        if len(fn) == 0:
-            return None
-        return SqliteDatabaseAddress(fn)
+        return SqliteDatabaseAddress(file_name) if file_name else None
+
+    ##########
+    #   Database handling
+    def create_database(self, address: DatabaseAddress) -> Database:
+        from .SqliteDatabase import SqliteDatabase
+        
+        if not isinstance(address, SqliteDatabaseAddress):
+            raise InvalidDatabaseAddressError()
+        path = address._SqliteDatabaseAddress__path  #   TODO try using "friends"
+        #TODO use file system - level locking to prevent multiple connections
+        connection = None
+        try:
+            connection = sqlite3.connect(path)
+            return SqliteDatabase(address, connection)
+        except Exception as ex:
+            if connection:
+                connection.close()
+            raise DatabaseIoError(str(ex)) from ex

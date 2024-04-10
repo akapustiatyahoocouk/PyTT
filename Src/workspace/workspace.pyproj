@@ -22,6 +22,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="implementation\Exceptions.py" />
+    <Compile Include="implementation\Workspace.py" />
+    <Compile Include="implementation\WorkspaceAddress.py" />
     <Compile Include="implementation\WorkspaceType.py" />
     <Compile Include="interface\api.py" />
     <Compile Include="implementation\Credentials.py" />

@@ -13,7 +13,7 @@ class CurrentCredentials:
 
     ##########
     #   Implementation
-    __currentCredentials = None
+    __current_credentials = None
     
     ##########
     #   Construction - disable (this is an utility class)
@@ -22,14 +22,12 @@ class CurrentCredentials:
 
     @staticmethod
     def get() -> Optional[Credentials]:
-        return CurrentCredentials.__currentCredentials
+        return CurrentCredentials.__current_credentials
 
     @staticmethod
     def set(cc: Credentials) -> None:
         assert isinstance(cc, Credentials)
 
-        if cc is not CurrentCredentials.__currentCredentials:
-            CurrentCredentials.__currentCredentials = cc
-            #   TODO do we need to notify listeners of the "current" workspace change ?
-
-
+        if cc is not CurrentCredentials.__current_credentials:
+            CurrentCredentials.__current_credentials = cc
+            #   TODO notify listeners of the "current" credentials change
