@@ -27,7 +27,6 @@ class AdminSkinMainFrame(Frame,
         self.__action_set = ActionSet()
 
         file_menu = ResourceAwareSubmenu(AdminSkinResources.factory,
-                                         DefaultLocaleProvider.instance,
                                          "FileMenu")
         file_menu.items.add(self.__action_set.create_workspace)
         file_menu.items.add(self.__action_set.open_workspace)
@@ -39,7 +38,6 @@ class AdminSkinMainFrame(Frame,
         file_menu.items.add(self.__action_set.exit)
 
         help_menu = ResourceAwareSubmenu(AdminSkinResources.factory,
-                                         DefaultLocaleProvider.instance,
                                          "HelpMenu")
         help_menu.items.add('Help', hotkey="H")
         help_menu.items.add('Search', hotkey="S").enabled = False
@@ -82,7 +80,7 @@ class AdminSkinMainFrame(Frame,
 
         self.add_key_listener(lambda e: print(e))
 
-        DefaultLocaleProvider.instance.add_property_change_listener(self.__on_locale_changed)
+        Locale.add_property_change_listener(self.__on_locale_changed)
 
     ##########
     #   WidgetEventHandler

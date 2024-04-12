@@ -23,6 +23,7 @@
   <ItemGroup>
     <Compile Include="implementation\SqliteDatabase.py" />
     <Compile Include="implementation\SqliteDatabaseAddress.py" />
+    <Compile Include="implementation\SqliteDatabaseLock.py" />
     <Compile Include="implementation\SqliteDatabaseType.py" />
     <Compile Include="interface\api.py" />
     <Compile Include="__init__.py" />

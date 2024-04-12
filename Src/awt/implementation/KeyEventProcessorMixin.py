@@ -27,7 +27,7 @@ class KeyEventProcessorMixin:
     ##########
     #   Operations
     def add_key_listener(self, l: Union[KeyEventListener, KeyEventHandler]) -> None:
-        """ Regsters the specified listener or handler to be 
+        """ Registers the specified listener or handler to be 
             notified when a key event is processed.
             A given listener can be registered at most once;
             subsequent attempts to register the same listener 
@@ -38,7 +38,7 @@ class KeyEventProcessorMixin:
             self.__key_listeners.append(l)
 
     def remove_key_listener(self, l: Union[KeyEventListener, KeyEventHandler]) -> None:
-        """ Un-regsters the specified listener or handler to no 
+        """ Un-registers the specified listener or handler to no 
             longer be notified when a key event is processed.
             A given listener can be un-registered at most once;
             subsequent attempts to un-register the same listener 
@@ -68,7 +68,7 @@ class KeyEventProcessorMixin:
         #   TODO if the event has NOY been processed, the default
         #   implementation should dispatch it to the "parent" event
         #   processor.
-        for l in self.__key_listeners:
+        for l in self.key_listeners:
             try:
                 if isinstance(l, KeyEventHandler):
                     match event.event_type:

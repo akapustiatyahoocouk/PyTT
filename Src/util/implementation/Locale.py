@@ -1,12 +1,18 @@
 #   Python standard library
-from typing import final, Optional
+from typing import final, Optional, Union, Callable
+from inspect import signature
 
 #   Internal dependencies on modules within the same component
 from util.implementation.Annotations import staticproperty
+from util.implementation.Metaclasses import ClassWithConstantsMeta
+from util.implementation.PropertyChangeEvent import PropertyChangeEvent
+from util.implementation.PropertyChangeEventListener import PropertyChangeEventListener
+from util.implementation.PropertyChangeEventHandler import PropertyChangeEventHandler
 
 ##########
 #   Public entities
-class LocaleMeta(type):
+@final
+class LocaleMeta(ClassWithConstantsMeta):
     
     @property
     def system(cls):
@@ -47,16 +53,19 @@ class LocaleMeta(type):
             from util.implementation.LocaleProvider import LocaleProvider
             from util.implementation.DefaultLocaleProvider import DefaultLocaleProvider
             cls._Locale__default_locale = value
-            evt = PropertyChangeEvent(cls, cls, LocaleProvider.LOCALE_PROPERTY_NAME)
-            DefaultLocaleProvider.instance.process_property_change_event(evt)
-            
+            evt = PropertyChangeEvent(cls, cls, Locale.DEFAULT_LOCALE_PROPERTY_NAME)
+            cls.process_property_change_event(evt)
             
 @final
 class Locale(metaclass=LocaleMeta):
 
+    ##########
+    #   Implementation
     __root_locale = None
     __system_locale = None
     __default_locale = None
+
+    __property_change_listeners = list()
 
     ##########
     #   Constants
@@ -68,6 +77,11 @@ class Locale(metaclass=LocaleMeta):
         return Locale.__root_locale
 
     ##########
+    #   Constants (observable property names)
+    DEFAULT_LOCALE_PROPERTY_NAME = "default"
+    """ The name of the "default: Locale" static property of a Locale. """
+
+                     ##########
     #   Construction
     def __init__(self,
                  language: Optional[str] = None, 
@@ -151,3 +165,56 @@ class Locale(metaclass=LocaleMeta):
             return Locale(self.__language)
         else:
             return Locale(self.__language, self.__country)
+
+    ##########
+    #   Operations (static property change handling)
+    @staticmethod
+    def add_property_change_listener(l: Union[PropertyChangeEventListener, PropertyChangeEventHandler]) -> None:
+        """ Registers the specified listener or handler to be 
+            notified when a static property change event is 
+            processed.
+            A given listener can be registered at most once;
+            subsequent attempts to register the same listener 
+            again will have no effect. """
+        assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
+                isinstance(l, PropertyChangeEventHandler))
+        if l not in Locale.__property_change_listeners:
+            Locale.__property_change_listeners.append(l)
+
+    @staticmethod
+    def remove_property_change_listener(l: Union[PropertyChangeEventListener, PropertyChangeEventHandler]) -> None:
+        """ Un-registers the specified listener or handler to no 
+            longer be notified when a static property change 
+            event is processed.
+            A given listener can be un-registered at most once;
+            subsequent attempts to un-register the same listener 
+            again will have no effect. """
+        assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
+                isinstance(l, PropertyChangeEventHandler))
+        if l in Locale.__property_change_listeners:
+            Locale.__property_change_listeners.remove(l)
+
+    @staticproperty
+    def property_change_listeners() -> list[Union[PropertyChangeEventListener, PropertyChangeEventHandler]]:
+        """ The list of all static property change listeners registered so far. """
+        return Locale.__property_change_listeners.copy()
+
+    @staticmethod
+    def process_property_change_event(event : PropertyChangeEvent) -> bool:
+        """ 
+            Called to process an PropertyChangeEvent for a
+            change made to a static property.
+            
+            @param event:
+                The property change event to process.
+        """
+        assert isinstance(event, PropertyChangeEvent)
+        for l in Locale.property_change_listeners:
+            try:
+                if isinstance(l, PropertyChangeEventHandler):
+                    l.on_property_change(event)
+                else:
+                    l(event)
+            except Exception as ex:
+                pass    #   TODO log the exception
+        return event.processed

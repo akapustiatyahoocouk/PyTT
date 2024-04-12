@@ -158,7 +158,7 @@ class Window(tkinter.Toplevel, BaseWidgetMixin):
     ##########
     #   Operations
     def add_window_listener(self, l: Union[WindowEventListener, WindowEventHandler]) -> None:
-        """ Regsters the specified listener or handler to be notified when
+        """ Registers the specified listener or handler to be notified when
             a window event is processed.
             A given listener can be registered at most once;
             subsequent attempts to register the same listener
@@ -169,7 +169,7 @@ class Window(tkinter.Toplevel, BaseWidgetMixin):
             self.__window_listeners.append(l)
 
     def remove_window_listener(self, l: Union[WindowEventListener, WindowEventHandler]) -> None:
-        """ Un-regsters the specified listener or handler to no longer be
+        """ Un-regosters the specified listener or handler to no longer be
             notified when a window event is processed.
             A given listener can be un-registered at most once;
             subsequent attempts to un-register the same listener
@@ -197,7 +197,7 @@ class Window(tkinter.Toplevel, BaseWidgetMixin):
                 True if the event was processed, else false.
         """
         assert isinstance(event, WindowEvent)
-        for l in self.__window_listeners:
+        for l in self.window_listeners:
             try:
                 if isinstance(l, WindowEventHandler):
                     match event.event_type:

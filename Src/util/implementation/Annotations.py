@@ -21,7 +21,7 @@ class classproperty():
 
 
 class staticproperty():
-    """ A property annotation for a static (class-level wth no "cls") property """
+    """ A property annotation for a static (class-level with no "cls") property """
     def __init__(self, f):
         self.f = f
 

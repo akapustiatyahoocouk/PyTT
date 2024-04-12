@@ -29,7 +29,7 @@ class WidgetEventProcessorMixin:
     ######
     #   Operations
     def add_widget_listener(self, l: Union[WidgetEventListener, WidgetEventHandler]) -> None:
-        """ Regsters the specified listener or handler to be
+        """ Registers the specified listener or handler to be
             notified when a widget event is processed.
             A given listener can be registered at most once;
             subsequent attempts to register the same listener
@@ -40,7 +40,7 @@ class WidgetEventProcessorMixin:
             self.__widget_listeners.append(l)
 
     def remove_widget_listener(self, l: Union[WidgetEventListener, WidgetEventHandler]) -> None:
-        """ Un-regsters the specified listener or handler to no
+        """ Un-registers the specified listener or handler to no
             longer be notified when a widget event is processed.
             A given listener can be un-registered at most once;
             subsequent attempts to un-register the same listener
@@ -68,7 +68,7 @@ class WidgetEventProcessorMixin:
                 True if the event was processed, else false.
         """
         assert isinstance(event, WidgetEvent)
-        for l in self.__widget_listeners:
+        for l in self.widget_listeners:
             try:
                 if isinstance(l, WidgetEventHandler):
                     match event.event_type:

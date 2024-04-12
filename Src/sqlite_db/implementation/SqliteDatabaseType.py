@@ -72,7 +72,7 @@ class SqliteDatabaseType(DatabaseType):
         file_name = filedialog.asksaveasfilename(
             parent=parent.winfo_toplevel(),
             title='Create SQLite database',
-            confirmoverwrite=True,
+            confirmoverwrite=False, #   create_database() will fail if file is there
             initialdir=None,    #   TODO last used UI directory
             filetypes=(('SQLite PyTT files', SqliteDatabaseType.PREFERRED_EXTENSION), 
                        ('All files', ".*")),
@@ -87,12 +87,4 @@ class SqliteDatabaseType(DatabaseType):
         if not isinstance(address, SqliteDatabaseAddress):
             raise InvalidDatabaseAddressError()
         path = address._SqliteDatabaseAddress__path  #   TODO try using "friends"
-        #TODO use file system - level locking to prevent multiple connections
-        connection = None
-        try:
-            connection = sqlite3.connect(path)
-            return SqliteDatabase(address, connection)
-        except Exception as ex:
-            if connection:
-                connection.close()
-            raise DatabaseIoError(str(ex)) from ex
+        return SqliteDatabase(address, True)

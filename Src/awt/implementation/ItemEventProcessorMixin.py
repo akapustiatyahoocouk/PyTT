@@ -28,7 +28,7 @@ class ItemEventProcessorMixin:
     ##########
     #   Operations
     def add_item_listener(self, l: Union[ItemEventListener, ItemEventHandler]) -> None:
-        """ Regsters the specified listener or handler to be 
+        """ Registers the specified listener or handler to be 
             notified when an item event is processed.
             A given listener can be registered at most once;
             subsequent attempts to register the same listener 
@@ -39,7 +39,7 @@ class ItemEventProcessorMixin:
             self.__item_listeners.append(l)
 
     def remove_item_listener(self, l: Union[ItemEventListener, ItemEventHandler]) -> None:
-        """ Un-regsters the specified listener or handler to no 
+        """ Un-registers the specified listener or handler to no 
             longer be notified when an item event is processed.
             A given listener can be un-registered at most once;
             subsequent attempts to un-register the same listener 
@@ -66,7 +66,7 @@ class ItemEventProcessorMixin:
                 True if the event was processed, else false.
         """
         assert isinstance(event, ItemEvent)
-        for l in self.__item_listeners:
+        for l in self.item_listeners:
             try:
                 if isinstance(l, ItemEventHandler):
                     match event.event_type:

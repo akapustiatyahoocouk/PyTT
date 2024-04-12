@@ -23,7 +23,6 @@ class ActionBase(ResourceAwareAction):
                  resource_key_base: str):
         ResourceAwareAction.__init__(self, 
                                      resource_factory=GuiResources.factory,
-                                     locale_provider=DefaultLocaleProvider.instance,
                                      resource_key_base=resource_key_base)
         
     ##########

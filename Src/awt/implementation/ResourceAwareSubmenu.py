@@ -17,7 +17,6 @@ class ResourceAwareSubmenu(Submenu):
     #   Construction
     def __init__(self,
                  resource_factory: ResourceFactory,
-                 locale_provider: LocaleProvider,
                  resource_key_base: str):
         """
             Constructs a resource-aware submenu.
@@ -25,11 +24,6 @@ class ResourceAwareSubmenu(Submenu):
             @param resource_factory:
                 The resource factory to use for retrieving submenu
                 properties (such as text, etc.)
-            @param locale_provider:
-                The locale provider that specifies the locale for
-                which submenu properties are retrieved. Every time the
-                locale provided by this locale provider changes, the
-                submenu updates its properties automatically.
             @param resource_key_base:
                 The <base> portion of the resource bunch describing 
                 the submenu. The following resources are used:
@@ -39,15 +33,13 @@ class ResourceAwareSubmenu(Submenu):
         Submenu.__init__(self, resource_key_base)
 
         assert isinstance(resource_factory, ResourceFactory)
-        assert isinstance(locale_provider, LocaleProvider)
         assert isinstance(resource_key_base, str)
 
         self.__resource_factory = resource_factory
-        self.__locale_provider = locale_provider
         self.__resource_key_base = resource_key_base
         self.__update_properties()
         
-        locale_provider.add_property_change_listener(self.__update_properties)
+        Locale.add_property_change_listener(self.__update_properties)
     
     ##########
     #   Implementation helpers
@@ -57,10 +49,10 @@ class ResourceAwareSubmenu(Submenu):
         #TODO self.image
                                          
     def __load__string(self, key: str) -> Optional[str]:
-        return self.__resource_factory.get_string(key, self.__locale_provider.locale)
+        return self.__resource_factory.get_string(key, Locale.default)
     
     def __load_optional_string(self, key: str) -> Optional[str]:
         try:
-            return self.__resource_factory.get_string(key, self.__locale_provider.locale)
+            return self.__resource_factory.get_string(key, Locale.default)
         except:
             return None

@@ -25,7 +25,7 @@ class PropertyChangeEventProcessorMixin:
     ##########
     #   Operations
     def add_property_change_listener(self, l: Union[PropertyChangeEventListener, PropertyChangeEventHandler]) -> None:
-        """ Regsters the specified listener or handler to be 
+        """ Registers the specified listener or handler to be 
             notified when a property change event is processed.
             A given listener can be registered at most once;
             subsequent attempts to register the same listener 
@@ -36,7 +36,7 @@ class PropertyChangeEventProcessorMixin:
             self.__property_change_listeners.append(l)
 
     def remove_property_change_listener(self, l: Union[PropertyChangeEventListener, PropertyChangeEventHandler]) -> None:
-        """ Un-regsters the specified listener or handler to no 
+        """ Un-registers the specified listener or handler to no 
             longer be notified when a property change event is 
             processed.
             A given listener can be un-registered at most once;
@@ -62,7 +62,7 @@ class PropertyChangeEventProcessorMixin:
                 The property change event to process.
         """
         assert isinstance(event, PropertyChangeEvent)
-        for l in self.__property_change_listeners:
+        for l in self.property_change_listeners:
             try:
                 if isinstance(l, PropertyChangeEventHandler):
                     l.on_property_change(event)

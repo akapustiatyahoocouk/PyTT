@@ -17,7 +17,6 @@ class ResourceAwareAction(Action):
     #   Construction
     def __init__(self,
                  resource_factory: ResourceFactory,
-                 locale_provider: LocaleProvider,
                  resource_key_base: str):
         """
             Constructs a resource-aware action.
@@ -25,11 +24,6 @@ class ResourceAwareAction(Action):
             @param resource_factory:
                 The resource factory to use for retrieving action
                 properties (such as text, etc.)
-            @param locale_provider:
-                The locale provider that specifies the locale for
-                which action properties are retrieved. Every time the
-                locale provided by this locale provider changes, the
-                action updates its properties automatically.
             @param resource_key_base:
                 The <base> portion of the resource bunch describing 
                 the action. The following resources are used:
@@ -43,15 +37,13 @@ class ResourceAwareAction(Action):
         Action.__init__(self, resource_key_base)
 
         assert isinstance(resource_factory, ResourceFactory)
-        assert isinstance(locale_provider, LocaleProvider)
         assert isinstance(resource_key_base, str)
 
         self.__resource_factory = resource_factory
-        self.__locale_provider = locale_provider
         self.__resource_key_base = resource_key_base
         self.__update_properties()
         
-        locale_provider.add_property_change_listener(self.__update_properties)
+        Locale.add_property_change_listener(self.__update_properties)
     
     ##########
     #   Implementation helpers
@@ -64,23 +56,23 @@ class ResourceAwareAction(Action):
         self.large_image = self.__load_optional_image(self.__resource_key_base + ".LargeImage")
                                          
     def __load__string(self, key: str) -> Optional[str]:
-        return self.__resource_factory.get_string(key, self.__locale_provider.locale)
+        return self.__resource_factory.get_string(key, Locale.default)
     
     def __load_optional_string(self, key: str) -> Optional[str]:
         try:
-            return self.__resource_factory.get_string(key, self.__locale_provider.locale)
+            return self.__resource_factory.get_string(key, Locale.default)
         except:
             return None
 
     def __load_optional_image(self, key: str) -> Optional[tk.PhotoImage]:
         try:
-            return self.__resource_factory.get_image(key, self.__locale_provider.locale)
+            return self.__resource_factory.get_image(key, Locale.default)
         except:
             return None
 
     def __load_optional_keystroke(self, key: str) -> Optional[KeyStroke]:
         try:
-            s = self.__resource_factory.get_string(key, self.__locale_provider.locale)
+            s = self.__resource_factory.get_string(key, Locale.default)
             return KeyStroke.parse(s)
         except:
             return None
