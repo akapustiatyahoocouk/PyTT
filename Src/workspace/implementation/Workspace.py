@@ -53,7 +53,7 @@ class Workspace(metaclass=WorkspaceMeta):
     ##########
     #   Properties
     @property
-    def workspace_type(self) -> WorkspaceType:
+    def type(self) -> WorkspaceType:
         """ The type of this workspace; can be safely obtained
             for both open and closed woorkspaces. """
         return self.__address.workspace_type

@@ -26,11 +26,18 @@
     <Compile Include="implementation\SqliteDatabaseLock.py" />
     <Compile Include="implementation\SqliteDatabaseType.py" />
     <Compile Include="interface\api.py" />
+    <Compile Include="resources\SqliteDbResources.py" />
     <Compile Include="__init__.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="interface\" />
     <Folder Include="implementation\" />
+    <Folder Include="resources\" />
+    <Folder Include="resources\scripts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="resources\Resources.txt" />
+    <Content Include="resources\scripts\InitDatabase.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

@@ -92,6 +92,12 @@ class FileResourceBundle(ResourceBundle):
                 image_file_name = os.path.join(os.path.dirname(self.__file_name), image_file_name)
             image = tk.PhotoImage(file = image_file_name)
             return (ResourceType.IMAGE, image)
+        elif resource_definition.startswith("TextFile:"):
+            text_file_name = resource_definition[9:]
+            if not os.path.isabs(text_file_name):
+                text_file_name = os.path.join(os.path.dirname(self.__file_name), text_file_name)
+            with open(text_file_name, "r") as f:
+                return (ResourceType.STRING, f.read())
             #   TODO shortcuts, etc.
         else:
             return (ResourceType.STRING, resource_definition)

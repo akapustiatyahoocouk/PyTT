@@ -1,6 +1,7 @@
 """
     Persistent settings of the Admin skin.
 """
+#   Python standard library
 from typing import final
 
 #   Dependencies on other PyTT components

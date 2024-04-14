@@ -108,7 +108,15 @@ class CreateWorkspaceDialog(Dialog):
         #   Done
         self.wait_visibility()
         self.center_in_parent()
-        self.__refresh()
+        self.request_refresh()
+
+    ##########
+    #   Refreshable
+    def refresh(self) -> None:
+        self.__workspace_address_label.enabled = self.__selected_workspace_type is not None
+        #   TODO kill off self.__workspace_address_text_field.enabled = self.__selected_workspace_type is not None
+        self.__browse_button.enabled = self.__selected_workspace_type is not None
+        self.__ok_button.enabled = self.__selected_workspace_address is not None
 
     ##########
     #   Properties
@@ -124,14 +132,6 @@ class CreateWorkspaceDialog(Dialog):
         return self.__workspace
     
     ##########
-    #   Implementation helpers
-    def __refresh(self, *args) -> None:
-        self.__workspace_address_label.enabled = self.__selected_workspace_type is not None
-        #   TODO kill off self.__workspace_address_text_field.enabled = self.__selected_workspace_type is not None
-        self.__browse_button.enabled = self.__selected_workspace_type is not None
-        self.__ok_button.enabled = self.__selected_workspace_address is not None
-
-    ##########
     #   Event listeners
     def __on_workspace_type_changed(self, evt: ItemEvent) -> None:
         wt = self.__workspace_type_combo_box.selected_item
@@ -139,7 +139,7 @@ class CreateWorkspaceDialog(Dialog):
             self.__selected_workspace_type = wt
             self.__selected_workspace_address = None
             self.__workspace_address_var.set("")
-            self.__refresh()
+            self.request_refresh()
 
     def __on_browse(self, evt: ActionEvent) -> None:
         wa = self.__selected_workspace_type.enter_new_workspace_address(self)
@@ -147,7 +147,7 @@ class CreateWorkspaceDialog(Dialog):
             return
         self.__selected_workspace_address = wa
         self.__workspace_address_var.set(wa.display_form)
-        self.__refresh()
+        self.request_refresh()
 
     def __on_ok(self, evt: ActionEvent) -> None:
         if not self.__ok_button.enabled:

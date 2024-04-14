@@ -39,7 +39,8 @@ class SqliteDatabaseAddress(DatabaseAddress):
     @property
     def database_type(self) -> "SqliteDatabaseType":
         """ The database type to which this database address belongs. """
-        return sqlite_db.implementation.SqliteDatabaseType.SqliteDatabaseType.instance()
+        from .SqliteDatabaseType import SqliteDatabaseType
+        return SqliteDatabaseType.instance
 
     @property
     def display_form(self) -> str:

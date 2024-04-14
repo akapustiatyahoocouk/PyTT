@@ -26,6 +26,7 @@
     <Compile Include="implementation\ActionEvent.py" />
     <Compile Include="implementation\ActionEventProcessorMixin.py" />
     <Compile Include="implementation\ActionEventHandler.py" />
+    <Compile Include="implementation\Refreshable.py" />
     <Compile Include="implementation\ComboBox.py" />
     <Compile Include="implementation\ItemEvent.py" />
     <Compile Include="implementation\ItemEventListener.py" />

@@ -21,6 +21,8 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "sqlite_db", "sqlite_db\sqli
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "admin_skin", "admin_skin\admin_skin.pyproj", "{B4656F0A-1C18-48EA-8F5F-1F23AA2708F3}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "sql_db", "sql_db\sql_db.pyproj", "{729992FE-CAA8-486B-ADED-575C1F71AE7F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,8 @@ Global
 		{AE07AA39-9863-409A-A4D9-1D6D6B3082E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4656F0A-1C18-48EA-8F5F-1F23AA2708F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B4656F0A-1C18-48EA-8F5F-1F23AA2708F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{729992FE-CAA8-486B-ADED-575C1F71AE7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{729992FE-CAA8-486B-ADED-575C1F71AE7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

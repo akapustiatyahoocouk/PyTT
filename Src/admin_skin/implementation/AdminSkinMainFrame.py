@@ -1,10 +1,11 @@
-
+#   Python standard library
 from time import sleep
 from typing import final
 import re
 
 #   Dependencies on other PyTT components
 from awt.interface.api import *
+from workspace.interface.api import *
 
 #   Internal dependencies on modules within the same component
 from .AdminSkinSettings import AdminSkinSettings
@@ -80,6 +81,7 @@ class AdminSkinMainFrame(Frame,
 
         self.add_key_listener(lambda e: print(e))
 
+        Workspace.add_property_change_listener(self.__on_workspace_changed)
         Locale.add_property_change_listener(self.__on_locale_changed)
 
     ##########
@@ -149,6 +151,9 @@ class AdminSkinMainFrame(Frame,
         
     ##########
     #   Event listeners
+    def __on_workspace_changed(self, evt) -> None:
+        pass
+    
     def __on_locale_changed(self, evt) -> None:
         self.title(AdminSkinResources.string("MainFrame.Title"))
         

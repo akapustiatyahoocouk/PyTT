@@ -10,10 +10,7 @@ from workspace.interface.api import *
 
 #   Internal dependencies on modules within the same component
 from gui.implementation.dialogs.CreateWorkspaceDialog import CreateWorkspaceDialog, CreateWorkspaceDialogResult
-from gui.implementation.actions.ActionBase import ActionBase
-from gui.implementation.skins.Skin import Skin
-from gui.implementation.skins.ActiveSkin import ActiveSkin
-from gui.resources.GuiResources import GuiResources
+from .ActionBase import ActionBase
 
 ##########
 #   Public entities
@@ -41,4 +38,6 @@ class CreateWorkspaceAction(ActionBase):
                     old_workspace.close()
                 except Exception as ex:
                     pass    # TODO show error dialog
-            pass
+            #   Record the newly created workspace as "last used"
+        WorkspaceSettings.last_used_workspace_type = Workspace.current.type
+        WorkspaceSettings.last_used_workspace_address = Workspace.current.address

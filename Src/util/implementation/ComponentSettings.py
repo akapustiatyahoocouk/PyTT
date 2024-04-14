@@ -24,6 +24,12 @@ class ComponentSettings:
 
     ##########
     #   Operations
+    def remove(self, name: str) -> None:
+        assert isinstance(name, str)
+
+        if self.__config.has_option(self.__component_name, name):
+            return self.__config.remove_option(self.__component_name, name)
+
     def get(self, name: str, default_value: str) -> str:
         assert isinstance(name, str)
         assert isinstance(default_value, str)

@@ -44,7 +44,7 @@ class WorkspaceType:
             for db_type in DatabaseType.all:
                 WorkspaceType.__all.append(WorkspaceType(db_type))
             WorkspaceType.__construction_permitted = False
-        return WorkspaceType.__all
+        return set(WorkspaceType.__all)
 
     ##########
     #   Properties (general)
@@ -173,6 +173,15 @@ class WorkspaceType:
 
     ##########
     #   Operations (misc)
+    @staticmethod
+    def find_by_mnemonic(mnemonic: str) -> Optional["WorkspaceType"]:
+        assert isinstance(mnemonic, str)
+        
+        for workspace_type in WorkspaceType.all:
+            if workspace_type.mnemonic == mnemonic:
+                return workspace_type
+        return None
+            
     @staticmethod
     def resolve(db_type: DatabaseType) -> "WorkspaceType":
         """

@@ -82,8 +82,8 @@ class LoginDialog(Dialog):
         self.ok_button = self.__ok_button
         self.cancel_button = self.__cancel_button
 
-        self.__login_var.trace_add("write", self.__refresh)
-        self.__password_var.trace_add("write", self.__refresh)
+        self.__login_var.trace_add("write", lambda x,y,z: self.request_refresh())
+        self.__password_var.trace_add("write", lambda x,y,z: self.request_refresh())
         
         self.__ok_button.add_action_listener(self.__on_ok)
         self.__cancel_button.add_action_listener(self.__on_cancel)
@@ -93,11 +93,24 @@ class LoginDialog(Dialog):
             self.__password_text_field.focus_set()
         else:
             self.__login_text_field.focus_set()
-        self.__refresh()
+        self.request_refresh()
         
         #   Done
         self.wait_visibility()
         self.center_in_parent()
+
+    ##########
+    #   Refreshable
+    def refresh(self) -> None:
+        login: str = self.__login_var.get()
+        if len(login.strip()) == 0:
+            self.__password_label.enabled = False
+            self.__password_text_field.enabled = False
+            self.__ok_button.enabled = False
+        else:
+            self.__password_label.enabled = True
+            self.__password_text_field.enabled = True
+            self.__ok_button.enabled = True
 
     ##########
     #   Dialog
@@ -117,19 +130,6 @@ class LoginDialog(Dialog):
         """ The entered user credentials or None if the dialog
             was cancelled by the user. """
         return self.__credentials
-    
-    ##########
-    #   Implementation helpers
-    def __refresh(self, *args) -> None:
-        login: str = self.__login_var.get()
-        if len(login.strip()) == 0:
-            self.__password_label.enabled = False
-            self.__password_text_field.enabled = False
-            self.__ok_button.enabled = False
-        else:
-            self.__password_label.enabled = True
-            self.__password_text_field.enabled = True
-            self.__ok_button.enabled = True
     
     ##########
     #   Event listeners    

@@ -9,10 +9,7 @@ from awt.interface.api import *
 
 #   Internal dependencies on modules within the same component
 from ..dialogs.AboutDialog import AboutDialog
-from ..skins.Skin import Skin
-from ..skins.ActiveSkin import ActiveSkin
 from .ActionBase import ActionBase
-from gui.resources.GuiResources import GuiResources
 
 ##########
 #   Public entities

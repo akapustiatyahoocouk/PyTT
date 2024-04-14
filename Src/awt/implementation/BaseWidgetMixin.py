@@ -9,11 +9,13 @@ from .KeyEventProcessorMixin import KeyEventProcessorMixin
 from .WidgetEvent import WidgetEvent
 from .WidgetEventType import WidgetEventType
 from .WidgetEventProcessorMixin import WidgetEventProcessorMixin
+from .Refreshable import Refreshable
 
 ##########
 #   Public entities
 class BaseWidgetMixin(KeyEventProcessorMixin,
-                      WidgetEventProcessorMixin):
+                      WidgetEventProcessorMixin,
+                      Refreshable):
     """ A mix-in class that adds functionality to BaseWidgets. """
 
     ##########
@@ -24,6 +26,7 @@ class BaseWidgetMixin(KeyEventProcessorMixin,
             this mixin. """
         KeyEventProcessorMixin.__init__(self)
         WidgetEventProcessorMixin.__init__(self)
+        Refreshable.__init__(self)
 
         self.__visible = True
         self.__focusable = True

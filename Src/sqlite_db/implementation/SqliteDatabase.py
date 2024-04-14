@@ -2,19 +2,22 @@
 from genericpath import isfile
 import os
 import sqlite3
+import traceback
 
 #   Dependencies on other PyTT components
 from db.interface.api import *
+from sql_db.interface.api import *
 
 #   Internal dependencies on modules within the same component
 from .SqliteDatabaseType import SqliteDatabaseType
 from .SqliteDatabaseAddress import SqliteDatabaseAddress
 from .SqliteDatabaseLock import SqliteDatabaseLock
+from sqlite_db.resources.SqliteDbResources import *
 
 ##########
 #   Public entities
 @final
-class SqliteDatabase(Database):
+class SqliteDatabase(SqlDatabase):
 
     ##########
     #   Construction
@@ -33,6 +36,8 @@ class SqliteDatabase(Database):
                 If the database initialization fails (usually
                 due to a lock conflict).
         """
+        SqlDatabase.__init__(self)
+        
         assert isinstance(address, SqliteDatabaseAddress)
         assert isinstance(create_new, bool)
 
@@ -45,7 +50,7 @@ class SqliteDatabase(Database):
         lock_path = db_path + ".lock"
         try:
             self.__lock = SqliteDatabaseLock(lock_path) #   may raise DatabaseError
-        except:
+        except Exception as ex:
             connection.close()
             raise ex
 
@@ -53,15 +58,20 @@ class SqliteDatabase(Database):
         try:
             if create_new:
                 if os.path.exists(db_path):
-                    raise NotImplementedError() # TODO DatabaseError
-                self.__connection = sqlite3.connect(path)   # may raise any error, really
+                    raise AlreadyExistsError("database", "path", db_path)
+                self.__connection = sqlite3.connect(db_path)   # may raise any error, really
+                init_script = SqliteDbResources.string("InitDatabaseScript")
+                self.execute_script(init_script)
             else:
                 if not os.path.isfile(db_path):
-                    raise NotImplementedError() # TODO DatabaseError
-                self.__connection = sqlite3.connect(path)   # may raise any error, really
+                    raise DoesNotExistError("database", "path", db_path)
+                self.__connection = sqlite3.connect(db_path)   # may raise any error, really
         except Exception as ex:
+            print(traceback.format_exc())
             if self.__connection:
                 self.__connection.close()
+            if create_new:
+                os.remove(db_path)
             self.__lock.close()
             raise DatabaseIoError(str(ex)) from ex
 
@@ -84,6 +94,7 @@ class SqliteDatabase(Database):
     def close(self) -> None:
         if self.__is_open:
             try:
+                self.__lock.close()
                 self.__connection.close()
             except Exception as ex:
                 raise DatabaseIoError(str(ex)) from ex

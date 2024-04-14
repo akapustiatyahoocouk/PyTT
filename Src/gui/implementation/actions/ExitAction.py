@@ -6,9 +6,10 @@ from typing import final
 
 #   Dependencies on other PyTT components
 from awt.interface.api import *
+from workspace.interface.api import *
 
 #   Internal dependencies on modules within the same component
-from gui.implementation.actions.ActionBase import ActionBase
+from .ActionBase import ActionBase
 from gui.resources.GuiResources import GuiResources
 
 ##########
@@ -25,4 +26,10 @@ class ExitAction(ActionBase):
     ##########
     #   awt.Action - Operations
     def execute(self, evt: ActionEvent) -> None:
+        #   TODO if there is a "current" activity, stop and record it
+        ws = Workspace.current
+        Workspace.current = None
+        if ws is not None:
+            ws.close()
+        #   We're done - stiop the main loop
         GuiRoot.tk.quit()

@@ -1,6 +1,9 @@
 #   Python standard library
 from abc import ABC, abstractmethod, abstractproperty
 
+#   Dependencies on other PyTT components
+from util.interface.api import *
+
 #   Internal dependencies on modules within the same component
 from .DatabaseAddress import DatabaseAddress
 from .DatabaseType import DatabaseType

@@ -1,6 +1,7 @@
 """
     Defines exceptions thrown by the low-level (data storage) database API.
 """
+from typing import Any
 
 ##########
 #   Public entities
@@ -34,3 +35,27 @@ class DatabaseIoError(DatabaseError):
     #   Construction
     def __init__(self, message: str):
         super().__init__(message)
+
+class AlreadyExistsError(DatabaseError):
+    """ Thrown when an db API service fails because it tries to
+        create an object whose "must be unique" property
+        matches that of an already existing object. """
+
+    ##########
+    #   Construction
+    def __init__(self, object_type_name: str, property_name:str, property_value: Any):
+        super().__init__("The " + object_type_name +
+                         " with '" + property_name + "' = '" + str(property_value) +
+                         "' already exists")
+
+class DoesNotExistError(DatabaseError):
+    """ Thrown when an db API service fails because it tries to
+        access an object whose "must be unique" property
+        does not match that of any already existing object. """
+
+    ##########
+    #   Construction
+    def __init__(self, object_type_name: str, property_name:str, property_value: Any):
+        super().__init__("The " + object_type_name +
+                         " with '" + property_name + "' = '" + str(property_value) +
+                         "' does not exist")
