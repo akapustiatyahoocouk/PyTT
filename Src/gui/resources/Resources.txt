@@ -45,7 +45,21 @@ Actions.About.LargeImage=ImageFile:images/actions/AboutLarge.png
 
 ##########
 #   Dialogs
+AboutDialog.Title=About PyTT
+AboutDialog.OkButton.Text=OK
+AboutDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+
+LoginDialog.Title=Login to PyTT
+LoginDialog.LoginLabel.Text=Login:
+LoginDialog.PasswordLabel.Text=Password:
+LoginDialog.OkButton.Text=OK
+LoginDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+LoginDialog.CancelButton.Text=Cancel
+LoginDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+
 CreateWorkspaceDialog.Icon=ImageFile:images/actions/CreateWorkspaceLarge.png
+CreateWorkspaceDialog.WorkspaceTypeLabel.Text=Workspace type:
+CreateWorkspaceDialog.WorkspaceAddressLabel.Text=Workspace address:
 CreateWorkspaceDialog.BrowseButton.Text=
 CreateWorkspaceDialog.BrowseButton.Icon=ImageFile:images/actions/BrowseSmall.png
 CreateWorkspaceDialog.OkButton.Text=OK

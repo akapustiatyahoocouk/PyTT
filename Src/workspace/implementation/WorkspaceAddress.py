@@ -10,7 +10,7 @@ from .WorkspaceType import WorkspaceType
 ##########
 #   Public entities
 @final
-class WorkspaceAddress(FriendlyClass, friends=("WorkspaceType",)):
+class WorkspaceAddress:
 
     ##########
     #   Construction internal only)

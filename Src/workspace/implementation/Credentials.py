@@ -8,7 +8,7 @@ from util.interface.api import *
 ##########
 #   Public entities
 @final
-class Credentials(FriendlyClass, friends=("WorkspaceType",)):
+class Credentials:
     """ The user's credentials. """
     
     ##########

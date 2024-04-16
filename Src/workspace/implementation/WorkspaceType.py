@@ -151,9 +151,9 @@ class WorkspaceType:
             assert (admin_user is None) or isinstance(admin_user, str)
             assert (admin_login is None) or isinstance(admin_login, str)
             assert (admin_password is None) or isinstance(admin_password, str)
-            admin_user = admin_user if admin_user else credentials.__login
-            admin_login = admin_login if admin_login else credentials.__login
-            admin_password = admin_password if admin_password else credentials.__password
+            admin_user = admin_user if admin_user else credentials._Credentials__login
+            admin_login = admin_login if admin_login else credentials._Credentials__login
+            admin_password = admin_password if admin_password else credentials._Credentials__password
         else:
             #   All other parameters are mandatory
             assert isinstance(admin_user, str)
@@ -163,7 +163,7 @@ class WorkspaceType:
         admin_login = admin_login.strip()
         #   First the database...
         try:
-            db = self.__db_type.create_database(address.__db_address)
+            db = self.__db_type.create_database(address._WorkspaceAddress__db_address)
         except Exception as ex:
             raise WorkspaceError.wrap(ex) from ex
         #   ...then the admin user...

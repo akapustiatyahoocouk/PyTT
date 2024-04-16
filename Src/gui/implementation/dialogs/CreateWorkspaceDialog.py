@@ -40,7 +40,9 @@ class CreateWorkspaceDialog(Dialog):
                 enclosing top-level widget or frame is used),
                 None == no parent.
         """
-        super().__init__(parent, GuiResources.string("Actions.CreateWorkspace.Name"))
+        Dialog.__init__(self,
+                        parent,
+                        GuiResources.string("Actions.CreateWorkspace.Name"))
 
         self.__result = CreateWorkspaceDialogResult.CANCEL
         self.__workspace = None
@@ -51,10 +53,14 @@ class CreateWorkspaceDialog(Dialog):
         #   Create controls
         self.__controls_panel = Panel(self)
 
-        self.__workspace_type_label = Label(self.__controls_panel, text = 'Workspace type:', anchor=tk.E)
+        self.__workspace_type_label = Label(self.__controls_panel,
+                                            text=GuiResources.string("CreateWorkspaceDialog.WorkspaceTypeLabel.Text"),
+                                            anchor=tk.E)
         self.__workspace_type_combo_box = ComboBox(self.__controls_panel)
 
-        self.__workspace_address_label = Label(self.__controls_panel, text = 'Workspace address:', anchor=tk.E)
+        self.__workspace_address_label = Label(self.__controls_panel,
+                                               text=GuiResources.string("CreateWorkspaceDialog.WorkspaceAddressLabel.Text"),
+                                               anchor=tk.E)
         self.__workspace_address_text_field = TextField(self.__controls_panel, width=40, textvariable=self.__workspace_address_var)
         self.__browse_button = Button(self.__controls_panel,
                                       text=GuiResources.string("CreateWorkspaceDialog.BrowseButton.Text"),
@@ -130,7 +136,7 @@ class CreateWorkspaceDialog(Dialog):
         """ The workspace created by the user; None if the
             user has cancelled the dialog. """
         return self.__workspace
-    
+
     ##########
     #   Event listeners
     def __on_workspace_type_changed(self, evt: ItemEvent) -> None:

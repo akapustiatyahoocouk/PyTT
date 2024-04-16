@@ -29,7 +29,9 @@ class AboutDialog(Dialog):
     ##########
     #   Construction    
     def __init__(self, parent: tk.BaseWidget):
-        Dialog.__init__(self, parent, 'About PyTT')
+        Dialog.__init__(self, 
+                        parent, 
+                        GuiResources.string("AboutDialog.Title"))
         #   TODO seems to break UI self.icon = GuiResources.image("AboutDialog.Icon")
         self.__result = AboutDialogResult.OK
 
@@ -43,7 +45,9 @@ class AboutDialog(Dialog):
         self.__msg2 = Label(self.__pan2, text = UtilResources.string("PyTT.ProductVersion"), anchor=tk.CENTER)
         self.__msg3 = Label(self.__pan2, text = UtilResources.string("PyTT.ProductCopyright"), anchor=tk.CENTER)
         self.__separator = Separator(self, orient="horizontal")
-        self.__ok_button = Button(self, text="OK", command=self.__on_ok)
+        self.__ok_button = Button(self,
+            text=GuiResources.string("AboutDialog.OkButton.Text"),
+            image=GuiResources.image("AboutDialog.OkButton.Icon"))
 
         #   Set up control structure
         self.__controls_panel.pack(fill=tk.X, padx=0, pady=0)

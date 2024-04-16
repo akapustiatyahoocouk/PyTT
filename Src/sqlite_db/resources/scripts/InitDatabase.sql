@@ -1,7 +1,5 @@
-create table "a"
+CREATE TABLE objects
 (
-    pk integer primary key,
-    name varchar not null
+    pk INTEGER PRIMARY KEY AUTOINCREMENT,
+    object_type_name TEXT not null
 );
-
-insert into a (pk, name) values(1, '12345');

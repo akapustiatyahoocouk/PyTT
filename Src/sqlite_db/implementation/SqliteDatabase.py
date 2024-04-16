@@ -66,6 +66,8 @@ class SqliteDatabase(SqlDatabase):
                 if not os.path.isfile(db_path):
                     raise DoesNotExistError("database", "path", db_path)
                 self.__connection = sqlite3.connect(db_path)   # may raise any error, really
+                validate_script = SqliteDbResources.string("ValidateDatabaseScript")
+                self.execute_script(validate_script)
         except Exception as ex:
             print(traceback.format_exc())
             if self.__connection:
@@ -100,3 +102,53 @@ class SqliteDatabase(SqlDatabase):
                 raise DatabaseIoError(str(ex)) from ex
             finally:
                 self.__is_open = False
+
+    ##########
+    #   SqlDatabase - Operations
+    def begin_transaction(self) -> None:
+        """
+            Begins a new transaction.
+
+            @raise DatabaseError:
+                If an error occurs.
+        """
+        try:
+            self.__connection.cursor().execute("begin")
+        except Exception as ex:
+            #   TODO log ?
+            raise DatabaseError(str(ex)) from ex
+
+    def commit_transaction(self) -> None:
+        """
+            Commits the current transaction.
+
+            @raise DatabaseError:
+                If an error occurs.
+        """
+        try:
+            self.__connection.cursor().execute("commit")
+        except Exception as ex:
+            #   TODO log ?
+            raise DatabaseError(str(ex)) from ex
+
+    def rollback_transaction(self) -> None:
+        """
+            Rolls back the current transaction.
+
+            @raise DatabaseError:
+                If an error occurs.
+        """
+        try:
+            self.__connection.cursor().execute("rollback")
+        except Exception as ex:
+            #   TODO log ?
+            raise DatabaseError(str(ex)) from ex
+
+    def execute(self, sql: str) -> None:
+        assert isinstance(sql, str)
+
+        try:
+            self.__connection.execute(sql)
+        except Exception as ex:
+            #   TODO log ?
+            raise DatabaseError(str(ex)) from ex
