@@ -23,14 +23,27 @@
   <ItemGroup>
     <Folder Include="interface\" />
     <Folder Include="implementation\" />
+    <Folder Include="resources\" />
+    <Folder Include="resources\images\" />
+    <Folder Include="resources\images\objects\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="implementation\User.py" />
+    <Compile Include="implementation\DatabaseObject.py" />
     <Compile Include="implementation\Database.py" />
     <Compile Include="interface\api.py" />
     <Compile Include="implementation\DatabaseAddress.py" />
     <Compile Include="implementation\DatabaseType.py" />
     <Compile Include="implementation\Exceptions.py" />
+    <Compile Include="resources\DbResources.py" />
     <Compile Include="__init__.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="resources\images\objects\AccountLarge.png" />
+    <Content Include="resources\images\objects\AccountSmall.png" />
+    <Content Include="resources\images\objects\UserLarge.png" />
+    <Content Include="resources\images\objects\UserSmall.png" />
+    <Content Include="resources\Resources.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

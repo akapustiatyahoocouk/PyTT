@@ -83,7 +83,28 @@ class AdminSkinMainFrame(Frame,
 
         Workspace.add_property_change_listener(self.__on_workspace_changed)
         Locale.add_property_change_listener(self.__on_locale_changed)
+        #   TODO current credentials change
+        
+        #   Done
+        self.request_refresh()
 
+    ##########
+    #   Refreshable
+    def refresh(self) -> None:
+        credentials = CurrentCredentials.get()
+        workspace = Workspace.current
+        
+        #   Frame title
+        title = AdminSkinResources.string("MainFrame.Title")
+        if credentials is not None:
+            title += " [" + credentials.login + "]"
+        if workspace is not None:        
+            title += " - " + workspace.address.display_form
+        self.title(title)
+        
+        #   Action availability
+        self.__action_set.close_workspace.enabled = (workspace is not None)
+        
     ##########
     #   WidgetEventHandler
     def on_widget_moved(self, evt: WidgetEvent) -> None:
@@ -152,8 +173,8 @@ class AdminSkinMainFrame(Frame,
     ##########
     #   Event listeners
     def __on_workspace_changed(self, evt) -> None:
-        pass
+        self.request_refresh()
     
     def __on_locale_changed(self, evt) -> None:
-        self.title(AdminSkinResources.string("MainFrame.Title"))
+        self.request_refresh()
         

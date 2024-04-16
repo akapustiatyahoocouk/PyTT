@@ -171,6 +171,33 @@ class WorkspaceType:
         #   ...and we're done
         return Workspace(address, db)
 
+    def open_workspace(self, 
+                       address: "WorkspaceAddress") -> "Workspace":
+        """
+            Opens an existingworkspace at the specified address.
+            The workspace is always opened successfully if the
+            underlying database opens successfully, but it may
+            or may not permit access with the e.g. current
+            credentials.
+
+            @param address:
+                The address of an existing workspace.
+                overrides the credentials.
+            @return:
+                The newly open workspace.
+            @raise WorkspaceError:
+                If the workspace opening fails for any reason.
+        """
+        from .Workspace import Workspace
+
+        #   First the database...
+        try:
+            db = self.__db_type.open_database(address._WorkspaceAddress__db_address)
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex) from ex
+        #   ...and we're done
+        return Workspace(address, db)
+
     ##########
     #   Operations (misc)
     @staticmethod

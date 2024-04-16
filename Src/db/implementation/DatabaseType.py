@@ -87,6 +87,19 @@ class DatabaseType(ABCWithConstants):
         """
         raise NotImplementedError()
 
+    def open_database(self, address: "DatabaseAddress") -> "Database":
+        """
+            Opens an existing database at the specified address.
+
+            @param address:
+                The address of an existing database to open.
+            @return:
+                The newly opened database.
+            @raise DatabaseError:
+                If opening the database fails for any reason.
+        """
+        raise NotImplementedError()
+
     ##########
     #   Registry
     __registry : dict[str, "DatabaseType"] = {}

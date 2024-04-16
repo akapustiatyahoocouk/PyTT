@@ -18,6 +18,9 @@ class SqlDatabase(Database):
         pass
 
     ##########
+    #   Overridables (database engine - specific)
+    
+    ##########
     #   Operations
     def execute_script(self, script: str) -> None:
         assert isinstance(script, str)
@@ -127,10 +130,14 @@ class SqlDatabase(Database):
         raise NotImplementedError()
 
     @abstractmethod
-    def execute(self, sql: str) -> None:
+    def execute_sql(self, sql: str) -> None:
         """
             Executes a single SQL statement, ignoring its results.
             This is useful when e.g. called from execute_script().
+            The SQL script shall use the underlying database engine's
+            syntax, so the preferred way of executing SQL queries and
+            commands is by using the create_statement() method to
+            create a SqlStatement and then call execute() on that.    
 
             @param sql:
                 A single SQL statement.

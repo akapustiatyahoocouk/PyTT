@@ -33,7 +33,7 @@ class LoginDialog(Dialog):
     #   Construction
     def __init__(self, parent: tk.BaseWidget, login: Optional[str] = None):
         """
-            Constructs the locin dialog.
+            Constructs the login dialog.
 
             @param parent:
                 The parent widget for the dialog (actually the closest

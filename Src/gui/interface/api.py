@@ -18,6 +18,7 @@ from gui.implementation.actions.OpenWorkspaceAction import *
 from gui.implementation.dialogs.AboutDialog import *
 from gui.implementation.dialogs.CreateWorkspaceDialog import *
 from gui.implementation.dialogs.LoginDialog import *
+from gui.implementation.dialogs.OpenWorkspaceDialog import *
 
 from gui.implementation.skins.Skin import *
 from gui.implementation.skins.SkinRegistry import *

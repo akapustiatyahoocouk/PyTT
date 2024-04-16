@@ -6,6 +6,7 @@ from typing import final
 
 #   Dependencies on other PyTT components
 from awt.interface.api import *
+from workspace.interface.api import *
 
 #   Internal dependencies on modules within the same component
 from gui.implementation.dialogs.AboutDialog import AboutDialog
@@ -28,4 +29,11 @@ class CloseWorkspaceAction(ActionBase):
     ##########
     #   Action - Operations
     def execute(self, evt: ActionEvent) -> None:
-        pass
+        ws = Workspace.current
+        Workspace.current = None
+        if ws is not None:
+            #   TODO if there is a "current" activity, stop and record it
+            try:
+                ws.close()
+            except Exception as ex:
+                pass    # TODO show error dialog

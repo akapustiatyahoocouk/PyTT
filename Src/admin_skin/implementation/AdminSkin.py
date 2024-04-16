@@ -68,6 +68,7 @@ class AdminSkin(Skin):
         self.__main_frame.activate()
         self.__main_frame.wait_visibility()
         self.__main_frame.focus_force()
+        self.__main_frame.request_refresh()
 
     def deactivate(self) -> None:
         self.__main_frame.deactivate()

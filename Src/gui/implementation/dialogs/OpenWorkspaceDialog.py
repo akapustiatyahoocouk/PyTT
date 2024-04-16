@@ -16,24 +16,24 @@ from gui.resources.GuiResources import GuiResources
 ##########
 #   Public entities
 @final
-class CreateWorkspaceDialogResult(Enum):
-    """ The result of modal invocation of the CreateWorkspaceDialog. """
+class OpenWorkspaceDialogResult(Enum):
+    """ The result of modal invocation of the OpenWorkspaceDialog. """
 
     OK = 1
-    """ User has created a new workspace. """
+    """ User has openedd a new workspace. """
 
     CANCEL = 2
     """ Dialog cancelled by user. """
 
 @final
-class CreateWorkspaceDialog(Dialog):
-    """ The modal "create workspace" dialog. """
+class OpenWorkspaceDialog(Dialog):
+    """ The modal "open workspace" dialog. """
 
     ##########
     #   Construction
     def __init__(self, parent: tk.BaseWidget):
         """
-            Constructs the "create workspace" dialog.
+            Constructs the "open workspace" dialog.
 
             @param parent:
                 The parent widget for the dialog (actually the closest
@@ -42,9 +42,9 @@ class CreateWorkspaceDialog(Dialog):
         """
         Dialog.__init__(self,
                         parent,
-                        GuiResources.string("CreateWorkspaceDialog.Title"))
+                        GuiResources.string("OpenWorkspaceDialog.Title"))
 
-        self.__result = CreateWorkspaceDialogResult.CANCEL
+        self.__result = OpenWorkspaceDialogResult.CANCEL
         self.__workspace = None
 
         #   Create control models
@@ -54,33 +54,33 @@ class CreateWorkspaceDialog(Dialog):
         self.__controls_panel = Panel(self)
 
         self.__workspace_type_label = Label(self.__controls_panel,
-                                            text=GuiResources.string("CreateWorkspaceDialog.WorkspaceTypeLabel.Text"),
+                                            text=GuiResources.string("OpenWorkspaceDialog.WorkspaceTypeLabel.Text"),
                                             anchor=tk.E)
         self.__workspace_type_combo_box = ComboBox(self.__controls_panel)
 
         self.__workspace_address_label = Label(self.__controls_panel,
-                                               text=GuiResources.string("CreateWorkspaceDialog.WorkspaceAddressLabel.Text"),
+                                               text=GuiResources.string("OpenWorkspaceDialog.WorkspaceAddressLabel.Text"),
                                                anchor=tk.E)
         self.__workspace_address_text_field = TextField(self.__controls_panel, width=40, textvariable=self.__workspace_address_var)
         self.__browse_button = Button(self.__controls_panel,
-                                      text=GuiResources.string("CreateWorkspaceDialog.BrowseButton.Text"),
-                                      image=GuiResources.image("CreateWorkspaceDialog.BrowseButton.Icon"))
+                                      text=GuiResources.string("OpenWorkspaceDialog.BrowseButton.Text"),
+                                      image=GuiResources.image("OpenWorkspaceDialog.BrowseButton.Icon"))
 
         self.__separator = Separator(self, orient="horizontal")
 
         self.__ok_button = Button(self,
-            text=GuiResources.string("CreateWorkspaceDialog.OkButton.Text"),
-            image=GuiResources.image("CreateWorkspaceDialog.OkButton.Icon"))
+            text=GuiResources.string("OpenWorkspaceDialog.OkButton.Text"),
+            image=GuiResources.image("OpenWorkspaceDialog.OkButton.Icon"))
         self.__cancel_button = Button(self,
-            text=GuiResources.string("CreateWorkspaceDialog.CancelButton.Text"),
-            image=GuiResources.image("CreateWorkspaceDialog.CancelButton.Icon"))
+            text=GuiResources.string("OpenWorkspaceDialog.CancelButton.Text"),
+            image=GuiResources.image("OpenWorkspaceDialog.CancelButton.Icon"))
 
         #   Adjust controls
         self.__workspace_type_combo_box.editable = False
         for ws_type in WorkspaceType.all:
             self.__workspace_type_combo_box.items.add(ws_type)
         if len(self.__workspace_type_combo_box.items) > 0:
-            self.__workspace_type_combo_box.selected_index = 0  #   TODO last created ws type
+            self.__workspace_type_combo_box.selected_index = 0  #   TODO last opened ws type
 
         self.__workspace_address_text_field.enabled = False
 
@@ -127,13 +127,13 @@ class CreateWorkspaceDialog(Dialog):
     ##########
     #   Properties
     @property
-    def result(self) -> CreateWorkspaceDialogResult:
+    def result(self) -> OpenWorkspaceDialogResult:
         """ The dialog result after a modal invocation. """
         return self.__result
 
     @property
-    def created_workspace(self) -> Workspace:
-        """ The workspace created by the user; None if the
+    def opened_workspace(self) -> Workspace:
+        """ The workspace opened by the user; None if the
             user has cancelled the dialog. """
         return self.__workspace
 
@@ -159,14 +159,13 @@ class CreateWorkspaceDialog(Dialog):
         if not self.__ok_button.enabled:
             return
         try:
-            self.__workspace = self.__selected_workspace_type.create_workspace(
-                address=self.__selected_workspace_address,
-                credentials=CurrentCredentials.get())
-            self.__result = CreateWorkspaceDialogResult.OK
+            self.__workspace = self.__selected_workspace_type.open_workspace(
+                address=self.__selected_workspace_address)
+            self.__result = OpenWorkspaceDialogResult.OK
             self.end_modal()
         except Exception as ex:
             pass    # TODO show error dialog to the user
 
     def __on_cancel(self, evt: ActionEvent) -> None:
-        self.__result = CreateWorkspaceDialogResult.CANCEL
+        self.__result = OpenWorkspaceDialogResult.CANCEL
         self.end_modal()

@@ -68,7 +68,7 @@ class Refreshable:
                 refresh_root._Refreshable__refresh_underway = True
                 try:
                     refresh_root.refresh()
-                except:
+                except Exception as ex:
                     pass    #   TODO report exceptions
                 refresh_root._Refreshable__refresh_underway = False
         if isinstance(refresh_root, tk.BaseWidget):

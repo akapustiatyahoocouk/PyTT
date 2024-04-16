@@ -88,3 +88,11 @@ class SqliteDatabaseType(DatabaseType):
             raise InvalidDatabaseAddressError()
         path = address._SqliteDatabaseAddress__path  #   TODO try using "friends"
         return SqliteDatabase(address, True)
+
+    def open_database(self, address: DatabaseAddress) -> Database:
+        from .SqliteDatabase import SqliteDatabase
+        
+        if not isinstance(address, SqliteDatabaseAddress):
+            raise InvalidDatabaseAddressError()
+        path = address._SqliteDatabaseAddress__path  #   TODO try using "friends"
+        return SqliteDatabase(address, False)

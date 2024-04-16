@@ -52,6 +52,7 @@ class SqliteDatabase(SqlDatabase):
             self.__lock = SqliteDatabaseLock(lock_path) #   may raise DatabaseError
         except Exception as ex:
             connection.close()
+            self.__is_open = False
             raise ex
 
         #   Lock obtained - open connection to the database
@@ -75,6 +76,7 @@ class SqliteDatabase(SqlDatabase):
             if create_new:
                 os.remove(db_path)
             self.__lock.close()
+            self.__is_open = False
             raise DatabaseIoError(str(ex)) from ex
 
     ##########
@@ -106,12 +108,6 @@ class SqliteDatabase(SqlDatabase):
     ##########
     #   SqlDatabase - Operations
     def begin_transaction(self) -> None:
-        """
-            Begins a new transaction.
-
-            @raise DatabaseError:
-                If an error occurs.
-        """
         try:
             self.__connection.cursor().execute("begin")
         except Exception as ex:
@@ -119,12 +115,6 @@ class SqliteDatabase(SqlDatabase):
             raise DatabaseError(str(ex)) from ex
 
     def commit_transaction(self) -> None:
-        """
-            Commits the current transaction.
-
-            @raise DatabaseError:
-                If an error occurs.
-        """
         try:
             self.__connection.cursor().execute("commit")
         except Exception as ex:
@@ -132,19 +122,13 @@ class SqliteDatabase(SqlDatabase):
             raise DatabaseError(str(ex)) from ex
 
     def rollback_transaction(self) -> None:
-        """
-            Rolls back the current transaction.
-
-            @raise DatabaseError:
-                If an error occurs.
-        """
         try:
             self.__connection.cursor().execute("rollback")
         except Exception as ex:
             #   TODO log ?
             raise DatabaseError(str(ex)) from ex
 
-    def execute(self, sql: str) -> None:
+    def execute_sql(self, sql: str) -> None:
         assert isinstance(sql, str)
 
         try:

@@ -62,7 +62,7 @@ class SqlStatement(ABC):
             elif (c == "[" ) and (quote is None):
                 #   A bracket-quoted identifier starts here
                 raise NotImplementedError()
-            elif (c == "]" ) and (quote == "]"):
+            elif (c == "]" ) and (quote == "["):
                 #   A bracket-quoted identifier ends here
                 raise NotImplementedError()
             elif (c == "?" ) and (quote is None):
@@ -111,7 +111,7 @@ class SqlStatement(ABC):
                 If an error occurs (e.g. invalid sql_template syntax, etc.)
         """
         try:
-            self.__db.execute(self.prepared_sql)
+            self.__db.execute_sql(self.prepared_sql)
         except Exception as ex:
             #   TODO log ?
             raise DatabaseError(str(ex)) from ex

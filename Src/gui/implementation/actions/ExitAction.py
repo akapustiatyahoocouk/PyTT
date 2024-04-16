@@ -26,10 +26,11 @@ class ExitAction(ActionBase):
     ##########
     #   awt.Action - Operations
     def execute(self, evt: ActionEvent) -> None:
-        #   TODO if there is a "current" activity, stop and record it
+        #   Close "current" workspace IF there is one
         ws = Workspace.current
         Workspace.current = None
         if ws is not None:
+            #   TODO if there is a "current" activity, stop and record it
             ws.close()
         #   We're done - stiop the main loop
         GuiRoot.tk.quit()
