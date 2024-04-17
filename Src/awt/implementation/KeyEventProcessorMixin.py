@@ -23,14 +23,14 @@ class KeyEventProcessorMixin:
             this mixin. """
         #   TODO make list elements WEAK references to actual listeners
         self.__key_listeners = list()
-    
+
     ##########
     #   Operations
     def add_key_listener(self, l: Union[KeyEventListener, KeyEventHandler]) -> None:
-        """ Registers the specified listener or handler to be 
+        """ Registers the specified listener or handler to be
             notified when a key event is processed.
             A given listener can be registered at most once;
-            subsequent attempts to register the same listener 
+            subsequent attempts to register the same listener
             again will have no effect. """
         assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
                 isinstance(l, KeyEventHandler))
@@ -38,10 +38,10 @@ class KeyEventProcessorMixin:
             self.__key_listeners.append(l)
 
     def remove_key_listener(self, l: Union[KeyEventListener, KeyEventHandler]) -> None:
-        """ Un-registers the specified listener or handler to no 
+        """ Un-registers the specified listener or handler to no
             longer be notified when a key event is processed.
             A given listener can be un-registered at most once;
-            subsequent attempts to un-register the same listener 
+            subsequent attempts to un-register the same listener
             again will have no effect. """
         assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
                 isinstance(l, KeyEventHandler))
@@ -54,9 +54,9 @@ class KeyEventProcessorMixin:
         return self.__key_listeners.copy()
 
     def process_key_event(self, event : KeyEvent) -> bool:
-        """ 
+        """
             Called to process a KeyEvent.
-            
+
             @param self:
                 The EventProcessor on which the method has been called.
             @param event:

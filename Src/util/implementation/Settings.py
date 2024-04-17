@@ -37,18 +37,18 @@ class Settings:
     ##########
     #   Implementation
     __component_settings: dict[str, ComponentSettings] = {}
-    
+
     ##########
     #   Construction - disable (this is an utility class)
     def __init__(self):
         assert False, str(self.__class__) + " is a utility class"
-    
+
     ##########
     #   Operations
     @staticmethod
     def get(component_name: str) -> ComponentSettings:
         assert isinstance(component_name, str)
-    
+
         component_settings = Settings.__component_settings.get(component_name, None)
         if component_settings is None:
             component_settings = ComponentSettings(_config, component_name)

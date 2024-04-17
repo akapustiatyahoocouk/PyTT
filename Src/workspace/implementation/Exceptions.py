@@ -6,7 +6,7 @@
 #   Public entities
 class WorkspaceError(Exception):
     """ The common base class for all workspace.api - level exceptions. """
-    
+
     ##########
     #   Construction
     def __init__(self, message: str):
@@ -24,7 +24,7 @@ class WorkspaceError(Exception):
         if isinstance(ex, WorkspaceError):
             return ex
         #   TODO implement properly
-        raise WorkspaceError(str(ex))   
+        return WorkspaceError(str(ex))
 
 
 class InvalidWorkspaceAddressError(WorkspaceError):

@@ -31,7 +31,7 @@ class ActionEventProcessorMixin:
     ##########
     #   Operations
     def add_action_listener(self, l: Union[ActionEventListener, ActionEventHandler]) -> None:
-        """ Registers the specified listener or handler to be 
+        """ Registers the specified listener or handler to be
             notified when an action event is processed.
             A given listener can be registered at most once;
             subsequent attempts to register the same listener
@@ -42,7 +42,7 @@ class ActionEventProcessorMixin:
             self.__action_listeners.append(l)
 
     def remove_action_listener(self, l: Union[ActionEventListener, ActionEventHandler]) -> None:
-        """ Un-registers the specified listener or handler to no 
+        """ Un-registers the specified listener or handler to no
             longer be notified when an action event is processed.
             A given listener can be un-registered at most once;
             subsequent attempts to un-register the same listener
@@ -74,6 +74,6 @@ class ActionEventProcessorMixin:
                 else:
                     l(event)
             except Exception as ex:
+                #   TODO log the exception
                 print(traceback.format_exc())
-                pass    #   TODO log the exception
         return event.processed

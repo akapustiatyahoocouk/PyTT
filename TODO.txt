@@ -1,4 +1,10 @@
 ========== IMMEDIATE PIPELINE =====c=================================
+*   Add context (right click) menu to awt TextField and other text
+    entry fields, with Copy, Cut, Parse, etc. For disabled text
+    entry widgets only Copy shall work.
+*   Teach FileResourceBundle to handle excape sequences in string
+    resources, such as '\t' and '\n'. The \ itself must then be
+    represented as '\\' in a resource text file.
 *   Retire LocaleProvider + make Locale.default an observable
     property (that generates a PropertyChangeEvent).
     DONE, but needs testing. Requires the "Options/Language"
@@ -11,8 +17,6 @@
 *   Make TextFields enbed StringVars bound to them and emit
     DocumentEvents (insert, delete, replace, change).
 *   Change MenuItem's "label" property to "text".
-*   Create a new class Window(tk.Toplevel) and merge WindowMixin
-    into it.
 *   Create a new ActionMenuItem(MenuItem) class, for Action-based
     MenuItems. They should REJECT attempts to set their propertes 
     directly.

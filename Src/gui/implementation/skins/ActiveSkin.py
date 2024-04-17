@@ -13,12 +13,12 @@ class ActiveSkin:
     ##########
     #   Implementation
     __activeSkin : Skin = None
-    
+
     ##########
     #   Construction - disable (this is an utility class)
     def __init__(self):
         assert False, str(self.__class__) + " is a utility class"
-    
+
     #   TODO can we move this functionality to "Skin.current" static property ?
     @staticmethod
     def get() -> Optional[Skin]:

@@ -25,7 +25,7 @@ class Dialog(Window):
         Window.__init__(self,
                         parent if parent is not None else GuiRoot.tk,
                         title)
-     
+
         self.configure(padx=4, pady=4)
         self.__parent = awt.GuiRoot.GuiRoot.tk if parent is None else parent.winfo_toplevel()
         self.title(title)

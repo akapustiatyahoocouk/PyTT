@@ -18,7 +18,7 @@ from gui.resources.GuiResources import GuiResources
 @final
 class AboutDialogResult(Enum):
     """ The result of modal invocation of the AboutDialog. """
-    
+
     OK = 1
     """ Dialog closed, by whatever means necessary. """
 
@@ -27,10 +27,10 @@ class AboutDialog(Dialog):
     """ The modal "about..." dialog. """
 
     ##########
-    #   Construction    
+    #   Construction
     def __init__(self, parent: tk.BaseWidget):
-        Dialog.__init__(self, 
-                        parent, 
+        Dialog.__init__(self,
+                        parent,
                         GuiResources.string("AboutDialog.Title"))
         #   TODO seems to break UI self.icon = GuiResources.image("AboutDialog.Icon")
         self.__result = AboutDialogResult.OK
@@ -39,7 +39,7 @@ class AboutDialog(Dialog):
         self.__controls_panel = Panel(self)
         self.__pan1 = Panel(self.__controls_panel)
         self.__pan2 = Panel(self.__controls_panel)
-        
+
         self.__pic1 = Label(self.__pan1, image = UtilResources.image("PyTT.LargeImage"))
         self.__msg1 = Label(self.__pan2, text = UtilResources.string("PyTT.ProductName"), anchor=tk.CENTER)
         self.__msg2 = Label(self.__pan2, text = UtilResources.string("PyTT.ProductVersion"), anchor=tk.CENTER)
@@ -58,7 +58,7 @@ class AboutDialog(Dialog):
         self.__msg1.pack(fill=tk.X, padx=2, pady=2)
         self.__msg2.pack(fill=tk.X, padx=2, pady=2)
         self.__msg3.pack(fill=tk.X, padx=2, pady=2)
-        
+
         self.__separator.pack(fill=tk.X, padx=0, pady=4)
         self.__ok_button.pack(side=tk.RIGHT, padx=0, pady=0)
 
@@ -67,13 +67,13 @@ class AboutDialog(Dialog):
         self.cancel_button = self.__ok_button
 
         self.__ok_button.add_action_listener(self.__on_ok)
-        
+
         #   Done
         self.wait_visibility()
         self.center_in_parent()
 
     ##########
-    #   Properties    
+    #   Properties
     @property
     def result(self) -> AboutDialogResult:
         """ The dialog result after a modal invocation. """

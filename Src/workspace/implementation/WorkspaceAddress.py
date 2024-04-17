@@ -16,9 +16,9 @@ class WorkspaceAddress:
     #   Construction internal only)
     def __init__(self, db_address: DatabaseAddress):
         assert isinstance(db_address, DatabaseAddress)
-        
+
         self.__db_address = db_address
-        
+
     ##########
     #   object
     def __str__(self) -> str:

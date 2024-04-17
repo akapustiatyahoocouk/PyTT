@@ -15,7 +15,7 @@ from util.implementation.ResourceType import ResourceType
 #   Public entities
 class ResourceFactory(ABC):
     """ An agent responsible for creation of localizable resources. """
-    
+
     ##########
     #   Properties
     @abstractproperty
@@ -27,7 +27,7 @@ class ResourceFactory(ABC):
     def supported_locales() -> set[Locale]:
         """ The set of all locales supported by this resource factory. """
         raise NotImplementedError()
-        
+
     ##########
     #   Operations
     @abstractmethod
@@ -37,26 +37,26 @@ class ResourceFactory(ABC):
             It this cannot be done, attempts to do the same for the parent
             locale of rht "locale", then for the grand-parent, etc. before
             giving up.
-            
+
             @param key:
                 The key to return a string resource for.
             @param locale:
                 The required resource locale.
             @return:
                 The type of the resource for the specified key;
-                ResourceType.NONE if the resource does not exist OR 
+                ResourceType.NONE if the resource does not exist OR
                 its type cannot be determined.
         """
         raise NotImplementedError()
 
     @abstractmethod
     def get_resource(self, key: str, locale: Locale = Locale.default) -> Any:
-        """ 
+        """
             Retrieves the specified resource for the specified locale.
             It this cannot be done, attempts to do the same for the parent
             locale of rht "locale", then for the grand-parent, etc. before
             giving up.
-            
+
             @param key:
                 The resource key.
             @param locale:
@@ -70,12 +70,12 @@ class ResourceFactory(ABC):
         raise NotImplementedError()
 
     def get_string(self, key: str, locale: Locale = Locale.default) -> str:
-        """ 
+        """
             Retrieves the specified string resource for the specified locale.
             It this cannot be done, attempts to do the same for the parent
             locale of rht "locale", then for the grand-parent, etc. before
             giving up.
-            
+
             @param key:
                 The resource key.
             @param locale:
@@ -94,12 +94,12 @@ class ResourceFactory(ABC):
                        " or related resources")
 
     def get_image(self, key: str, locale: Locale = Locale.default) -> tk.PhotoImage:
-        """ 
+        """
             Retrieves the specified image resource for the specified locale.
             It this cannot be done, attempts to do the same for the parent
             locale of rht "locale", then for the grand-parent, etc. before
             giving up.
-            
+
             @param key:
                 The resource key.
             @param locale:

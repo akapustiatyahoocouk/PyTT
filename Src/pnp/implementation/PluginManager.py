@@ -18,17 +18,17 @@ from pnp.implementation.Plugin import Plugin
 @final
 class PluginManager:
     """ The loader & manager of available plugins. """
-    
+
     ##########
     #   Implementation helpers
     __discovered_plugins: set[Plugin] = set()
     __initialised_plugins: set[Plugin] = set()
-    
+
     ##########
     #   Construction - disable (this is an utility class)
     def __init__(self):
         assert False, str(self.__class__) + " is a utility class"
-        
+
     ##########
     #   Properties
     @staticproperty
@@ -40,14 +40,14 @@ class PluginManager:
         return list(PluginManager.__initialised_plugins)
 
     ##########
-    #   Operations    
+    #   Operations
     @staticmethod
     def load_plugins(root_directory: str):
         #   Discover plugins...
         PluginManager.__load_packages(root_directory, '')
         for p in Plugin.__discovered_plugins:
             PluginManager.__discovered_plugins.add(p)
-        for p in PluginManager.__discovered_plugins:     
+        for p in PluginManager.__discovered_plugins:
             print("    Discovered plugin:", p)
         #   ...and try to initialize them
         for p in PluginManager.__discovered_plugins:
@@ -58,9 +58,9 @@ class PluginManager:
                     PluginManager.__initialised_plugins.add(p)
                 except Exception as ex:
                     #   TODO log the exception ?
-                    traceback.print_exc() 
+                    traceback.print_exc()
                     pass
-        
+
     ##########
     #   Implementation
     @staticmethod
@@ -70,8 +70,8 @@ class PluginManager:
             entry_path = os.path.join(directory, entry_name)
             if os.path.isfile(entry_path) and entry_name == "__init__.py":
                 return True
-        return False    
-        
+        return False
+
     @staticmethod
     def __load_packages(directory: str, package_name: str):
         #print("Scanning", directory, "for packages")

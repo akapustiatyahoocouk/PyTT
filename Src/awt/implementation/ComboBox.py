@@ -1,3 +1,7 @@
+"""
+    Defines a combo box (drop-down liat, potentially editable)
+    UI widget.
+"""
 #   Python standard library
 from typing import Callable, Optional, Any
 from inspect import signature

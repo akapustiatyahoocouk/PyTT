@@ -17,7 +17,7 @@ class SqliteDatabaseAddress(DatabaseAddress):
     #   object
     def __hash__(self) -> int:
         return hash(self.__path)
-    
+
     def __str__(self) -> str:
         return self.__path
 

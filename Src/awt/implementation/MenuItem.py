@@ -58,7 +58,7 @@ class MenuItem(ABC, ActionEventProcessorMixin):
     def enabled(self, new_enabled: bool) -> None:
         """ True to enable this menu item, False to disable; cannot become None. """
         assert isinstance(new_enabled, bool)
-        
+
         if (self.__menu is not None) and (new_enabled != self.__enabled):
             #   this menu item is part of the menu
             self.__enabled = new_enabled
@@ -68,4 +68,3 @@ class MenuItem(ABC, ActionEventProcessorMixin):
                 tk_menu.entryconfig(tk_menu_item_index, state="normal")
             else:
                 tk_menu.entryconfig(tk_menu_item_index, state="disabled")
-        

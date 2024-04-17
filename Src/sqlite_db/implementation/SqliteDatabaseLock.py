@@ -17,13 +17,13 @@ class SqliteDatabaseLock(ClassWithConstants):
     #   Constants
     LOCK_REFRESH_INTERVAL_SEC = 5
     LOCK_TIMEOUT_SEC = 15
-    
+
     ##########
     #   Construction
     def __init__(self, path: str):
         """
             Creates a database lock directory.
-            
+
             @param path:
                 The full path to the lock directory.
             @raise DatabaseError:
@@ -72,4 +72,3 @@ class SqliteDatabaseLock(ClassWithConstants):
                 break
             time.sleep(SqliteDatabaseLock.LOCK_REFRESH_INTERVAL_SEC)
         pass
-    

@@ -5,6 +5,7 @@
 from typing import final, Optional, Callable
 from enum import Enum
 import tkinter as tk
+import traceback
 
 #   Dependencies on other PyTT components
 from awt.interface.api import *
@@ -165,6 +166,11 @@ class CreateWorkspaceDialog(Dialog):
             self.__result = CreateWorkspaceDialogResult.OK
             self.end_modal()
         except Exception as ex:
+            cause = ex.__cause__
+            s1 = traceback.format_exception(ex, chain=False)
+            s2 = traceback.format_exception(cause, chain=False)
+            exs = traceback.format_exc()
+            tb = traceback.extract_stack()
             pass    # TODO show error dialog to the user
 
     def __on_cancel(self, evt: ActionEvent) -> None:

@@ -7,7 +7,7 @@ from typing import Any
 #   Public entities
 class DatabaseError(Exception):
     """ The common base class for all db.api - level exceptions. """
-    
+
     ##########
     #   Construction
     def __init__(self, message: str):

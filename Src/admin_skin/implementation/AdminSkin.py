@@ -56,7 +56,7 @@ class AdminSkin(Skin):
 
     @property
     def is_active(self) -> bool:
-        return self.__main_frame.winfo_exists
+        return self.__main_frame.winfo_exists()
 
     @property
     def dialog_parent(self) -> tk.BaseWidget:

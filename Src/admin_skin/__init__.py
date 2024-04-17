@@ -13,7 +13,7 @@ from util.interface.api import *
 
 @final
 class AdminSkinPlugin(Plugin):
-    
+
     ##########
     #   Singleton
     __instance_acquisition_in_progress = False
@@ -22,13 +22,13 @@ class AdminSkinPlugin(Plugin):
     def __init__(self):
         assert AdminSkinPlugin.__instance_acquisition_in_progress, "Use AdminSkinPlugin.instance instead"
         Plugin.__init__(self)
-    
+
     @staticproperty
     def instance() -> "AdminSkinPlugin":
         """
             Returns one and only instance of this class, creating
             it on the first call.
-            
+
             @return:
                 The one and only instance of this class.
         """
@@ -45,7 +45,6 @@ class AdminSkinPlugin(Plugin):
         return "Admin skin"
 
     def initialize(self) -> None:
-        from gui.implementation.skins.SkinRegistry import SkinRegistry
         from admin_skin.implementation.AdminSkin import AdminSkin
         SkinRegistry.register_skin(AdminSkin.instance)
 

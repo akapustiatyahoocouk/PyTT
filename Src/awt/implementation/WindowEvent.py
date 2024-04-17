@@ -18,7 +18,7 @@ class WindowEvent(Event):
     def __init__(self, source, event_type: WindowEventType):
         """ Constructs the event. """
         Event.__init__(self, source)
-        
+
         assert ((event_type is WindowEventType.WINDOW_MINIMIZED) or
                 (event_type is WindowEventType.WINDOW_MAXIMIZED) or
                 (event_type is WindowEventType.WINDOW_RESTORED) or
@@ -40,7 +40,7 @@ class WindowEvent(Event):
         return "WindowEvent(" + result + ")"
 
     ##########
-    #   Properties    
+    #   Properties
     @property
     def event_type(self) -> WindowEventType:
         """ The window event type, never None. """

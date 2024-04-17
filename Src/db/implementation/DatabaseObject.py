@@ -1,16 +1,20 @@
 #   Python standard library
+from typing import TypeAlias
 from abc import ABC, abstractproperty, abstractmethod
 import tkinter as tk
 from uuid import UUID
 
 #   Dependencies on other PyTT components
+from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
 from db.implementation.Database import Database
 
 ##########
 #   Public entities
-class DatabaseObject(ABC):
+OID: TypeAlias = UUID
+
+class DatabaseObject(ABCWithConstants):
     """ A common base class for all objects residing in a database. """
 
     ##########
@@ -61,13 +65,13 @@ class DatabaseObject(ABC):
         raise NotImplementedError()
 
     @abstractproperty
-    def oid(self) -> UUID:
+    def oid(self) -> OID:
         """ The OID of this object (if live) or the OID this object
             used to have (if dead). """
         raise NotImplementedError()
 
     ##########
-    #   Operations
+    #   Operations (life cycle)
     @abstractmethod
     def destroy(self) -> None:
         """
@@ -77,4 +81,3 @@ class DatabaseObject(ABC):
                 If an error occurs.
         """
         raise NotImplementedError()
-        

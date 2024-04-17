@@ -9,19 +9,19 @@ from .InputEventModifiers import InputEventModifiers
 #   Public entities
 @final
 class KeyStroke:
-    
+
     ##########
     #   Construction
-    def __init__(self, 
-                 keycode: VirtualKey, 
+    def __init__(self,
+                 keycode: VirtualKey,
                  modifiers: InputEventModifiers = InputEventModifiers.NONE) -> None:
         assert isinstance(keycode, VirtualKey)
         assert keycode is not VirtualKey.VK_NONE
         assert modifiers is not None
-        
+
         self.__keycode = keycode
         self.__modifiers = modifiers
-        
+
     ##########
     #   object
     def __repr__(self):
@@ -59,13 +59,13 @@ class KeyStroke:
     def keycode(self) -> InputEventModifiers:
         """ The modifiers of this keystroke, never None. """
         return self.__modifiers
-    
+
     ##########
     #  Operations
     @staticmethod
     def parse(s: str) -> "KeyStroke":
         assert isinstance(s, str)
-        
+
         #   Consume modifiers
         modifiers = InputEventModifiers.NONE
         modifiers_map = {

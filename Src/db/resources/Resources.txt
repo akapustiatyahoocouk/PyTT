@@ -1,78 +1,10 @@
 
 ##########
-#   Actions
-Actions.CreateWorkspace.Name=Create workspace
-Actions.CreateWorkspace.Hotkey=C
-Actions.CreateWorkspace.Description=Creates a new workspace
-Actions.CreateWorkspace.Shortcut=Ctrl+N
-Actions.CreateWorkspace.SmallImage=ImageFile:images/actions/CreateWorkspaceSmall.png
-Actions.CreateWorkspace.LargeImage=ImageFile:images/actions/CreateWorkspaceLarge.png
+#   Object UI traits
+User.TypeDisplayName=user
+User.SmallImage=ImageFile:images/objects/UserSmall.png
+User.LargeImage=ImageFile:images/objects/UserLarge.png
 
-Actions.OpenWorkspace.Name=Open workspace
-Actions.OpenWorkspace.Hotkey=O
-Actions.OpenWorkspace.Description=Opens an existing workspace
-Actions.OpenWorkspace.Shortcut=Ctrl+O
-Actions.OpenWorkspace.SmallImage=ImageFile:images/actions/OpenWorkspaceSmall.png
-Actions.OpenWorkspace.LargeImage=ImageFile:images/actions/OpenWorkspaceLarge.png
-
-Actions.CloseWorkspace.Name=Close workspace
-Actions.CloseWorkspace.Hotkey=l
-Actions.CloseWorkspace.Description=Closes the currently open workspace
-#Actions.CloseWorkspace.Shortcut=
-Actions.CloseWorkspace.SmallImage=ImageFile:images/actions/CloseWorkspaceSmall.png
-Actions.CloseWorkspace.LargeImage=ImageFile:images/actions/CloseWorkspaceLarge.png
-
-Actions.DestroyWorkspace.Name=Destroy workspace
-Actions.DestroyWorkspace.Hotkey=D
-Actions.DestroyWorkspace.Description=Destroy an existing workspace
-#Actions.DestroyWorkspace.Shortcut=
-Actions.DestroyWorkspace.SmallImage=ImageFile:images/actions/DestroyWorkspaceSmall.png
-Actions.DestroyWorkspace.LargeImage=ImageFile:images/actions/DestroyWorkspaceLarge.png
-
-Actions.Exit.Name=Exit
-Actions.Exit.Hotkey=x
-Actions.Exit.Description=Exits PyTT
-Actions.Exit.Shortcut=Alt+F4
-Actions.Exit.SmallImage=ImageFile:images/actions/ExitSmall.png
-Actions.Exit.LargeImage=ImageFile:images/actions/ExitLarge.png
-
-Actions.About.Name=About
-Actions.About.Hotkey=b
-Actions.About.Description=Shows PyTT version and copyright information
-Actions.About.Shortcut=Ctrl+F1
-Actions.About.SmallImage=ImageFile:images/actions/AboutSmall.png
-Actions.About.LargeImage=ImageFile:images/actions/AboutLarge.png
-
-##########
-#   Dialogs
-AboutDialog.Title=About PyTT
-AboutDialog.OkButton.Text=OK
-AboutDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
-
-LoginDialog.Title=Login to PyTT
-LoginDialog.LoginLabel.Text=Login:
-LoginDialog.PasswordLabel.Text=Password:
-LoginDialog.OkButton.Text=OK
-LoginDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
-LoginDialog.CancelButton.Text=Cancel
-LoginDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
-
-CreateWorkspaceDialog.Title=Create workspace
-CreateWorkspaceDialog.WorkspaceTypeLabel.Text=Workspace type:
-CreateWorkspaceDialog.WorkspaceAddressLabel.Text=Workspace address:
-CreateWorkspaceDialog.BrowseButton.Text=
-CreateWorkspaceDialog.BrowseButton.Icon=ImageFile:images/actions/BrowseSmall.png
-CreateWorkspaceDialog.OkButton.Text=OK
-CreateWorkspaceDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
-CreateWorkspaceDialog.CancelButton.Text=Cancel
-CreateWorkspaceDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
-
-OpenWorkspaceDialog.Title=Open workspace
-OpenWorkspaceDialog.WorkspaceTypeLabel.Text=Workspace type:
-OpenWorkspaceDialog.WorkspaceAddressLabel.Text=Workspace address:
-OpenWorkspaceDialog.BrowseButton.Text=
-OpenWorkspaceDialog.BrowseButton.Icon=ImageFile:images/actions/BrowseSmall.png
-OpenWorkspaceDialog.OkButton.Text=OK
-OpenWorkspaceDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
-OpenWorkspaceDialog.CancelButton.Text=Cancel
-OpenWorkspaceDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+Account.TypeDisplayName=account
+Account.SmallImage=ImageFile:images/objects/AccountSmall.png
+Account.LargeImage=ImageFile:images/objects/AccountLarge.png

@@ -12,7 +12,7 @@ class ResourceAwareAction(Action):
     """ An action that takes its properties from a ResourceFactory
         and updates these properties automatically when the Locale
         offered by the specified LocaleProvider changes. """
-    
+
     ##########
     #   Construction
     def __init__(self,
@@ -20,12 +20,12 @@ class ResourceAwareAction(Action):
                  resource_key_base: str):
         """
             Constructs a resource-aware action.
-            
+
             @param resource_factory:
                 The resource factory to use for retrieving action
                 properties (such as text, etc.)
             @param resource_key_base:
-                The <base> portion of the resource bunch describing 
+                The <base> portion of the resource bunch describing
                 the action. The following resources are used:
                 *   <base>.Name - the action name (str, mandatory).
                 *   <base>.Hotkey - the action hotkey (str, optional).
@@ -42,9 +42,9 @@ class ResourceAwareAction(Action):
         self.__resource_factory = resource_factory
         self.__resource_key_base = resource_key_base
         self.__update_properties()
-        
+
         Locale.add_property_change_listener(self.__update_properties)
-    
+
     ##########
     #   Implementation helpers
     def __update_properties(self, *args):
@@ -54,10 +54,10 @@ class ResourceAwareAction(Action):
         self.shortcut = self.__load_optional_keystroke(self.__resource_key_base + ".Shortcut")
         self.small_image = self.__load_optional_image(self.__resource_key_base + ".SmallImage")
         self.large_image = self.__load_optional_image(self.__resource_key_base + ".LargeImage")
-                                         
+
     def __load__string(self, key: str) -> Optional[str]:
         return self.__resource_factory.get_string(key, Locale.default)
-    
+
     def __load_optional_string(self, key: str) -> Optional[str]:
         try:
             return self.__resource_factory.get_string(key, Locale.default)

@@ -19,7 +19,7 @@ class SqlDatabase(Database):
 
     ##########
     #   Overridables (database engine - specific)
-    
+
     ##########
     #   Operations
     def execute_script(self, script: str) -> None:
@@ -137,7 +137,7 @@ class SqlDatabase(Database):
             The SQL script shall use the underlying database engine's
             syntax, so the preferred way of executing SQL queries and
             commands is by using the create_statement() method to
-            create a SqlStatement and then call execute() on that.    
+            create a SqlStatement and then call execute() on that.
 
             @param sql:
                 A single SQL statement.

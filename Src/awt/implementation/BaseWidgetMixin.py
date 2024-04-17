@@ -1,6 +1,7 @@
+"""
+    A mixin for all tk.BaseWidgets that makes them AWT-friendly.
+"""
 #   Python standard library
-from typing import Callable
-from inspect import signature
 import tkinter as tk
 
 #   Internal dependencies on modules within the same component
@@ -37,7 +38,7 @@ class BaseWidgetMixin(KeyEventProcessorMixin,
         self.bind("<Configure>", self.__on_tk_configure)
         self.bind("<Map>", self.__on_tk_map)
         self.bind("<Unmap>", self.__on_tk_unmap)
-        
+
         self.__last_x = self.winfo_x()
         self.__last_y = self.winfo_y()
         self.__last_width = self.winfo_width()
@@ -92,10 +93,14 @@ class BaseWidgetMixin(KeyEventProcessorMixin,
 
     @property
     def focusable(self) -> bool:
+        """ True if this worget is capable of receiving keyboard 
+            input focus, False if not. """
         return self.__focusable
 
     @focusable.setter
     def focusable(self, new_focusable: bool) -> None:
+        """ Specifies whether this widget is capable of receiving 
+            keyboard input focus (True), or not (if False). """
         assert isinstance(new_focusable, bool)
         if new_focusable != self.__focusable:
             self.__focusable = new_focusable
@@ -104,7 +109,8 @@ class BaseWidgetMixin(KeyEventProcessorMixin,
     ##########
     #   Operations
     def center_in_parent(self) -> None:
-        """ TODO document. """
+        """ Centers this widget in within its immediate parent, or the
+            screen if this widget has no parent or its parent is Tk.tk. """
         if isinstance(self.parent, tk.Tk):
             self.center_in_screen()
         else:
@@ -120,7 +126,7 @@ class BaseWidgetMixin(KeyEventProcessorMixin,
             self.geometry("%dx%d+%d+%d" % (w, h, x, y))
 
     def center_in_screen(self) -> None:
-        """ TODO document. """
+        """ Centers this widget relative to the window where it appears. """
         w = self.winfo_width()
         h = self.winfo_height()
         sw = self.winfo_screenwidth()
@@ -132,28 +138,28 @@ class BaseWidgetMixin(KeyEventProcessorMixin,
 
     ##########
     #   Tk event handlers
-    def __on_tk_keydown(self, evt: tk.Event):
-        #TODO kill off print(evt)
-        ke = KeyEvent(self, KeyEventType.KEY_DOWN, evt)
+    def __on_tk_keydown(self, tk_evt: tk.Event):
+        #TODO kill off print(tk_evt)
+        ke = KeyEvent(self, KeyEventType.KEY_DOWN, tk_evt)
         self.process_key_event(ke)
         if ke.keychar is not None:
-            ce = KeyEvent(self, KeyEventType.KEY_CHAR, evt)
+            ce = KeyEvent(self, KeyEventType.KEY_CHAR, tk_evt)
             self.process_key_event(ce)
 
-    def __on_tk_keyup(self, evt: tk.Event):
-        #TODO kill off print(evt)
-        ke = KeyEvent(self, KeyEventType.KEY_UP, evt)
+    def __on_tk_keyup(self, tk_evt: tk.Event):
+        #TODO kill off print(tk_evt)
+        ke = KeyEvent(self, KeyEventType.KEY_UP, tk_evt)
         self.process_key_event(ke)
 
-    def __on_tk_configure(self, evt: tk.Event):
-        #TODO kill off print(self, evt)
-        moved = ((self.__last_x != evt.x) or (self.__last_y != evt.y) and
-                 self.__last_width == evt.width and self.__last_height == evt.height)
-        sized = (self.__last_width != evt.width or self.__last_height != evt.height)
-        self.__last_x = evt.x
-        self.__last_y = evt.y
-        self.__last_width = evt.width
-        self.__last_height = evt.height
+    def __on_tk_configure(self, tk_evt: tk.Event):
+        #TODO kill off print(self, tk_evt)
+        moved = ((self.__last_x != tk_evt.x) or (self.__last_y != tk_evt.y) and
+                 self.__last_width == tk_evt.width and self.__last_height == tk_evt.height)
+        sized = (self.__last_width != tk_evt.width or self.__last_height != tk_evt.height)
+        self.__last_x = tk_evt.x
+        self.__last_y = tk_evt.y
+        self.__last_width = tk_evt.width
+        self.__last_height = tk_evt.height
         if moved:
             evt = WidgetEvent(self, WidgetEventType.WIDGET_MOVED)
             self.process_widget_event(evt)
@@ -162,8 +168,8 @@ class BaseWidgetMixin(KeyEventProcessorMixin,
             self.process_widget_event(evt)
         return "break"
 
-    def __on_tk_map(self, evt: tk.Event) -> None:
-        #TODO kill off print(self, evt)
+    def __on_tk_map(self, tk_evt: tk.Event) -> None:
+        #TODO kill off print(self, tk_evt)
         evt = WidgetEvent(self, WidgetEventType.WIDGET_SHOWN)
         self.process_widget_event(evt)
         return "break"

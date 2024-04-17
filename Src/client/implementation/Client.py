@@ -24,22 +24,22 @@ from client.implementation.CommandLine import CommandLine
 
 @final
 class SplashScreen: #   TODO move to a separate file
-    
+
     ##########
     #   Implementation
     __splash_screen = None
-    
+
     ##########
     #   Construction - disable (this is an utility class)
     def __init__(self):
         assert False, str(self.__class__) + " is a utility class"
-        
+
     ##########
     #   Operations
     @staticmethod
     def show():
         # Create objects
-        SplashScreen.__splash_screen = TopFrame()
+        SplashScreen.__splash_screen = Frame()
         SplashScreen.__splash_screen.geometry("320x100")
         SplashScreen.__splash_screen.wait_visibility()
         SplashScreen.__splash_screen.configure(borderwidth=1, relief='solid', bg="white",)
@@ -68,7 +68,7 @@ class SplashScreen: #   TODO move to a separate file
     @staticmethod
     def hide():
         SplashScreen.__splash_screen.destroy()
-        
+
     @staticmethod
     def update():
         SplashScreen.__splash_screen.update()
@@ -151,7 +151,7 @@ if __name__ == "__main__":
         SplashScreen.show()
 
     PluginManager.load_plugins(root_directory)
-    
+
     if CommandLine.show_splash_screen:
         while True:
             SplashScreen.update()
@@ -169,7 +169,7 @@ if __name__ == "__main__":
         if dlg.result is not LoginDialogResult.OK:
             sys.exit()
         CurrentCredentials.set(dlg.credentials)
-    
+
     #   Select the initial skin TODO properly - use active skin from previous session!
     ActiveSkin.set(SkinRegistry.default_skin)
 

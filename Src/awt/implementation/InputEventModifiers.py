@@ -112,7 +112,7 @@ class InputEventModifiers(ClassWithConstants):
         return (self.__bitmask & item.__bitmask) == item.__bitmask
 
     #   TODO cache instances for flag combinations to avoid creating
-    #   multiple InputEventModifiers instances with the same __bitmask    
+    #   multiple InputEventModifiers instances with the same __bitmask
     def __eq__(self, op2: 'InputEventModifiers') -> bool:
         assert isinstance(self, InputEventModifiers)
         if not isinstance(op2, InputEventModifiers):

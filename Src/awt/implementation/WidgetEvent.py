@@ -18,7 +18,7 @@ class WidgetEvent(Event):
     def __init__(self, source, event_type: WidgetEventType):
         """ Constructs the event. """
         super().__init__(source)
-        
+
         assert ((event_type is WidgetEventType.WIDGET_SHOWN) or
                 (event_type is WidgetEventType.WIDGET_HIDDEN) or
                 (event_type is WidgetEventType.WIDGET_MOVED) or
@@ -40,7 +40,7 @@ class WidgetEvent(Event):
         return "WidgetEvent(" + result + ")"
 
     ##########
-    #   Properties    
+    #   Properties
     @property
     def event_type(self) -> WidgetEventType:
         """ The widget event type, never None. """

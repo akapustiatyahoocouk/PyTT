@@ -21,10 +21,10 @@ class ActionBase(ResourceAwareAction):
     #   Construction
     def __init__(self,
                  resource_key_base: str):
-        ResourceAwareAction.__init__(self, 
+        ResourceAwareAction.__init__(self,
                                      resource_factory=GuiResources.factory,
                                      resource_key_base=resource_key_base)
-        
+
     ##########
     #   Properties
     @property

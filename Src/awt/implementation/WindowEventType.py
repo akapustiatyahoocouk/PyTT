@@ -17,7 +17,7 @@ class WindowEventType(Enum):
     """ A window was maximized. """
 
     WINDOW_RESTORED = 3
-    """ A window was restored to normal state after 
+    """ A window was restored to normal state after
         having been minimized or maximized. """
 
     WINDOW_CLOSING = 4

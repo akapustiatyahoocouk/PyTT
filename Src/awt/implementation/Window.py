@@ -181,7 +181,7 @@ class Window(tkinter.Toplevel, BaseWidgetMixin):
 
     @property
     def window_listeners(self) -> list[Union[WindowEventListener, WindowEventHandler]]:
-        """ The list of all window event listeners and handlers 
+        """ The list of all window event listeners and handlers
             registered so far. """
         return self.__window_listeners.copy()
 

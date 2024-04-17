@@ -1,9 +1,6 @@
 """
     Defines the ActionEvent API.
 """
-#   Python standard library
-from typing import TypeAlias, Callable
-
 #   Dependencies on other PyTT components
 from util.interface.api import *
 
@@ -27,4 +24,3 @@ class ActionEvent(Event):
             result += "source="
             result += str(self.source)
         return "ActionEvent(" + result + ")"
-

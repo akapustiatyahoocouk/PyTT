@@ -15,17 +15,17 @@ from .ActionEvent import ActionEvent
 #   Public entities
 class SimpleMenuItem(MenuItem):
 
-    ##########    
+    ##########
     #   Construction
-    def __init__(self, 
+    def __init__(self,
                  label: str,
                  hotkey: Optional[str] = None,
-                 description: Optional[str] = None, 
+                 description: Optional[str] = None,
                  shortcut: Optional[KeyStroke] = None,
                  image: Optional[tk.PhotoImage] = None,
                  action: Optional[Action] = None):
         MenuItem.__init__(self)
-        
+
         assert isinstance(label, str)
         assert (hotkey is None) or isinstance(hotkey, str)
         assert (description is None) or isinstance(description, str)
@@ -39,7 +39,7 @@ class SimpleMenuItem(MenuItem):
         self.__shortcut = shortcut
         self.__image = image
         self.__action = action
-        
+
         #   Bind with Action
         if action is not None:
             action.add_property_change_listener(self.__on_action_property_changed)
@@ -54,7 +54,7 @@ class SimpleMenuItem(MenuItem):
     @label.setter
     def label(self, new_label: str) -> None:
         assert isinstance(new_label, str)
-        
+
         if (self.menu is not None) and (new_label != self.__label):
             #   this menu item is part of the menu
             tk_menu : tk.Menu = self.menu._Menu__tk_impl
@@ -70,7 +70,7 @@ class SimpleMenuItem(MenuItem):
     @hotkey.setter
     def hotkey(self, new_hotkey: str) -> None:
         assert (new_hotkey is None) or isinstance(new_hotkey, str)
-        
+
         if (self.menu is not None) and (new_hotkey != self.__hotkey):
             #   this menu item is part of the menu
             tk_menu : tk.Menu = self.menu._Menu__tk_impl
@@ -94,7 +94,7 @@ class SimpleMenuItem(MenuItem):
     def shortcut(self, new_shortcut: KeyStroke) -> None:
         assert ((new_shortcut is None) or
                 isinstance(new_shortcut, KeyStroke))
-        
+
         if (self.menu is not None) and (new_shortcut != self.__shortcut):
             #   this menu item is part of the menu
             tk_menu : tk.Menu = self.menu._Menu__tk_impl
@@ -120,7 +120,7 @@ class SimpleMenuItem(MenuItem):
                 self.enabled = self.__action.enabled
             case _:
                 assert False    #   TODO implement other Action properties
-    
+
     ##########
     #   Tk event handlers
     def _on_tk_click(self): # TODO make private (with "__" prefix instead of "_"

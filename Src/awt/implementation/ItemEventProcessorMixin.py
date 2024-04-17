@@ -24,14 +24,14 @@ class ItemEventProcessorMixin:
             this mixin. """
         #   TODO make list elements WEAK references to actual listeners
         self.__item_listeners = list()
-    
+
     ##########
     #   Operations
     def add_item_listener(self, l: Union[ItemEventListener, ItemEventHandler]) -> None:
-        """ Registers the specified listener or handler to be 
+        """ Registers the specified listener or handler to be
             notified when an item event is processed.
             A given listener can be registered at most once;
-            subsequent attempts to register the same listener 
+            subsequent attempts to register the same listener
             again will have no effect. """
         assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
                 isinstance(l, ItemEventHandler))
@@ -39,10 +39,10 @@ class ItemEventProcessorMixin:
             self.__item_listeners.append(l)
 
     def remove_item_listener(self, l: Union[ItemEventListener, ItemEventHandler]) -> None:
-        """ Un-registers the specified listener or handler to no 
+        """ Un-registers the specified listener or handler to no
             longer be notified when an item event is processed.
             A given listener can be un-registered at most once;
-            subsequent attempts to un-register the same listener 
+            subsequent attempts to un-register the same listener
             again will have no effect. """
         assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
                 isinstance(l, ItemEventHandler))
@@ -55,9 +55,9 @@ class ItemEventProcessorMixin:
         return self.__item_listeners.copy()
 
     def process_item_event(self, event : ItemEvent) -> bool:
-        """ 
+        """
             Called to process an ItemEvent.
-            
+
             @param self:
                 The EventProcessor on which the method has been called.
             @param event:

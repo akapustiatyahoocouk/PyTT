@@ -14,11 +14,11 @@ from .Exceptions import WorkspaceError
 #   Public entities
 @final
 class WorkspaceMeta(ClassWithConstantsMeta):
-    
+
     @property
     def current(cls) -> "Workspace":
         return Workspace._Workspace__current_workspace
-        
+
     @current.setter
     def current(cls, value: "Workspace"):
         assert (value is None) or isinstance(value, Workspace)
@@ -35,7 +35,7 @@ class Workspace(metaclass=WorkspaceMeta):
     #   Implementation
     __current_workspace = None
     __property_change_listeners = list()
-    
+
     ##########
     #   Constants (observable property names)
     CURRENT_WORKSPACE_PROPERTY_NAME = "current"
@@ -74,11 +74,11 @@ class Workspace(metaclass=WorkspaceMeta):
     #   Operations (static property change handling)
     @staticmethod
     def add_property_change_listener(l: Union[PropertyChangeEventListener, PropertyChangeEventHandler]) -> None:
-        """ Registers the specified listener or handler to be 
-            notified when a static property change event is 
+        """ Registers the specified listener or handler to be
+            notified when a static property change event is
             processed.
             A given listener can be registered at most once;
-            subsequent attempts to register the same listener 
+            subsequent attempts to register the same listener
             again will have no effect. """
         assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
                 isinstance(l, PropertyChangeEventHandler))
@@ -87,11 +87,11 @@ class Workspace(metaclass=WorkspaceMeta):
 
     @staticmethod
     def remove_property_change_listener(l: Union[PropertyChangeEventListener, PropertyChangeEventHandler]) -> None:
-        """ Un-registers the specified listener or handler to no 
-            longer be notified when a static property change 
+        """ Un-registers the specified listener or handler to no
+            longer be notified when a static property change
             event is processed.
             A given listener can be un-registered at most once;
-            subsequent attempts to un-register the same listener 
+            subsequent attempts to un-register the same listener
             again will have no effect. """
         assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
                 isinstance(l, PropertyChangeEventHandler))
@@ -105,10 +105,10 @@ class Workspace(metaclass=WorkspaceMeta):
 
     @staticmethod
     def process_property_change_event(event : PropertyChangeEvent) -> bool:
-        """ 
+        """
             Called to process an PropertyChangeEvent for a
             change made to a static property.
-            
+
             @param event:
                 The property change event to process.
         """

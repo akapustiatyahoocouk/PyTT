@@ -10,9 +10,9 @@ class Event(ABC):
     ##########
     #   Construction
     def __init__(self, source):
-        """ 
+        """
             Constructs the event with the specified source.
-            
+
             @param source:
                 The event source, cannot be None.
         """
@@ -35,7 +35,7 @@ class Event(ABC):
 
     @processed.setter
     def processed(self, new_processed: bool) -> None:
-        """ Set to True if this event has been processed and 
+        """ Set to True if this event has been processed and
             requires no further processing, else to False. """
         assert isinstance(new_processed, bool)
         self.__processed = new_processed

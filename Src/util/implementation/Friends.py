@@ -44,16 +44,16 @@ class FriendlyClassMeta(type):
 
 
 class FriendlyClass(metaclass=FriendlyClassMeta, friends = ()):
-    """ 
+    """
         The base class for non-abstract classes that allow declared
-        "friend" casses to access private properties of the dclared 
+        "friend" casses to access private properties of the dclared
         class.
-        
+
         In addition to allowing "friend" classes to access static
         private properties of the declared class (which is provided
-        by FriendlyClassMeta), the Friendly base class also includes 
+        by FriendlyClassMeta), the Friendly base class also includes
         support for instance properties.
-        
+
         @param friends:
             A tuple whose elements are either friend classes or
             names of friend classes.
@@ -81,7 +81,7 @@ class FriendlyABCMeta(ABCMeta, FriendlyClassMeta):
     pass
 
 class FriendlyABC(ABC, metaclass=FriendlyABCMeta, friends = ()):
-    """ 
+    """
         A FriendlyClass that is also abstract, i.e. cannot be
         instantiated directly.
 

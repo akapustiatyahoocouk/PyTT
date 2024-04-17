@@ -11,7 +11,7 @@ from util.interface.api import *
 class DatabaseType(ABCWithConstants):
     """ A "database type" corresponds to a technology used to
         keep the data persistent (database engine type, etc.)"""
-    
+
     ##########
     #   object
     def __str__(self) -> str:
@@ -36,7 +36,7 @@ class DatabaseType(ABCWithConstants):
         """
             Parses an external (re-parsable) form of a database address
             of this type.
-            
+
             @param external_form:
                 The external (re-parsable) form of a database address.
             @return:
@@ -59,13 +59,13 @@ class DatabaseType(ABCWithConstants):
         """
             Prompts the user to interactively specify an address
             for a new database of this type.
-    
+
             @param parent:
                 The widget to use as a "parent" widget for any modal
                 dialog(s) used during database address entry; None
                 to use the GuiRoot.
             @return:
-                The database address specified by the user; None 
+                The database address specified by the user; None
                 if the user has cancelled the process of database
                 address entry.
         """
@@ -100,6 +100,18 @@ class DatabaseType(ABCWithConstants):
         """
         raise NotImplementedError()
 
+    def destroy_database(self, address: "DatabaseAddress") -> None:
+        """
+            Destroys an existing database at the specified address.
+            The database must NOT be already open.
+
+            @param address:
+                The address of an existing database to destroy.
+            @raise DatabaseError:
+                If opening the database fails for any reason.
+        """
+        raise NotImplementedError()
+
     ##########
     #   Registry
     __registry : dict[str, "DatabaseType"] = {}
@@ -109,15 +121,15 @@ class DatabaseType(ABCWithConstants):
         """ "Registers" the specified database type.
             Returns True on  success, False on failure. """
         assert isinstance(database_type, DatabaseType)
-        
-        print('Registering', database_type.display_name, 'database type [' + 
+
+        print('Registering', database_type.display_name, 'database type [' +
               database_type.mnemonic + ']')
         if database_type.mnemonic in DatabaseType.__registry:
             return DatabaseType.__registry[database_type.mnemonic] is database_type
         else:
             DatabaseType.__registry[database_type.mnemonic] = database_type
             return True
-        
+
     @staticmethod
     def find(mnemonic: str) -> Optional["DatabaseType"]:
         """ Finds a registered database type by mnemonic;

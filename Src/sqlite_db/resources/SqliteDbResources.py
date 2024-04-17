@@ -17,7 +17,7 @@ class SqliteDbResources:
 
     __impl = FileResourceFactory(os.path.join(
         os.path.dirname(os.path.dirname(__file__)), "resources/Resources.txt"))
-    
+
     ##########
     #   Construction - disable (this is an utility class)
     def __init__(self):
@@ -39,4 +39,3 @@ class SqliteDbResources:
     @staticmethod
     def image(key: str, locale: Locale = Locale.default) -> tk.PhotoImage:
         return SqliteDbResources.__impl.get_image(key, locale)
-    

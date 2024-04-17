@@ -16,7 +16,7 @@ class VirtualKey(Enum):
     VK_TAB = 9
     VK_RETURN = 13
     VK_ESCAPE = 27
-    
+
     #   ASCII
     VK_SPACE = ord(" ")
 
@@ -90,7 +90,7 @@ class VirtualKey(Enum):
     VK_X = ord("X")
     VK_Y = ord("Y")
     VK_Z = ord("Z")
-    
+
     #   Non-ASCII
     VK_F1 = 0x00010001
     VK_F2 = 0x00010002
@@ -104,7 +104,7 @@ class VirtualKey(Enum):
     VK_F10 = 0x0001000A
     VK_F11 = 0x0001000B
     VK_F12 = 0x0001000C
-    
+
     VK_CONTROL = 0x00010010
     VK_SHIFT = 0x00010011
     VK_ALT = 0x00010012
@@ -143,7 +143,7 @@ class VirtualKey(Enum):
             return _key_map[key_string]
         return VirtualKey.VK_NONE
 
-_key_map = { 
+_key_map = {
     #   ASCII control
     "BackSpace": VirtualKey.VK_BACKSPACE,
     "Tab": VirtualKey.VK_TAB,
@@ -263,7 +263,7 @@ _key_map = {
     "F10": VirtualKey.VK_F10,
     "F11": VirtualKey.VK_F11,
     "F12": VirtualKey.VK_F12,
-    
+
     "Control_L": VirtualKey.VK_CONTROL,
     "Control_R": VirtualKey.VK_CONTROL,
     "Shift_L": VirtualKey.VK_SHIFT,
@@ -286,7 +286,7 @@ _key_map = {
     "End": VirtualKey.VK_END,
     "Insert": VirtualKey.VK_INSERT,
     "Delete": VirtualKey.VK_DELETE,
-    
+
     #   Terminator
     "<Unknown key>": VirtualKey.VK_NONE
     }

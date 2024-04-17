@@ -33,7 +33,7 @@ class Skin(ABC):
 
     @abstractproperty
     def dialog_parent(self) -> tk.BaseWidget:
-        """ The widget/window to use as a "parent" foa modal 
+        """ The widget/window to use as a "parent" foa modal
             dialogs when this Skin is active; nener None. """
         raise NotImplementedError()
 

@@ -11,14 +11,13 @@ from .GuiRoot import GuiRoot
 
 ##########
 #   Public entities
-@final
 class Frame(Window):
     """ The generic top-level UI frame. """
-    
+
     def __init__(self, title: str = GuiRoot.tk.title()):
         """ Constructs a top-level frame. """
         Window.__init__(self, parent=GuiRoot.tk, title=title)
-        
+
         #TODO kill off self.state("withdrawn")
         #TODO kill off self.transient(awt.GuiRoot.GuiRoot.tk)
         #TODO kill off self.title(GuiRoot.tk.title())

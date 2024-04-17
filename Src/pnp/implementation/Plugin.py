@@ -19,7 +19,7 @@ class Plugin(FriendlyABC, friends=("PluginManager",)):
     def __init__(self):
         Plugin.__discovered_plugins.add(self)
         self.__initialized = False
-    
+
     ##########
     #   Properties
     @abstractproperty

@@ -1,6 +1,7 @@
+"""
+    Defines a Button - a clickable UI element.
+"""
 #   Python standard library
-from typing import Callable
-from inspect import signature
 import tkinter as tk
 import tkinter.ttk as ttk
 

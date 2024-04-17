@@ -20,8 +20,6 @@ class DbResources(ClassWithConstants):
     #   Implementation
     __impl = FileResourceFactory(os.path.join(os.path.dirname(__file__), "Resources.txt"))
 
-    __icon_cache: dict[str, tk.PhotoImage] = {}
-
     ##########
     #   Construction - disable (this is an utility class)
     def __init__(self):

@@ -15,11 +15,11 @@ from .ActionEvent import ActionEvent
 #   Public entities
 class MenuSeparator(MenuItem):
 
-    ##########    
+    ##########
     #   Construction
     def __init__(self):
         MenuItem.__init__(self)
-        
+
     ##########
     #   MenuItem (Properties) TODO raise to MenuItem class ?
     @property

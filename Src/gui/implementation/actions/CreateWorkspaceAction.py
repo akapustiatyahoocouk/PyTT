@@ -34,6 +34,7 @@ class CreateWorkspaceAction(ActionBase):
             old_workspace = Workspace.current
             Workspace.current = dlg.created_workspace
             if old_workspace:
+                #   TODO if there is a "current" activity, stop and record it
                 try:
                     old_workspace.close()
                 except Exception as ex:

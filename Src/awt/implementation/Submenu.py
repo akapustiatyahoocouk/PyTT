@@ -11,7 +11,7 @@ class Submenu(MenuItem, Menu):
 
     ##########
     #   Construction
-    def __init__(self, 
+    def __init__(self,
                  label: str,
                  hotkey: Optional[str] = None):
         MenuItem.__init__(self)
@@ -22,7 +22,7 @@ class Submenu(MenuItem, Menu):
 
         self.__label = label
         self.__hotkey = hotkey
-    
+
     ##########
     #   MenuItem (Properties) TODO raise to MenuItem class ?
     @property
@@ -32,7 +32,7 @@ class Submenu(MenuItem, Menu):
     @label.setter
     def label(self, new_label: str) -> None:
         assert isinstance(new_label, str)
-        
+
         if (self.menu is not None) and (new_label != self.__label):
             #   this menu item is part of the menu
             tk_menu : tk.Menu = self.menu._Menu__tk_impl
@@ -48,7 +48,7 @@ class Submenu(MenuItem, Menu):
     @hotkey.setter
     def hotkey(self, new_hotkey: str) -> None:
         assert (new_hotkey is None) or isinstance(new_hotkey, str)
-        
+
         if (self.menu is not None) and (new_hotkey != self.__hotkey):
             #   this menu item is part of the menu
             tk_menu : tk.Menu = self.menu._Menu__tk_impl
@@ -63,4 +63,3 @@ class Submenu(MenuItem, Menu):
                 tk_menu.entryconfig(tk_menu_item_index, underline=tk_underline)
         #   Record the new hotkey
         self.__hotkey = new_hotkey
-    

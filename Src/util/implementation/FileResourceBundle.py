@@ -12,13 +12,13 @@ from util.implementation.ResourceBundle import ResourceBundle
 #   Public entities
 class FileResourceBundle(ResourceBundle):
     """ A resource bundle that reads resources from a text file. """
-    
+
     ##########
     #   Construction
     def __init__(self, locale: Locale, file_name: str):
         assert isinstance(locale, Locale)
         assert isinstance(file_name, str)
-        
+
         self.__locale = locale
         self.__file_name = file_name
         self.__resource_definitions: dict[str, str] = dict()
@@ -47,7 +47,7 @@ class FileResourceBundle(ResourceBundle):
     @property
     def locale(self) -> Locale:
         return self.__locale
-        
+
     @property
     def keys(self) -> set[str]:
         return set(self.__resources.keys())
@@ -57,7 +57,7 @@ class FileResourceBundle(ResourceBundle):
     def get_resource_type(self, key: str) -> ResourceType:
         assert isinstance(key, str)
 
-        try:        
+        try:
             r = self.get_resource(key)    # make sure self.__resource_types[key] is populated
             return self.__resource_types.get(key, ResourceType.NONE)
         except Exception as ex:
@@ -85,7 +85,7 @@ class FileResourceBundle(ResourceBundle):
     #   Implementation helpers
     def __prepare_resource(self, resource_definition: str) -> (ResourceType, Any):
         assert isinstance(resource_definition, str)
-        
+
         if resource_definition.startswith("ImageFile:"):
             image_file_name = resource_definition[10:]
             if not os.path.isabs(image_file_name):
@@ -101,4 +101,3 @@ class FileResourceBundle(ResourceBundle):
             #   TODO shortcuts, etc.
         else:
             return (ResourceType.STRING, resource_definition)
-        

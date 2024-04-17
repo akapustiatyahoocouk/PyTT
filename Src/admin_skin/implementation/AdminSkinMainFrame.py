@@ -1,15 +1,18 @@
+"""
+    The main UI frame of the Admin skin.
+"""
 #   Python standard library
-from time import sleep
 from typing import final
 import re
 
 #   Dependencies on other PyTT components
 from awt.interface.api import *
 from workspace.interface.api import *
+from gui.interface.api import *
 
 #   Internal dependencies on modules within the same component
-from .AdminSkinSettings import AdminSkinSettings
 from admin_skin.resources.AdminSkinResources import AdminSkinResources
+from .AdminSkinSettings import AdminSkinSettings
 
 ##########
 #   Public entities
@@ -24,7 +27,6 @@ class AdminSkinMainFrame(Frame,
         WidgetEventHandler.__init__(self)
         WindowEventHandler.__init__(self)
 
-        from gui.implementation.actions.ActionSet import ActionSet
         self.__action_set = ActionSet()
 
         file_menu = ResourceAwareSubmenu(AdminSkinResources.factory,
@@ -56,18 +58,6 @@ class AdminSkinMainFrame(Frame,
         self.__aboutButton = Button(self, action=self.__action_set.about)
         self.__quitButton = Button(self, action=self.__action_set.exit)
 
-        #self.menu_bar = None
-
-        #self.__menu_bar = tk.Menu(self)
-        #self["menu"] = self.__menu_bar
-
-        #self.__file_menu = tk.Menu(tearoff=False)
-        #self.__help_menu = tk.Menu(tearoff=False)
-        #self.__menu_bar.add_cascade(label='File', underline=0, menu=self.__file_menu)
-
-        #self.__menu_bar.add_cascade(label='Help', underline=0, menu=self.__help_menu)
-        #self.__help_menu.add_command(label='About', underline=1, accelerator="Ctrl+F1", command=self.__popup)
-
         #   Set up control structure
         self.__aboutButton.pack()
         self.__quitButton.pack()
@@ -84,7 +74,7 @@ class AdminSkinMainFrame(Frame,
         Workspace.add_property_change_listener(self.__on_workspace_changed)
         Locale.add_property_change_listener(self.__on_locale_changed)
         #   TODO current credentials change
-        
+
         #   Done
         self.request_refresh()
 
@@ -93,18 +83,18 @@ class AdminSkinMainFrame(Frame,
     def refresh(self) -> None:
         credentials = CurrentCredentials.get()
         workspace = Workspace.current
-        
+
         #   Frame title
         title = AdminSkinResources.string("MainFrame.Title")
         if credentials is not None:
             title += " [" + credentials.login + "]"
-        if workspace is not None:        
+        if workspace is not None:
             title += " - " + workspace.address.display_form
         self.title(title)
-        
+
         #   Action availability
-        self.__action_set.close_workspace.enabled = (workspace is not None)
-        
+        self.__action_set.close_workspace.enabled = workspace is not None
+
     ##########
     #   WidgetEventHandler
     def on_widget_moved(self, evt: WidgetEvent) -> None:
@@ -129,19 +119,16 @@ class AdminSkinMainFrame(Frame,
         self.__action_set.exit.execute(ActionEvent(self))
 
     ##########
-    #   Properties
-    @property
-    def is_active(self) -> bool:
-        return self.window_state == WindowState.NORMAL
-
-    ##########
     #   Operations
     def activate(self): # TODO replace with a setter property for "active" ?
+        """ Activates this window, by showing/de-iconizing it 
+            and bringing it to front. """
         self.window_state = WindowState.NORMAL
         #TODO kill off when confirmed not needed self.tkraise()
         self.focus_force()
 
     def deactivate(self):   # TODO replace with a setter property for "active" ?
+        """ Hides this window. """
         self.window_state = WindowState.WITHDRAWN
 
     ##########
@@ -168,13 +155,11 @@ class AdminSkinMainFrame(Frame,
                 AdminSkinSettings.main_frame_y = int(find.group(4))
         elif self.window_state is WindowState.MAXIMIZED:
             AdminSkinSettings.main_frame_maximized = True
-            pass
-        
+
     ##########
     #   Event listeners
     def __on_workspace_changed(self, evt) -> None:
         self.request_refresh()
-    
+
     def __on_locale_changed(self, evt) -> None:
         self.request_refresh()
-        

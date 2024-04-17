@@ -11,7 +11,7 @@ from .Skin import Skin
 #   Public entities
 @final
 class SkinRegistry: #   TODO move static services to Skin!
-    """ The registry of known skins. 
+    """ The registry of known skins.
         This is an utility class, never to be instantiated."""
 
     ##########
@@ -45,10 +45,10 @@ class SkinRegistry: #   TODO move static services to Skin!
         else:
             SkinRegistry.__registry[skin.mnemonic] = skin
             return True
-        
+
     @staticmethod
     def find_skin(mnemonic: str) -> Optional[Skin]:
-        """ 
+        """
             Finds a registered skin by mnemonic.
 
             @param mnemonic:

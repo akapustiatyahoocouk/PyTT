@@ -30,14 +30,14 @@ class SqliteDatabase(SqlDatabase):
             @param address:
                 The address of the database.
             @param create_new:
-                True to create a new database, False to open an 
+                True to create a new database, False to open an
                 already existing one.
             @raise DatabaseError:
                 If the database initialization fails (usually
                 due to a lock conflict).
         """
         SqlDatabase.__init__(self)
-        
+
         assert isinstance(address, SqliteDatabaseAddress)
         assert isinstance(create_new, bool)
 

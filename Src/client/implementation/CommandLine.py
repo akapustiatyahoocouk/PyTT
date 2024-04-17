@@ -10,11 +10,11 @@ from util.interface.api import *
 @final
 class CommandLine:
     """ The PyTT Client command line.. """
-    
-    ##########    
+
+    ##########
     #   Resources requiring lazy load
     __show_splash_screen = True
-    
+
     ##########
     #   Construction - disable (this is an utility class)
     def __init__(self):
@@ -22,12 +22,12 @@ class CommandLine:
 
     ##########
     #   Properties
-    @staticproperty    
+    @staticproperty
     def show_splash_screen() -> bool:
-        """ True if the splash screen should be displayed on 
+        """ True if the splash screen should be displayed on
             startup, False if not. """
         return CommandLine.__show_splash_screen
-    
+
     ##########
     #   Operations
     @staticmethod

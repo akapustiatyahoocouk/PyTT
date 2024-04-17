@@ -9,12 +9,12 @@ from db.implementation.DatabaseType import DatabaseType
 class DatabaseAddress(ABC):
     """ A "database address" uniquely identifies the location of
         a database and is database type - specific."""
-    
+
     ##########
     #   object
     def __str__(self) -> str:
         return self.display_form
-    
+
     ##########
     #   Properties
     @abstractproperty

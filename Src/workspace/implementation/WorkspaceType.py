@@ -20,7 +20,7 @@ class WorkspaceType:
     #   Implementation
     __all = None
     __construction_permitted = False
-    
+
     ##########
     #   Construction (internal only)
     def __init__(self, db_type: DatabaseType):
@@ -109,7 +109,7 @@ class WorkspaceType:
 
     ##########
     #   Workspace handling
-    def create_workspace(self, 
+    def create_workspace(self,
                          address: "WorkspaceAddress",
                          credentials: Optional[Credentials],
                          admin_user: Optional[str] = None,
@@ -117,14 +117,14 @@ class WorkspaceType:
                          admin_password: Optional[str] = None) -> "Workspace":
         """
             Creates a new workspace at the specified address.
-            The workspace is initially empty, except for a single 
-            User with a single Account which has administrative 
+            The workspace is initially empty, except for a single
+            User with a single Account which has administrative
             privileges.
 
             @param address:
                 The address for the new workspace.
             @param credentials:
-                The credentials to infer the properties of the 
+                The credentials to infer the properties of the
                 administrator user for the new workspace (optional).
             @param admin_user:
                 The name for the workspace administrator User.
@@ -167,11 +167,37 @@ class WorkspaceType:
         except Exception as ex:
             raise WorkspaceError.wrap(ex) from ex
         #   ...then the admin user...
+        try:
+            user = db.create_user(real_name=admin_user)
+        except Exception as ex:
+            try:
+                db.close()
+            except:
+                pass    #   TODO log
+            try:
+                self.__db_type.destroy_database(address._WorkspaceAddress__db_address)
+            except Exception as ex:
+                pass    #   TODO log
+            raise WorkspaceError.wrap(ex) from ex
         #   ...then the admin account...
+        try:
+            account = user.create_account(login=admin_login,
+                                          password=admin_password,
+                                          capabilities=Capabilities.ADMINISTRATOR)
+        except Exception as ex:
+            try:
+                db.close()
+            except:
+                pass    #   TODO log
+            try:
+                self.__db_type.destroy_database(address._WorkspaceAddress__db_address)
+            except:
+                pass    #   TODO log
+            raise WorkspaceError.wrap(ex) from ex
         #   ...and we're done
         return Workspace(address, db)
 
-    def open_workspace(self, 
+    def open_workspace(self,
                        address: "WorkspaceAddress") -> "Workspace":
         """
             Opens an existingworkspace at the specified address.
@@ -203,22 +229,22 @@ class WorkspaceType:
     @staticmethod
     def find_by_mnemonic(mnemonic: str) -> Optional["WorkspaceType"]:
         assert isinstance(mnemonic, str)
-        
+
         for workspace_type in WorkspaceType.all:
             if workspace_type.mnemonic == mnemonic:
                 return workspace_type
         return None
-            
+
     @staticmethod
     def resolve(db_type: DatabaseType) -> "WorkspaceType":
         """
             Returns the WorkspaceType that corresponds to the
             specified DatabaseType.
-            
+
             @param db_type:
                 The database type to resolve to the workspace type.
             @return:
-                The workspace type that represents the specified 
+                The workspace type that represents the specified
                 database type.
         """
         assert isinstance(db_type, DatabaseType)
@@ -227,7 +253,7 @@ class WorkspaceType:
             if wt.__db_type is db_type:
                 return wt
         #   The code below is a safety measure that should not
-        #   normally be executed... ever! TODO log the warning    
+        #   normally be executed... ever! TODO log the warning
         WorkspaceType.__construction_permitted = True
         wt = WorkspaceType(db_type)
         WorkspaceType.__construction_permitted = False

@@ -21,14 +21,14 @@ class PropertyChangeEventProcessorMixin:
             this mixin. """
         #   TODO make list elements WEAK references to actual listeners
         self.__property_change_listeners = list()
-    
+
     ##########
     #   Operations
     def add_property_change_listener(self, l: Union[PropertyChangeEventListener, PropertyChangeEventHandler]) -> None:
-        """ Registers the specified listener or handler to be 
+        """ Registers the specified listener or handler to be
             notified when a property change event is processed.
             A given listener can be registered at most once;
-            subsequent attempts to register the same listener 
+            subsequent attempts to register the same listener
             again will have no effect. """
         assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
                 isinstance(l, PropertyChangeEventHandler))
@@ -36,11 +36,11 @@ class PropertyChangeEventProcessorMixin:
             self.__property_change_listeners.append(l)
 
     def remove_property_change_listener(self, l: Union[PropertyChangeEventListener, PropertyChangeEventHandler]) -> None:
-        """ Un-registers the specified listener or handler to no 
-            longer be notified when a property change event is 
+        """ Un-registers the specified listener or handler to no
+            longer be notified when a property change event is
             processed.
             A given listener can be un-registered at most once;
-            subsequent attempts to un-register the same listener 
+            subsequent attempts to un-register the same listener
             again will have no effect. """
         assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
                 isinstance(l, PropertyChangeEventHandler))
@@ -53,9 +53,9 @@ class PropertyChangeEventProcessorMixin:
         return self.__property_change_listeners.copy()
 
     def process_property_change_event(self, event : PropertyChangeEvent) -> bool:
-        """ 
+        """
             Called to process an PropertyChangeEvent.
-            
+
             @param self:
                 The EventProcessor on which the method has been called.
             @param event:

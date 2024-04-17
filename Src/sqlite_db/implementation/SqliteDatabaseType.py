@@ -3,6 +3,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.filedialog as filedialog
 import sqlite3
+import os
 
 #   Dependencies on other PyTT components
 from db.interface.api import *
@@ -15,7 +16,7 @@ from .SqliteDatabaseAddress import SqliteDatabaseAddress
 #   Public entities
 class SqliteDatabaseType(DatabaseType):
     """ A database type that uses SQLite as data storage. """
-    
+
     ##########
     #   Constants
     MNEMONIC = "sqlite"
@@ -32,13 +33,13 @@ class SqliteDatabaseType(DatabaseType):
     def __init__(self):
         assert SqliteDatabaseType.__instance_acquisition_in_progress, "Use SqliteDatabaseType.instance() instead"
         DatabaseType.__init__(self)
-    
+
     @staticproperty
     def instance() -> "SqliteDatabaseType":
         """
             Returns one and only instance of this class, creating
             it on the first call.
-            
+
             @return:
                 The one and only instance of this class.
         """
@@ -47,14 +48,14 @@ class SqliteDatabaseType(DatabaseType):
             SqliteDatabaseType.__instance = SqliteDatabaseType()
             SqliteDatabaseType.__instance_acquisition_in_progress = False
         return SqliteDatabaseType.__instance
-    
+
     ##########
     #   DatabaseType - Properties (general)
-    @property    
+    @property
     def mnemonic(self) -> str:
         return SqliteDatabaseType.MNEMONIC
 
-    @property    
+    @property
     def display_name(self) -> str:
         return 'SQLite'
 
@@ -64,7 +65,7 @@ class SqliteDatabaseType(DatabaseType):
         assert external_form is not None
         return db.sqlite_impl.SqliteDatabaseAddress.SqliteDatabaseAddress(external_form)
 
-    @property    
+    @property
     def default_database_address(self) -> DatabaseAddress:
         return None #   SQLite has no concept of a "default" database
 
@@ -74,7 +75,7 @@ class SqliteDatabaseType(DatabaseType):
             title='Create SQLite database',
             confirmoverwrite=False, #   create_database() will fail if file is there
             initialdir=None,    #   TODO last used UI directory
-            filetypes=(('SQLite PyTT files', SqliteDatabaseType.PREFERRED_EXTENSION), 
+            filetypes=(('SQLite PyTT files', SqliteDatabaseType.PREFERRED_EXTENSION),
                        ('All files', ".*")),
             defaultextension=SqliteDatabaseType.PREFERRED_EXTENSION)
         return SqliteDatabaseAddress(file_name) if file_name else None
@@ -83,16 +84,30 @@ class SqliteDatabaseType(DatabaseType):
     #   Database handling
     def create_database(self, address: DatabaseAddress) -> Database:
         from .SqliteDatabase import SqliteDatabase
-        
+
         if not isinstance(address, SqliteDatabaseAddress):
             raise InvalidDatabaseAddressError()
-        path = address._SqliteDatabaseAddress__path  #   TODO try using "friends"
         return SqliteDatabase(address, True)
 
     def open_database(self, address: DatabaseAddress) -> Database:
         from .SqliteDatabase import SqliteDatabase
-        
+
         if not isinstance(address, SqliteDatabaseAddress):
             raise InvalidDatabaseAddressError()
-        path = address._SqliteDatabaseAddress__path  #   TODO try using "friends"
         return SqliteDatabase(address, False)
+
+    def destroy_database(self, address: DatabaseAddress) -> None:
+        from .SqliteDatabase import SqliteDatabase
+
+        if not isinstance(address, SqliteDatabaseAddress):
+            raise InvalidDatabaseAddressError()
+        #   The best way to ensure a SQLite database is not
+        #   currently in use is to open it locally
+        #   with Database
+        with SqliteDatabase(address, False) as db:  #   Raises DatabaseError on error
+            pass    #   close on exit
+        path = address._SqliteDatabaseAddress__path  #   TODO try using "friends"
+        try:
+            os.remove(path)
+        except Exception as ex:
+            raise DatabaseIoError(str(ex)) from ex

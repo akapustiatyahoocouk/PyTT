@@ -6,7 +6,7 @@ from .Credentials import Credentials
 
 ##########
 #   Public entities
-#   TODO Move this class' logic into the static "Credentials.current" property ?        
+#   TODO Move this class' logic into the static "Credentials.current" property ?
 @final
 class CurrentCredentials:
     """ The "current" credentials. """
@@ -14,7 +14,7 @@ class CurrentCredentials:
     ##########
     #   Implementation
     __current_credentials = None
-    
+
     ##########
     #   Construction - disable (this is an utility class)
     def __init__(self):
