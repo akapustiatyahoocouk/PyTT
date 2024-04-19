@@ -2,7 +2,6 @@
 from typing import TypeAlias
 from abc import ABC, abstractproperty, abstractmethod
 import tkinter as tk
-from uuid import UUID
 
 #   Dependencies on other PyTT components
 from util.interface.api import *
@@ -12,7 +11,7 @@ from db.implementation.Database import Database
 
 ##########
 #   Public entities
-OID: TypeAlias = UUID
+OID: TypeAlias = int
 
 class DatabaseObject(ABCWithConstants):
     """ A common base class for all objects residing in a database. """

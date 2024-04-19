@@ -72,6 +72,7 @@
     <Compile Include="implementation\Frame.py" />
     <Compile Include="implementation\VirtualKey.py" />
     <Compile Include="implementation\Widget.py" />
+    <Compile Include="implementation\MessageBox.py" />
     <Compile Include="__init__.py" />
   </ItemGroup>
   <ItemGroup>

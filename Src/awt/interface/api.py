@@ -33,6 +33,7 @@ from awt.implementation.Menu import *
 from awt.implementation.MenuBar import *
 from awt.implementation.MenuItem import *
 from awt.implementation.MenuSeparator import *
+from awt.implementation.MessageBox import *
 from awt.implementation.Panel import *
 from awt.implementation.Refreshable import *
 from awt.implementation.ResourceAwareAction import *
