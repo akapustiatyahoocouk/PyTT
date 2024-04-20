@@ -13,6 +13,7 @@ from awt.implementation.BaseWidgetMixin import *
 from awt.implementation.Button import *
 from awt.implementation.ComboBox import *
 from awt.implementation.Dialog import *
+from awt.implementation.ErrorDialog import *
 from awt.implementation.Frame import *
 from awt.implementation.GuiRoot import *
 from awt.implementation.InputEvent import *
@@ -55,3 +56,5 @@ from awt.implementation.WindowEventHandler import *
 from awt.implementation.WindowEventListener import *
 from awt.implementation.WindowEventType import *
 from awt.implementation.WindowState import *
+
+from awt.resources.AwtResources import *

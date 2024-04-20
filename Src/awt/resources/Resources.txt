@@ -1,0 +1,7 @@
+MessageBox.ErrorIcon=ImageFile:images/misc/ErrorLarge.png
+MessageBox.InformationIcon=ImageFile:images/misc/InformationLarge.png
+MessageBox.QuestionIcon=ImageFile:images/misc/QuestionLarge.png
+MessageBox.OkButton.Text=OK
+MessageBox.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+MessageBox.CancelButton.Text=Cancel
+MessageBox.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png

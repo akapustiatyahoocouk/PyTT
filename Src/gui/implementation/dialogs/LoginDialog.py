@@ -102,10 +102,10 @@ class LoginDialog(Dialog):
         self.__cancel_button.add_action_listener(self.__on_cancel)
 
         #   Set initial focus & we're done
-        if login is not None:
-            self.__password_text_field.focus_set()
-        else:
-            self.__login_text_field.focus_set()
+        #if login is not None:
+        #    self.__password_text_field.focus_set()
+        #else:
+        #    self.__login_text_field.focus_set()
         self.request_refresh()
 
         #   Done

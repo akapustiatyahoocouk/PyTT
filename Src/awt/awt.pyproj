@@ -26,6 +26,7 @@
     <Compile Include="implementation\ActionEvent.py" />
     <Compile Include="implementation\ActionEventProcessorMixin.py" />
     <Compile Include="implementation\ActionEventHandler.py" />
+    <Compile Include="implementation\ErrorDialog.py" />
     <Compile Include="implementation\Refreshable.py" />
     <Compile Include="implementation\ComboBox.py" />
     <Compile Include="implementation\ItemEvent.py" />
@@ -73,11 +74,29 @@
     <Compile Include="implementation\VirtualKey.py" />
     <Compile Include="implementation\Widget.py" />
     <Compile Include="implementation\MessageBox.py" />
+    <Compile Include="resources\AwtResources.py" />
     <Compile Include="__init__.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="interface\" />
     <Folder Include="implementation\" />
+    <Folder Include="resources\" />
+    <Folder Include="resources\images\" />
+    <Folder Include="resources\images\actions\" />
+    <Folder Include="resources\images\misc\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="resources\images\actions\CancelLarge.png" />
+    <Content Include="resources\images\actions\CancelSmall.png" />
+    <Content Include="resources\images\actions\OkLarge.png" />
+    <Content Include="resources\images\actions\OkSmall.png" />
+    <Content Include="resources\images\misc\ErrorLarge.png" />
+    <Content Include="resources\images\misc\ErrorSmall.png" />
+    <Content Include="resources\images\misc\InformationLarge.png" />
+    <Content Include="resources\images\misc\InformationSmall.png" />
+    <Content Include="resources\images\misc\QuestionLarge.png" />
+    <Content Include="resources\images\misc\QuestionSmall.png" />
+    <Content Include="resources\Resources.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
