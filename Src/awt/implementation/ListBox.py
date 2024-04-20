@@ -29,6 +29,7 @@ class ListBoxItems:
 
         self.__list_box = list_box
         self.__items = list()
+        self.__item_ids = list()    #   Parallel to self.__items
 
     ##########
     #   object
@@ -59,10 +60,10 @@ class ListBoxItems:
         """
         assert item is not None
 
+        item_id = self.__list_box._ListBox__tree_view.insert("", "end", text=str(item))
         self.__items.append(item)
-        index = len(self.__items) - 1
-        self.__list_box._ListBox__tree_view.insert("", "end", index, text=str(item))
-        return index
+        self.__item_ids.append(item_id)
+        return len(self.__items) - 1
 
 class ListBox(Panel,
               ItemEventProcessorMixin):
@@ -100,8 +101,12 @@ class ListBox(Panel,
     def selected_index(self) -> Optional[int]:
         """ The 0-based index of the currently selected list box
             item, or None if no item is currently selected. """
-        f = self.__tree_view.focus()
-        return None if f == "" else int(f) 
+        try:
+            item_id = self.__tree_view.focus()
+            item_index = self.__items._ListBoxItems__item_ids.index(item_id)
+            return item_index
+        except:
+            return None
 
     @selected_index.setter
     def selected_index(self, new_index: Optional[int]) -> None:

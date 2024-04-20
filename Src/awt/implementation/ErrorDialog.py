@@ -61,9 +61,12 @@ class ErrorDialog(Dialog):
             details = traceback.format_exception(ex, chain=False)
 
             text = Label(self.__tabbed_pane, text="\n".join(details))
-            self.__tabbed_pane.add(text, state="normal", text=repr(ex))
+            self.__tabbed_pane.add(text, state="normal", text=type(ex).__name__)
 
-            self.__list_box.items.add(repr(ex))
+            list_item_text = type(ex).__name__
+            if ex != self.__ex:
+                list_item_text = 'caused by ' + list_item_text
+            self.__list_box.items.add(list_item_text)
             ex = ex.__cause__
 
         self.__list_box.selected_index = 0
