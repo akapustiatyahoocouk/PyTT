@@ -30,6 +30,7 @@ from awt.implementation.KeyEventProcessorMixin import *
 from awt.implementation.KeyEventType import *
 from awt.implementation.KeyStroke import *
 from awt.implementation.Label import *
+from awt.implementation.ListBox import *
 from awt.implementation.Menu import *
 from awt.implementation.MenuBar import *
 from awt.implementation.MenuItem import *
@@ -42,7 +43,9 @@ from awt.implementation.ResourceAwareSubmenu import *
 from awt.implementation.Separator import *
 from awt.implementation.SimpleMenuItem import *
 from awt.implementation.Submenu import *
+from awt.implementation.TabbedPane import *
 from awt.implementation.TextField import *
+from awt.implementation.TreeView import *
 from awt.implementation.VirtualKey import *
 from awt.implementation.Widget import *
 from awt.implementation.WidgetEvent import *

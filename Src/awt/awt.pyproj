@@ -27,6 +27,9 @@
     <Compile Include="implementation\ActionEventProcessorMixin.py" />
     <Compile Include="implementation\ActionEventHandler.py" />
     <Compile Include="implementation\ErrorDialog.py" />
+    <Compile Include="implementation\TabbedPane.py" />
+    <Compile Include="implementation\TreeView.py" />
+    <Compile Include="implementation\ListBox.py" />
     <Compile Include="implementation\Refreshable.py" />
     <Compile Include="implementation\ComboBox.py" />
     <Compile Include="implementation\ItemEvent.py" />
@@ -90,6 +93,8 @@
     <Content Include="resources\images\actions\CancelSmall.png" />
     <Content Include="resources\images\actions\OkLarge.png" />
     <Content Include="resources\images\actions\OkSmall.png" />
+    <Content Include="resources\images\actions\SaveLarge.png" />
+    <Content Include="resources\images\actions\SaveSmall.png" />
     <Content Include="resources\images\misc\ErrorLarge.png" />
     <Content Include="resources\images\misc\ErrorSmall.png" />
     <Content Include="resources\images\misc\InformationLarge.png" />

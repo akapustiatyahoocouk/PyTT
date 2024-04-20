@@ -1,5 +1,5 @@
 """
-    Defines a combo box (drop-down liat, potentially editable)
+    Defines a combo box (drop-down list, potentially editable)
     UI widget.
 """
 #   Python standard library

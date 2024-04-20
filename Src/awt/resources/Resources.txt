@@ -1,3 +1,9 @@
+ErrorDialog.Title=ERROR
+ErrorDialog.SaveButton.Text=Save
+ErrorDialog.SaveButton.Icon=ImageFile:images/actions/SaveSmall.png
+ErrorDialog.OkButton.Text=OK
+ErrorDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+
 MessageBox.ErrorIcon=ImageFile:images/misc/ErrorLarge.png
 MessageBox.InformationIcon=ImageFile:images/misc/InformationLarge.png
 MessageBox.QuestionIcon=ImageFile:images/misc/QuestionLarge.png

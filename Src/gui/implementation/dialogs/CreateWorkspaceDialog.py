@@ -166,12 +166,7 @@ class CreateWorkspaceDialog(Dialog):
             self.__result = CreateWorkspaceDialogResult.OK
             self.end_modal()
         except Exception as ex:
-            cause = ex.__cause__
-            s1 = traceback.format_exception(ex, chain=True)
-            s2 = traceback.format_exception(cause, chain=False)
-            exs = traceback.format_exc()
-            tb = traceback.extract_stack()
-            ErrorDialog.show(self, "\n".join(s1))
+            ErrorDialog.show(self, ex)
 
     def __on_cancel(self, evt: ActionEvent) -> None:
         self.__result = CreateWorkspaceDialogResult.CANCEL

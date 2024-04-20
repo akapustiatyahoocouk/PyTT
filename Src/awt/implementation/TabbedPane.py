@@ -8,13 +8,12 @@ from .BaseWidgetMixin import BaseWidgetMixin
 
 ##########
 #   Public entities
-class Widget(ttk.Widget, BaseWidgetMixin):
-    """ A ttk.Widget with AWT extensions. """
+class TabbedPane(ttk.Notebook, BaseWidgetMixin):
+    """ A ttk.Notebook with AWT extensions. """
 
     ##########
     #   Construction
     def __init__(self, master=None, **kwargs):
-        """Construct an awt Widget widget with the parent master. """
-        ttk.Widget.__init__(self, master, widgetname=".www", **kwargs)
-        BaseWidgetMixin.BaseWidgetMixin.__init__(self)
-
+        """Construct an awt TabbedPane widget with the parent master. """
+        ttk.Notebook.__init__(self, master, **kwargs)
+        BaseWidgetMixin.__init__(self)
