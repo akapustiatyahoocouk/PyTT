@@ -60,13 +60,13 @@ class SqliteDatabase(SqlDatabase):
             if create_new:
                 if os.path.exists(db_path):
                     raise AlreadyExistsError("database", "path", db_path)
-                self.__connection = sqlite3.connect(db_path)   # may raise any error, really
+                self.__connection = sqlite3.connect(db_path, isolation_level=None)   # may raise any error, really
                 init_script = SqliteDbResources.string("InitDatabaseScript")
                 self.execute_script(init_script)
             else:
                 if not os.path.isfile(db_path):
                     raise DoesNotExistError("database", "path", db_path)
-                self.__connection = sqlite3.connect(db_path)   # may raise any error, really
+                self.__connection = sqlite3.connect(db_path, isolation_level=None)   # may raise any error, really
                 validate_script = SqliteDbResources.string("ValidateDatabaseScript")
                 self.execute_script(validate_script)
         except Exception as ex:
@@ -106,7 +106,7 @@ class SqliteDatabase(SqlDatabase):
                 self.__is_open = False
 
     ##########
-    #   SqlDatabase - Operations
+    #   SqlDatabase - Overridables (database engine - specific)
     def begin_transaction(self) -> None:
         try:
             self.__connection.cursor().execute("begin")
@@ -132,7 +132,14 @@ class SqliteDatabase(SqlDatabase):
         assert isinstance(sql, str)
 
         try:
-            self.__connection.execute(sql)
+            if sql.strip().upper().startswith("INSERT"):
+                cur = self.__connection.cursor()
+                cur.execute(sql)
+                rowid = cur.lastrowid
+                return rowid
+            else:
+                self.__connection.execute(sql)
         except Exception as ex:
             #   TODO log ?
             raise DatabaseError(str(ex)) from ex
+

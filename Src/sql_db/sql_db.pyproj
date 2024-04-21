@@ -22,7 +22,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="implementation\SqlDatabase.py" />
+    <Compile Include="implementation\SqlUser.py" />
+    <Compile Include="implementation\SqlDatabaseObject.py" />
     <Compile Include="implementation\SqlDataType.py" />
+    <Compile Include="implementation\SqlInsertStatement.py" />
     <Compile Include="implementation\SqlStatement.py" />
     <Compile Include="interface\api.py" />
     <Compile Include="__init__.py" />

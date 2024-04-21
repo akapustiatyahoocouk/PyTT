@@ -23,25 +23,26 @@ class User(DatabaseObject):
 
     ##########
     #   UI traits
+    @property
     def display_name(self) -> str:
         try:
             return self.real_name
         except Exception as ex:
             return str(ex)
 
-    @abstractproperty
+    @property
     def type_name(self) -> str:
         return User.TYPE_NAME
 
-    @abstractproperty
+    @property
     def type_display_name(self) -> str:
         return DbResources.string("User.TypeDisplayName")
 
-    @abstractproperty
+    @property
     def small_image(self) -> tk.PhotoImage:
         return DbResources.image("User.SmallImage")
 
-    @abstractproperty
+    @property
     def large_image(self) -> tk.PhotoImage:
         return DbResources.image("User.LargeImage")
 

@@ -19,7 +19,7 @@ from .ItemEventProcessorMixin import ItemEventProcessorMixin
 #   Public entities
 class ListBoxItems:
     """ The ordered collection of all items currently in the ListBox. """
-    
+
     ##########
     #   Construction (internal)
     def __init__(self, list_box: ttk.Widget):
@@ -40,7 +40,7 @@ class ListBoxItems:
         assert isinstance(index, int)
         return self.__items[index]
 
-    ######
+    ##########
     #   Properties
     @property
     def length(self) -> int:
@@ -51,11 +51,11 @@ class ListBoxItems:
     #   Operations
     def add(self, item) -> int:
         """
-            Adds the specified item to the end of the list 
+            Adds the specified item to the end of the list
             of items of the ListBox.
-            
+
             @param item:
-                The item to add to the ListBox, can be anything 
+                The item to add to the ListBox, can be anything
                 except None. The str(item) will appear in the UI.
         """
         assert item is not None
@@ -80,15 +80,20 @@ class ListBox(Panel,
         self.__items = ListBoxItems(self)
         self.__creating_items = False
 
-        self.__tree_view = TreeView(self, show="tree", selectmode="browse")
+        self.__tree_view = TreeView(self, show="tree", selectmode=tk.BROWSE)
         #   TODO scrollbars
-        
+
         #   Set up control structure
         #scrollbar.pack(side="right", fill="y")
-        self.__tree_view.pack(side="left", fill="both", expand=True)        
-        
+        self.__tree_view.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
         #   Set up event handlers
         self.__tree_view.bind("<<TreeviewSelect>>", self.__on_tk_treeview_selected)
+
+    ##########
+    #   BaseWidgetMixin
+    #   TODO visible, focusable, etc. properties must delegate to
+    #   the self.__tree_view!
 
     ##########
     #   Properties
@@ -131,7 +136,7 @@ class ListBox(Panel,
 
     @property
     def selected_item(self) -> Any:
-        """ The currently selected list box item, or None if no 
+        """ The currently selected list box item, or None if no
             item is currently selected. """
         index = self.selected_index
         return None if index is None else self.__items[index]

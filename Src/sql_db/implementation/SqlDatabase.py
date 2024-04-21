@@ -1,11 +1,13 @@
 #   Python standard library
 from abc import abstractmethod
+from weakref import WeakValueDictionary
 
 #   Dependencies on other PyTT components
 from db.interface.api import *
 
 #   Internal dependencies on modules within the same component
-from sql_db.implementation.SqlStatement import SqlStatement
+from .SqlStatement import SqlStatement
+from .SqlDataType import SqlDataType
 
 ##########
 #   Public entities
@@ -15,10 +17,89 @@ class SqlDatabase(Database):
     ##########
     #   Construction
     def __init__(self):
-        pass
+        self.__objects = WeakValueDictionary()  #   OID -> SqlDatabaseObject
 
     ##########
     #   Overridables (database engine - specific)
+    def quote_string_literal(self, s: str) -> str:
+        assert isinstance(s, str)
+
+        chunks = []
+        scan = 0
+        chunk = ""
+        while scan < len(s):
+            c = s[scan]
+            if c == "\n":
+                chunk += "\\n";
+                scan += 1
+                #   TODO other escape sequences
+            elif c == "'":
+                chunk += "''";
+                scan += 1
+            elif c == "\\":
+                chunk += "\\\\"
+                scan += 1
+            elif ord(c) >= 32 and ord(c) < 127:
+                chunk += c
+                scan += 1
+            else:
+                #   UNICODE, special characters
+                raise NotImplementedError()
+        #   Record the last chunk
+        chunks.append("'" + chunk + "'")
+        chunks = list(filter(lambda x: x != "''", chunks))
+        return "''" if len(chunks) == 0 else "||".join(chunks)
+
+    def quote_identifier(self, s: str) -> str:
+        assert isinstance(s, str)
+        return  "\"" + s + "\""
+
+    @abstractmethod
+    def begin_transaction(self) -> None:
+        """
+            Begins a new transaction.
+
+            @raise DatabaseError:
+                If an error occurs.
+        """
+        raise NotImplementedError()
+
+    @abstractmethod
+    def commit_transaction(self) -> None:
+        """
+            Commits the current transaction.
+
+            @raise DatabaseError:
+                If an error occurs.
+        """
+        raise NotImplementedError()
+
+    @abstractmethod
+    def rollback_transaction(self) -> None:
+        """
+            Rolls back the current transaction.
+
+            @raise DatabaseError:
+                If an error occurs.
+        """
+        raise NotImplementedError()
+
+    @abstractmethod
+    def execute_sql(self, sql: str) -> None:
+        """
+            Executes a single SQL statement, ignoring its results.
+            This is useful when e.g. called from execute_script().
+            The SQL script shall use the underlying database engine's
+            syntax, so the preferred way of executing SQL queries and
+            commands is by using the create_statement() method to
+            create a SqlStatement and then call execute() on that.
+
+            @param sql:
+                A single SQL statement.
+            @raise DatabaseError:
+                If an error occurs.
+        """
+        raise NotImplementedError()
 
     ##########
     #   Operations
@@ -99,53 +180,6 @@ class SqlDatabase(Database):
             raise ex
         pass
 
-    @abstractmethod
-    def begin_transaction(self) -> None:
-        """
-            Begins a new transaction.
-
-            @raise DatabaseError:
-                If an error occurs.
-        """
-        raise NotImplementedError()
-
-    @abstractmethod
-    def commit_transaction(self) -> None:
-        """
-            Commits the current transaction.
-
-            @raise DatabaseError:
-                If an error occurs.
-        """
-        raise NotImplementedError()
-
-    @abstractmethod
-    def rollback_transaction(self) -> None:
-        """
-            Rolls back the current transaction.
-
-            @raise DatabaseError:
-                If an error occurs.
-        """
-        raise NotImplementedError()
-
-    @abstractmethod
-    def execute_sql(self, sql: str) -> None:
-        """
-            Executes a single SQL statement, ignoring its results.
-            This is useful when e.g. called from execute_script().
-            The SQL script shall use the underlying database engine's
-            syntax, so the preferred way of executing SQL queries and
-            commands is by using the create_statement() method to
-            create a SqlStatement and then call execute() on that.
-
-            @param sql:
-                A single SQL statement.
-            @raise DatabaseError:
-                If an error occurs.
-        """
-        raise NotImplementedError()
-
     def create_statement(self, sql_template: str) -> SqlStatement:
         """
             Creates a new "SQL statement" that can be executed as
@@ -164,8 +198,109 @@ class SqlDatabase(Database):
 
         #   TODO select, insert, delete, update require their own
         #   subclasses of SqlStatement!
-        sql_statement = SqlStatement(self, sql_template)    #   may raise DatabaseError
+        from .SqlInsertStatement import SqlInsertStatement
+
+        if sql_template.upper().startswith("INSERT"):
+            sql_statement = SqlInsertStatement(self, sql_template)  #   may raise DatabaseError
+        else:
+            sql_statement = SqlStatement(self, sql_template)    #   may raise DatabaseError
 
         #   Done
         return sql_statement
 
+    def format_parameter(self, type: type, value: Any) -> str:
+        if value is None:
+            return "NULL"
+        try:
+            if type is None:
+                #   Auto-select formatting
+                if isinstance(value, int):
+                    return str(value)
+                elif isinstance(value, float):
+                    return str(value)
+                elif isinstance(value, str):
+                    return self.quote_string_literal(value)
+                elif isinstance(value, bool):
+                    return self.quote_string_literal("Y") if value else self.quote_string_literal("N")
+                else:
+                    raise NotImplementedError()
+            else:
+                #   Format to the required type
+                match type:
+                    case SqlDataType.INTEGER:
+                        return str(int(value))
+                    case SqlDataType.REAL:
+                        return str(float(value))
+                    case SqlDataType.STRING:
+                        return self.quote_string_literal(value)
+                    case SqlDataType.BOOLEAN:
+                        return self.quote_string_literal("Y") if value else self.quote_string_literal("N")
+                    case _:
+                        raise NotImplementedError()
+        except Exception as ex:
+            raise DatabaseError(str(ex)) from ex
+
+    ##########
+    #   Database - Operations (life cycle)
+    def create_user(self,
+                    enabled: bool = True,
+                    real_name: str = None,  #   MUST specify!
+                    inactivity_timeout: Optional[int] = None,
+                    ui_locale: Optional[Locale] = None,
+                    email_addresses: List[str] = list()) -> "User":
+        assert isinstance(enabled, bool)
+        assert isinstance(real_name, str)
+        assert (inactivity_timeout is None) or isinstance(inactivity_timeout, int)
+        assert ui_locale is None or isinstance(ui_locale, Locale)
+        assert isinstance(email_addresses, list)    #   and all elements are strings
+        
+        #   Validate parameters (real name is valid, etc.)
+        
+        #   Insert the relevant records into the database
+        try:
+            self.begin_transaction();
+            
+            stat1 = self.create_statement(
+                """INSERT INTO objects
+                          (object_type_name)
+                          VALUES (?)""");
+            stat1.set_string_parameter(0, User.TYPE_NAME)
+            user_oid = stat1.execute()
+        
+            stat2 = self.create_statement(
+                """INSERT INTO users
+                          (pk,enabled,real_name,inactivity_timeout,ui_locale,email_addresses)
+                          VALUES (?,?,?,?,?,?)""");
+            stat2.set_int_parameter(0, user_oid)
+            stat2.set_bool_parameter(1, enabled)
+            stat2.set_string_parameter(2, real_name)
+            stat2.set_int_parameter(3, inactivity_timeout)
+            stat2.set_string_parameter(4, None if ui_locale is None else repr(ui_locale))
+            stat2.set_string_parameter(5, "\n".join(email_addresses))
+            stat2.execute()
+
+            self.commit_transaction()
+            return self._get_user_proxy(user_oid)
+        except Exception as ex:
+            self.rollback_transaction()
+            raise DatabaseError(str(ex)) from ex
+
+    ##########
+    #   Implementation helpers (internal use only)
+    def _get_user_proxy(self, oid: OID) -> User:
+        from .SqlUser import SqlUser
+        obj = self.__objects.get(oid, None)
+        if isinstance(obj, SqlUser):
+            return obj
+        obj = SqlUser(self, oid)
+        self.__objects[oid] = obj
+        return obj
+
+    def _get_account_proxy(self, oid: OID) -> Account:
+        from .SqlAccount import SqlAccount
+        obj = self.__objects.get(oid, None)
+        if isinstance(obj, SqlAccount):
+            return obj
+        obj = SqlAccount(self, oid)
+        self.__objects[oid] = obj
+        return obj

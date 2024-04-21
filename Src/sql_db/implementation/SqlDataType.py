@@ -19,3 +19,7 @@ class SqlDataType(Enum):
 
     STRING = 3
     """ A CHAR(n), VARCHAR(n) or TEXT SQL binding."""
+
+    BOOLEAN = 4
+    """ A CHAR(1) that uses 'Y' for tyue and 'N' for false."""
+    
