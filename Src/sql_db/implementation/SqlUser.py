@@ -141,7 +141,7 @@ class SqlUser(SqlDatabaseObject, User):
             stat2.set_bool_parameter(14, capabilities.contains_all(Capabilities.LOG_EVENTS))
             stat2.set_bool_parameter(15, capabilities.contains_all(Capabilities.GENERATE_REPORTS))
             stat2.set_bool_parameter(16, capabilities.contains_all(Capabilities.BACKUP_AND_RESTORE))
-            stat2.set_string_parameter(17, "\n".join(email_addresses))
+            stat2.set_string_parameter(17, None if len(email_addresses) == 0 else "\n".join(email_addresses))
             stat2.execute()
 
             self.database.commit_transaction()

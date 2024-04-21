@@ -276,7 +276,7 @@ class SqlDatabase(Database):
             stat2.set_string_parameter(2, real_name)
             stat2.set_int_parameter(3, inactivity_timeout)
             stat2.set_string_parameter(4, None if ui_locale is None else repr(ui_locale))
-            stat2.set_string_parameter(5, "\n".join(email_addresses))
+            stat2.set_string_parameter(5, None if len(email_addresses) == 0 else "\n".join(email_addresses))
             stat2.execute()
 
             self.commit_transaction()

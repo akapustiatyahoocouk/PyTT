@@ -164,7 +164,7 @@ class OpenWorkspaceDialog(Dialog):
             self.__result = OpenWorkspaceDialogResult.OK
             self.end_modal()
         except Exception as ex:
-            pass    # TODO show error dialog to the user
+            ErrorDialog.show(self, ex)
 
     def __on_cancel(self, evt: ActionEvent) -> None:
         self.__result = OpenWorkspaceDialogResult.CANCEL

@@ -109,21 +109,21 @@ class SqliteDatabase(SqlDatabase):
     #   SqlDatabase - Overridables (database engine - specific)
     def begin_transaction(self) -> None:
         try:
-            self.__connection.cursor().execute("begin")
+            self.__connection.execute("begin")
         except Exception as ex:
             #   TODO log ?
             raise DatabaseError(str(ex)) from ex
 
     def commit_transaction(self) -> None:
         try:
-            self.__connection.cursor().execute("commit")
+            self.__connection.execute("commit")
         except Exception as ex:
             #   TODO log ?
             raise DatabaseError(str(ex)) from ex
 
     def rollback_transaction(self) -> None:
         try:
-            self.__connection.cursor().execute("rollback")
+            self.__connection.execute("rollback")
         except Exception as ex:
             #   TODO log ?
             raise DatabaseError(str(ex)) from ex
