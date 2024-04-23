@@ -3,10 +3,12 @@ from typing import final, Set
 from abc import abstractproperty
 
 #   Internal dependencies on modules within the same component
+from util.implementation.Annotations import staticproperty
 from util.implementation.Metaclasses import ABCWithConstants
 from util.implementation.Settings import Settings
 from util.implementation.ComponentSettings import ComponentSettings
-from util.implementation.Annotations import staticproperty
+from util.implementation.Preference import Preference
+from util.implementation.BoolPreference import BoolPreference
 
 ##########
 #   Public entities
@@ -37,12 +39,13 @@ class Preferences(ABCWithConstants):
     #   Construction - from derived classes only.
     def __init__(self, parent: "Preferences", name: str) -> None:
         assert (parent is None) or isinstance(parent, Preferences)
-        assert isinstance(name, str)
+        assert isinstance(name, str) and name.isidentifier()
 
         self.__parent = parent
         self.__name = name
         self.__children = list()
-
+        self.__preferences = list()
+        
         if parent is not None:
             parent.__children.append(self)
 
@@ -78,16 +81,56 @@ class Preferences(ABCWithConstants):
 
     @property
     def children(self) -> Set["Preferences"]:
-        return set(parent.__children)
+        return set(self.__children)
 
     ##########
     #   Operations
+    def add_preference(self, preference: Preference) -> None:
+        assert isinstance(preference, Preference)
+        
+        if preference not in self.__preferences:
+            self.__preferences.append(preference)
+
     @staticmethod
     def load() -> None:
         section = Settings.get("Prefrences")
-        pass
+        for subroot in Preferences.ROOT.children:
+            subroot.__load(section)
 
     @staticmethod
     def save() -> None:
         section = Settings.get("Prefrences")
-        pass
+        for subroot in Preferences.ROOT.children:
+            subroot.__save(section)
+
+    ##########
+    #   Implementation helpers
+    def __load(self, section: ComponentSettings) -> None:
+        #   Do the local preferences...
+        for preference in self.__preferences:
+            key = self.qualified_name + "." + preference.name
+            try:
+                if isinstance(preference, BoolPreference):
+                    preference.value = section.get_bool(key, preference.value)
+            except:
+                pass    #   use default value of the Preference
+        #   ...then the children
+        for child in self.__children:
+            child.__load(section)
+
+    def __save(self, section: ComponentSettings) -> None:
+        #   Do the local preferences...
+        for preference in self.__preferences:
+            key = self.qualified_name + "." + preference.name
+            if preference.value is None:
+                section.remove(key)
+            else:
+                try:
+                    if isinstance(preference, BoolPreference):
+                        section.put_bool(key, preference.value)
+                except:
+                    pass    #   use default value of the Preference
+        #   ...then the children
+        for child in self.__children:
+            child.__save(section)
+            

@@ -34,6 +34,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="implementation\GeneralPreferences.py" />
+    <Compile Include="implementation\BoolPreference.py" />
+    <Compile Include="implementation\Preference.py" />
     <Compile Include="implementation\RootPreferences.py" />
     <Compile Include="implementation\Preferences.py" />
     <Compile Include="implementation\PropertyChangeEventHandler.py" />

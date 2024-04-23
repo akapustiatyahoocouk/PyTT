@@ -14,7 +14,7 @@ class RootPreferences(Preferences):
 
     def __init__(self):
         assert RootPreferences.__instance_acquisition_in_progress, "Use RootPreferences.instance instead"
-        Preferences.__init__(self, None, "")
+        Preferences.__init__(self, None, "ROOT")
 
     @staticproperty
     def instance() -> Preferences:
