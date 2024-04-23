@@ -35,6 +35,6 @@ class RootPreferences(Preferences):
     #   Preferences - Properties
     @property
     def display_name(self) -> str:
-        return ""
+        return "<ROOT>"
 
 RootPreferences.instance    #   To instantiate it

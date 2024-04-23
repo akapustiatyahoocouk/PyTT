@@ -2,8 +2,10 @@
     PyTT Client General/Startup preferences.
 """
 #   Python standard library
+import tkinter as tk
 
 #   Dependencies on other PyTT components
+from awt.interface.api import *
 from util.interface.api import *
 
 ##########
@@ -45,4 +47,22 @@ class GeneralStartupPreferences(Preferences):
     def display_name(self) -> str:
         return 'Startup'
 
+    ##########
+    #   Preferences - Operations
+    def create_editor(self, parent: tk.BaseWidget) -> tk.BaseWidget:
+        assert isinstance(parent, tk.BaseWidget)
+        return _Editor(parent)
+
+    ##########
+    #   Properties
+    @property
+    def restore_workspace_on_startup(self) -> BoolPreference:
+        return self.__restore_workspace_on_startup
+
 GeneralStartupPreferences.instance #   to instantiate it
+
+##########
+#   Implementation helpers
+class _Editor(Panel):
+    def __init__(self, parent: tk.BaseWidget, **kwargs):
+        Panel.__init__(self, parent, **kwargs)

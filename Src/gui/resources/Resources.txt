@@ -56,6 +56,12 @@ AboutDialog.Title=About PyTT
 AboutDialog.OkButton.Text=OK
 AboutDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 
+PreferencesDialog.Title=Properties
+PreferencesDialog.OkButton.Text=OK
+PreferencesDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+PreferencesDialog.CancelButton.Text=Cancel
+PreferencesDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+
 LoginDialog.Title=Login to PyTT
 LoginDialog.LoginLabel.Text=Login:
 LoginDialog.PasswordLabel.Text=Password:

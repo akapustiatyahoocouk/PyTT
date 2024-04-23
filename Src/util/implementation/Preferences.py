@@ -1,6 +1,7 @@
 #   Python standard library
 from typing import final, Set
-from abc import abstractproperty
+from abc import abstractmethod, abstractproperty
+import tkinter as tk
 
 #   Internal dependencies on modules within the same component
 from util.implementation.Annotations import staticproperty
@@ -103,6 +104,21 @@ class Preferences(ABCWithConstants):
         for subroot in Preferences.ROOT.children:
             subroot.__save(section)
 
+    def create_editor(self, parent: tk.BaseWidget) -> tk.BaseWidget:
+        """
+            Creates a widget that acts as an interactive "editor"
+            for this Preferences.
+            
+            @param parent:
+                The parent widget for the new Preferences editor,
+                cannot be None.
+            @return:
+                The newly created editor widget for this Preferences
+                of None if this Preferences has nothing to edit.
+        """
+        assert isinstance(parent, tk.BaseWidget)
+        return None
+        
     ##########
     #   Implementation helpers
     def __load(self, section: ComponentSettings) -> None:

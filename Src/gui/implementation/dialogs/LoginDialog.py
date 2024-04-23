@@ -2,7 +2,7 @@
     Implements "Login to PyTT" modal dialog.
 """
 #   Python standard library
-from typing import Self, final, Optional, Callable
+from typing import final, Optional, Callable
 from enum import Enum
 import tkinter as tk
 

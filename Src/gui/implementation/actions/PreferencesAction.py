@@ -9,8 +9,8 @@ from awt.interface.api import *
 from workspace.interface.api import *
 
 #   Internal dependencies on modules within the same component
+from ..dialogs.PreferencesDialog import *
 from .ActionBase import ActionBase
-from gui.resources.GuiResources import GuiResources
 
 ##########
 #   Public entities
@@ -26,4 +26,5 @@ class PreferencesAction(ActionBase):
     ##########
     #   awt.Action - Operations
     def execute(self, evt: ActionEvent) -> None:
-        pass
+        with PreferencesDialog(self.dialog_parent) as dlg:
+            dlg.do_modal()
