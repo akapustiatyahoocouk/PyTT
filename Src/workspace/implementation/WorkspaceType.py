@@ -174,10 +174,6 @@ class WorkspaceType:
                 db.close()
             except:
                 pass    #   TODO log
-            try:
-                self.__db_type.destroy_database(address._WorkspaceAddress__db_address)
-            except Exception as ex:
-                pass    #   TODO log
             raise WorkspaceError.wrap(ex) from ex
         #   ...then the admin account...
         try:
@@ -187,10 +183,6 @@ class WorkspaceType:
         except Exception as ex:
             try:
                 db.close()
-            except:
-                pass    #   TODO log
-            try:
-                self.__db_type.destroy_database(address._WorkspaceAddress__db_address)
             except:
                 pass    #   TODO log
             raise WorkspaceError.wrap(ex) from ex

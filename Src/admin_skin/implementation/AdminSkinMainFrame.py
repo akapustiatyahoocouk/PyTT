@@ -29,8 +29,7 @@ class AdminSkinMainFrame(Frame,
 
         self.__action_set = ActionSet()
 
-        file_menu = ResourceAwareSubmenu(AdminSkinResources.factory,
-                                         "FileMenu")
+        file_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "FileMenu")
         file_menu.items.add(self.__action_set.create_workspace)
         file_menu.items.add(self.__action_set.open_workspace)
         file_menu.items.add_seperator()
@@ -40,8 +39,10 @@ class AdminSkinMainFrame(Frame,
         file_menu.items.add_seperator()
         file_menu.items.add(self.__action_set.exit)
 
-        help_menu = ResourceAwareSubmenu(AdminSkinResources.factory,
-                                         "HelpMenu")
+        tools_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "ToolsMenu")
+        tools_menu.items.add(self.__action_set.preferences)
+
+        help_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "HelpMenu")
         help_menu.items.add('Help', hotkey="H")
         help_menu.items.add('Search', hotkey="S").enabled = False
         help_menu.items.add('Index', hotkey="I")
@@ -50,6 +51,7 @@ class AdminSkinMainFrame(Frame,
 
         menu_bar = MenuBar()
         menu_bar.items.add(file_menu)
+        menu_bar.items.add(tools_menu)
         menu_bar.items.add(help_menu)
 
         self.menu_bar = menu_bar

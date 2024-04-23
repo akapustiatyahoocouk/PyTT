@@ -132,7 +132,7 @@ class SqlStatement:
             self.__db.execute_sql(self.prepared_sql)
         except Exception as ex:
             #   TODO log ?
-            raise DatabaseError(str(ex)) from ex
+            raise DatabaseError.wrap(ex)
 
     def set_int_parameter(self, parameter_ref: [int|str], value: Optional[int]) -> None:
         assert isinstance(parameter_ref, str) or isinstance(parameter_ref, int)
@@ -172,7 +172,7 @@ class SqlStatement:
 
     ##########
     #   Implementation helpers
-    def __parse_quoted_string(s: str, scan: int, opening_quote: str, closing_quote: str) -> (str, int):    #   (literal,new scan)
+    def __parse_quoted_string(self, s: str, scan: int, opening_quote: str, closing_quote: str) -> (str, int):    #   (literal,new scan)
         assert scan < len(s) and s[scan] == opening_quote
         assert (opening_quote == "'" or opening_quote == "\"" or
                 opening_quote == "`" or opening_quote == "[")
@@ -195,7 +195,6 @@ class SqlStatement:
                     continue
                 else:
                     #   Quote ends the literal
-                    scan += 1
                     return (result, scan)
             if s[scan] == "\\":
                 #   An escape sequence - ignore numerics for now

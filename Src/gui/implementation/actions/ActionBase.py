@@ -1,5 +1,5 @@
 """
-    Defines the common base for all Admin skin actions.
+    Defines the common base for all actions.
 """
 #   Python standard library
 from typing import Optional

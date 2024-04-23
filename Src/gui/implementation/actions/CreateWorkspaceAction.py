@@ -1,5 +1,5 @@
 """
-    Defines the "Create workspace" admin skin action.
+    Defines the "Create workspace" action.
 """
 #   Python standard library
 from typing import final

@@ -21,6 +21,14 @@ class SqlDatabase(Database):
 
     ##########
     #   Overridables (database engine - specific)
+    @property
+    def string_opening_quote(self) -> str:
+        return "'"  #   as per SQL standard
+    
+    @property
+    def string_closing_quote(self) -> str:
+        return "'"  #   as per SQL standard
+
     def quote_string_literal(self, s: str) -> str:
         assert isinstance(s, str)
 
@@ -33,8 +41,9 @@ class SqlDatabase(Database):
                 chunk += "\\n";
                 scan += 1
                 #   TODO other escape sequences
-            elif c == "'":
-                chunk += "''";
+            elif c == self.string_opening_quote:
+                #   Quote must be reprsented as quote-quote within string literals
+                chunk += self.string_opening_quote + self.string_opening_quote;
                 scan += 1
             elif c == "\\":
                 chunk += "\\\\"
@@ -46,13 +55,22 @@ class SqlDatabase(Database):
                 #   UNICODE, special characters
                 raise NotImplementedError()
         #   Record the last chunk
-        chunks.append("'" + chunk + "'")
-        chunks = list(filter(lambda x: x != "''", chunks))
-        return "''" if len(chunks) == 0 else "||".join(chunks)
+        chunks.append(self.string_opening_quote + chunk + self.string_closing_quote)
+        empty_literal = self.string_opening_quote + self.string_closing_quote
+        chunks = list(filter(lambda x: x != empty_literal, chunks))
+        return empty_literal if len(chunks) == 0 else "||".join(chunks)
+
+    @property
+    def identifier_opening_quote(self) -> str:
+        return "\"" #   as per SQL standard
+    
+    @property
+    def identifier_closing_quote(self) -> str:
+        return "\"" #   as per SQL standard
 
     def quote_identifier(self, s: str) -> str:
         assert isinstance(s, str)
-        return  "\"" + s + "\""
+        return  self.identifier_opening_quote + s + self.identifier_closing_quote
 
     @abstractmethod
     def begin_transaction(self) -> None:

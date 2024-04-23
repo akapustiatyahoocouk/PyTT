@@ -5,5 +5,7 @@ MainFrame.Title=PyTT Time Tracker
 
 FileMenu.Label=File
 FileMenu.Hotkey=F
+ToolsMenu.Label=Tools
+ToolsMenu.Hotkey=T
 HelpMenu.Label=Help
 HelpMenu.Hotkey=H

@@ -1,4 +1,7 @@
 ========== IMMEDIATE PIPELINE =====c=================================
+*   For SqlDatabase handle the exceptions raised by 
+    rollback_transaction properly - chaining, not replacing, the
+    exceptions that caused rollback attempts in their handlers.
 *   Add context (right click) menu to awt TextField and other text
     entry fields, with Copy, Cut, Parse, etc. For disabled text
     entry widgets only Copy shall work.

@@ -17,7 +17,17 @@ class DatabaseError(Exception):
     #   object
     def __str__(self) -> str:
         return self.__message
+    
+    ##########
+    #   Operations
+    def wrap(ex: Exception) -> "DatabaseError":
+        assert isinstance(ex, Exception)
 
+        if isinstance(ex, DatabaseError):
+            return ex
+        dberr = DatabaseError(str(ex))
+        dberr.__cause__ = ex
+        return dberr
 
 class InvalidDatabaseAddressError(DatabaseError):
     """ Thrown when an invalid database address is supplied to a db API service. """

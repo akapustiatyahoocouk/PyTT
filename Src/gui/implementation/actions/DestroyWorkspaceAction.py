@@ -1,5 +1,5 @@
 """
-    Defines the "Destroy workspace" admin skin action.
+    Defines the "Destroy workspace" action.
 """
 #   Python standard library
 from typing import final

@@ -44,7 +44,7 @@ class SqliteDatabaseLock(ClassWithConstants):
             mtime = os.path.getmtime(path)
             now = time.time()
             if now < mtime + SqliteDatabaseLock.LOCK_TIMEOUT_SEC:
-                raise NotImplementedError() #   TODO DatabaseError
+                raise DatabaseIoError("Database " + path + " already in use")
             #   Take over the lock & start refresh thread
         self.__refresh_thread_stop_requested = False
         self.__refresh_thread = Thread(target=self.__run, args=[])

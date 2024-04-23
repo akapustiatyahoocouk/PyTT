@@ -51,7 +51,6 @@ class SqliteDatabase(SqlDatabase):
         try:
             self.__lock = SqliteDatabaseLock(lock_path) #   may raise DatabaseError
         except Exception as ex:
-            connection.close()
             self.__is_open = False
             raise ex
 

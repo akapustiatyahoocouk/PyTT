@@ -10,6 +10,7 @@ from .OpenWorkspaceAction import OpenWorkspaceAction
 from .CloseWorkspaceAction import CloseWorkspaceAction
 from .DestroyWorkspaceAction import DestroyWorkspaceAction
 from .ExitAction import ExitAction
+from .PreferencesAction import PreferencesAction
 from .AboutAction import AboutAction
 
 ##########
@@ -26,6 +27,7 @@ class ActionSet:
         self.__close_workspace = CloseWorkspaceAction()
         self.__destroy_workspace = DestroyWorkspaceAction()
         self.__exit = ExitAction()
+        self.__preferences = PreferencesAction()
         self.__about = AboutAction()
 
     ##########
@@ -54,6 +56,11 @@ class ActionSet:
     def exit(self) -> ExitAction:
         """ The "Exit PyTT" action. """
         return self.__exit
+
+    @property
+    def preferences(self) -> PreferencesAction:
+        """ The "PyTT preferences" action. """
+        return self.__preferences
 
     @property
     def about(self) -> AboutAction:

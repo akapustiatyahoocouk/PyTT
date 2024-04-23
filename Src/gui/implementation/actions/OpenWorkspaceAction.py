@@ -1,5 +1,5 @@
 """
-    Defines the "Open workspace" admin skin action.
+    Defines the "Open workspace" action.
 """
 #   Python standard library
 from typing import final

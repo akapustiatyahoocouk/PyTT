@@ -33,6 +33,7 @@
   <ItemGroup>
     <Compile Include="implementation\actions\CloseWorkspaceAction.py" />
     <Compile Include="implementation\actions\DestroyWorkspaceAction.py" />
+    <Compile Include="implementation\actions\PreferencesAction.py" />
     <Compile Include="implementation\actions\OpenWorkspaceAction.py" />
     <Compile Include="implementation\actions\CreateWorkspaceAction.py" />
     <Compile Include="implementation\actions\AboutAction.py" />
@@ -69,6 +70,8 @@
     <Content Include="resources\images\actions\OkSmall.png" />
     <Content Include="resources\images\actions\OpenWorkspaceLarge.png" />
     <Content Include="resources\images\actions\OpenWorkspaceSmall.png" />
+    <Content Include="resources\images\actions\PreferencesLarge.png" />
+    <Content Include="resources\images\actions\PreferencesSmall.png" />
     <Content Include="resources\Resources.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

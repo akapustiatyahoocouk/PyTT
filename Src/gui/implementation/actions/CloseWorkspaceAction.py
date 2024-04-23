@@ -1,5 +1,5 @@
 """
-    Defines the "Close workspace" admin skin action.
+    Defines the "Close workspace" action.
 """
 #   Python standard library
 from typing import final

@@ -1,5 +1,5 @@
 """
-    Defnes "exit PyTT" admin skin action.
+    Defnes "exit PyTT" action.
 """
 #   Python standard library
 from typing import final
