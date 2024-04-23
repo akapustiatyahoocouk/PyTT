@@ -33,6 +33,9 @@
     <Content Include="resources\Resources_en.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="implementation\GeneralPreferences.py" />
+    <Compile Include="implementation\RootPreferences.py" />
+    <Compile Include="implementation\Preferences.py" />
     <Compile Include="implementation\PropertyChangeEventHandler.py" />
     <Compile Include="implementation\Annotations.py" />
     <Compile Include="implementation\Event.py" />

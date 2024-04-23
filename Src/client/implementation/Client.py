@@ -146,6 +146,7 @@ if __name__ == "__main__":
 
     CommandLine.parse()
 
+    #   Load plugins (showing splash screen if necessary)
     if CommandLine.show_splash_screen:
         splash_start_time = datetime.now(UTC)
         SplashScreen.show()
@@ -159,6 +160,10 @@ if __name__ == "__main__":
             if (utc_now - splash_start_time).seconds >= 3:
                 SplashScreen.hide()
                 break
+    
+    #   Now that all plugins are loaded, the Preferences
+    #   tree is complete, so we can load all Preferences        
+    Preferences.load()
 
     #   Perform initial login
     #   TODO use last successful login by default
@@ -177,6 +182,7 @@ if __name__ == "__main__":
     GuiRoot.tk.mainloop()
 
     #   Cleanup & exit
+    Preferences.save()
     ActiveSkin.set(None)
     print('exit main loop')
     GuiRoot.tk.destroy()

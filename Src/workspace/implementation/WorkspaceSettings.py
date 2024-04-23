@@ -11,6 +11,7 @@ from util.interface.api import *
 
 ##########
 #   Public entities
+@final
 class WorkspaceSettingsMeta(type):
 
     ##########

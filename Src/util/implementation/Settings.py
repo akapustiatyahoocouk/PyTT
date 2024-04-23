@@ -1,5 +1,5 @@
 """
-    Implementa persistent settings.
+    Implements persistent settings.
 """
 #   Python standard library
 from typing import final
@@ -22,6 +22,7 @@ _config.read(_config_file_name)
 
 def _exit_handler():
     try:
+        print("Saving " + _config_file_name)
         with open(_config_file_name, "w") as configfile:
             _config.write(configfile)
     except:

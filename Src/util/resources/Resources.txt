@@ -3,3 +3,5 @@ PyTT.ProductVersion=Version 1.0.0 (build 20240316)
 PyTT.ProductCopyright=Copyright (C) 2024, Andrey Kapustin
 PyTT.LargeImage=ImageFile:images/PyTTLarge.png
 PyTT.SmallImage=ImageFile:images/PyTTSmall.png
+
+Preferences.General=General
