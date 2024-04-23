@@ -66,3 +66,13 @@ GeneralStartupPreferences.instance #   to instantiate it
 class _Editor(Panel):
     def __init__(self, parent: tk.BaseWidget, **kwargs):
         Panel.__init__(self, parent, **kwargs)
+
+        #   Create controls        
+        self.__label0 = Label(self, text="aaabbbccc:", anchor=tk.E)
+        self.__label = Label(self, text="XXXYYYZZZ", anchor=tk.E)
+        
+        #   Set up control structure
+        self.__label0.grid(row=0, column=0, padx=2, pady=2, sticky="W")
+        self.__label.grid(row=0, column=1, padx=2, pady=2, sticky="WE")
+
+

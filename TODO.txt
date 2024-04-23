@@ -1,4 +1,8 @@
 ========== IMMEDIATE PIPELINE =====c=================================
+*   Retire LocaleProvider + make Locale.default an observable
+    property (that generates a PropertyChangeEvent).
+    DONE, but needs testing. Requires the "Options/Language"
+    admin skin main frame item.
 *   For SqlDatabase handle the exceptions raised by 
     rollback_transaction properly - chaining, not replacing, the
     exceptions that caused rollback attempts in their handlers.
@@ -8,10 +12,6 @@
 *   Teach FileResourceBundle to handle excape sequences in string
     resources, such as '\t' and '\n'. The \ itself must then be
     represented as '\\' in a resource text file.
-*   Retire LocaleProvider + make Locale.default an observable
-    property (that generates a PropertyChangeEvent).
-    DONE, but needs testing. Requires the "Options/Language"
-    admin skin main frame item.
 *   Locale.__str__ needs to use UtilResources for proper localisation.
 *   In many places in code there is "pass". Check on these - usually
     they silence the exception handlers; at least print the 
@@ -32,5 +32,17 @@
     Make sure this happens throughout the code base.
 *   Use menu item / action "description"s as tooltips for menu 
     items, button, etc.
+*   Isolate tk/ttl within AWT.
+    *   Only AWT modules should import tk/ttk; all other components
+        shall happily do without.
+    *   tk/ttk widget configuration (.configure, etc.) services
+        shall be hidden behint AWT-level properties.
+*   Define Color class in AWT, like java.awt.Color.
+*   Define Point, Size and Rectangle aliases in AWT to be tuples
+    of 2, 2, and 4 ints respectively, and use them.
 
 ========== NICE TO HAVE ============================================
+*   AWT compound controls (ListBox, ComboBox, TreeView, TabbedPane,
+    etc.) should define classes for their contained items (e.g.
+    ListBoxItem for ListBox, TreeNode for TreeView, TabPage for
+    TabbedPane, etc.) and use them.

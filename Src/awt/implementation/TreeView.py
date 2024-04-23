@@ -6,6 +6,8 @@ import tkinter.ttk as ttk
 
 #   Internal dependencies on modules within the same component
 from .BaseWidgetMixin import BaseWidgetMixin
+from .ItemEventType import ItemEventType
+from .ItemEvent import ItemEvent
 from .ItemEventProcessorMixin import ItemEventProcessorMixin
 
 ##########
@@ -28,6 +30,7 @@ class TreeView(ttk.Treeview,
     
     ##########
     #   Properties
+    @property    
     def focused_item(self) -> str:
         """ The ID of the currently focused item, None if there isn't one. """
         focus = self.focus()
