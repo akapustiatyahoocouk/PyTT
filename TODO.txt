@@ -1,4 +1,16 @@
 ========== IMMEDIATE PIPELINE =====c=================================
+*   In CreateWorkspaceDialog add a choice governed by two mutually
+    exclusive RadioButtons - "use current crdentials" and "specify
+    new credentials" for the adminostrator User/Account of a newly
+    created workspace.
+*   Change WorkspaceSettings to hane a static property
+    last_used_workspace_address:WorkspaceAddress instead of two 
+    separate properties last_used_workspace_type and 
+    last_used_workspace_address
+*   Change AdminSkinSettings to use a single property 
+    main_frame_bounds: Rectangle instead of 4 deparate properties
+    main_frame_x, main_frame_y, main_frame_width and 
+    main_frame_height.
 *   Retire LocaleProvider + make Locale.default an observable
     property (that generates a PropertyChangeEvent).
     DONE, but needs testing. Requires the "Options/Language"
@@ -38,7 +50,7 @@
     *   tk/ttk widget configuration (.configure, etc.) services
         shall be hidden behint AWT-level properties.
 *   Define Color class in AWT, like java.awt.Color.
-*   Define Point, Size and Rectangle aliases in AWT to be tuples
+*   Define Point, Size and Rectangle classes in AWT to be "tuples"
     of 2, 2, and 4 ints respectively, and use them.
 
 ========== NICE TO HAVE ============================================

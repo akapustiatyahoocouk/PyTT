@@ -74,6 +74,16 @@ class Preferences(ABCWithConstants):
         raise NotImplementedError()
 
     @property
+    def qualified_display_name(self) -> str:
+        from .RootPreferences import RootPreferences
+        if self.__parent is None:
+            return ""
+        elif isinstance(self.__parent, RootPreferences):
+            return self.display_name
+        else:
+            return self.__parent.qualified_display_name + " / " + self.display_name
+
+    @property
     def parent(self) -> "Preferences":
         """ The immediate parent Preferences is this Preferences.
             The root Preferences of the Preferences tree has no

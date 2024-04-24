@@ -56,7 +56,7 @@ AboutDialog.Title=About PyTT
 AboutDialog.OkButton.Text=OK
 AboutDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 
-PreferencesDialog.Title=Properties
+PreferencesDialog.Title=Preferences
 PreferencesDialog.OkButton.Text=OK
 PreferencesDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 PreferencesDialog.CancelButton.Text=Cancel

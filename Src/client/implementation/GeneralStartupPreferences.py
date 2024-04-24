@@ -8,6 +8,9 @@ import tkinter as tk
 from awt.interface.api import *
 from util.interface.api import *
 
+#   Internal dependencies on modules within the same component
+from ..resources.ClientResources import ClientResources
+
 ##########
 #   Public entities
 class GeneralStartupPreferences(Preferences):
@@ -69,11 +72,11 @@ class _Editor(Panel):
         Panel.__init__(self, parent, **kwargs)
 
         #   Create controls        
-        self.__label0 = Label(self, text="aaabbbccc:", anchor=tk.E)
-        self.__reload_workspace_check_box = CheckBox(self, text="XXXYYYZZZ")
+        #TODO kill off self.__label0 = Label(self, text="aaabbbccc:", anchor=tk.E)
+        self.__reload_workspace_check_box = CheckBox(self, text=ClientResources.string("GeneralStartupPreferencesEditor.ReloadWorkspaceCheckBox.Text"))
         
         #   Set up control structure
-        self.__label0.grid(row=0, column=0, padx=2, pady=2, sticky="W")
+        #TODO kill off self.__label0.grid(row=0, column=0, padx=2, pady=2, sticky="W")
         self.__reload_workspace_check_box.grid(row=0, column=1, padx=2, pady=2, sticky="WE")
 
         #   Adjust controls

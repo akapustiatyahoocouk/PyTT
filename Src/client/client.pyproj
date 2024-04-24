@@ -26,12 +26,16 @@
     <Compile Include="implementation\GeneralStartupPreferences.py" />
     <Compile Include="implementation\Client.py" />
     <Compile Include="implementation\CommandLine.py" />
-    <Compile Include="implementation\GeneralStartupPreferencesEditor.py" />
+    <Compile Include="resources\ClientResources.py" />
     <Compile Include="__init__.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="interface\" />
     <Folder Include="implementation\" />
+    <Folder Include="resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="resources\Resources.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

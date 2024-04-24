@@ -57,6 +57,8 @@ class ErrorDialog(Dialog):
             image=AwtResources.image("ErrorDialog.OkButton.Icon"))
 
         #   Adjust controls
+        self.__tabbed_pane.focusable = False
+
         while isinstance(ex, Exception):
             details = traceback.format_exception(ex, chain=False)
 

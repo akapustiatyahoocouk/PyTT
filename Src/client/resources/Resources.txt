@@ -1,0 +1,2 @@
+
+GeneralStartupPreferencesEditor.ReloadWorkspaceCheckBox.Text=Reload last used workspace on startup

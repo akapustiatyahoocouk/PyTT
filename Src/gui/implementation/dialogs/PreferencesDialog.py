@@ -12,13 +12,26 @@ from gui.resources.GuiResources import GuiResources
 
 ##########
 #   Public entities
-class PreferencesDialog(Dialog):
+@final
+class PreferencesDialogResult(Enum):
+    """ The result of modal invocation of the PreferencesDialog. """
 
+    OK = 1
+    """ User has changed and saved the preferences. """
+
+    CANCEL = 2
+    """ Dialog cancelled by user. """
+
+class PreferencesDialog(Dialog):
+    """ The modal "Preferences" dialog. """
+    
     ##########
     #   Construction
     def __init__(self, parent: tk.BaseWidget):
         Dialog.__init__(self, parent, GuiResources.string("PreferencesDialog.Title"))
 
+        self.__result = PreferencesDialogResult.CANCEL
+        
         #   Save preference values in case we need to rollback them
         self.__saved_preference_values = dict()
         self.__record_preference_values(Preferences.ROOT)
@@ -53,19 +66,27 @@ class PreferencesDialog(Dialog):
         self.__map_preferences_to_tab_pane_indices = dict()
         self.__populate_preferences_tree("", Preferences.ROOT)
 
+        #   Adjust control
+        self.__preferences_tabbed_pane.focusable = False
+        
         #   Set up control structure
         self.__controls_panel.pack(fill=tk.X, padx=0, pady=0)
 
         self.__preferences_tree_view.pack(side=tk.LEFT, padx=0, pady=0)
-        self.__preferences_panel.pack(fill=tk.BOTH, padx=0, pady=0)
-        self.__current_preferences_label.pack(side=tk.TOP, fill=tk.X, padx=0, pady=0)
-        self.__preferences_tabbed_pane.pack(fill=tk.BOTH, padx=0, pady=0)
+        self.__preferences_panel.pack(fill=tk.BOTH, padx=2, pady=0)
+        self.__current_preferences_label.pack(side=tk.TOP, fill=tk.X, padx=2, pady=0)
+        self.__preferences_tabbed_pane.pack(fill=tk.BOTH, padx=2, pady=0)
 
         self.__separator.pack(fill=tk.X, padx=0, pady=4)
         self.__cancel_button.pack(side=tk.RIGHT, padx=0, pady=0)
         self.__ok_button.pack(side=tk.RIGHT, padx=0, pady=0)
 
+        #   TODO select last selected Preferences tree node as current
+        
         #   Set up event listeners
+        self.ok_button = self.__ok_button
+        self.cancel_button = self.__cancel_button
+        
         self.__preferences_tree_view.add_item_listener(self.__preferences_tree_view_listener)
 
         self.__ok_button.add_action_listener(self.__on_ok)
@@ -79,16 +100,26 @@ class PreferencesDialog(Dialog):
     ##########
     #   Refreshable
     def refresh(self) -> None:
-        """ Called by the refresh handling logic whenever a "refresh"
-            is performed on this UI object. """
         focus_node_id = self.__preferences_tree_view.focused_item
         preferences = self.__map_tree_node_ids_to_preferences.get(focus_node_id, None)
         editor = self.__map_preferences_to_editors.get(preferences, None)
+        
+        if preferences is None:
+            self.__current_preferences_label.configure(text="")
+        else:
+            self.__current_preferences_label.configure(text=preferences.qualified_display_name)
         if editor is None:
             self.__preferences_tabbed_pane.select(0)
         else:
             self.__preferences_tabbed_pane.select(self.__map_preferences_to_tab_pane_indices[preferences])
         pass
+
+    ##########
+    #   Properties
+    @property
+    def result(self) -> PreferencesDialogResult:
+        """ The dialog result after a modal invocation. """
+        return self.__result
 
     ##########
     #   Implementation helpers
@@ -122,10 +153,12 @@ class PreferencesDialog(Dialog):
     def __on_ok(self, evt = None) -> None:
         if not self.__ok_button.enabled:
             return
+        self.__result = PreferencesDialogResult.OK
         self.end_modal()
 
     def __on_cancel(self, evt = None) -> None:
         #   Rollback changes made to preferences
         for preference in self.__saved_preference_values:
             preference.value = self.__saved_preference_values[preference]
+        self.__result = PreferencesDialogResult.CANCEL
         self.end_modal()
