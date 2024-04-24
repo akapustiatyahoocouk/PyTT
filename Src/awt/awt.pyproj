@@ -27,6 +27,7 @@
     <Compile Include="implementation\ActionEventProcessorMixin.py" />
     <Compile Include="implementation\ActionEventHandler.py" />
     <Compile Include="implementation\ErrorDialog.py" />
+    <Compile Include="implementation\CheckBox.py" />
     <Compile Include="implementation\TabbedPane.py" />
     <Compile Include="implementation\TreeView.py" />
     <Compile Include="implementation\ListBox.py" />

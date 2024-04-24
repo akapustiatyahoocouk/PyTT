@@ -19,6 +19,10 @@ class PreferencesDialog(Dialog):
     def __init__(self, parent: tk.BaseWidget):
         Dialog.__init__(self, parent, GuiResources.string("PreferencesDialog.Title"))
 
+        #   Save preference values in case we need to rollback them
+        self.__saved_preference_values = dict()
+        self.__record_preference_values(Preferences.ROOT)
+
         #   Create control styles
         style = ttk.Style()
         style.layout('Tabless.TNotebook.Tab', []) # new style with tabs turned off
@@ -64,6 +68,9 @@ class PreferencesDialog(Dialog):
         #   Set up event listeners
         self.__preferences_tree_view.add_item_listener(self.__preferences_tree_view_listener)
 
+        self.__ok_button.add_action_listener(self.__on_ok)
+        self.__cancel_button.add_action_listener(self.__on_cancel)
+
         #   Done
         self.wait_visibility()
         self.center_in_parent()
@@ -82,9 +89,17 @@ class PreferencesDialog(Dialog):
         else:
             self.__preferences_tabbed_pane.select(self.__map_preferences_to_tab_pane_indices[preferences])
         pass
-        
+
     ##########
     #   Implementation helpers
+    def __record_preference_values(self, preferences: Preferences):
+        for child in preferences.children:  #   TODO sort by explicit order, then alphabetically
+            #   Do this child...
+            for preference in child.preferences:
+                self.__saved_preference_values[preference] = preference.value
+            #   ... then sub-children
+            self.__record_preference_values(child)
+
     def __populate_preferences_tree(self, parent_item: str, preferences: Preferences):
         for child in preferences.children:  #   TODO sort by explicit order, then alphabetically
             #   Do this child...
@@ -103,3 +118,14 @@ class PreferencesDialog(Dialog):
     #   Event listeners
     def __preferences_tree_view_listener(self, evt: ItemEvent):
         self.request_refresh()
+
+    def __on_ok(self, evt = None) -> None:
+        if not self.__ok_button.enabled:
+            return
+        self.end_modal()
+
+    def __on_cancel(self, evt = None) -> None:
+        #   Rollback changes made to preferences
+        for preference in self.__saved_preference_values:
+            preference.value = self.__saved_preference_values[preference]
+        self.end_modal()

@@ -11,6 +11,7 @@ from awt.implementation.ActionEventListener import *
 from awt.implementation.ActionEventProcessorMixin import *
 from awt.implementation.BaseWidgetMixin import *
 from awt.implementation.Button import *
+from awt.implementation.CheckBox import *
 from awt.implementation.ComboBox import *
 from awt.implementation.Dialog import *
 from awt.implementation.ErrorDialog import *

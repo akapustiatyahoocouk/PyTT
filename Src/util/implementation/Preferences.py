@@ -84,6 +84,10 @@ class Preferences(ABCWithConstants):
     def children(self) -> Set["Preferences"]:
         return set(self.__children)
 
+    @property
+    def preferences(self) -> Set["Preference"]:
+        return set(self.__preferences)
+
     ##########
     #   Operations
     def add_preference(self, preference: Preference) -> None:

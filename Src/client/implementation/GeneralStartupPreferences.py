@@ -25,6 +25,7 @@ class GeneralStartupPreferences(Preferences):
         self.__restore_workspace_on_startup = BoolPreference("RestoreWorkspaceOnStartup", False)
         
         self.add_preference(self.__restore_workspace_on_startup)
+        pass
         
     @staticproperty
     def instance() -> Preferences:
@@ -69,10 +70,20 @@ class _Editor(Panel):
 
         #   Create controls        
         self.__label0 = Label(self, text="aaabbbccc:", anchor=tk.E)
-        self.__label = Label(self, text="XXXYYYZZZ", anchor=tk.E)
+        self.__reload_workspace_check_box = CheckBox(self, text="XXXYYYZZZ")
         
         #   Set up control structure
         self.__label0.grid(row=0, column=0, padx=2, pady=2, sticky="W")
-        self.__label.grid(row=0, column=1, padx=2, pady=2, sticky="WE")
+        self.__reload_workspace_check_box.grid(row=0, column=1, padx=2, pady=2, sticky="WE")
 
+        #   Adjust controls
+        self.__reload_workspace_check_box.checked = GeneralStartupPreferences.instance.restore_workspace_on_startup.value
 
+        #   Set up event handlers
+        self.__reload_workspace_check_box.add_action_listener(self.__reload_workspace_check_box_clicked)
+
+    ##########
+    #   Event handlers
+    def __reload_workspace_check_box_clicked(self, evt: ActionEvent):
+        c = self.__reload_workspace_check_box.checked
+        GeneralStartupPreferences.instance.restore_workspace_on_startup.value = c
