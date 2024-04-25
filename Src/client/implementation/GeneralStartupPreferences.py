@@ -25,10 +25,11 @@ class GeneralStartupPreferences(Preferences):
         assert GeneralStartupPreferences.__instance_acquisition_in_progress, "Use GeneralStartupPreferences.instance instead"
         Preferences.__init__(self, GeneralPreferences.instance, "Startup")
 
-        self.__restore_workspace_on_startup = BoolPreference("RestoreWorkspaceOnStartup", False)
+        self.__use_last_login = BoolPreference("UseLastLogin", False)
+        self.__restore_workspace = BoolPreference("RestoreWorkspace", False)
         
-        self.add_preference(self.__restore_workspace_on_startup)
-        pass
+        self.add_preference(self.__use_last_login)
+        self.add_preference(self.__restore_workspace)
         
     @staticproperty
     def instance() -> Preferences:
@@ -60,8 +61,12 @@ class GeneralStartupPreferences(Preferences):
     ##########
     #   Properties
     @property
-    def restore_workspace_on_startup(self) -> BoolPreference:
-        return self.__restore_workspace_on_startup
+    def use_last_login(self) -> BoolPreference:
+        return self.__use_last_login
+
+    @property
+    def restore_workspace(self) -> BoolPreference:
+        return self.__restore_workspace
 
 GeneralStartupPreferences.instance #   to instantiate it
 
@@ -72,21 +77,27 @@ class _Editor(Panel):
         Panel.__init__(self, parent, **kwargs)
 
         #   Create controls        
-        #TODO kill off self.__label0 = Label(self, text="aaabbbccc:", anchor=tk.E)
+        self.__use_last_login_check_box = CheckBox(self, text=ClientResources.string("GeneralStartupPreferencesEditor.UseLastLoginCheckBox.Text"))
         self.__reload_workspace_check_box = CheckBox(self, text=ClientResources.string("GeneralStartupPreferencesEditor.ReloadWorkspaceCheckBox.Text"))
         
         #   Set up control structure
-        #TODO kill off self.__label0.grid(row=0, column=0, padx=2, pady=2, sticky="W")
-        self.__reload_workspace_check_box.grid(row=0, column=1, padx=2, pady=2, sticky="WE")
+        self.__use_last_login_check_box.grid(row=0, column=1, padx=2, pady=2, sticky="WE")
+        self.__reload_workspace_check_box.grid(row=1, column=1, padx=2, pady=2, sticky="WE")
 
         #   Adjust controls
-        self.__reload_workspace_check_box.checked = GeneralStartupPreferences.instance.restore_workspace_on_startup.value
+        self.__use_last_login_check_box.checked = GeneralStartupPreferences.instance.use_last_login.value
+        self.__reload_workspace_check_box.checked = GeneralStartupPreferences.instance.restore_workspace.value
 
         #   Set up event handlers
+        self.__use_last_login_check_box.add_action_listener(self.__use_last_login_check_box_clicked)
         self.__reload_workspace_check_box.add_action_listener(self.__reload_workspace_check_box_clicked)
 
     ##########
     #   Event handlers
+    def __use_last_login_check_box_clicked(self, evt: ActionEvent):
+        c = self.__use_last_login_check_box.checked
+        GeneralStartupPreferences.instance.use_last_login.value = c
+
     def __reload_workspace_check_box_clicked(self, evt: ActionEvent):
         c = self.__reload_workspace_check_box.checked
-        GeneralStartupPreferences.instance.restore_workspace_on_startup.value = c
+        GeneralStartupPreferences.instance.restore_workspace.value = c

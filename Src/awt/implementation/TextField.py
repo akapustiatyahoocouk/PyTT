@@ -1,5 +1,5 @@
 #   Python standard library
-from typing import Callable
+from typing import Optional
 from inspect import signature
 import tkinter as tk
 import tkinter.ttk as ttk
@@ -12,7 +12,7 @@ from .BaseWidgetMixin import BaseWidgetMixin
 
 ##########
 #   Public entities
-class TextField(ttk.Entry, 
+class TextField(ttk.Entry,
                 BaseWidgetMixin,
                 PropertyChangeEventProcessorMixin):
     """ A ttk.Entry with AWT extensions. """
@@ -54,9 +54,18 @@ class TextField(ttk.Entry,
         assert isinstance(new_text, str)
         self.__variable.set(new_text)
 
+    @property
+    def password_entry(self) -> bool:
+        raise NotImplementedError
+
+    @password_entry.setter
+    def password_entry(self, new_password_entry: bool) -> str:
+        assert isinstance(new_password_entry, bool)
+        self.configure(show="\u2022" if new_password_entry else None)
+
     ##########
     #   Tk event handlers
     def __on_tk_text_changed(self, *args):
         evt = PropertyChangeEvent(source=self, affected_object=self, changed_property=TextField.TEXT)
         self.process_property_change_event(evt)
- 
+

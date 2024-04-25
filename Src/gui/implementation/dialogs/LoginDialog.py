@@ -63,7 +63,7 @@ class LoginDialog(Dialog):
         self.__password_label = Label(self.__controls_panel,
                                       text=GuiResources.string("LoginDialog.PasswordLabel.Text"),
                                       anchor=tk.E)
-        self.__password_text_field = TextField(self.__controls_panel, width=40, show="\u2022", text="")
+        self.__password_text_field = TextField(self.__controls_panel, width=40, text="")
 
         self.__separator = Separator(self, orient="horizontal")
 
@@ -74,6 +74,9 @@ class LoginDialog(Dialog):
             text=GuiResources.string("LoginDialog.CancelButton.Text"),
             image=GuiResources.image("LoginDialog.CancelButton.Icon"))
 
+        #   Adjust controls
+        self.__password_text_field.password_entry = True
+        
         #   Set up control structure
         self.__controls_panel.pack(fill=tk.X, padx=0, pady=0)
         self.__controls_panel.columnconfigure(1, weight=10)

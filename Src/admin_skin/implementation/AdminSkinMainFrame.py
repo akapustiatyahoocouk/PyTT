@@ -71,7 +71,7 @@ class AdminSkinMainFrame(Frame,
         self.add_window_listener(self)
         self.add_widget_listener(self)
 
-        self.add_key_listener(lambda e: print(e))
+        #TOCO kill off self.add_key_listener(lambda e: print(e))
 
         Workspace.add_property_change_listener(self.__on_workspace_changed)
         Locale.add_property_change_listener(self.__on_locale_changed)
@@ -100,23 +100,29 @@ class AdminSkinMainFrame(Frame,
     ##########
     #   WidgetEventHandler
     def on_widget_moved(self, evt: WidgetEvent) -> None:
+        """ Saves frame position when it has been moved. """
         self.__save_position()
 
     def on_widget_resized(self, evt: WidgetEvent) -> None:
+        """ Saves frame position when it has been resized. """
         self.__save_position()
 
     ##########
     #   WindowEventHandler
     def on_window_minimized(self, evt: WindowEvent) -> None:
+        """ Saves frame position when it has been minimized. """
         self.__save_position()
 
     def on_window_maximized(self, evt: WindowEvent) -> None:
+        """ Saves frame position when it has been maximized. """
         self.__save_position()
 
     def on_window_restored(self, evt: WindowEvent) -> None:
+        """ Saves frame position when it has been restored. """
         self.__save_position()
 
     def on_window_closing(self, evt: WindowEvent) -> None:
+        """ Exits PyTT when the user attempts to close the frame. """
         evt.processed = True
         self.__action_set.exit.execute(ActionEvent(self))
 

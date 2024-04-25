@@ -15,67 +15,67 @@ class AdminSkinSettingsMeta(type):
 
     ##########
     #   Construction
-    def __init__(self, *args, **kwargs):
-        type.__init__(self, *args, **kwargs)
+    def __init__(cls, *args, **kwargs):
+        type.__init__(cls, *args, **kwargs)
 
-        self.__impl = Settings.get("AdminSkin")
+        cls.__impl = Settings.get("AdminSkin")
 
     ##########
     #   Properties
     @property
-    def main_frame_x(self) -> int:
+    def main_frame_x(cls) -> int:
         """ The X-coordinate of the main frame's top-left corner. """
-        return self.__impl.get_int("main_frame_x", 64)
+        return cls.__impl.get_int("main_frame_x", 64)
 
     @main_frame_x.setter
-    def main_frame_x(self, new_x: int) -> None:
+    def main_frame_x(cls, new_x: int) -> None:
         """ Sets the X-coordinate of the main frame's top-left corner. """
         assert isinstance(new_x, int)
-        self.__impl.put_int("main_frame_x", new_x)
+        cls.__impl.put_int("main_frame_x", new_x)
 
     @property
-    def main_frame_y(self) -> int:
+    def main_frame_y(cls) -> int:
         """ The Y-coordinate of the main frame's top-left corner. """
-        return self.__impl.get_int("main_frame_y", 64)
+        return cls.__impl.get_int("main_frame_y", 64)
 
     @main_frame_y.setter
-    def main_frame_y(self, new_y: int) -> None:
+    def main_frame_y(cls, new_y: int) -> None:
         """ Sets the Y-coordinate of the main frame's top-left corner. """
         assert isinstance(new_y, int)
-        self.__impl.put_int("main_frame_y", new_y)
+        cls.__impl.put_int("main_frame_y", new_y)
 
     @property
-    def main_frame_width(self) -> int:
+    def main_frame_width(cls) -> int:
         """ The width of the main frame. """
-        return self.__impl.get_int("main_frame_width", 480)
+        return cls.__impl.get_int("main_frame_width", 480)
 
     @main_frame_width.setter
-    def main_frame_width(self, new_width: int) -> None:
+    def main_frame_width(cls, new_width: int) -> None:
         """ Sets the width of the main frame. """
         assert isinstance(new_width, int)
-        self.__impl.put_int("main_frame_width", new_width)
+        cls.__impl.put_int("main_frame_width", new_width)
 
     @property
-    def main_frame_height(self) -> int:
+    def main_frame_height(cls) -> int:
         """ The height of the main frame. """
-        return self.__impl.get_int("main_frame_height", 320)
+        return cls.__impl.get_int("main_frame_height", 320)
 
     @main_frame_height.setter
-    def main_frame_height(self, new_height: int) -> None:
+    def main_frame_height(cls, new_height: int) -> None:
         """ Sets the height of the main frame. """
         assert isinstance(new_height, int)
-        self.__impl.put_int("main_frame_height", new_height)
+        cls.__impl.put_int("main_frame_height", new_height)
 
     @property
-    def main_frame_maximized(self) -> bool:
+    def main_frame_maximized(cls) -> bool:
         """ True if the main frame is maximized, else False. """
-        return self.__impl.get_bool("main_frame_maximized", False)
+        return cls.__impl.get_bool("main_frame_maximized", False)
 
     @main_frame_maximized.setter
-    def main_frame_maximized(self, new_maximized: bool) -> None:
+    def main_frame_maximized(cls, new_maximized: bool) -> None:
         """ Set to True if the main frame is maximized, else to False. """
         assert isinstance(new_maximized, bool)
-        self.__impl.put_bool("main_frame_maximized", new_maximized)
+        cls.__impl.put_bool("main_frame_maximized", new_maximized)
 
 @final
 class AdminSkinSettings(metaclass=AdminSkinSettingsMeta):

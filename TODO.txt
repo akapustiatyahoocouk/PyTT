@@ -1,8 +1,4 @@
 ========== IMMEDIATE PIPELINE =====c=================================
-*   In CreateWorkspaceDialog add a choice governed by two mutually
-    exclusive RadioButtons - "use current crdentials" and "specify
-    new credentials" for the adminostrator User/Account of a newly
-    created workspace.
 *   Change WorkspaceSettings to hane a static property
     last_used_workspace_address:WorkspaceAddress instead of two 
     separate properties last_used_workspace_type and 

@@ -1,6 +1,5 @@
+""" Defines a "check box" AWT widget. """
 #   Python standard library
-from typing import Callable
-from inspect import signature
 import tkinter as tk
 import tkinter.ttk as ttk
 
@@ -11,7 +10,7 @@ from .ActionEventProcessorMixin import ActionEventProcessorMixin
 
 ##########
 #   Public entities
-class CheckBox(ttk.Checkbutton, 
+class CheckBox(ttk.Checkbutton,
                BaseWidgetMixin,
                ActionEventProcessorMixin):
     """ A ttk.Checkbutton with AWT extensions. """
@@ -31,14 +30,18 @@ class CheckBox(ttk.Checkbutton,
     #   Properties
     @property
     def checked(self) -> bool:
+        """ True if this CheckBox is currently checked, Talse if unchecked. """
         return self.__variable.get()
-        
+
     @checked.setter
     def checked(self, new_checked: bool) -> bool:
+        """ Checks (True) or unchecks (False) this CheckBox, """
         assert isinstance(new_checked, bool)
-        self.__variable.set(new_checked)
+        if new_checked != self.__variable.get():
+            self.__variable.set(new_checked)
+            self.__checkbox_clicked()
 
-    ##########        
+    ##########
     #   Tk event handlers
     def __checkbox_clicked(self, *args):
         evt = ActionEvent(self)

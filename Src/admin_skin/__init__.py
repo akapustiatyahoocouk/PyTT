@@ -1,8 +1,6 @@
 """
     Package declarations for admin_skin_impl package.
 """
-print('Loading package', __file__)
-
 #   Python standard library
 from typing import final
 
@@ -10,6 +8,10 @@ from typing import final
 from gui.interface.api import *
 from pnp.interface.api import *
 from util.interface.api import *
+
+##########
+#   Package initialization
+print('Loading package', __file__)
 
 @final
 class AdminSkinPlugin(Plugin):
@@ -20,7 +22,8 @@ class AdminSkinPlugin(Plugin):
     __instance : Plugin = None
 
     def __init__(self):
-        assert AdminSkinPlugin.__instance_acquisition_in_progress, "Use AdminSkinPlugin.instance instead"
+        assert AdminSkinPlugin.__instance_acquisition_in_progress, \
+               "Use AdminSkinPlugin.instance instead"
         Plugin.__init__(self)
 
     @staticproperty

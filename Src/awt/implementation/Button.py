@@ -94,9 +94,9 @@ class Button(ttk.Button,
     def __on_action_property_changed(self, evt: PropertyChangeEvent) -> None:
         match evt.changed_property:
             case Action.NAME_PROPERTY_NAME:
-                self.label = self.__action.name
+                raise NotImplementedError() # TODO self.label = self.__action.name
             case Action.SHORTCUT_PROPERTY_NAME:
-                self.shortcut = self.__action.shortcut
+                raise NotImplementedError() # TODO self.shortcut = self.__action.shortcut
             case Action.ENABLED_PROPERTY_NAME:
                 self.enabled = self.__action.enabled
             case _:

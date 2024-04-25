@@ -1,2 +1,2 @@
-
-GeneralStartupPreferencesEditor.ReloadWorkspaceCheckBox.Text=Reload last used workspace on startup
+GeneralStartupPreferencesEditor.UseLastLoginCheckBox.Text=Use login from the last session
+GeneralStartupPreferencesEditor.ReloadWorkspaceCheckBox.Text=Reload last used workspace
