@@ -80,7 +80,7 @@ class SqlUser(SqlDatabaseObject, User):
                        login: str = None,  #   MUST specify!
                        password: str = "",
                        capabilities: Capabilities = Capabilities.NONE,
-                       email_addresses: List[str] = list()) -> Account:
+                       email_addresses: List[str] = []) -> Account:
         assert isinstance(enabled, bool)
         assert isinstance(login, str)
         assert isinstance(password, str)

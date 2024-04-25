@@ -28,8 +28,8 @@ class ListBoxItems:
         assert list_box._ListBox__creating_items
 
         self.__list_box = list_box
-        self.__items = list()
-        self.__item_ids = list()    #   Parallel to self.__items
+        self.__items = []
+        self.__item_ids = []    #   Parallel to self.__items
 
     ##########
     #   object

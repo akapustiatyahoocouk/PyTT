@@ -18,7 +18,7 @@ class RadioButtonGroup:
     def __init__(self):
 
         self.__variable = tk.IntVar(master=None, value=-1)
-        self.__group_members = list()
+        self.__group_members = []
         
     ##########
     #   Properties

@@ -30,7 +30,7 @@
     <Content Include="resources\images\PyTTLarge.png" />
     <Content Include="resources\images\PyTTSmall.png" />
     <Content Include="resources\Resources.txt" />
-    <Content Include="resources\Resources_en.txt" />
+    <Content Include="resources\Resources_ru.txt" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="implementation\GeneralPreferences.py" />

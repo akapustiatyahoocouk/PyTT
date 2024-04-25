@@ -196,7 +196,7 @@ class User(DatabaseObject):
                        login: str = None,  #   MUST specify!
                        password: str = "",
                        capabilities: Capabilities = Capabilities.NONE,
-                       email_addresses: List[str] = list()) -> Account:
+                       email_addresses: List[str] = []) -> Account:
         """
             Creates a new Account for this User.
 

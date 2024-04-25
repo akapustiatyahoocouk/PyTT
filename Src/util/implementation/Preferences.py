@@ -44,8 +44,8 @@ class Preferences(ABCWithConstants):
 
         self.__parent = parent
         self.__name = name
-        self.__children = list()
-        self.__preferences = list()
+        self.__children = []
+        self.__preferences = []
         
         if parent is not None:
             parent.__children.append(self)

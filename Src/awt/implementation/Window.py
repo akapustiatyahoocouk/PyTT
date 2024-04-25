@@ -45,7 +45,7 @@ class Window(tkinter.Toplevel, BaseWidgetMixin):
 
         #   Set up event handlers
         #   TODO make list elements WEAK references to actual listeners
-        self.__window_listeners = list()
+        self.__window_listeners = []
 
         self.bind("<Configure>", self.__on_tk_configure)
         self.protocol("WM_DELETE_WINDOW", self.__on_tk_delete_window)

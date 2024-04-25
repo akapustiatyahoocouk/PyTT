@@ -43,7 +43,7 @@ class CheckBox(ttk.Checkbutton,
 
     ##########
     #   Tk event handlers
-    def __checkbox_clicked(self, *args):
+    def __checkbox_clicked(self):
         evt = ActionEvent(self)
         self.process_action_event(evt)
         return "break"

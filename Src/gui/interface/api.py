@@ -23,3 +23,6 @@ from gui.implementation.dialogs.OpenWorkspaceDialog import *
 from gui.implementation.skins.Skin import *
 from gui.implementation.skins.SkinRegistry import *
 from gui.implementation.skins.ActiveSkin import *
+
+from gui.implementation.misc.GuiSettings import *
+

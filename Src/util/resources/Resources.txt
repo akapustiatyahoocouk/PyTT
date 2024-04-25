@@ -1,7 +1,16 @@
 PyTT.ProductName=PyTT Time Tracker
-PyTT.ProductVersion=Version 1.0.0 (build 20240316)
+PyTT.ProductVersion=Version 1.0.0 (build 2024430)
 PyTT.ProductCopyright=Copyright (C) 2024, Andrey Kapustin
 PyTT.LargeImage=ImageFile:images/PyTTLarge.png
 PyTT.SmallImage=ImageFile:images/PyTTSmall.png
 
 Preferences.General=General
+
+##########
+#   Locale support
+Locale.Invariant=Invariant
+
+Language.en=English
+Language.ru=Russian
+
+Country.GB=United Kingdom

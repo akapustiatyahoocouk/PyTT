@@ -12,6 +12,7 @@ from workspace.interface.api import *
 
 #   Internal dependencies on modules within the same component
 from gui.resources.GuiResources import GuiResources
+from ..misc.GuiSettings import GuiSettings
 
 ##########
 #   Public entities
@@ -150,6 +151,7 @@ class LoginDialog(Dialog):
         password = self.__password_text_field.text
         self.__credentials = Credentials(login, password)
         self.__result = LoginDialogResult.OK
+        GuiSettings.last_login = login
         self.end_modal()
 
     def __on_cancel(self, evt = None) -> None:

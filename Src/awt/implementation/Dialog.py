@@ -2,14 +2,15 @@
     Dialog definition facilities.
 """
 #   Python standard library
+from tkinter.tix import ComboBox
 from typing import Optional
 from enum import Enum
 import tkinter as tk
 import tkinter.ttk as ttk
 
 #   Internal dependencies on modules within the same component
-from .Button import Button
 from .GuiRoot import GuiRoot
+from .Button import Button
 from .Window import Window
 from .WindowEventType import WindowEventType
 from .WindowEvent import WindowEvent
@@ -27,7 +28,7 @@ class Dialog(Window):
                         title)
 
         self.configure(padx=4, pady=4)
-        self.__parent = awt.GuiRoot.GuiRoot.tk if parent is None else parent.winfo_toplevel()
+        self.__parent = GuiRoot.tk if parent is None else parent.winfo_toplevel()
         self.title(title)
         # TODO keep? kill? self.resizable(False, False)
 
@@ -53,26 +54,30 @@ class Dialog(Window):
     ##########
     #   tk.Wm
     def attributes(self, *args):
+        """ TODO document. """
         raise NotImplementedError("Use AWT-defined properties instead")
 
     ##########
     #   Properties
     @property
     def parent(self) -> ttk.Widget | None:
-        """ Returns the parent top-level widget of this Dialog. """
+        """ The parent top-level widget of this Dialog. """
         #   TODO add to TopFrame ?
         return self.__parent
 
     @property
     def ok_button(self):
-        #   TODO document
+        """ The special button of this dialog that gets "clicked"
+            when the user presses ENTER within the dialog. """
         return self.__ok_button
 
     @ok_button.setter
     def ok_button(self, button: Button):
-        #   TODO document
+        """ Sets the special button of this dialog that gets "clicked"
+            when the user presses ENTER within the dialog. """
         assert (button is None) or isinstance(button, Button)
 
+        #   TODO make sure the "button" is a child widget of this Dialog
         if button is self.__ok_button:
             return  #   Nothing to do
         if self.__ok_button is not None:
@@ -83,13 +88,18 @@ class Dialog(Window):
 
     @property
     def cancel_button(self):
-        #   TODO document
+        """ The special button of this dialog that gets "clicked"
+            when the user presses ESC within the dialog or closes
+            the dialog via the window manager GUI. """
         return self.__cancelLDi_button
 
     @ok_button.setter
     def cancel_button(self, button: Button):
-        #   TODO document
+        """ Sets the special button of this dialog that gets "clicked"
+            when the user presses ESC within the dialog or closes
+            the dialog via the window manager GUI. """
         assert (button is None) or isinstance(button, Button)
+        #   TODO make sure the "button" is a child widget of this Dialog
         self.__cancel_button = button
 
     ##########

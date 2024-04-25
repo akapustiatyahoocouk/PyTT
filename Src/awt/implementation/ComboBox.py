@@ -17,6 +17,7 @@ from .ItemEventProcessorMixin import ItemEventProcessorMixin
 ##########
 #   Public entities
 class ComboBoxItems:
+    """ An ordered list of items of a ComboBox. """
 
     ##########
     #   Construction (internal)
@@ -25,7 +26,7 @@ class ComboBoxItems:
         assert combo_box._ComboBox__creating_items
 
         self.__combo_box = combo_box
-        self.__items = list()
+        self.__items = []
 
     ##########
     #   object

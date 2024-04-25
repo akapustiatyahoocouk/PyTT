@@ -101,28 +101,34 @@ class AdminSkinMainFrame(Frame,
     #   WidgetEventHandler
     def on_widget_moved(self, evt: WidgetEvent) -> None:
         """ Saves frame position when it has been moved. """
+        assert isinstance(evt, WidgetEvent)
         self.__save_position()
 
     def on_widget_resized(self, evt: WidgetEvent) -> None:
         """ Saves frame position when it has been resized. """
+        assert isinstance(evt, WidgetEvent)
         self.__save_position()
 
     ##########
     #   WindowEventHandler
     def on_window_minimized(self, evt: WindowEvent) -> None:
         """ Saves frame position when it has been minimized. """
+        assert isinstance(evt, WindowEvent)
         self.__save_position()
 
     def on_window_maximized(self, evt: WindowEvent) -> None:
         """ Saves frame position when it has been maximized. """
+        assert isinstance(evt, WindowEvent)
         self.__save_position()
 
     def on_window_restored(self, evt: WindowEvent) -> None:
         """ Saves frame position when it has been restored. """
+        assert isinstance(evt, WindowEvent)
         self.__save_position()
 
     def on_window_closing(self, evt: WindowEvent) -> None:
         """ Exits PyTT when the user attempts to close the frame. """
+        assert isinstance(evt, WindowEvent)
         evt.processed = True
         self.__action_set.exit.execute(ActionEvent(self))
 
@@ -167,7 +173,9 @@ class AdminSkinMainFrame(Frame,
     ##########
     #   Event listeners
     def __on_workspace_changed(self, evt) -> None:
+        assert isinstance(evt, PropertyChangeEvent)
         self.request_refresh()
 
     def __on_locale_changed(self, evt) -> None:
+        assert isinstance(evt, PropertyChangeEvent)
         self.request_refresh()

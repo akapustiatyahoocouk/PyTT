@@ -20,7 +20,7 @@ class PropertyChangeEventProcessorMixin:
             constructors of the derived classes that implement
             this mixin. """
         #   TODO make list elements WEAK references to actual listeners
-        self.__property_change_listeners = list()
+        self.__property_change_listeners = []
 
     ##########
     #   Operations

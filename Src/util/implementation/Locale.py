@@ -1,13 +1,15 @@
+""" Defines a Locale - a specification of a culture/language
+    to which aspects of the system can be localized. """
 #   Python standard library
 from typing import final, Optional, Union, Callable
 from inspect import signature
 
 #   Internal dependencies on modules within the same component
-from util.implementation.Annotations import staticproperty
-from util.implementation.Metaclasses import ClassWithConstantsMeta
-from util.implementation.PropertyChangeEvent import PropertyChangeEvent
-from util.implementation.PropertyChangeEventListener import PropertyChangeEventListener
-from util.implementation.PropertyChangeEventHandler import PropertyChangeEventHandler
+from .Annotations import staticproperty
+from .Metaclasses import ClassWithConstantsMeta
+from .PropertyChangeEvent import PropertyChangeEvent
+from .PropertyChangeEventListener import PropertyChangeEventListener
+from .PropertyChangeEventHandler import PropertyChangeEventHandler
 
 ##########
 #   Public entities
@@ -58,6 +60,8 @@ class LocaleMeta(ClassWithConstantsMeta):
 
 @final
 class Locale(metaclass=LocaleMeta):
+    """ A specification of a culture/language to which aspects
+        of the system can be localized. """
 
     ##########
     #   Implementation
@@ -65,13 +69,13 @@ class Locale(metaclass=LocaleMeta):
     __system_locale = None
     __default_locale = None
 
-    __property_change_listeners = list()
+    __property_change_listeners = []
 
     ##########
     #   Constants
     @staticproperty
     def ROOT() -> "Locale":
-        """ The "root: (invariant) locale. """
+        """ The root (invariant) locale. """
         if Locale.__root_locale is None:
             Locale.__root_locale = Locale()
         return Locale.__root_locale
@@ -81,7 +85,7 @@ class Locale(metaclass=LocaleMeta):
     DEFAULT_LOCALE_PROPERTY_NAME = "default"
     """ The name of the "default: Locale" static property of a Locale. """
 
-                     ##########
+    ##########
     #   Construction
     def __init__(self,
                  language: Optional[str] = None,
@@ -111,9 +115,42 @@ class Locale(metaclass=LocaleMeta):
         return hash(repr(self))
 
     def __str__(self) -> str:
+        from ..resources.UtilResources import UtilResources
         if self.__language is None:
-            return "Invariant"
-        return self.__repr__()  #   TODO for now...
+            return UtilResources.string("Locale.Invariant")
+        elif self.__country is None:
+            #   Language only
+            try:
+                language_string = UtilResources.string("Language." + self.__language)
+            except:
+                language_string = self.__language
+            return language_string
+        elif self.__variant is None:
+            #   Language+country
+            try:
+                language_string = UtilResources.string("Language." + self.__language)
+            except:
+                language_string = self.__language
+            try:
+                country_string = UtilResources.string("Country." + self.__country)
+            except:
+                country_string = self.__country
+            return language_string + " (" + country_string + ")"
+        else:
+            #   Language+country+variant
+            try:
+                language_string = UtilResources.string("Language." + self.__language)
+            except:
+                language_string = self.__language
+            try:
+                country_string = UtilResources.string("Country." + self.__country)
+            except:
+                country_string = self.__country
+            try:
+                variant_string = UtilResources.string("Variant." + self.__variant)
+            except:
+                variant_string = self.__variant
+            return language_string + " (" + country_string + ") " + variant_string
 
     def __repr__(self) -> str:
         if self.__language is None:

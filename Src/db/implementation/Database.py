@@ -64,7 +64,7 @@ class Database(ABC):
                     real_name: str = None,  #   MUST specify!
                     inactivity_timeout: Optional[int] = None,
                     ui_locale: Optional[Locale] = None,
-                    email_addresses: List[str] = list()) -> "User":
+                    email_addresses: List[str] = []) -> "User":
         """
             Creates a new User.
 

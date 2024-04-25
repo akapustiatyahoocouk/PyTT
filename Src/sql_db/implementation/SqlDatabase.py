@@ -132,7 +132,7 @@ class SqlDatabase(Database):
         #       these are not recognized as well as other quote types.
         #   *   Statements are separated by ';'; empty statements
         #       are ignored.
-        statements = list()
+        statements = []
         quote = None
         scan = 0
         while scan < len(script):
@@ -265,7 +265,7 @@ class SqlDatabase(Database):
                     real_name: str = None,  #   MUST specify!
                     inactivity_timeout: Optional[int] = None,
                     ui_locale: Optional[Locale] = None,
-                    email_addresses: List[str] = list()) -> "User":
+                    email_addresses: List[str] = []) -> "User":
         assert isinstance(enabled, bool)
         assert isinstance(real_name, str)
         assert (inactivity_timeout is None) or isinstance(inactivity_timeout, int)

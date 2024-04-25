@@ -21,6 +21,7 @@ from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
 from client.implementation.CommandLine import CommandLine
+from client.implementation.GeneralStartupPreferences import GeneralStartupPreferences
 
 @final
 class SplashScreen: #   TODO move to a separate file
@@ -165,9 +166,11 @@ if __name__ == "__main__":
     #   tree is complete, so we can load all Preferences        
     Preferences.load()
 
-    #   Perform initial login
-    #   TODO use last successful login by default
-    with LoginDialog(GuiRoot.tk) as dlg:
+    #   Perform initial login; use last successful login by default
+    login = ""
+    if GeneralStartupPreferences.instance.use_last_login.value:
+        login = GuiSettings.last_login
+    with LoginDialog(GuiRoot.tk, login=login) as dlg:
         #TODO kill off dlg.transient(GuiRoot.tk)
         dlg.topmost = True
         dlg.do_modal()

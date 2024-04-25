@@ -169,13 +169,13 @@ class BaseWidgetMixin(KeyEventProcessorMixin,
         return "break"
 
     def __on_tk_map(self, tk_evt: tk.Event) -> None:
-        #TODO kill off print(self, tk_evt)
+        assert isinstance(tk_evt, tk.Event)
         evt = WidgetEvent(self, WidgetEventType.WIDGET_SHOWN)
         self.process_widget_event(evt)
         return "break"
 
     def __on_tk_unmap(self, tk_evt: tk.Event) -> None:
-        #TODO kill off print(self, tk_evt)
+        assert isinstance(tk_evt, tk.Event)
         evt = WidgetEvent(self, WidgetEventType.WIDGET_HIDDEN)
         self.process_widget_event(evt)
         return "break"

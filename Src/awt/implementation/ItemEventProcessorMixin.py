@@ -23,7 +23,7 @@ class ItemEventProcessorMixin:
             constructors of the derived classes that implement
             this mixin. """
         #   TODO make list elements WEAK references to actual listeners
-        self.__item_listeners = list()
+        self.__item_listeners = []
 
     ##########
     #   Operations

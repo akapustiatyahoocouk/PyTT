@@ -40,7 +40,7 @@ class WorkspaceType:
     def all() -> Set["WorkspaceType"]:
         if WorkspaceType.__all is None:
             WorkspaceType.__construction_permitted = True
-            WorkspaceType.__all = list()
+            WorkspaceType.__all = []
             for db_type in DatabaseType.all:
                 WorkspaceType.__all.append(WorkspaceType(db_type))
             WorkspaceType.__construction_permitted = False

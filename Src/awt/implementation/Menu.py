@@ -17,7 +17,7 @@ class MenuItems:
     #   Construction (private!)
     def __init__(self, menu: "Menu"):
         self.__menu = menu
-        self.__menu_items = list()
+        self.__menu_items = []
        
     ##########
     #   Properties

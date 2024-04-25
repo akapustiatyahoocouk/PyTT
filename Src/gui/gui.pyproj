@@ -23,6 +23,7 @@
   <ItemGroup>
     <Folder Include="implementation\actions\" />
     <Folder Include="implementation\dialogs\" />
+    <Folder Include="implementation\misc\" />
     <Folder Include="interface\" />
     <Folder Include="implementation\" />
     <Folder Include="resources\" />
@@ -43,6 +44,7 @@
     <Compile Include="implementation\dialogs\OpenWorkspaceDialog.py" />
     <Compile Include="implementation\dialogs\CreateWorkspaceDialog.py" />
     <Compile Include="implementation\dialogs\PreferencesDialog.py" />
+    <Compile Include="implementation\misc\GuiSettings.py" />
     <Compile Include="interface\api.py" />
     <Compile Include="implementation\dialogs\AboutDialog.py" />
     <Compile Include="implementation\dialogs\LoginDialog.py" />

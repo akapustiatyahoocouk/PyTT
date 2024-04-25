@@ -34,7 +34,7 @@ class Workspace(metaclass=WorkspaceMeta):
     ##########
     #   Implementation
     __current_workspace = None
-    __property_change_listeners = list()
+    __property_change_listeners = []
 
     ##########
     #   Constants (observable property names)
