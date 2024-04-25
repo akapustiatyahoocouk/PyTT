@@ -171,13 +171,16 @@ if __name__ == "__main__":
     if GeneralStartupPreferences.instance.use_last_login.value:
         login = GuiSettings.last_login
     with LoginDialog(GuiRoot.tk, login=login) as dlg:
-        #TODO kill off dlg.transient(GuiRoot.tk)
         dlg.topmost = True
         dlg.do_modal()
         if dlg.result is not LoginDialogResult.OK:
             sys.exit()
         CurrentCredentials.set(dlg.credentials)
 
+    #   Do we need to re-load the last used workspace?
+    if GeneralStartupPreferences.instance.restore_workspace.value:
+        a = WorkspaceSettings.last_used_workspace_address
+        pass
     #   Select the initial skin TODO properly - use active skin from previous session!
     ActiveSkin.set(SkinRegistry.default_skin)
 

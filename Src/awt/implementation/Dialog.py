@@ -2,7 +2,6 @@
     Dialog definition facilities.
 """
 #   Python standard library
-from tkinter.tix import ComboBox
 from typing import Optional
 from enum import Enum
 import tkinter as tk

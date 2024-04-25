@@ -73,9 +73,11 @@ class WorkspaceType:
                 If the specified external form of a workspace address
                 does not make sense for this workspace type.
         """
+        from .WorkspaceAddress import WorkspaceAddress
+        
         try:
-            dba = self.__db_type.parse_database_address(external_form)
-            raise NotImplementedError()
+            db_address = self.__db_type.parse_database_address(external_form)
+            return WorkspaceAddress(db_address)
         except Exception as ex:
             raise WorkspaceError.wrap(ex) from ex
 

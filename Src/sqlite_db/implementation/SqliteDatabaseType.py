@@ -63,7 +63,9 @@ class SqliteDatabaseType(DatabaseType):
     #   DatabaseType - Database address handling
     def parse_database_address(self, external_form: str) -> DatabaseAddress:
         assert external_form is not None
-        return db.sqlite_impl.SqliteDatabaseAddress.SqliteDatabaseAddress(external_form)
+        
+        from .SqliteDatabaseAddress import SqliteDatabaseAddress
+        return SqliteDatabaseAddress(external_form)
 
     @property
     def default_database_address(self) -> DatabaseAddress:

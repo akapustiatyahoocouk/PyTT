@@ -42,7 +42,7 @@ class WorkspaceSettingsMeta(type):
         if workspace_type is not None:
             external_form = self.__impl.get("last_used_workspace_address", "")
             try:
-                workspace_type.parse_workspace_address(external_form)
+                return workspace_type.parse_workspace_address(external_form)
             except:
                 return None
         return None
@@ -51,9 +51,11 @@ class WorkspaceSettingsMeta(type):
     def last_used_workspace_address(self, new_workspace_address: WorkspaceAddress) -> None:
         assert (new_workspace_address is None) or isinstance(new_workspace_address, WorkspaceAddress)
         if new_workspace_address is None:
-            self.__impl.remove("new_workspace_address")
+            self.last_used_workspace_type = None
+            self.__impl.remove("last_used_workspace_address")
         else:
-            self.__impl.put("new_workspace_address", new_workspace_address.external_form)
+            self.last_used_workspace_type = new_workspace_address.workspace_type
+            self.__impl.put("last_used_workspace_address", new_workspace_address.external_form)
 
 @final
 class WorkspaceSettings(metaclass=WorkspaceSettingsMeta):
