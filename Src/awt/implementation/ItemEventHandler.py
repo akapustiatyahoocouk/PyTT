@@ -6,13 +6,13 @@ from .ItemEvent import ItemEvent
 #   Public entities
 class ItemEventHandler:
     """ An interface to an agent handling ItemEvents. """
-    
+
     ##########
     #   Operations
     def on_item_selected(self, evt: ItemEvent) -> None:
         """
-            Called when an item within a container has been selected. 
-            
+            Called when an item within a container has been selected.
+
             @param evt:
                 The event describing the change.
         """
@@ -20,8 +20,8 @@ class ItemEventHandler:
 
     def on_item_unselected(self, evt: ItemEvent) -> None:
         """
-            Called when an item within a container has been unselected. 
-            
+            Called when an item within a container has been unselected.
+
             @param evt:
                 The event describing the change.
         """
@@ -29,8 +29,8 @@ class ItemEventHandler:
 
     def on_item_state_changed(self, evt: ItemEvent) -> None:
         """
-            Called when the state of an item within a container has changed. 
-            
+            Called when the state of an item within a container has changed.
+
             @param evt:
                 The event describing the change.
         """

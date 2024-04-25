@@ -2,13 +2,11 @@
     Defines a list box UI widget.
 """
 #   Python standard library
-from typing import Callable, Optional, Any
-from inspect import signature
+from typing import Optional, Any
 import tkinter as tk
 import tkinter.ttk as ttk
 
 #   Internal dependencies on modules within the same component
-from .Widget import Widget
 from .Panel import Panel
 from .TreeView import TreeView
 from .ItemEventType import ItemEventType
@@ -110,8 +108,8 @@ class ListBox(Panel,
             item_id = self.__tree_view.focus()
             item_index = self.__items._ListBoxItems__item_ids.index(item_id)
             return item_index
-        except:
-            return None
+        except Exception:
+            return None #   Invalid index; don't select
 
     @selected_index.setter
     def selected_index(self, new_index: Optional[int]) -> None:
@@ -123,7 +121,7 @@ class ListBox(Panel,
                 for item in self.__tree_view.selection():
                     self.__tree_view.selection_remove(item)
             else:
-                assert new_index >= 0 and new_index < len(self.__items)
+                assert 0 <= new_index < len(self.__items)
                 self.__tree_view.selection_set(new_index)
             new_index = self.selected_index
             if new_index != old_index:
@@ -131,8 +129,8 @@ class ListBox(Panel,
                     self.process_item_event(ItemEvent(self, ItemEventType.ITEM_UNSELECTED))
                 if new_index is not None:
                     self.process_item_event(ItemEvent(self, ItemEventType.ITEM_SELECTED))
-        except:
-            pass    #   Index out of range
+        except Exception:
+            pass    #   Index out of range - don't change it
 
     @property
     def selected_item(self) -> Any:
@@ -144,6 +142,7 @@ class ListBox(Panel,
     ##########
     #   Tk event handlers
     def __on_tk_treeview_selected(self, evt: tk.Event):
+        assert isinstance(evt, tk.Event)
         if self.selected_index is not None:
             self.process_item_event(ItemEvent(self, ItemEventType.ITEM_SELECTED))
         else:

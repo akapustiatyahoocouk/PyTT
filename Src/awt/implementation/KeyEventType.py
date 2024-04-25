@@ -1,3 +1,4 @@
+""" The type of a key event. """
 #   Python standard library
 from typing import final
 from enum import Enum
@@ -19,4 +20,3 @@ class KeyEventType(Enum):
     KEY_CHAR = 3
     """ A key was pressed that represents a typed character;
         always occurs between KEY_DOWN and KEY_UP key events. """
-

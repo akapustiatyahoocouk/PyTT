@@ -1,5 +1,6 @@
+""" The keyboard user input event. """
 #   Python standard library
-from typing import Optional, TypeAlias, Callable
+from typing import Optional
 import tkinter as tk
 
 #   Internal dependencies on modules within the same component

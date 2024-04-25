@@ -1,3 +1,4 @@
+""" Specifies the key stroke that can be performed by the user, """
 #   Python standard library
 from typing import final
 
@@ -9,6 +10,7 @@ from .InputEventModifiers import InputEventModifiers
 #   Public entities
 @final
 class KeyStroke:
+    """ Specifies the key stroke that can be performed by the user, """
 
     ##########
     #   Construction
@@ -54,7 +56,7 @@ class KeyStroke:
         return self.__keycode
 
     @property
-    def keycode(self) -> InputEventModifiers:
+    def modifiers(self) -> InputEventModifiers:
         """ The modifiers of this keystroke, never None. """
         return self.__modifiers
 
@@ -62,6 +64,18 @@ class KeyStroke:
     #  Operations
     @staticmethod
     def parse(s: str) -> "KeyStroke":
+        """
+            Parses a string representation of a KeyStroke (in the
+            form Ctrl+Shift+Alt+N, etc.)
+
+            @param s:
+                The string representation of a KeyStroke.
+            @return:
+                The parsed KeyStroke specification.
+            @raise ValueError:
+                If the specified string is not a valid KeyStroke
+                specification.
+        """
         assert isinstance(s, str)
 
         #   Consume modifiers

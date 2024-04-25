@@ -1,4 +1,7 @@
 ========== IMMEDIATE PIPELINE =====c=================================
+*   AWT shall handle FocusEvents and MouseEvents.
+*   Disabled widgets seem to still be focusable.
+    Do something about it.
 *   Change AdminSkinSettings to use a single property 
     main_frame_bounds: Rectangle instead of 4 deparate properties
     main_frame_x, main_frame_y, main_frame_width and 
@@ -13,9 +16,10 @@
 *   Add context (right click) menu to awt TextField and other text
     entry fields, with Copy, Cut, Parse, etc. For disabled text
     entry widgets only Copy shall work.
-*   Teach FileResourceBundle to handle excape sequences in string
+*   Teach FileResourceBundle to handle escape sequences in string
     resources, such as '\t' and '\n'. The \ itself must then be
-    represented as '\\' in a resource text file.
+    represented as '\\' in a resource text file. The '\' at the
+    end of the line shoube be treated as a continuation line.
 *   Locale.__str__ needs to use UtilResources for proper localisation.
 *   In many places in code there is "pass". Check on these - usually
     they silence the exception handlers; at least print the 

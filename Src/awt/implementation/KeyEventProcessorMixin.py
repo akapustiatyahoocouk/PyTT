@@ -1,3 +1,4 @@
+""" A mixin for all agents that can dispatch KeyEvents. """
 #   Python standard library
 from typing import Callable, Union
 from inspect import signature
@@ -6,6 +7,7 @@ from inspect import signature
 from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
+from .KeyEventType import KeyEventType
 from .KeyEvent import KeyEvent
 from .KeyEventListener import KeyEventListener
 from .KeyEventHandler import KeyEventHandler

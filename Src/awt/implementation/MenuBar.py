@@ -1,8 +1,6 @@
-"""
-    Defines a MenuBar - a menu that can be assigned to a
+""" Defines a MenuBar - a menu that can be assigned to a
     top-level window (e.g. a frame or a dialog) to appear at
-    the top of that top-level window.
-"""
+    the top of that top-level window. """
 #   Python standard library
 
 #   Internal dependencies on modules within the same component
@@ -11,6 +9,8 @@ from .Menu import Menu
 ##########
 #   Public entities
 class MenuBar(Menu):
+    """ A menu that can be assigned to a top-level window (e.g. 
+    a frame or a dialog) to appear at the top of that top-level window. """
 
     ##########
     #   Construction

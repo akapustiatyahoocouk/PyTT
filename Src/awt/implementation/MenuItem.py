@@ -1,6 +1,7 @@
+""" A generic "menu item" represents a single item within a menu. """
 #   Python standard library
-from typing import Optional
 from abc import ABC, abstractproperty, abstractmethod
+import tkinter as tk
 
 #   Internal dependencies on modules within the same component
 from .ActionEventProcessorMixin import ActionEventProcessorMixin
@@ -43,7 +44,7 @@ class MenuItem(ABC, ActionEventProcessorMixin):
         """ The hotkey of this menu item, None if none. """
         raise NotImplementedError()
 
-    @label.setter
+    @hotkey.setter
     @abstractmethod
     def hotkey(self, hk: str) -> None:
         """ Sets the hotkey of this menu item; None for none. """
