@@ -1,6 +1,4 @@
-"""
-    Defines a Button - a clickable UI element.
-"""
+""" Defines a Button - a clickable UI element. """
 #   Python standard library
 import tkinter as tk
 import tkinter.ttk as ttk
@@ -72,7 +70,7 @@ class Button(ttk.Button,
             tk_text = None if len(kwargs["text"]) == 0 else kwargs["text"]
             tk_underline = None # TODO hotkey ?
             tk_image = kwargs.get("image", None)
-            self.configure(text=tk_text, 
+            self.configure(text=tk_text,
                            underline=tk_underline,
                            image=tk_image)
             if (tk_text is not None) and (tk_image is not None):

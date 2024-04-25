@@ -35,14 +35,12 @@ class KeyStroke:
                 else ms + "+" + str(self.__keycode))
 
     def __eq__(self, op2: "KeyStroke") -> bool:
-        assert isinstance(self, KeyStroke)
         if not isinstance(op2, KeyStroke):
             return False
         return (self.__keycode == op2.__keycode and
                 self.__modifiers == op2.__modifiers)
 
     def __ne__(self, op2: "KeyStroke") -> bool:
-        assert isinstance(self, KeyStroke)
         if not isinstance(op2, KeyStroke):
             return True
         return (self.__keycode != op2.__keycode or

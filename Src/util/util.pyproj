@@ -44,6 +44,8 @@
     <Compile Include="implementation\PropertyChangeEventListener.py" />
     <Compile Include="implementation\PropertyChangeEvent.py" />
     <Compile Include="implementation\PropertyChangeEventProcessorMixin.py" />
+    <Compile Include="implementation\RootSubsystem.py" />
+    <Compile Include="implementation\Subsystem.py" />
     <Compile Include="interface\api.py" />
     <Compile Include="implementation\ComponentSettings.py" />
     <Compile Include="implementation\FileResourceBundle.py" />

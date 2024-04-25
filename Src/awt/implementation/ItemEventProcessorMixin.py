@@ -1,3 +1,4 @@
+""" A mixin for all agents that can dispatch ItemEvents. """
 #   Python standard library
 from typing import Callable, Union
 from inspect import signature

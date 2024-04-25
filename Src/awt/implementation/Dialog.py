@@ -2,8 +2,6 @@
     Dialog definition facilities.
 """
 #   Python standard library
-from typing import Optional
-from enum import Enum
 import tkinter as tk
 import tkinter.ttk as ttk
 
@@ -92,7 +90,7 @@ class Dialog(Window):
             the dialog via the window manager GUI. """
         return self.__cancelLDi_button
 
-    @ok_button.setter
+    @cancel_button.setter
     def cancel_button(self, button: Button):
         """ Sets the special button of this dialog that gets "clicked"
             when the user presses ESC within the dialog or closes
@@ -129,6 +127,7 @@ class Dialog(Window):
             GuiRoot.tk.withdraw()
 
     def end_modal(self):
+        """ Closes the modal Dialog currently invoked. """
         assert self.__running_modal
         self.__running_modal = False
         self.destroy()
@@ -155,13 +154,13 @@ class Dialog(Window):
 
     ##########
     #   Tk event handlers
-    def __on_tk_escape(self, *args):
+    def __on_tk_escape(self, *_):
         if ((self.__cancel_button is not None) and self.__cancel_button.winfo_exists() and
              self.__cancel_button.showing and self.__cancel_button.enabled):
             self.__cancel_button.invoke()
         return "break"
 
-    def __on_tk_return(self, *args):
+    def __on_tk_return(self, *_):
         if ((self.__ok_button is not None) and self.__ok_button.winfo_exists() and
              self.__ok_button.showing and self.__ok_button.enabled):
             self.__ok_button.invoke()

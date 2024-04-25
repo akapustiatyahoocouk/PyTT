@@ -1,12 +1,7 @@
-"""
-    The error report modal dialog.
-"""
+""" The error report modal dialog. """
 #   Python standard library
-from ctypes import DllGetClassObject
 import tkinter as tk
 import tkinter.ttk as ttk
-from typing import Any
-from enum import Enum
 import traceback
 
 from .ActionEvent import ActionEvent
@@ -21,11 +16,13 @@ from .TabbedPane import TabbedPane
 from .Separator import Separator
 from .Button import Button
 from .MessageBox import MessageBox, MessageBoxIcon, MessageBoxButtons
-from awt.resources.AwtResources import AwtResources
+from ..resources.AwtResources import AwtResources
 
 ##########
 #   Public entities
 class ErrorDialog(Dialog):
+    """ The dialog that presents an error or exception message
+        to the user. """
 
     ##########
     #   Construction
@@ -36,7 +33,7 @@ class ErrorDialog(Dialog):
 
         assert isinstance(ex, Exception)
         self.__ex = ex
-        
+
         #   Create control styles
         style = ttk.Style()
         style.layout('Tabless.TNotebook.Tab', []) # new style with tabs turned off
@@ -44,9 +41,9 @@ class ErrorDialog(Dialog):
         #   Create controls
         self.__controls_panel = Panel(self)
         self.__list_box = ListBox(self.__controls_panel)
-        
+
         self.__tabbed_pane = TabbedPane(self.__controls_panel, style="Tabless.TNotebook")
-        
+
         self.__separator = Separator(self, orient="horizontal")
 
         self.__save_button = Button(self,
@@ -73,21 +70,21 @@ class ErrorDialog(Dialog):
 
         self.__list_box.selected_index = 0
         self.__tabbed_pane.select(0)
-        
+
         #   Set up control structure
         self.__controls_panel.pack(fill=tk.X, padx=0, pady=0)
         self.__list_box.pack(side=tk.LEFT, padx=0, pady=0)
         self.__tabbed_pane.pack(fill=tk.X, padx=0, pady=0)
-        
+
         self.__separator.pack(fill=tk.X, padx=0, pady=4)
         self.__save_button.pack(side=tk.LEFT, padx=0, pady=0)
         self.__ok_button.pack(side=tk.RIGHT, padx=0, pady=0)
 
         #   Set up event handlers
         self.__list_box.add_item_listener(self.__list_box_item_listener)
-        
+
         self.__ok_button.add_action_listener(self.__on_ok)
-        
+
         self.ok_button = self.__ok_button
         self.cancel_button = self.__ok_button
 
@@ -99,6 +96,17 @@ class ErrorDialog(Dialog):
     #   Operations
     @staticmethod
     def show(parent: tk.BaseWidget, error: [str|Exception]):
+        """
+            Displays the error message modally.
+            
+            @param parent:
+                The parent window for the dialog shown to the user.
+            @param error:
+                The error ti display. Can be one of:
+                *   str - a simple error message to display as a MessageBox.
+                *   Exception - an exception to display with its traceback
+                    and causes.
+        """
         if isinstance(error, str):
             MessageBox.show(parent,
                             'Error',
@@ -112,8 +120,10 @@ class ErrorDialog(Dialog):
 
     ##########
     #   Event listeners
-    def __list_box_item_listener(self, evv: ItemEvent) -> None:
+    def __list_box_item_listener(self, evt: ItemEvent) -> None:
+        assert isinstance(evt, ItemEvent)
         self.__tabbed_pane.select(self.__list_box.selected_index)
-        
+
     def __on_ok(self, evt: ActionEvent) -> None:
+        assert isinstance(evt, ActionEvent)
         self.end_modal()

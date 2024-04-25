@@ -1,7 +1,4 @@
-#   Python standard library
-from typing import final, Optional
-import tkinter as tk
-
+""" A top-level decorated frame. """
 #   Dependencies on other PyTT components
 from util.interface.api import *
 

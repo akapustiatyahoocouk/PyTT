@@ -1,13 +1,8 @@
-#   Python standard library
-from typing import Optional, TypeAlias, Callable
-import tkinter as tk
-
+""" An event related to an item within a container. """
 #   Dependencies on other PyTT components
 from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
-from .InputEventModifiers import InputEventModifiers
-from .InputEvent import InputEvent
 from .ItemEventType import ItemEventType
 
 ##########

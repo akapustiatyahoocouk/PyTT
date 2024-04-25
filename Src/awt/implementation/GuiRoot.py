@@ -1,3 +1,4 @@
+""" The Tk root of the entire UI. """
 #   Python standard library
 from typing import final
 import platform
@@ -58,13 +59,15 @@ class GuiRoot:
                 GuiRoot.__screen_width = GuiRoot.__tk.winfo_screenwidth()
                 GuiRoot.__screen_height = GuiRoot.__tk.winfo_screenheight()
 
-            GuiRoot.__tk.geometry(f"16x16+{GuiRoot.__screen_width+16000}+{GuiRoot.__screen_height+16000}")
+            x = GuiRoot.__screen_width+16000
+            y = GuiRoot.__screen_height+16000
+            GuiRoot.__tk.geometry(f"16x16+{x}+{y}")
             # TODO uncomment GuiRoot.__tk.withdraw()
 
         return GuiRoot.__tk
 
     @property
-    def usable_x(cls) -> int:
+    def usable_x(self) -> int:
         """ The X-coordinate of the top-left corner of the usable
             (client) area of screen - that's the part of the screen
             that is not covered by e.g. taskbars, docked system
@@ -72,7 +75,7 @@ class GuiRoot:
         return GuiRoot.__usable_x
 
     @property
-    def usable_y(cls) -> int:
+    def usable_y(self) -> int:
         """ The Y-coordinate of the top-left corner of the usable
             (client) area of screen - that's the part of the screen
             that is not covered by e.g. taskbars, docked system
@@ -80,25 +83,25 @@ class GuiRoot:
         return GuiRoot.__usable_y
 
     @property
-    def usable_width(cls) -> int:
+    def usable_width(self) -> int:
         """ The width of the usable (client) area of screen - that's
             the part of the screen that is not covered by e.g. taskbars,
             docked system menus, etc. """
         return GuiRoot.__usable_width
 
     @property
-    def usable_height(cls) -> int:
+    def usable_height(self) -> int:
         """ The height of the usable (client) area of screen - that's
             the part of the screen that is not covered by e.g. taskbars,
             docked system menus, etc. """
         return GuiRoot.__usable_height
 
     @property
-    def screen_width(cls) -> int:
+    def screen_width(self) -> int:
         """ The width of the screen. """
         return GuiRoot.__screen_width
 
     @property
-    def screen_height(cls) -> int:
+    def screen_height(self) -> int:
         """ The height of the screen. """
         return GuiRoot.__screen_height

@@ -25,13 +25,11 @@ class WorkspaceAddress:
         return self.display_form
 
     def __eq__(self, op2: "WorkspaceAddress") -> bool:
-        assert isinstance(self, WorkspaceAddress)
         if not isinstance(op2, WorkspaceAddress):
             return False
         return self.__db_address == op2.__db_address
 
     def __ne__(self, op2: "WorkspaceAddress") -> bool:
-        assert isinstance(self, WorkspaceAddress)
         if not isinstance(op2, WorkspaceAddress):
             return True
         return self.__db_address != op2.__db_address

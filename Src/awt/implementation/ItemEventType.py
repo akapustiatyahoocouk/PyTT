@@ -1,3 +1,4 @@
+""" The item event types. """
 #   Python standard library
 from typing import final
 from enum import Enum

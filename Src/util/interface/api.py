@@ -24,6 +24,8 @@ from util.implementation.ResourceBundle import *
 from util.implementation.ResourceFactory import *
 from util.implementation.ResourceType import *
 from util.implementation.RootPreferences import *
+from util.implementation.RootSubsystem import *
 from util.implementation.Settings import *
+from util.implementation.Subsystem import *
 
 from util.resources.UtilResources import *

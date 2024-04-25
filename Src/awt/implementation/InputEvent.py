@@ -1,5 +1,5 @@
+""" A generic input event - the user has performed some action from UI. """
 #   Python standard library
-from abc import ABCMeta
 from typing import Any
 
 #   Dependencies on other PyTT components

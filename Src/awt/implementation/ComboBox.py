@@ -3,8 +3,7 @@
     UI widget.
 """
 #   Python standard library
-from typing import Callable, Optional, Any
-from inspect import signature
+from typing import Optional, Any
 import tkinter as tk
 import tkinter.ttk as ttk
 
@@ -41,11 +40,21 @@ class ComboBoxItems:
     #   Properties
     @property
     def length(self) -> int:
+        """ The number of items n this collection of ComboBox items. """
         return len(self.__items)
 
     ##########
     #   Operations
-    def add(self, item) -> int:
+    def add(self, item: Any) -> int:
+        """
+            Adds the specified item to the end of this collection of
+            ComboBox items.
+
+            @param item:
+                The item to add; cannot be None.
+            @return:
+                The index of the newly added item.
+        """
         assert item is not None
 
         self.__items.append(item)
@@ -75,6 +84,8 @@ class ComboBox(ttk.Combobox,
     #   Properties
     @property
     def editable(self) -> bool:
+        """ True if this combo box shall be editable, False if it
+            shall behave as a non-editable drop-down list. """
         return "readonly" in self.state()
 
     @editable.setter
@@ -83,7 +94,8 @@ class ComboBox(ttk.Combobox,
             Makes this combo box editable or drop-down.
 
             @param value:
-                True to make this combo box editable, false to make it a drop-down list.
+                True to make this combo box editable, false to make
+                it a drop-down list.
         """
         if yes:
             self.state(["!readonly"])
@@ -92,6 +104,7 @@ class ComboBox(ttk.Combobox,
 
     @property
     def items(self) -> ComboBoxItems:
+        """ The ordered collection of items in this combo box. """
         return self.__items
 
     @property
@@ -119,6 +132,7 @@ class ComboBox(ttk.Combobox,
 
     @property
     def selected_item(self) -> Any:
+        """ The combo box item currently selected, None == none. """
         index = self.current()
         if (index is None) or (index == -1):
             return None
@@ -127,6 +141,8 @@ class ComboBox(ttk.Combobox,
     ##########
     #   Tk event handlers
     def __on_tk_combobox_selected(self, evt: tk.Event):
+        assert isinstance(evt, tk.Event)
+
         if self.selected_index is not None:
             self.process_item_event(ItemEvent(self, ItemEventType.ITEM_SELECTED))
         else:

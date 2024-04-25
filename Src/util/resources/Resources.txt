@@ -14,3 +14,7 @@ Language.en=English
 Language.ru=Russian
 
 Country.GB=United Kingdom
+
+##########
+#   Subsystems
+RootSubsystem.DisplayName=PyTT

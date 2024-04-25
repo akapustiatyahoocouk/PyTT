@@ -1,3 +1,4 @@
+""" The modifiers that can be in effect during a user input event. """
 #   Python standard library
 from typing import final
 
@@ -44,46 +45,60 @@ class InputEventModifiers(ClassWithConstants):
     #   Constants (indifidual modifiers)
     @staticproperty
     def SHIFT() -> 'InputEventModifiers':
+        """ The "SHIFT key is down" input event modifier set. """
         if InputEventModifiers.__shift_instance is None:
-            InputEventModifiers.__shift_instance = InputEventModifiers(InputEventModifiers.__SHIFT_FLAG)
+            InputEventModifiers.__shift_instance = \
+                InputEventModifiers(InputEventModifiers.__SHIFT_FLAG)
         return InputEventModifiers.__shift_instance
 
     @staticproperty
     def LOCK() -> 'InputEventModifiers':
+        """ The "LOCK key is down" input event modifier set. """
         if InputEventModifiers.__lock_instance is None:
-            InputEventModifiers.__lock_instance = InputEventModifiers(InputEventModifiers.__LOCK_FLAG)
+            InputEventModifiers.__lock_instance = \
+                InputEventModifiers(InputEventModifiers.__LOCK_FLAG)
         return InputEventModifiers.__lock_instance
 
     @staticproperty
     def CONTROL() -> 'InputEventModifiers':
+        """ The "CONTROL key is down" input event modifier set. """
         if InputEventModifiers.__control_instance is None:
-            InputEventModifiers.__control_instance = InputEventModifiers(InputEventModifiers.__CONTROL_FLAG)
+            InputEventModifiers.__control_instance = \
+                InputEventModifiers(InputEventModifiers.__CONTROL_FLAG)
         return InputEventModifiers.__control_instance
 
     @staticproperty
     def ALT() -> 'InputEventModifiers':
+        """ The "ALT key is down" input event modifier set. """
         if InputEventModifiers.__alt_instance is None:
-            InputEventModifiers.__alt_instance = InputEventModifiers(InputEventModifiers.__ALT_FLAG)
+            InputEventModifiers.__alt_instance = \
+                InputEventModifiers(InputEventModifiers.__ALT_FLAG)
         return InputEventModifiers.__alt_instance
 
     @staticproperty
     def NUMPAD() -> 'InputEventModifiers':
+        """ The "key was pressed on NUMPAD" input event modifier set. """
         if InputEventModifiers.__numpad_instance is None:
-            InputEventModifiers.__numpad_instance = InputEventModifiers(InputEventModifiers.__NUMPAD_FLAGS)
+            InputEventModifiers.__numpad_instance = \
+                InputEventModifiers(InputEventModifiers.__NUMPAD_FLAG)
         return InputEventModifiers.__numpad_instance
 
     ##########
     #   Constants (modifier sets)
     @staticproperty
     def NONE() -> 'InputEventModifiers':
+        """ The "no modifiers" input event modifier set. """
         if InputEventModifiers.__none_instance is None:
-            InputEventModifiers.__none_instance = InputEventModifiers(InputEventModifiers.__NONE_FLAGS)
+            InputEventModifiers.__none_instance = \
+                InputEventModifiers(InputEventModifiers.__NONE_FLAGS)
         return InputEventModifiers.__none_instance
 
     @staticproperty
     def ALL() -> 'InputEventModifiers':
+        """ The "all valid modifiers" input event modifier set. """
         if InputEventModifiers.__all_instance is None:
-            InputEventModifiers.__all_instance = InputEventModifiers(InputEventModifiers.__ALL_FLAGS)
+            InputEventModifiers.__all_instance = \
+                InputEventModifiers(InputEventModifiers.__ALL_FLAGS)
         return InputEventModifiers.__all_instance
 
     ##########
@@ -103,39 +118,33 @@ class InputEventModifiers(ClassWithConstants):
                      InputEventModifiers.__NUMPAD_FLAG]:
             if (self.__bitmask & flag) != 0:
                 result += "+"
-                result += InputEventModifiers.__FLAG_NAMES[flag];
+                result += InputEventModifiers.__FLAG_NAMES[flag]
         return result if len(result) == 0 else result[1:]
 
     def __contains__(self, item: 'InputEventModifiers') -> bool:
-        assert isinstance(self, InputEventModifiers)
         assert isinstance(item, InputEventModifiers)
         return (self.__bitmask & item.__bitmask) == item.__bitmask
 
     #   TODO cache instances for flag combinations to avoid creating
     #   multiple InputEventModifiers instances with the same __bitmask
     def __eq__(self, op2: 'InputEventModifiers') -> bool:
-        assert isinstance(self, InputEventModifiers)
         if not isinstance(op2, InputEventModifiers):
             return False
         return self.__bitmask == op2.__bitmask
 
     def __ne__(self, op2: 'InputEventModifiers') -> bool:
-        assert isinstance(self, InputEventModifiers)
         if not isinstance(op2, InputEventModifiers):
             return True
         return self.__bitmask != op2.__bitmask
 
     def __and__(self, op2: 'InputEventModifiers') -> 'InputEventModifiers':
-        assert isinstance(self, InputEventModifiers)
         assert isinstance(op2, InputEventModifiers)
         return InputEventModifiers(self.__bitmask & op2.__bitmask)
 
     def __or__(self, op2: 'InputEventModifiers') -> 'InputEventModifiers':
-        assert isinstance(self, InputEventModifiers)
         assert isinstance(op2, InputEventModifiers)
         return InputEventModifiers(self.__bitmask | op2.__bitmask)
 
     def __xor__(self, op2: 'InputEventModifiers') -> 'InputEventModifiers':
-        assert isinstance(self, InputEventModifiers)
         assert isinstance(op2, InputEventModifiers)
         return InputEventModifiers(self.__bitmask ^ op2.__bitmask)
