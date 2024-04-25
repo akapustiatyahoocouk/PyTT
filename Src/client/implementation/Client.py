@@ -179,7 +179,7 @@ if __name__ == "__main__":
 
     #   Do we need to re-load the last used workspace?
     if GeneralStartupPreferences.instance.restore_workspace.value:
-        a = WorkspaceSettings.last_used_workspace_address
+        a = WorkspaceSettings.last_workspace_address
         pass
     #   Select the initial skin TODO properly - use active skin from previous session!
     ActiveSkin.set(SkinRegistry.default_skin)

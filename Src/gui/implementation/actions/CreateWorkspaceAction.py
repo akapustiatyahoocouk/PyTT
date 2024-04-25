@@ -40,5 +40,4 @@ class CreateWorkspaceAction(ActionBase):
                 except Exception as ex:
                     pass    # TODO show error dialog
         #   Record the newly created workspace as "last used"
-        WorkspaceSettings.last_used_workspace_type = Workspace.current.type
-        WorkspaceSettings.last_used_workspace_address = Workspace.current.address
+        WorkspaceSettings.last_workspace_address = Workspace.current.address

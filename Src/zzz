@@ -1,3 +1,32 @@
+
+P:\Projects\PyTT\Src>c:\cygwin64\bin\find . -name __pycache__   | xargs rm -rf 
+
+P:\Projects\PyTT\Src>c:\cygwin64\bin\find . -name "*.py"   | xargs pylint --disable invalid-name --disable no-method-argument --disable abstract-method --disable wildcard-import --disable unused-wildcard-import --disable too-many-arguments --disable relative-beyond-top-level --disable fixme --disable too-many-ancestors --disable import-outside-toplevel --disable broad-exception-caught --disable duplicate-code --disable too-few-public-methods 
+************* Module AdminSkinMainFrame
+admin_skin\implementation\AdminSkinMainFrame.py:10:0: E0401: Unable to import 'workspace.interface.api' (import-error)
+admin_skin\implementation\AdminSkinMainFrame.py:10:0: E0611: No name 'interface' in module 'workspace' (no-name-in-module)
+admin_skin\implementation\AdminSkinMainFrame.py:28:8: W0233: __init__ method from a non direct base class 'WindowEventHandler' is called (non-parent-init-called)
+admin_skin\implementation\AdminSkinMainFrame.py:76:8: E0602: Undefined variable 'Workspace' (undefined-variable)
+admin_skin\implementation\AdminSkinMainFrame.py:86:22: E0602: Undefined variable 'CurrentCredentials' (undefined-variable)
+admin_skin\implementation\AdminSkinMainFrame.py:87:20: E0602: Undefined variable 'Workspace' (undefined-variable)
+admin_skin\implementation\AdminSkinMainFrame.py:151:22: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
+************* Module admin_skin
+admin_skin\__init__.py:17:0: C0115: Missing class docstring (missing-class-docstring)
+admin_skin\__init__.py:54:0: W0104: Statement seems to have no effect (pointless-statement)
+************* Module ActionEventHandler
+awt\implementation\ActionEventHandler.py:20:8: W0107: Unnecessary pass statement (unnecessary-pass)
+************* Module ActionEventProcessorMixin
+awt\implementation\ActionEventProcessorMixin.py:76:12: W0612: Unused variable 'ex' (unused-variable)
+************* Module BaseWidgetMixin
+awt\implementation\BaseWidgetMixin.py:126:26: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
+awt\implementation\BaseWidgetMixin.py:137:22: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
+************* Module Button
+awt\implementation\Button.py:6:0: R0402: Use 'from tkinter import ttk' instead (consider-using-from-import)
+awt\implementation\Button.py:60:12: W0702: No exception type(s) specified (bare-except)
+************* Module CheckBox
+awt\implementation\CheckBox.py:4:0: R0402: Use 'from tkinter import ttk' instead (consider-using-from-import)
+************* Module ComboBox
+awt\implementation\ComboBox.py:9:0: R0402: Use 'from tkinter import ttk' instead (consider-using-from-import)
 awt\implementation\ComboBox.py:43:4: C0116: Missing function or method docstring (missing-function-docstring)
 awt\implementation\ComboBox.py:48:4: C0116: Missing function or method docstring (missing-function-docstring)
 awt\implementation\ComboBox.py:77:4: C0116: Missing function or method docstring (missing-function-docstring)
@@ -428,12 +457,12 @@ awt\resources\AwtResources.py:5:0: W0611: Unused Optional imported from typing (
 ************* Module awt
 awt\__init__.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 ************* Module Client
-client\implementation\Client.py:48:0: C0301: Line too long (123/100) (line-too-long)
-client\implementation\Client.py:49:0: C0301: Line too long (183/100) (line-too-long)
-client\implementation\Client.py:50:0: C0301: Line too long (186/100) (line-too-long)
-client\implementation\Client.py:52:0: C0301: Line too long (188/100) (line-too-long)
-client\implementation\Client.py:163:0: C0303: Trailing whitespace (trailing-whitespace)
-client\implementation\Client.py:165:56: C0303: Trailing whitespace (trailing-whitespace)
+client\implementation\Client.py:49:0: C0301: Line too long (123/100) (line-too-long)
+client\implementation\Client.py:50:0: C0301: Line too long (183/100) (line-too-long)
+client\implementation\Client.py:51:0: C0301: Line too long (186/100) (line-too-long)
+client\implementation\Client.py:53:0: C0301: Line too long (188/100) (line-too-long)
+client\implementation\Client.py:164:0: C0303: Trailing whitespace (trailing-whitespace)
+client\implementation\Client.py:166:56: C0303: Trailing whitespace (trailing-whitespace)
 client\implementation\Client.py:16:0: C0413: Import "from gui.interface.api import *" should be placed at the top of the module (wrong-import-position)
 client\implementation\Client.py:17:0: C0413: Import "from awt.interface.api import *" should be placed at the top of the module (wrong-import-position)
 client\implementation\Client.py:18:0: E0401: Unable to import 'workspace.interface.api' (import-error)
@@ -444,11 +473,16 @@ client\implementation\Client.py:20:0: C0413: Import "from util.interface.api imp
 client\implementation\Client.py:23:0: E0401: Unable to import 'client.implementation.CommandLine' (import-error)
 client\implementation\Client.py:23:0: C0413: Import "from client.implementation.CommandLine import CommandLine" should be placed at the top of the module (wrong-import-position)
 client\implementation\Client.py:23:0: E0611: No name 'implementation' in module 'client' (no-name-in-module)
-client\implementation\Client.py:26:0: C0115: Missing class docstring (missing-class-docstring)
-client\implementation\Client.py:40:4: C0116: Missing function or method docstring (missing-function-docstring)
-client\implementation\Client.py:69:4: C0116: Missing function or method docstring (missing-function-docstring)
-client\implementation\Client.py:73:4: C0116: Missing function or method docstring (missing-function-docstring)
-client\implementation\Client.py:176:8: E0602: Undefined variable 'CurrentCredentials' (undefined-variable)
+client\implementation\Client.py:24:0: E0401: Unable to import 'client.implementation.GeneralStartupPreferences' (import-error)
+client\implementation\Client.py:24:0: C0413: Import "from client.implementation.GeneralStartupPreferences import GeneralStartupPreferences" should be placed at the top of the module (wrong-import-position)
+client\implementation\Client.py:24:0: E0611: No name 'implementation' in module 'client' (no-name-in-module)
+client\implementation\Client.py:27:0: C0115: Missing class docstring (missing-class-docstring)
+client\implementation\Client.py:41:4: C0116: Missing function or method docstring (missing-function-docstring)
+client\implementation\Client.py:70:4: C0116: Missing function or method docstring (missing-function-docstring)
+client\implementation\Client.py:74:4: C0116: Missing function or method docstring (missing-function-docstring)
+client\implementation\Client.py:178:8: E0602: Undefined variable 'CurrentCredentials' (undefined-variable)
+client\implementation\Client.py:182:12: E0602: Undefined variable 'WorkspaceSettings' (undefined-variable)
+client\implementation\Client.py:183:8: W0107: Unnecessary pass statement (unnecessary-pass)
 client\implementation\Client.py:6:0: W0611: Unused abstractproperty imported from abc (unused-import)
 ************* Module CommandLine
 client\implementation\CommandLine.py:1:0: C0114: Missing module docstring (missing-module-docstring)
@@ -689,17 +723,17 @@ gui\implementation\dialogs\CreateWorkspaceDialog.py:5:0: W0611: Unused Optional 
 gui\implementation\dialogs\CreateWorkspaceDialog.py:5:0: W0611: Unused Callable imported from typing (unused-import)
 gui\implementation\dialogs\CreateWorkspaceDialog.py:8:0: W0611: Unused import traceback (unused-import)
 ************* Module LoginDialog
-gui\implementation\dialogs\LoginDialog.py:79:0: C0303: Trailing whitespace (trailing-whitespace)
-gui\implementation\dialogs\LoginDialog.py:100:0: C0303: Trailing whitespace (trailing-whitespace)
-gui\implementation\dialogs\LoginDialog.py:126:0: C0301: Line too long (112/100) (line-too-long)
+gui\implementation\dialogs\LoginDialog.py:80:0: C0303: Trailing whitespace (trailing-whitespace)
+gui\implementation\dialogs\LoginDialog.py:101:0: C0303: Trailing whitespace (trailing-whitespace)
+gui\implementation\dialogs\LoginDialog.py:127:0: C0301: Line too long (112/100) (line-too-long)
 gui\implementation\dialogs\LoginDialog.py:11:0: E0401: Unable to import 'workspace.interface.api' (import-error)
 gui\implementation\dialogs\LoginDialog.py:11:0: E0611: No name 'interface' in module 'workspace' (no-name-in-module)
-gui\implementation\dialogs\LoginDialog.py:29:0: R0902: Too many instance attributes (12/7) (too-many-instance-attributes)
-gui\implementation\dialogs\LoginDialog.py:136:38: E0602: Undefined variable 'Credentials' (undefined-variable)
-gui\implementation\dialogs\LoginDialog.py:143:43: W0613: Unused argument 'evt' (unused-argument)
-gui\implementation\dialogs\LoginDialog.py:151:29: E0602: Undefined variable 'Credentials' (undefined-variable)
-gui\implementation\dialogs\LoginDialog.py:146:22: W0613: Unused argument 'evt' (unused-argument)
-gui\implementation\dialogs\LoginDialog.py:155:26: W0613: Unused argument 'evt' (unused-argument)
+gui\implementation\dialogs\LoginDialog.py:30:0: R0902: Too many instance attributes (12/7) (too-many-instance-attributes)
+gui\implementation\dialogs\LoginDialog.py:137:38: E0602: Undefined variable 'Credentials' (undefined-variable)
+gui\implementation\dialogs\LoginDialog.py:144:43: W0613: Unused argument 'evt' (unused-argument)
+gui\implementation\dialogs\LoginDialog.py:152:29: E0602: Undefined variable 'Credentials' (undefined-variable)
+gui\implementation\dialogs\LoginDialog.py:147:22: W0613: Unused argument 'evt' (unused-argument)
+gui\implementation\dialogs\LoginDialog.py:157:26: W0613: Unused argument 'evt' (unused-argument)
 gui\implementation\dialogs\LoginDialog.py:5:0: W0611: Unused Callable imported from typing (unused-import)
 ************* Module OpenWorkspaceDialog
 gui\implementation\dialogs\OpenWorkspaceDialog.py:54:0: C0301: Line too long (116/100) (line-too-long)
@@ -744,6 +778,11 @@ gui\implementation\dialogs\PreferencesDialog.py:161:8: C0206: Consider iterating
 gui\implementation\dialogs\PreferencesDialog.py:159:26: W0613: Unused argument 'evt' (unused-argument)
 gui\implementation\dialogs\PreferencesDialog.py:2:0: W0611: Unused Optional imported from typing (unused-import)
 gui\implementation\dialogs\PreferencesDialog.py:2:0: W0611: Unused Callable imported from typing (unused-import)
+************* Module GuiSettings
+gui\implementation\misc\GuiSettings.py:4:0: W0301: Unnecessary semicolon (unnecessary-semicolon)
+gui\implementation\misc\GuiSettings.py:17:0: W0301: Unnecessary semicolon (unnecessary-semicolon)
+gui\implementation\misc\GuiSettings.py:32:0: C0303: Trailing whitespace (trailing-whitespace)
+gui\implementation\misc\GuiSettings.py:12:0: C0115: Missing class docstring (missing-class-docstring)
 ************* Module ActiveSkin
 gui\implementation\skins\ActiveSkin.py:44:0: C0325: Unnecessary parens after 'if' keyword (superfluous-parens)
 gui\implementation\skins\ActiveSkin.py:1:0: C0114: Missing module docstring (missing-module-docstring)
@@ -757,6 +796,8 @@ gui\implementation\skins\Skin.py:34:4: W4905: Using deprecated decorator abc.abs
 gui\implementation\skins\SkinRegistry.py:71:0: C0305: Trailing newlines (trailing-newlines)
 gui\implementation\skins\SkinRegistry.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 gui\implementation\skins\SkinRegistry.py:43:8: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+************* Module api
+gui\interface\api.py:28:0: C0305: Trailing newlines (trailing-newlines)
 ************* Module GuiResources
 gui\resources\GuiResources.py:40:4: C0116: Missing function or method docstring (missing-function-docstring)
 gui\resources\GuiResources.py:44:4: C0116: Missing function or method docstring (missing-function-docstring)
@@ -829,12 +870,13 @@ sqlite_db\implementation\SqliteDatabaseLock.py:71:12: W0702: No exception type(s
 sqlite_db\implementation\SqliteDatabaseLock.py:74:8: W0107: Unnecessary pass statement (unnecessary-pass)
 ************* Module SqliteDatabaseType
 sqlite_db\implementation\SqliteDatabaseType.py:34:0: C0301: Line too long (113/100) (line-too-long)
+sqlite_db\implementation\SqliteDatabaseType.py:66:0: C0303: Trailing whitespace (trailing-whitespace)
 sqlite_db\implementation\SqliteDatabaseType.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 sqlite_db\implementation\SqliteDatabaseType.py:3:0: R0402: Use 'from tkinter import ttk' instead (consider-using-from-import)
 sqlite_db\implementation\SqliteDatabaseType.py:4:0: R0402: Use 'from tkinter import filedialog' instead (consider-using-from-import)
-sqlite_db\implementation\SqliteDatabaseType.py:66:15: E0602: Undefined variable 'db' (undefined-variable)
-sqlite_db\implementation\SqliteDatabaseType.py:109:15: W0212: Access to a protected member _SqliteDatabaseAddress__path of a client class (protected-access)
-sqlite_db\implementation\SqliteDatabaseType.py:107:47: W0612: Unused variable 'db' (unused-variable)
+sqlite_db\implementation\SqliteDatabaseType.py:67:8: W0621: Redefining name 'SqliteDatabaseAddress' from outer scope (line 13) (redefined-outer-name)
+sqlite_db\implementation\SqliteDatabaseType.py:111:15: W0212: Access to a protected member _SqliteDatabaseAddress__path of a client class (protected-access)
+sqlite_db\implementation\SqliteDatabaseType.py:109:47: W0612: Unused variable 'db' (unused-variable)
 sqlite_db\implementation\SqliteDatabaseType.py:3:0: W0611: Unused tkinter.ttk imported as ttk (unused-import)
 sqlite_db\implementation\SqliteDatabaseType.py:5:0: W0611: Unused import sqlite3 (unused-import)
 ************* Module SqliteDbResources
@@ -1198,6 +1240,8 @@ workspace\implementation\Workspace.py:122:12: W0612: Unused variable 'ex' (unuse
 ************* Module WorkspaceAddress
 workspace\implementation\WorkspaceAddress.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 workspace\implementation\WorkspaceAddress.py:13:0: C0115: Missing class docstring (missing-class-docstring)
+workspace\implementation\WorkspaceAddress.py:31:36: W0212: Access to a protected member __db_address of a client class (protected-access)
+workspace\implementation\WorkspaceAddress.py:37:36: W0212: Access to a protected member __db_address of a client class (protected-access)
 ************* Module WorkspaceSettings
 workspace\implementation\WorkspaceSettings.py:20:0: W0301: Unnecessary semicolon (unnecessary-semicolon)
 workspace\implementation\WorkspaceSettings.py:52:0: C0301: Line too long (101/100) (line-too-long)
@@ -1212,19 +1256,18 @@ workspace\implementation\WorkspaceSettings.py:46:12: W0702: No exception type(s)
 workspace\implementation\WorkspaceSettings.py:51:4: C0203: Metaclass method last_used_workspace_address should have 'cls' as first argument (bad-mcs-method-argument)
 workspace\implementation\WorkspaceSettings.py:10:0: C0411: first party import "util.interface.api.*" should be placed before local imports "WorkspaceType.WorkspaceType", "WorkspaceAddress.WorkspaceAddress" (wrong-import-order)
 ************* Module WorkspaceType
-workspace\implementation\WorkspaceType.py:153:0: C0303: Trailing whitespace (trailing-whitespace)
+workspace\implementation\WorkspaceType.py:77:0: C0303: Trailing whitespace (trailing-whitespace)
+workspace\implementation\WorkspaceType.py:155:0: C0303: Trailing whitespace (trailing-whitespace)
 workspace\implementation\WorkspaceType.py:17:0: C0115: Missing class docstring (missing-class-docstring)
 workspace\implementation\WorkspaceType.py:40:4: C0116: Missing function or method docstring (missing-function-docstring)
-workspace\implementation\WorkspaceType.py:77:12: W0612: Unused variable 'dba' (unused-variable)
-workspace\implementation\WorkspaceType.py:156:48: W0212: Access to a protected member _WorkspaceAddress__db_address of a client class (protected-access)
-workspace\implementation\WorkspaceType.py:165:12: W0702: No exception type(s) specified (bare-except)
-workspace\implementation\WorkspaceType.py:176:12: W0702: No exception type(s) specified (bare-except)
-workspace\implementation\WorkspaceType.py:170:12: W0612: Unused variable 'account' (unused-variable)
-workspace\implementation\WorkspaceType.py:203:46: W0212: Access to a protected member _WorkspaceAddress__db_address of a client class (protected-access)
-workspace\implementation\WorkspaceType.py:212:4: C0116: Missing function or method docstring (missing-function-docstring)
-workspace\implementation\WorkspaceType.py:235:15: W0212: Access to a protected member __db_type of a client class (protected-access)
+workspace\implementation\WorkspaceType.py:158:48: W0212: Access to a protected member _WorkspaceAddress__db_address of a client class (protected-access)
+workspace\implementation\WorkspaceType.py:167:12: W0702: No exception type(s) specified (bare-except)
+workspace\implementation\WorkspaceType.py:178:12: W0702: No exception type(s) specified (bare-except)
+workspace\implementation\WorkspaceType.py:172:12: W0612: Unused variable 'account' (unused-variable)
+workspace\implementation\WorkspaceType.py:205:46: W0212: Access to a protected member _WorkspaceAddress__db_address of a client class (protected-access)
+workspace\implementation\WorkspaceType.py:214:4: C0116: Missing function or method docstring (missing-function-docstring)
+workspace\implementation\WorkspaceType.py:237:15: W0212: Access to a protected member __db_type of a client class (protected-access)
 workspace\implementation\WorkspaceType.py:9:0: W0611: Unused Credentials imported from Credentials (unused-import)
-************* Module api
 workspace\interface\api.py:7:0: E0401: Unable to import 'workspace.implementation.Credentials' (import-error)
 workspace\interface\api.py:7:0: E0611: No name 'implementation' in module 'workspace' (no-name-in-module)
 workspace\interface\api.py:8:0: E0401: Unable to import 'workspace.implementation.CurrentCredentials' (import-error)
@@ -1243,5 +1286,5 @@ workspace\interface\api.py:13:0: E0611: No name 'implementation' in module 'work
 workspace\__init__.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 
 ------------------------------------------------------------------
-Your code has been rated at 7.00/10 (previous run: 7.50/10, -0.50)
+Your code has been rated at 6.98/10 (previous run: 7.00/10, -0.01)
 

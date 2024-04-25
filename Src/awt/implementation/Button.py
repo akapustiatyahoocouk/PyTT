@@ -69,11 +69,14 @@ class Button(ttk.Button,
             self.add_action_listener(action.execute)
         else:
             self.__action = None
-            tk_text = kwargs["text"]
+            tk_text = None if len(kwargs["text"]) == 0 else kwargs["text"]
             tk_underline = None # TODO hotkey ?
             tk_image = kwargs.get("image", None)
-            self.configure(text=tk_text, underline=tk_underline,
-                           image=tk_image, compound=tk.LEFT)
+            self.configure(text=tk_text, 
+                           underline=tk_underline,
+                           image=tk_image)
+            if (tk_text is not None) and (tk_image is not None):
+                self.configure(compound=tk.LEFT)
 
         #   Done
         self.configure(command = self.__on_tk_click)

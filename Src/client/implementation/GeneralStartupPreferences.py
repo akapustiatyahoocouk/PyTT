@@ -14,7 +14,7 @@ from ..resources.ClientResources import ClientResources
 ##########
 #   Public entities
 class GeneralStartupPreferences(Preferences):
-    """ The "General" preferences. """
+    """ The "General/Startup" preferences. """
 
     ##########
     #   Singleton

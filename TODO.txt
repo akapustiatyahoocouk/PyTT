@@ -1,8 +1,4 @@
 ========== IMMEDIATE PIPELINE =====c=================================
-*   Change WorkspaceSettings to hane a static property
-    last_used_workspace_address:WorkspaceAddress instead of two 
-    separate properties last_used_workspace_type and 
-    last_used_workspace_address
 *   Change AdminSkinSettings to use a single property 
     main_frame_bounds: Rectangle instead of 4 deparate properties
     main_frame_x, main_frame_y, main_frame_width and 
