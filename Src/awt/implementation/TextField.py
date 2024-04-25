@@ -1,20 +1,62 @@
 #   Python standard library
 from typing import Callable
 from inspect import signature
+import tkinter as tk
 import tkinter.ttk as ttk
+
+#   Dependencies on other PyTT components
+from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
 from .BaseWidgetMixin import BaseWidgetMixin
 
 ##########
 #   Public entities
-class TextField(ttk.Entry, BaseWidgetMixin):
+class TextField(ttk.Entry, 
+                BaseWidgetMixin,
+                PropertyChangeEventProcessorMixin):
     """ A ttk.Entry with AWT extensions. """
 
     ##########
-    #   Construction
-    def __init__(self, master=None, **kwargs):
-        """Construct an awt TextField widget with the parent master. """
-        ttk.Entry.__init__(self, master, **kwargs)
-        BaseWidgetMixin.__init__(self)
+    #   Constants
+    __text_impl = None
+    @staticproperty
+    def TEXT() -> str:
+        """ The name of the "TEXT" property of this text field. """
+        if TextField.__text_impl is None:
+            TextField.__text_impl = "TEXT"
+        return TextField.__text_impl
 
+    ##########
+    #   Construction
+    def __init__(self, parent=None, text: str="", **kwargs):
+        """ Construct an awt TextField widget with the specified parent. """
+        ttk.Entry.__init__(self, parent, **kwargs)
+        BaseWidgetMixin.__init__(self)
+        PropertyChangeEventProcessorMixin.__init__(self)
+
+        assert isinstance(text, str)
+
+        self.__variable = tk.StringVar(master=self, value=text)
+        self.configure(textvariable=self.__variable)
+
+        #   Set up event handlers
+        self.__variable.trace_add("write", self.__on_tk_text_changed)
+
+    ##########
+    #   Properties
+    @property
+    def text(self) -> str:
+        return self.__variable.get()
+
+    @text.setter
+    def text(self, new_text: str) -> str:
+        assert isinstance(new_text, str)
+        self.__variable.set(new_text)
+
+    ##########
+    #   Tk event handlers
+    def __on_tk_text_changed(self, *args):
+        evt = PropertyChangeEvent(source=self, affected_object=self, changed_property=TextField.TEXT)
+        self.process_property_change_event(evt)
+ 

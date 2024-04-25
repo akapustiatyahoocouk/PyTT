@@ -48,12 +48,9 @@ class LoginDialog(Dialog):
                         parent,
                         GuiResources.string("LoginDialog.Title"))
 
+        login = login if isinstance(login, str) else ""
         self.__result = LoginDialogResult.CANCEL
         self.__credentials = None
-
-        #   Create control models
-        self.__login_var = tk.StringVar(value=login)
-        self.__password_var = tk.StringVar()
 
         #   Create controls
         self.__controls_panel = Panel(self)
@@ -61,12 +58,12 @@ class LoginDialog(Dialog):
         self.__login_label = Label(self.__controls_panel,
                                    text=GuiResources.string("LoginDialog.LoginLabel.Text"),
                                    anchor=tk.E)
-        self.__login_text_field = TextField(self.__controls_panel, width=40, textvariable=self.__login_var)
+        self.__login_text_field = TextField(self.__controls_panel, width=40, text=login)
 
         self.__password_label = Label(self.__controls_panel,
                                       text=GuiResources.string("LoginDialog.PasswordLabel.Text"),
                                       anchor=tk.E)
-        self.__password_text_field = TextField(self.__controls_panel, width=40, show="\u2022", textvariable=self.__password_var)
+        self.__password_text_field = TextField(self.__controls_panel, width=40, show="\u2022", text="")
 
         self.__separator = Separator(self, orient="horizontal")
 
@@ -95,27 +92,21 @@ class LoginDialog(Dialog):
         self.ok_button = self.__ok_button
         self.cancel_button = self.__cancel_button
 
-        self.__login_var.trace_add("write", lambda x,y,z: self.request_refresh())
-        self.__password_var.trace_add("write", lambda x,y,z: self.request_refresh())
-
+        self.__login_text_field.add_property_change_listener(self.__text_field_change_listener)
+        self.__password_text_field.add_property_change_listener(self.__text_field_change_listener)
+                                                                
         self.__ok_button.add_action_listener(self.__on_ok)
         self.__cancel_button.add_action_listener(self.__on_cancel)
-
-        #   Set initial focus & we're done
-        #if login is not None:
-        #    self.__password_text_field.focus_set()
-        #else:
-        #    self.__login_text_field.focus_set()
-        self.request_refresh()
 
         #   Done
         self.wait_visibility()
         self.center_in_parent()
+        self.request_refresh()
 
     ##########
     #   Refreshable
     def refresh(self) -> None:
-        login: str = self.__login_var.get()
+        login: str = self.__login_text_field.text
         if len(login.strip()) == 0:
             self.__password_label.enabled = False
             self.__password_text_field.enabled = False
@@ -129,7 +120,7 @@ class LoginDialog(Dialog):
     #   Dialog
     @property
     def initial_focus(self) -> tk.BaseWidget:
-        return self.__login_text_field if len(self.__login_var.get()) == 0 else self.__password_text_field
+        return self.__login_text_field if len(self.__login_text_field.text) == 0 else self.__password_text_field
 
     ##########
     #   Properties
@@ -146,11 +137,14 @@ class LoginDialog(Dialog):
 
     ##########
     #   Event listeners
+    def __text_field_change_listener(self, evt: PropertyChangeEvent) -> None:
+        self.request_refresh()
+
     def __on_ok(self, evt = None) -> None:
         if not self.__ok_button.enabled:
             return
-        login = self.__login_var.get()
-        password = self.__password_var.get()
+        login = self.__login_text_field.text.strip()
+        password = self.__password_text_field.text
         self.__credentials = Credentials(login, password)
         self.__result = LoginDialogResult.OK
         self.end_modal()

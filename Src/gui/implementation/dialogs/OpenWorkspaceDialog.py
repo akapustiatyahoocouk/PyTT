@@ -47,9 +47,6 @@ class OpenWorkspaceDialog(Dialog):
         self.__result = OpenWorkspaceDialogResult.CANCEL
         self.__workspace = None
 
-        #   Create control models
-        self.__workspace_address_var = tk.StringVar(value="")
-
         #   Create controls
         self.__controls_panel = Panel(self)
 
@@ -61,7 +58,7 @@ class OpenWorkspaceDialog(Dialog):
         self.__workspace_address_label = Label(self.__controls_panel,
                                                text=GuiResources.string("OpenWorkspaceDialog.WorkspaceAddressLabel.Text"),
                                                anchor=tk.E)
-        self.__workspace_address_text_field = TextField(self.__controls_panel, width=40, textvariable=self.__workspace_address_var)
+        self.__workspace_address_text_field = TextField(self.__controls_panel, width=40, text="")
         self.__browse_button = Button(self.__controls_panel,
                                       text=GuiResources.string("OpenWorkspaceDialog.BrowseButton.Text"),
                                       image=GuiResources.image("OpenWorkspaceDialog.BrowseButton.Icon"))
@@ -144,7 +141,7 @@ class OpenWorkspaceDialog(Dialog):
         if wt != self.__selected_workspace_type:
             self.__selected_workspace_type = wt
             self.__selected_workspace_address = None
-            self.__workspace_address_var.set("")
+            self.__workspace_address_text_field.text = ""
             self.request_refresh()
 
     def __on_browse(self, evt: ActionEvent) -> None:
@@ -152,7 +149,7 @@ class OpenWorkspaceDialog(Dialog):
         if wa is None:
             return
         self.__selected_workspace_address = wa
-        self.__workspace_address_var.set(wa.display_form)
+        self.__workspace_address_text_field.text = wa.display_form
         self.request_refresh()
 
     def __on_ok(self, evt: ActionEvent) -> None:

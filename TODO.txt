@@ -29,8 +29,6 @@
     they silence the exception handlers; at least print the 
     exceptions as a red flag for debug runs, and log them too for
     post-mortem analysis.
-*   Make TextFields enbed StringVars bound to them and emit
-    DocumentEvents (insert, delete, replace, change).
 *   Change MenuItem's "label" property to "text".
 *   Create a new ActionMenuItem(MenuItem) class, for Action-based
     MenuItems. They should REJECT attempts to set their propertes 

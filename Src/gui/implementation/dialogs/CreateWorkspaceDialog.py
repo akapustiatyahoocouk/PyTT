@@ -48,9 +48,6 @@ class CreateWorkspaceDialog(Dialog):
         self.__result = CreateWorkspaceDialogResult.CANCEL
         self.__workspace = None
 
-        #   Create control models
-        self.__workspace_address_var = tk.StringVar(value="")
-
         #   Create controls
         self.__controls_panel = Panel(self)
 
@@ -62,10 +59,22 @@ class CreateWorkspaceDialog(Dialog):
         self.__workspace_address_label = Label(self.__controls_panel,
                                                text=GuiResources.string("CreateWorkspaceDialog.WorkspaceAddressLabel.Text"),
                                                anchor=tk.E)
-        self.__workspace_address_text_field = TextField(self.__controls_panel, width=40, textvariable=self.__workspace_address_var)
+        self.__workspace_address_text_field = TextField(self.__controls_panel, 
+                                                        width=40, 
+                                                        text="")
         self.__browse_button = Button(self.__controls_panel,
                                       text=GuiResources.string("CreateWorkspaceDialog.BrowseButton.Text"),
                                       image=GuiResources.image("CreateWorkspaceDialog.BrowseButton.Icon"))
+
+        self.__radio_button_group = RadioButtonGroup()
+        self.__use_current_credentials_radio_button = \
+            RadioButton(self.__controls_panel,
+                        self.__radio_button_group,
+                        text=GuiResources.string("CreateWorkspaceDialog.UseCurrentCredentialsRadioButton.Text"))
+        self.__use_custom_credentials_radio_button = \
+            RadioButton(self.__controls_panel,
+                        self.__radio_button_group,
+                        text=GuiResources.string("CreateWorkspaceDialog.UseCustomCredentialsRadioButton.Text"))
 
         self.__separator = Separator(self, orient="horizontal")
 
@@ -88,6 +97,8 @@ class CreateWorkspaceDialog(Dialog):
         self.__selected_workspace_type = self.__workspace_type_combo_box.selected_item
         self.__selected_workspace_address = None
 
+        self.__use_current_credentials_radio_button.checked = True
+
         #   Set up control structure
         self.__controls_panel.pack(fill=tk.X, padx=0, pady=0)
         self.__controls_panel.columnconfigure(1, weight=10)
@@ -98,6 +109,9 @@ class CreateWorkspaceDialog(Dialog):
         self.__workspace_address_label.grid(row=1, column=0, padx=2, pady=2, sticky="W")
         self.__workspace_address_text_field.grid(row=1, column=1, padx=2, pady=2, sticky="WE")
         self.__browse_button.grid(row=1, column=2, padx=2, pady=2, sticky="E")
+
+        self.__use_current_credentials_radio_button.grid(row=2, column=0, columnspan=2, padx=2, pady=2, sticky="W")
+        self.__use_custom_credentials_radio_button.grid(row=3, column=0, columnspan=2, padx=2, pady=2, sticky="W")
 
         self.__separator.pack(fill=tk.X, padx=0, pady=4)
         self.__cancel_button.pack(side=tk.RIGHT, padx=2, pady=2)
@@ -145,7 +159,7 @@ class CreateWorkspaceDialog(Dialog):
         if wt != self.__selected_workspace_type:
             self.__selected_workspace_type = wt
             self.__selected_workspace_address = None
-            self.__workspace_address_var.set("")
+            self.__workspace_address_text_field.text = ""
             self.request_refresh()
 
     def __on_browse(self, evt: ActionEvent) -> None:
@@ -153,7 +167,7 @@ class CreateWorkspaceDialog(Dialog):
         if wa is None:
             return
         self.__selected_workspace_address = wa
-        self.__workspace_address_var.set(wa.display_form)
+        self.__workspace_address_text_field.text = wa.display_form
         self.request_refresh()
 
     def __on_ok(self, evt: ActionEvent) -> None:
