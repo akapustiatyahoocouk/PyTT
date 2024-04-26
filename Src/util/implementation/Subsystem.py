@@ -4,8 +4,8 @@ from typing import Optional, Set
 from abc import ABC, abstractproperty
 
 #   Internal dependencies on modules within the same component
-from util.implementation.Annotations import staticproperty
-from util.implementation.Metaclasses import ABCWithConstants
+from .Annotations import staticproperty
+from .Metaclasses import ABCWithConstants
 
 ##########
 #   Public entities
@@ -20,7 +20,7 @@ class Subsystem(ABCWithConstants):
     @staticproperty
     def ROOT() -> "Subsystem":
         """ The root of the Subsystems tree. """
-        from .RootSubsystem import RootSubsystem
+        from .Subsystems import RootSubsystem
         return RootSubsystem.instance
 
     ##########

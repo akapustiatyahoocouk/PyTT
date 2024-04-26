@@ -46,6 +46,7 @@ from awt.implementation.ResourceAwareSubmenu import *
 from awt.implementation.Separator import *
 from awt.implementation.SimpleMenuItem import *
 from awt.implementation.Submenu import *
+from awt.implementation.Subsystems import *
 from awt.implementation.TabbedPane import *
 from awt.implementation.TextArea import *
 from awt.implementation.TextField import *

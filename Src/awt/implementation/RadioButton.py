@@ -1,6 +1,5 @@
+""" A ttk.Radiobutton with AWT extensions. """
 #   Python standard library
-from typing import Callable
-from inspect import signature
 import tkinter as tk
 import tkinter.ttk as ttk
 
@@ -34,10 +33,15 @@ class RadioButton(ttk.Radiobutton,
     #   Properties
     @property
     def group(self) -> RadioButtonGroup:
+        """ The RadioButtonGroup to which this RadioButton belongs;
+            None if this RadioButton is not assigned to a 
+            RadioButtonGroup. """
         return self.__group
 
     @property
     def checked(self) -> bool:
+        """ True if this RadioButton is currently checked, False 
+            unchecked. """
         if self.__group is None:
             return False
         index = self.__group.members.index(self)
@@ -45,6 +49,7 @@ class RadioButton(ttk.Radiobutton,
 
     @checked.setter
     def checked(self, new_checked: bool) -> bool:
+        """ Checks (true) or unchecks (False) this RadioButton. """
         assert isinstance(new_checked, bool)
         if self.__group is None:
             return
@@ -53,7 +58,7 @@ class RadioButton(ttk.Radiobutton,
 
     ##########
     #   Tk event handlers
-    def __radiobutton_clicked(self, *args):
+    def __radiobutton_clicked(self):
         evt = ActionEvent(self)
         self.process_action_event(evt)
         return "break"

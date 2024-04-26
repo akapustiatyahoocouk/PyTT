@@ -45,7 +45,7 @@ class LanguagesDialog(Dialog):
         self.__languages_tree_view['columns'] = columns
         for key in columns:
             self.__languages_tree_view.heading(key, text=key)
-            self.__languages_tree_view.column(key, anchor=tk.CENTER, stretch=tk.NO)
+            self.__languages_tree_view.column(key, anchor=tk.CENTER)
         self.__add_component_row(Subsystem.ROOT, all_locales)
             
         #   Set up control structure

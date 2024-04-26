@@ -1,5 +1,7 @@
+""" Defines an interface to a generic UI object that can be 
+    "refreshed", typically updating its internal state and 
+    then repainting. """
 #   Python standard library
-from typing import Callable
 import tkinter as tk
 
 #   Dependencies on other PyTT components
@@ -41,25 +43,22 @@ class Refreshable:
     def refresh(self) -> None:
         """ Called by the refresh handling logic whenever a "refresh"
             is performed on this UI object. """
-        refresh_root = self.__find_refresh_root()
+        pass
 
     ##########
     #   Implementation
     def __find_refresh_root(self) -> Any:
         if isinstance(self, tk.BaseWidget):
             #   Need the closest Toplevel
-            refresh_root = self
-            if isinstance(refresh_root, tk.Toplevel):
+            if isinstance(self, tk.Toplevel):
                 #   We are at a Toplevel
-                return refresh_root
-            elif not isinstance(refresh_root.master, tk.BaseWidget):
+                return self
+            if not isinstance(self.master, tk.BaseWidget):
                 #   No master (parent) or it is not a tk [Base]Widget
-                return refresh_root
-            else:
-                refresh_root = refresh_root.master
-        else:
-            #   No point in trying to find a Toplevel
-            return self
+                return self
+            return self.master.__find_refresh_root()
+        #   Else no point in trying to find a Toplevel
+        return self
 
     @staticmethod
     def __do_refresh(refresh_root) -> Any:
@@ -68,7 +67,7 @@ class Refreshable:
                 refresh_root._Refreshable__refresh_underway = True
                 try:
                     refresh_root.refresh()
-                except Exception as ex:
+                except Exception:
                     pass    #   TODO report exceptions
                 refresh_root._Refreshable__refresh_underway = False
         if isinstance(refresh_root, tk.BaseWidget):

@@ -1,3 +1,5 @@
+AwtSubsystem.DisplayName=AWT
+
 ErrorDialog.Title=ERROR
 ErrorDialog.SaveButton.Text=Save
 ErrorDialog.SaveButton.Icon=ImageFile:images/actions/SaveSmall.png

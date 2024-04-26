@@ -3,14 +3,10 @@
 """
 #   Python standard library
 import tkinter as tk
-import tkinter.ttk as ttk
-from turtle import bgcolor
-from typing import Any
 from enum import Enum
 
-from .ActionEvent import ActionEvent
-
 #   Internal dependencies on modules within the same component
+from .ActionEvent import ActionEvent
 from .Dialog import Dialog
 from .Panel import Panel
 from .Label import Label
@@ -21,38 +17,84 @@ from ..resources.AwtResources import AwtResources
 ##########
 #   Public entities
 class MessageBoxIcon(Enum):
+    """ The icons that a MessageBox can display. """
+
     NONE = 0
+    """ No icon. """
+
     INFORMATION = 1
+    """ An "information" icon (platform-specific). """
+
     QUESTION = 2
+    """ A "question" icon (platform-specific). """
+
     ERROR = 3
+    """ An "error" icon (platform-specific). """
 
 class MessageBoxButtons(Enum):
+    """ The sets of buttons a MessageBox can display. """
+
     OK = 1
+    """ "OK" button. """
+
     OK_CANCEL = 2
+    """ "OK" and "Cancel" buttons. """
+
     YES_NO = 3
+    """ "Yes" and "No" buttons. """
+
     YES_NO_CANCEL = 4
+    """ "Yes", "No" and "Cancel" buttons. """
+
     ABORT_RETRY_IGNORE = 5
+    """ "Abort", "Retry" and "Ignore" buttons. """
+
     CANCEL_RETRY_CONTINUE = 6
+    """ "Cancel", "Retry" and "Ignore" buttons. """
+
     RETRY_CANCEL = 7
+    """ "Retry" and "Cancel" buttons. """
 
 class MessageBoxResult(Enum):
+    """ The message box resuld, based on user selection. """
+
     NONE = 0
+    """ The user has cancelled the message box. """
+
     OK = 1
+    """ The user has pressed the "OK" button. """
+
     CANCEL = 2
+    """ The user has pressed the "Cancel" button. """
+
     YES = 3
+    """ The user has pressed the "Yes" button. """
+
     NO = 4
+    """ The user has pressed the "No" button. """
+
     ABORT = 5
+    """ The user has pressed the "Abort" button. """
+
     RETRY = 6
+    """ The user has pressed the "Retry" button. """
+
     IGNORE = 7
+    """ The user has pressed the "Ignore" button. """
+
     CONTINUE = 8
+    """ The user has pressed the "Continue" button. """
 
 class MessageBox(Dialog):
+    """ A modal dialog that shows a message (perhaps multiline)
+        to the user and asks the user to make a choice (or close
+        the dialog). """
 
     ##########
     #   Construction
     def __init__(self,
                  parent: tk.BaseWidget,
-                 title: str, 
+                 title: str,
                  message: str,
                  icon: MessageBoxIcon = MessageBoxIcon.NONE,
                  buttons: MessageBoxButtons = MessageBoxButtons.OK):
@@ -74,11 +116,14 @@ class MessageBox(Dialog):
             case MessageBoxIcon.NONE:
                 self.__pic1 = Label(self.__pan1)
             case MessageBoxIcon.INFORMATION:
-                self.__pic1 = Label(self.__pan1, image = AwtResources.image("MessageBox.InformationIcon"))
+                self.__pic1 = Label(self.__pan1,
+                                    image = AwtResources.image("MessageBox.InformationIcon"))
             case MessageBoxIcon.QUESTION:
-                self.__pic1 = Label(self.__pan1, image = AwtResources.image("MessageBox.QuestionIcon"))
+                self.__pic1 = Label(self.__pan1,
+                                    image = AwtResources.image("MessageBox.QuestionIcon"))
             case MessageBoxIcon.ERROR:
-                self.__pic1 = Label(self.__pan1, image = AwtResources.image("MessageBox.ErrorIcon"))
+                self.__pic1 = Label(self.__pan1,
+                                    image = AwtResources.image("MessageBox.ErrorIcon"))
         self.__text = Label(self.__pan2, text=str(message))
 
         self.__separator = Separator(self, orient="horizontal")
@@ -135,22 +180,45 @@ class MessageBox(Dialog):
         self.center_in_parent()
 
     ##########
+    #   Properties
+    @property
+    def result(self) -> MessageBoxResult:
+        """ The dialog result after a modal invocation. """
+        return self.__result
+
+    ##########
     #   Operations
     @staticmethod
     def show(parent: tk.BaseWidget,
-             title: str, 
+             title: str,
              message: str,
              icon: MessageBoxIcon = MessageBoxIcon.NONE,
              buttons: MessageBoxButtons = MessageBoxButtons.OK):
+        """ 
+            Displays a modal message box.
+
+            @param parent:
+                The parent window for the message box.
+            @param title:
+                The title for the message box; must not be None.
+            @param message:
+                The message to display in the message box; must not be None.
+            @param icon:
+                The icon for the message box; must not be None.
+            @param buttons:
+                The message box buttons to display; must not be None.
+        """
         with MessageBox(parent, title, message, icon, buttons) as mb:
             mb.do_modal()
 
     ##########
     #   Event listeners
     def __on_ok(self, evt: ActionEvent) -> None:
+        assert isinstance(evt, ActionEvent)
         self.__result = MessageBoxResult.OK
         self.end_modal()
 
     def __on_cancel(self, evt: ActionEvent) -> None:
+        assert isinstance(evt, ActionEvent)
         self.__result = MessageBoxResult.CANCEL
         self.end_modal()

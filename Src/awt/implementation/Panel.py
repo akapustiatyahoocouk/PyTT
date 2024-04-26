@@ -1,7 +1,5 @@
+""" A ttk.Frame with AWT extensions. """
 #   Python standard library
-from typing import Callable
-from inspect import signature
-
 import tkinter as tk
 import tkinter.ttk as ttk
 
