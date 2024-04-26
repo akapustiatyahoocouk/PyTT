@@ -6,7 +6,7 @@ import tkinter as tk
 from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
-from awt.implementation.GuiRoot import GuiRoot
+from .GuiRoot import GuiRoot
 
 ##########
 #   Public entities

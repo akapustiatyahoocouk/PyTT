@@ -53,8 +53,18 @@ Actions.About.LargeImage=ImageFile:images/actions/AboutLarge.png
 ##########
 #   Dialogs
 AboutDialog.Title=About PyTT
+AboutDialog.LicenseButton.Text=License
+AboutDialog.LicenseButton.Icon=ImageFile:images/misc/LicenseSmall.png
+AboutDialog.LanguagesButton.Text=Languages
+AboutDialog.LanguagesButton.Icon=ImageFile:images/misc/LocaleSmall.png
+AboutDialog.ComponentsButton.Text=Plugins
+AboutDialog.ComponentsButton.Icon=ImageFile:images/misc/ComponentSmall.png
 AboutDialog.OkButton.Text=OK
 AboutDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+
+LicenseDialog.Title=PyTT license
+LicenseDialog.OkButton.Text=OK
+LicenseDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 
 PreferencesDialog.Title=Preferences
 PreferencesDialog.OkButton.Text=OK

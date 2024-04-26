@@ -2,7 +2,7 @@
 from abc import ABC, abstractproperty
 
 #   Internal dependencies on modules within the same component
-from db.implementation.DatabaseType import DatabaseType
+from .DatabaseType import DatabaseType
 
 ##########
 #   Public entities

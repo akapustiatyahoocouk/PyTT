@@ -47,6 +47,7 @@ from awt.implementation.Separator import *
 from awt.implementation.SimpleMenuItem import *
 from awt.implementation.Submenu import *
 from awt.implementation.TabbedPane import *
+from awt.implementation.TextArea import *
 from awt.implementation.TextField import *
 from awt.implementation.TreeView import *
 from awt.implementation.VirtualKey import *

@@ -52,6 +52,10 @@ class GeneralStartupPreferences(Preferences):
     def display_name(self) -> str:
         return 'Startup'
 
+    @property
+    def sort_order(self) -> Optional[int]:
+        return 10
+
     ##########
     #   Preferences - Operations
     def create_editor(self, parent: tk.BaseWidget) -> tk.BaseWidget:

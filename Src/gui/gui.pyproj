@@ -30,6 +30,7 @@
     <Folder Include="resources\images\" />
     <Folder Include="resources\images\actions\" />
     <Folder Include="implementation\skins\" />
+    <Folder Include="resources\images\misc\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="implementation\actions\CloseWorkspaceAction.py" />
@@ -41,6 +42,7 @@
     <Compile Include="implementation\actions\ActionBase.py" />
     <Compile Include="implementation\actions\ActionSet.py" />
     <Compile Include="implementation\actions\ExitAction.py" />
+    <Compile Include="implementation\dialogs\LicenseDialog.py" />
     <Compile Include="implementation\dialogs\OpenWorkspaceDialog.py" />
     <Compile Include="implementation\dialogs\CreateWorkspaceDialog.py" />
     <Compile Include="implementation\dialogs\PreferencesDialog.py" />
@@ -75,6 +77,12 @@
     <Content Include="resources\images\actions\OpenWorkspaceSmall.png" />
     <Content Include="resources\images\actions\PreferencesLarge.png" />
     <Content Include="resources\images\actions\PreferencesSmall.png" />
+    <Content Include="resources\images\misc\ComponentLarge.png" />
+    <Content Include="resources\images\misc\ComponentSmall.png" />
+    <Content Include="resources\images\misc\LicenseLarge.png" />
+    <Content Include="resources\images\misc\LicenseSmall.png" />
+    <Content Include="resources\images\misc\LocaleLarge.png" />
+    <Content Include="resources\images\misc\LocaleSmall.png" />
     <Content Include="resources\Resources.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

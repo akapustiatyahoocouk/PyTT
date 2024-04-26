@@ -135,7 +135,9 @@ class PreferencesDialog(Dialog):
             self.__record_preference_values(child)
 
     def __populate_preferences_tree(self, parent_item: str, preferences: Preferences):
-        for child in preferences.children:  #   TODO sort by explicit order, then alphabetically
+        children = list(preferences.children)
+        self.__sort_preferences(children)
+        for child in children:
             #   Do this child...
             child_node_id = self.__preferences_tree_view.insert(parent_item, tk.END, text=child.display_name)
             self.__map_tree_node_ids_to_preferences[child_node_id] = child
@@ -148,14 +150,27 @@ class PreferencesDialog(Dialog):
             #   ... then sub-children
             self.__populate_preferences_tree(child_node_id, child)
 
-    def __select_preferences_node(self, parent_node_id: Any, preferences: Preferences) -> None:
+    def __sort_preferences(self, elements: List[Preferences]) -> None:
+        if len(elements) <= 1:
+            return  # no point in sorting!
+        sorted_by_order = list(filter(lambda p: p.sort_order is not None, elements))
+        sorted_by_name = list(filter(lambda p: p.sort_order is None, elements))
+        sorted_by_order.sort(key=lambda p: p.sort_order)
+        sorted_by_name.sort(key=lambda p: p.display_name)
+        elements.clear()
+        elements.extend(sorted_by_order)
+        elements.extend(sorted_by_name)
+    
+    def __select_preferences_node(self, parent_node_id: Any, preferences: Preferences) -> bool:
         for node in self.__preferences_tree_view.get_children(parent_node_id):
-            #TODO kill off print(node, self.__map_tree_node_ids_to_preferences[node].qualified_name)
             if self.__map_tree_node_ids_to_preferences[node] == preferences:
                 self.__preferences_tree_view.see(node)
                 self.__preferences_tree_view.selection_set([node])
                 self.request_refresh()
-            self.__select_preferences_node(node, preferences)
+                return True
+            if self.__select_preferences_node(node, preferences):
+                return True
+        return False
             
     ##########
     #   Event listeners

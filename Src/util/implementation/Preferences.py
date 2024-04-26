@@ -1,5 +1,5 @@
 #   Python standard library
-from typing import final, Set
+from typing import final, Set, Optional
 from abc import abstractmethod, abstractproperty
 import tkinter as tk
 
@@ -94,6 +94,12 @@ class Preferences(ABCWithConstants):
     def children(self) -> Set["Preferences"]:
         return set(self.__children)
 
+    @property
+    def sort_order(self) -> Optional[int]:
+        """ The relative sort order of this Preferences within
+            ite immediate parent; None if sorted by display_name. """
+        return None
+    
     @property
     def preferences(self) -> Set["Preference"]:
         return set(self.__preferences)

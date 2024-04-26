@@ -46,6 +46,10 @@ class GeneralAppearancePreferences(Preferences):
     def display_name(self) -> str:
         return 'Appearance'
 
+    @property
+    def sort_order(self) -> Optional[int]:
+        return 0
+
     ##########
     #   Preferences - Operations
     def create_editor(self, parent: tk.BaseWidget) -> tk.BaseWidget:

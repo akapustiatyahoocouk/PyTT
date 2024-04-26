@@ -16,7 +16,7 @@ from .Panel import Panel
 from .Label import Label
 from .Separator import Separator
 from .Button import Button
-from awt.resources.AwtResources import AwtResources
+from ..resources.AwtResources import AwtResources
 
 ##########
 #   Public entities

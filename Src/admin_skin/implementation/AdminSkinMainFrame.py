@@ -11,7 +11,7 @@ from workspace.interface.api import *
 from gui.interface.api import *
 
 #   Internal dependencies on modules within the same component
-from admin_skin.resources.AdminSkinResources import AdminSkinResources
+from ..resources.AdminSkinResources import AdminSkinResources
 from .AdminSkinSettings import AdminSkinSettings
 
 ##########

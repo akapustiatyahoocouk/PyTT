@@ -3,6 +3,7 @@ from typing import Optional
 from inspect import signature
 import tkinter as tk
 import tkinter.ttk as ttk
+import idlelib.redirector as rd
 
 #   Dependencies on other PyTT components
 from util.interface.api import *
@@ -42,6 +43,13 @@ class TextField(ttk.Entry,
 
         #   Set up event handlers
         self.__variable.trace_add("write", self.__on_tk_text_changed)
+
+        #TODO move to "readonly: bool" property
+        self.redirector = rd.WidgetRedirector(self)
+        #self.insert = self.redirector.register("insert", lambda *args, **kw: "break")
+        #self.delete = self.redirector.register("delete", lambda *args, **kw: "break")
+        #self.redirector.unregister("insert")
+        #self.redirector.unregister("delete")
 
     ##########
     #   Properties

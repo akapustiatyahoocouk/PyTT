@@ -1,4 +1,6 @@
-========== IMMEDIATE PIPELINE =====c=================================
+========== IMMEDIATE PIPELINE ======================================
+*   Add readonly: bool property to TextField and TextArea, to be
+    jandled via the rd.WidgetRedirector()
 *   AWT shall handle FocusEvents and MouseEvents.
 *   Disabled widgets seem to still be focusable.
     Do something about it.
@@ -20,7 +22,6 @@
     resources, such as '\t' and '\n'. The \ itself must then be
     represented as '\\' in a resource text file. The '\' at the
     end of the line shoube be treated as a continuation line.
-*   Locale.__str__ needs to use UtilResources for proper localisation.
 *   In many places in code there is "pass". Check on these - usually
     they silence the exception handlers; at least print the 
     exceptions as a red flag for debug runs, and log them too for
@@ -44,8 +45,7 @@
     *   tk/ttk widget configuration (.configure, etc.) services
         shall be hidden behint AWT-level properties.
 *   Define Color class in AWT, like java.awt.Color.
-*   Define Point, Size and Rectangle classes in AWT to be "tuples"
-    of 2, 2, and 4 ints respectively, and use them.
+*   Define Point, Size and Rectangle classes in AWT and use them.
 
 ========== NICE TO HAVE ============================================
 *   AWT compound controls (ListBox, ComboBox, TreeView, TabbedPane,
