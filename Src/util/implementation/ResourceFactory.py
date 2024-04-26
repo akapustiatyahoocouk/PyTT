@@ -20,11 +20,11 @@ class ResourceFactory(ABC):
     #   Properties
     @abstractproperty
     def name(self) -> str:
-        """ The name of this resource bundle. """
+        """ The name of this resource factory. """
         raise NotImplementedError()
 
     @abstractproperty
-    def supported_locales() -> set[Locale]:
+    def supported_locales(self) -> set[Locale]:
         """ The set of all locales supported by this resource factory. """
         raise NotImplementedError()
 

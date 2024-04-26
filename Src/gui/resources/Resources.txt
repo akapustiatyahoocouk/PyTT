@@ -66,6 +66,10 @@ LicenseDialog.Title=PyTT license
 LicenseDialog.OkButton.Text=OK
 LicenseDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 
+LanguagesDialog.Title=Language support
+LanguagesDialog.OkButton.Text=OK
+LanguagesDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+
 PreferencesDialog.Title=Preferences
 PreferencesDialog.OkButton.Text=OK
 PreferencesDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png

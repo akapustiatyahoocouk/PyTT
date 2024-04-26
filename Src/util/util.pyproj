@@ -29,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="resources\documents\gpl-3.0-en.txt" />
+    <Content Include="resources\documents\gpl-3.0-ru.txt" />
     <Content Include="resources\images\PyTTLarge.png" />
     <Content Include="resources\images\PyTTSmall.png" />
     <Content Include="resources\Resources.txt" />
@@ -46,6 +47,9 @@
     <Compile Include="implementation\PropertyChangeEventListener.py" />
     <Compile Include="implementation\PropertyChangeEvent.py" />
     <Compile Include="implementation\PropertyChangeEventProcessorMixin.py" />
+    <Compile Include="implementation\LocalizableSubsystem.py" />
+    <Compile Include="implementation\UiSubsystem.py" />
+    <Compile Include="implementation\UtilitiesSubsystem.py" />
     <Compile Include="implementation\RootSubsystem.py" />
     <Compile Include="implementation\Subsystem.py" />
     <Compile Include="interface\api.py" />

@@ -41,10 +41,8 @@ class LicenseDialog(Dialog):
             image=GuiResources.image("LicenseDialog.OkButton.Icon"))
 
         #   Adjust controls
-        self.__license_text_area.redirector = rd.WidgetRedirector(self.__license_text_area)
-        self.__license_text_area.insert = self.__license_text_area.redirector.register("insert", lambda *args, **kw: "break")
-        self.__license_text_area.delete = self.__license_text_area.redirector.register("delete", lambda *args, **kw: "break")
-        
+        self.__license_text_area.readonly = True
+
         #   Set up control structure
         self.__controls_panel.pack(fill=tk.X, padx=0, pady=0)
         self.__license_text_area.pack(fill=tk.BOTH, padx=0, pady=0)

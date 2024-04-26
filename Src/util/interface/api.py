@@ -13,6 +13,7 @@ from util.implementation.FileResourceFactory import *
 from util.implementation.Friends import *
 from util.implementation.GeneralPreferences import *
 from util.implementation.Locale import *
+from util.implementation.LocalizableSubsystem import *
 from util.implementation.Metaclasses import *
 from util.implementation.Preference import *
 from util.implementation.Preferences import *
@@ -27,5 +28,7 @@ from util.implementation.RootPreferences import *
 from util.implementation.RootSubsystem import *
 from util.implementation.Settings import *
 from util.implementation.Subsystem import *
+from util.implementation.UiSubsystem import *
+from util.implementation.UtilitiesSubsystem import *
 
 from util.resources.UtilResources import *

@@ -110,7 +110,7 @@ class CreateWorkspaceDialog(Dialog):
         if len(self.__workspace_type_combo_box.items) > 0:
             self.__workspace_type_combo_box.selected_index = 0  #   TODO last created ws type
 
-        self.__workspace_address_text_field.enabled = False
+        self.__workspace_address_text_field.readonly = True
 
         self.__selected_workspace_type = self.__workspace_type_combo_box.selected_item
         self.__selected_workspace_address = None

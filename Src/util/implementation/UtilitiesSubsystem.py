@@ -1,4 +1,4 @@
-""" Defines a root "/" of the Subsystems tree. """
+""" Defines the "/Utilities" Subsystem. """
 #   Python standard library
 from typing import Optional, Set
 from abc import ABC, abstractproperty
@@ -7,13 +7,15 @@ from abc import ABC, abstractproperty
 from .Annotations import staticproperty
 from .Subsystem import Subsystem
 from .LocalizableSubsystem import LocalizableSubsystem
+from .RootSubsystem import RootSubsystem
 from .Locale import Locale
 from ..resources.UtilResources import UtilResources
 
 ##########
 #   Public entities
-class RootSubsystem(LocalizableSubsystem):
-    """ The root "/" of the subsustems tree. """
+class UtilitiesSubsystem(LocalizableSubsystem):
+    """ The "/Utilities" Subsystem, actins as a parent
+        for concrete subsystems falling into this category. """
 
     ##########
     #   Singleton
@@ -21,8 +23,8 @@ class RootSubsystem(LocalizableSubsystem):
     __instance : Subsystem = None
 
     def __init__(self):
-        assert RootSubsystem.__instance_acquisition_in_progress, "Use RootSubsystem.instance instead"
-        Subsystem.__init__(self, None)
+        assert UtilitiesSubsystem.__instance_acquisition_in_progress, "Use UtilitiesSubsystem.instance instead"
+        Subsystem.__init__(self, RootSubsystem.instance)
 
     @staticproperty
     def instance() -> Subsystem:
@@ -33,24 +35,24 @@ class RootSubsystem(LocalizableSubsystem):
             @return:
                 The one and only instance of this class.
         """
-        if RootSubsystem.__instance is None:
-            RootSubsystem.__instance_acquisition_in_progress = True
-            RootSubsystem.__instance = RootSubsystem()
-            RootSubsystem.__instance_acquisition_in_progress = False
-        return RootSubsystem.__instance
+        if UtilitiesSubsystem.__instance is None:
+            UtilitiesSubsystem.__instance_acquisition_in_progress = True
+            UtilitiesSubsystem.__instance = UtilitiesSubsystem()
+            UtilitiesSubsystem.__instance_acquisition_in_progress = False
+        return UtilitiesSubsystem.__instance
 
     ##########
     #   Subsystem - Properties
     @property
     def display_name(self) -> str:
-        return UtilResources.string("RootSubsystem.DisplayName")
+        return UtilResources.string("UtilitiesSubsystem.DisplayName")
 
     ##########
     #   LocalizableSubsystem - Properties
     @property
     def supported_locales(self) -> set[Locale]:
         return UtilResources.factory.supported_locales
-    
+
 ##########
 #   Instantiate
-RootSubsystem.instance
+UtilitiesSubsystem.instance

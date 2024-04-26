@@ -58,11 +58,10 @@ class FileResourceFactory(ResourceFactory):
     #   ResourceFactory - Properties
     @property
     def name(self) -> str:
-        """ The name of this resource bundle. """
         return self.__base_resource_file_name
 
     @property
-    def supported_locales() -> set[Locale]:
+    def supported_locales(self) -> set[Locale]:
         return set(self.__resource_bundles.keys())
 
     ##########

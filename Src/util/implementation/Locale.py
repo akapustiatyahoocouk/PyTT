@@ -51,9 +51,9 @@ class LocaleMeta(ClassWithConstantsMeta):
     def default(cls, value):
         assert isinstance(value, Locale)
         if value != cls._Locale__default_locale:
-            from util.implementation.PropertyChangeEvent import PropertyChangeEvent
-            from util.implementation.LocaleProvider import LocaleProvider
-            from util.implementation.DefaultLocaleProvider import DefaultLocaleProvider
+            from .PropertyChangeEvent import PropertyChangeEvent
+            from .LocaleProvider import LocaleProvider
+            from .DefaultLocaleProvider import DefaultLocaleProvider
             cls._Locale__default_locale = value
             evt = PropertyChangeEvent(cls, cls, Locale.DEFAULT_LOCALE_PROPERTY_NAME)
             cls.process_property_change_event(evt)
@@ -65,11 +65,11 @@ class Locale(metaclass=LocaleMeta):
 
     ##########
     #   Implementation
-    __root_locale = None
+    __root_locale = None    #   TODO try to move these to the LocaleMeta
     __system_locale = None
     __default_locale = None
 
-    __property_change_listeners = []
+    __property_change_listeners = []    #   This stays here in Locale class
 
     ##########
     #   Constants
@@ -180,14 +180,20 @@ class Locale(metaclass=LocaleMeta):
     #   Properties
     @property
     def language(self) -> Optional[str]:
+        """ The 2-letter ISO-639 language code (lowercase) or 
+            None if this Locale does not specify the language. """
         return self.__language
 
     @property
     def country(self) -> Optional[str]:
+        """ The 2-letter ISO-3166 country code (uppercase) or 
+            None if this Locale does not specify the country. """
         return self.__country
 
     @property
     def variant(self) -> Optional[str]:
+        """ The locale variant string or None if this Locale 
+            does not specify the locale variant. """
         return self.__variant
 
     @property
@@ -195,7 +201,7 @@ class Locale(metaclass=LocaleMeta):
         """ The immediate parent locale of this Locale.
             The parent of a "root" locale it the "root" locale tself. """
         if self.__language is None:
-            return self
+            return Locale.ROOT
         elif self.__country is None:
             return Locale.ROOT
         elif self.__variant is None:

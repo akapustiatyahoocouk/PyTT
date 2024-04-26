@@ -1,6 +1,8 @@
 ========== IMMEDIATE PIPELINE ======================================
+*   Clicking on a TextField doesn't give it the keyboard focus.
+    Fix this. TextArea does not seem to have this problem.
 *   Add readonly: bool property to TextField and TextArea, to be
-    jandled via the rd.WidgetRedirector()
+    handled via the rd.WidgetRedirector()
 *   AWT shall handle FocusEvents and MouseEvents.
 *   Disabled widgets seem to still be focusable.
     Do something about it.

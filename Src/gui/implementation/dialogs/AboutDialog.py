@@ -12,6 +12,7 @@ from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
 from .LicenseDialog import LicenseDialog
+from .LanguagesDialog import LanguagesDialog
 from gui.resources.GuiResources import GuiResources
 
 ##########
@@ -119,7 +120,8 @@ class AboutDialog(Dialog):
             dlg.do_modal()
 
     def __on_languages(self, evt = None) -> None:
-        MessageBox.show(self, "Languages", "Not yet implemented", MessageBoxIcon.INFORMATION)
+        with LanguagesDialog(self) as dlg:
+            dlg.do_modal()
 
     def __on_components(self, evt = None) -> None:
         MessageBox.show(self, "Components", "Not yet implemented", MessageBoxIcon.INFORMATION)

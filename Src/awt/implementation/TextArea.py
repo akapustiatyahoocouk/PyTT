@@ -2,6 +2,7 @@
 from typing import Optional, Any
 from inspect import signature
 import tkinter as tk
+import idlelib.redirector as rd
 
 #   Dependencies on other PyTT components
 from util.interface.api import *
@@ -35,21 +36,46 @@ class TextArea(tk.Text,
         PropertyChangeEventProcessorMixin.__init__(self)
 
         assert isinstance(text, str)
-        
         self.insert('end', text)
-        self.delete('1.0', tk.END)
-        self.insert('end', text)
-        t2 = self.get('1.0', 'end-1c')  #   The right one!!!
-        
-        pass
+
+        self.__readonly = False
         #self.__variable = tk.StringVar(master=self, value=text)
         #self.configure(textvariable=self.__variable)
 
         #   Set up event handlers
         #self.__variable.trace_add("write", self.__on_tk_text_changed)
+        self.redirector = rd.WidgetRedirector(self)
 
     ##########
-    #   ttk emulation
+    #   ttk emulation for AWT;s sake
     def state(self) -> Any:
-        return ()    
+        return ()   #   disabled, etc.
+
+    ##########
+    #   Properties
+    @property
+    def text(self) -> str:
+        return self.get('1.0', 'end-1c')
+
+    @text.setter
+    def text(self, new_text: str) -> None:
+        assert isinstance(new_text, str)
+        self.delete('1.0', tk.END)
+        self.insert('end', new_text)
+
+    @property
+    def readonly(self) -> bool:
+        return self.__readonly
+        
+    @readonly.setter
+    def readonly(self, new_readonly: bool) -> None:
+        assert isinstance(new_readonly, bool)
+        if new_readonly != self.__readonly:
+            self.__readonly = new_readonly
+            if new_readonly:
+                self.insert = self.redirector.register("insert", lambda *args, **kw: "break")
+                self.delete = self.redirector.register("delete", lambda *args, **kw: "break")
+            else:
+                self.redirector.unregister("insert")
+                self.redirector.unregister("delete")
     

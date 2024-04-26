@@ -41,15 +41,11 @@ class TextField(ttk.Entry,
         self.__variable = tk.StringVar(master=self, value=text)
         self.configure(textvariable=self.__variable)
 
+        self.__readonly = False
+        
         #   Set up event handlers
         self.__variable.trace_add("write", self.__on_tk_text_changed)
-
-        #TODO move to "readonly: bool" property
         self.redirector = rd.WidgetRedirector(self)
-        #self.insert = self.redirector.register("insert", lambda *args, **kw: "break")
-        #self.delete = self.redirector.register("delete", lambda *args, **kw: "break")
-        #self.redirector.unregister("insert")
-        #self.redirector.unregister("delete")
 
     ##########
     #   Properties
@@ -58,7 +54,7 @@ class TextField(ttk.Entry,
         return self.__variable.get()
 
     @text.setter
-    def text(self, new_text: str) -> str:
+    def text(self, new_text: str) -> None:
         assert isinstance(new_text, str)
         self.__variable.set(new_text)
 
@@ -67,9 +63,25 @@ class TextField(ttk.Entry,
         raise NotImplementedError
 
     @password_entry.setter
-    def password_entry(self, new_password_entry: bool) -> str:
+    def password_entry(self, new_password_entry: bool) -> None:
         assert isinstance(new_password_entry, bool)
         self.configure(show="\u2022" if new_password_entry else None)
+
+    @property
+    def readonly(self) -> bool:
+        return self.__readonly
+        
+    @readonly.setter
+    def readonly(self, new_readonly: bool) -> None:
+        assert isinstance(new_readonly, bool)
+        if new_readonly != self.__readonly:
+            self.__readonly = new_readonly
+            if new_readonly:
+                self.insert = self.redirector.register("insert", lambda *args, **kw: "break")
+                self.delete = self.redirector.register("delete", lambda *args, **kw: "break")
+            else:
+                self.redirector.unregister("insert")
+                self.redirector.unregister("delete")
 
     ##########
     #   Tk event handlers

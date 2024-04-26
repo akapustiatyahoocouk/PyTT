@@ -17,6 +17,7 @@ from gui.implementation.actions.OpenWorkspaceAction import *
 
 from gui.implementation.dialogs.AboutDialog import *
 from gui.implementation.dialogs.CreateWorkspaceDialog import *
+from gui.implementation.dialogs.LanguagesDialog import *
 from gui.implementation.dialogs.LicenseDialog import *
 from gui.implementation.dialogs.LoginDialog import *
 from gui.implementation.dialogs.OpenWorkspaceDialog import *
