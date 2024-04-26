@@ -9,6 +9,7 @@ from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
 from gui.resources.GuiResources import GuiResources
+from ..misc.GuiSettings import GuiSettings
 
 ##########
 #   Public entities
@@ -68,7 +69,9 @@ class PreferencesDialog(Dialog):
 
         #   Adjust control
         self.__preferences_tabbed_pane.focusable = False
-        
+        if GuiSettings.current_preferences is not None:
+            self.__select_preferences_node(None, GuiSettings.current_preferences)
+
         #   Set up control structure
         self.__controls_panel.pack(fill=tk.X, padx=0, pady=0)
 
@@ -145,9 +148,21 @@ class PreferencesDialog(Dialog):
             #   ... then sub-children
             self.__populate_preferences_tree(child_node_id, child)
 
+    def __select_preferences_node(self, parent_node_id: Any, preferences: Preferences) -> None:
+        for node in self.__preferences_tree_view.get_children(parent_node_id):
+            #TODO kill off print(node, self.__map_tree_node_ids_to_preferences[node].qualified_name)
+            if self.__map_tree_node_ids_to_preferences[node] == preferences:
+                self.__preferences_tree_view.see(node)
+                self.__preferences_tree_view.selection_set([node])
+                self.request_refresh()
+            self.__select_preferences_node(node, preferences)
+            
     ##########
     #   Event listeners
     def __preferences_tree_view_listener(self, evt: ItemEvent):
+        focus_node_id = self.__preferences_tree_view.focused_item
+        preferences = self.__map_tree_node_ids_to_preferences.get(focus_node_id, None)
+        GuiSettings.current_preferences = preferences
         self.request_refresh()
 
     def __on_ok(self, evt = None) -> None:

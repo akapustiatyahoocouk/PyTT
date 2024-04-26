@@ -33,8 +33,8 @@ class TreeView(ttk.Treeview,
     @property    
     def focused_item(self) -> str:
         """ The ID of the currently focused item, None if there isn't one. """
-        focus = self.focus()
-        return focus if focus != "" else None
+        focus = self.selection()
+        return focus[0] if len(focus) > 0 else None
 
     ##########
     #   Tk event handlers
