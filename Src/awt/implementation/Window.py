@@ -1,3 +1,5 @@
+""" A generic top-level UI window. """
+
 #   Python standard library
 from typing import final, Optional, Union
 import tkinter
@@ -19,7 +21,7 @@ from .WindowEventHandler import WindowEventHandler
 #   Public entities
 @final
 class Window(tkinter.Toplevel, BaseWidgetMixin):
-    """ The generic top-level UI window. """
+    """ A generic top-level UI window. """
 
     ##########
     #   Implementation
@@ -27,7 +29,8 @@ class Window(tkinter.Toplevel, BaseWidgetMixin):
 
     ##########
     #   Construction
-    def __init__(self, parent: Optional[tkinter.BaseWidget] = None, title: str = GuiRoot.tk.title()):
+    def __init__(self, parent: Optional[tkinter.BaseWidget] = None,
+                 title: str = GuiRoot.tk.title()):
         """ Constructs a top-level window. """
         if parent is None:
             parent = GuiRoot.tk
@@ -61,16 +64,19 @@ class Window(tkinter.Toplevel, BaseWidgetMixin):
     ##########
     #   tkinter.Wm
     def attributes(self, *args):
+        """ TODO... """
         raise NotImplementedError("Use AWT-defined properties instead")
 
     ##########
     #   Properties
     @property
     def menu_bar(self) -> Optional[MenuBar]:
+        """ The menu bar used by this Window; None if it has no menu bar. """
         return self.__menu_bar
 
     @menu_bar.setter
     def menu_bar(self, new_menu_bar: Optional[MenuBar]) -> None:
+        """ Sets the menu bar used by this Window; None for no menu bar. """
         assert (new_menu_bar is None) or isinstance(new_menu_bar, MenuBar)
 
         if new_menu_bar is self.__menu_bar:
@@ -88,10 +94,12 @@ class Window(tkinter.Toplevel, BaseWidgetMixin):
 
     @property
     def icon(self) -> Optional[tkinter.PhotoImage]:
+        """ The icon of this Window; None if no icon. """
         return self.__icon
 
     @icon.setter
     def icon(self, new_icon: Optional[tkinter.PhotoImage]) -> None:
+        """ Sets the icon of this Window; None for no icon. """
         assert (new_icon is None) or isinstance(new_icon , tkinter.PhotoImage)
         if new_icon is self.__icon:
             return
@@ -122,6 +130,7 @@ class Window(tkinter.Toplevel, BaseWidgetMixin):
 
     @property
     def window_state(self) -> WindowState:
+        """ The current state of this Window. """
         match self.__last_state:
             case "normal":
                 return WindowState.NORMAL
@@ -138,6 +147,7 @@ class Window(tkinter.Toplevel, BaseWidgetMixin):
 
     @window_state.setter
     def window_state(self, new_window_state: WindowState) -> None:
+        """ Sets the current state of this Window. """
         assert isinstance(new_window_state, WindowState)
 
         if new_window_state == self.window_state:
@@ -211,7 +221,7 @@ class Window(tkinter.Toplevel, BaseWidgetMixin):
                             l.on_window_closing(event)
                 else:
                     l(event)
-            except:
+            except Exception:
                 pass    #   TODO log the exception
         return event.processed
 
@@ -250,7 +260,7 @@ class Window(tkinter.Toplevel, BaseWidgetMixin):
             self.__process_window_state_change()
         return BaseWidgetMixin._BaseWidgetMixin__on_tk_configure(self, evt)
 
-    def __on_tk_delete_window(self, *args):
+    def __on_tk_delete_window(self, *_):
         evt = WindowEvent(self, WindowEventType.WINDOW_CLOSING)
         if not self.process_window_event(evt):
             #   Default outcome is destroy the window

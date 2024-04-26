@@ -1,4 +1,5 @@
 """ Defines the Action API. """
+
 #   Python standard library
 from typing import Optional
 from abc import abstractmethod

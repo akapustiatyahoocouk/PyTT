@@ -1,6 +1,5 @@
+""" A ttk.Widget with AWT extensions. """
 #   Python standard library
-from typing import Callable
-from inspect import signature
 import tkinter.ttk as ttk
 
 #   Internal dependencies on modules within the same component
@@ -17,4 +16,3 @@ class Widget(ttk.Widget, BaseWidgetMixin):
         """Construct an awt Widget widget with the parent master. """
         ttk.Widget.__init__(self, master, widgetname=".www", **kwargs)
         BaseWidgetMixin.BaseWidgetMixin.__init__(self)
-

@@ -30,7 +30,7 @@
     <Compile Include="implementation\RadioButton.py" />
     <Compile Include="implementation\ErrorDialog.py" />
     <Compile Include="implementation\CheckBox.py" />
-    <Compile Include="implementation\Subsystems.py" />
+    <Compile Include="implementation\AwtSubsystems.py" />
     <Compile Include="implementation\TabbedPane.py" />
     <Compile Include="implementation\TextArea.py" />
     <Compile Include="implementation\TreeView.py" />

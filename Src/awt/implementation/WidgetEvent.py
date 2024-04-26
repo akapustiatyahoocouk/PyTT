@@ -1,6 +1,4 @@
-#   Python standard library
-from typing import Optional, TypeAlias, Callable
-import tkinter as tk
+""" A widget event. """
 
 #   Dependencies on other PyTT components
 from util.interface.api import *

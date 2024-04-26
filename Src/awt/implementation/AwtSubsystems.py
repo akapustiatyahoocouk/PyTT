@@ -1,4 +1,4 @@
-""" Defines the AWT subsystem. """
+""" Subsysems defined by the AWT compnent. """
 
 #   Dependencies on other PyTT components
 from util.interface.api import *

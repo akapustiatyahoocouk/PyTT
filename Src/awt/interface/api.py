@@ -7,6 +7,7 @@ from awt.implementation.ActionEvent import *
 from awt.implementation.ActionEventHandler import *
 from awt.implementation.ActionEventListener import *
 from awt.implementation.ActionEventProcessorMixin import *
+from awt.implementation.AwtSubsystems import *
 from awt.implementation.BaseWidgetMixin import *
 from awt.implementation.Button import *
 from awt.implementation.CheckBox import *
@@ -44,7 +45,6 @@ from awt.implementation.ResourceAwareSubmenu import *
 from awt.implementation.Separator import *
 from awt.implementation.SimpleMenuItem import *
 from awt.implementation.Submenu import *
-from awt.implementation.Subsystems import *
 from awt.implementation.TabbedPane import *
 from awt.implementation.TextArea import *
 from awt.implementation.TextField import *

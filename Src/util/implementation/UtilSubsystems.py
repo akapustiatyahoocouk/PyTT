@@ -1,4 +1,4 @@
-""" Defines the Subsystems tree. """
+""" Subsysems defined by the Util compnent. """
 #   Python standard library
 from typing import Optional, Set
 from abc import ABC, abstractproperty

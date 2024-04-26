@@ -48,7 +48,7 @@
     <Compile Include="implementation\PropertyChangeEvent.py" />
     <Compile Include="implementation\PropertyChangeEventProcessorMixin.py" />
     <Compile Include="implementation\LocalizableSubsystem.py" />
-    <Compile Include="implementation\Subsystems.py" />
+    <Compile Include="implementation\UtilSubsystems.py" />
     <Compile Include="implementation\Subsystem.py" />
     <Compile Include="interface\api.py" />
     <Compile Include="implementation\ComponentSettings.py" />

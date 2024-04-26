@@ -1,7 +1,8 @@
+""" A mix-in class that can process widget events. """
+
 #   Python standard library
 from typing import Callable, Union
 from inspect import signature
-import tkinter as tk
 
 #   Dependencies on other PyTT components
 from util.interface.api import *
@@ -82,6 +83,6 @@ class WidgetEventProcessorMixin:
                             l.on_widget_resized(event)
                 else:
                     l(event)
-            except Exception as ex:
+            except Exception as _:
                 pass    #   TODO log the exception
         return event.processed

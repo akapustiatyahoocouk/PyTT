@@ -11,7 +11,7 @@ from .Menu import Menu
 #   Public entities
 class Submenu(MenuItem, Menu):
     """ A menu that appears as a sub-menu within another menu. """
-    
+
     ##########
     #   Construction
     def __init__(self,

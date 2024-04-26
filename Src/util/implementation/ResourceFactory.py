@@ -33,7 +33,7 @@ class ResourceFactory(ABC):
         """
             Returns the type of the specified resource.
             It this cannot be done, attempts to do the same for the parent
-            locale of rht "locale", then for the grand-parent, etc. before
+            locale of the "locale", then for the grand-parent, etc. before
             giving up.
 
             @param key:
@@ -52,7 +52,7 @@ class ResourceFactory(ABC):
         """
             Retrieves the specified resource for the specified locale.
             It this cannot be done, attempts to do the same for the parent
-            locale of rht "locale", then for the grand-parent, etc. before
+            locale of the "locale", then for the grand-parent, etc. before
             giving up.
 
             @param key:
@@ -71,7 +71,7 @@ class ResourceFactory(ABC):
         """
             Retrieves the specified string resource for the specified locale.
             It this cannot be done, attempts to do the same for the parent
-            locale of rht "locale", then for the grand-parent, etc. before
+            locale of the "locale", then for the grand-parent, etc. before
             giving up.
 
             @param key:
@@ -95,7 +95,7 @@ class ResourceFactory(ABC):
         """
             Retrieves the specified image resource for the specified locale.
             It this cannot be done, attempts to do the same for the parent
-            locale of rht "locale", then for the grand-parent, etc. before
+            locale of the "locale", then for the grand-parent, etc. before
             giving up.
 
             @param key:

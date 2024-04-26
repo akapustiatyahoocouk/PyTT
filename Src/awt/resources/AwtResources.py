@@ -1,11 +1,10 @@
 """ Resource definitions for "awt" component. """
 #   Python standard library
-from typing import final, Optional
+from typing import final
 import os
 import tkinter as tk
 
 #   Dependencies on other PyTT components
-from awt.interface.api import *
 from util.interface.api import *
 
 ##########
@@ -36,8 +35,40 @@ class AwtResources(ClassWithConstants):
     #   Operations
     @staticmethod
     def string(key: str, locale: Locale = Locale.default) -> str:
+        """
+            Retrieves the specified string resource for the specified locale.
+            It this cannot be done, attempts to do the same for the parent
+            locale of the "locale", then for the grand-parent, etc. before
+            giving up.
+
+            @param key:
+                The resource key.
+            @param locale:
+                The required resource locale.
+            @return:
+                The string resource for the specified key.
+            @raise KeyError:
+                If the specified key does not exist in this resource
+                factory OR the resource identified by the key is not a string.
+        """
         return AwtResources.__impl.get_string(key, locale)
 
     @staticmethod
     def image(key: str, locale: Locale = Locale.default) -> tk.PhotoImage:
+        """
+            Retrieves the specified image resource for the specified locale.
+            It this cannot be done, attempts to do the same for the parent
+            locale of the "locale", then for the grand-parent, etc. before
+            giving up.
+
+            @param key:
+                The resource key.
+            @param locale:
+                The required resource locale.
+            @return:
+                The image resource for the specified key.
+            @raise KeyError:
+                If the specified key does not exist in this resource
+                factory OR the resource identified by the key is not a string.
+        """
         return AwtResources.__impl.get_image(key, locale)

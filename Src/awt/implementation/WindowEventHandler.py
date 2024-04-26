@@ -1,11 +1,12 @@
+""" A handler of window events, pre-categorized by event type. """
 
 #   Internal dependencies on modules within the same component
-from .WindowEventType import WindowEventType
 from .WindowEvent import WindowEvent
 
 ##########
 #   Public entities
 class WindowEventHandler:
+    """ A handler of window events, pre-categorized by event type. """
 
     ##########
     #   Operations

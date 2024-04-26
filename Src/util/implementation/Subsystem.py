@@ -20,7 +20,7 @@ class Subsystem(ABCWithConstants):
     @staticproperty
     def ROOT() -> "Subsystem":
         """ The root of the Subsystems tree. """
-        from .Subsystems import RootSubsystem
+        from .UtilSubsystems import RootSubsystem
         return RootSubsystem.instance
 
     ##########

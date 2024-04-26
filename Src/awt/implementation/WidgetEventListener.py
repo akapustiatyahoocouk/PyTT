@@ -1,3 +1,6 @@
+""" Defines a signature of a listener to widget events - a 
+    function or a bound method. """
+
 #   Python standard library
 from typing import Callable, TypeAlias
 

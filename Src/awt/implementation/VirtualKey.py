@@ -1,3 +1,5 @@
+""" Defines abstract IDs for keyboard keys. """
+
 #   Python standard library
 from typing import final
 from enum import Enum
@@ -293,8 +295,8 @@ _key_map = {
 
 #   Build str(vk) response map
 _str_map = {}
-for k in _key_map:
-    _str_map[_key_map[k]] = k
+for (k, v) in _key_map.items():
+    _str_map[v] = k
 _str_map[VirtualKey.VK_SPACE] = " "
 _str_map[VirtualKey.VK_DOT] = "."
 _str_map[VirtualKey.VK_PLUS] = "+"

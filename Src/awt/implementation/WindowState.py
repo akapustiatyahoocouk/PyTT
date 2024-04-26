@@ -1,3 +1,5 @@
+""" The state of a top-level window (frame, dialog, etc.) """
+
 #   Python standard library
 from typing import final
 from enum import Enum
@@ -11,8 +13,16 @@ class WindowState(Enum):
     ##########
     #   Constants
     UNDEFINED = 0
-    NORMAL = 1
-    MAXIMIZED = 2
-    ICONIFIED = 3
-    WITHDRAWN = 4
+    """ The window state could not be determined. """
 
+    NORMAL = 1
+    """ The window is neither minimized nor maximized. """
+
+    MAXIMIZED = 2
+    """ The window is maximized. """
+
+    ICONIFIED = 3
+    """ The window is minimized. """
+
+    WITHDRAWN = 4
+    """ The window is hidden. """

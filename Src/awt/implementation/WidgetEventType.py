@@ -1,3 +1,5 @@
+""" The type of a widget event. """
+
 #   Python standard library
 from typing import final
 from enum import Enum

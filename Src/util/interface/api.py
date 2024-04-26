@@ -25,6 +25,6 @@ from util.implementation.ResourceType import *
 from util.implementation.RootPreferences import *
 from util.implementation.Settings import *
 from util.implementation.Subsystem import *
-from util.implementation.Subsystems import *
+from util.implementation.UtilSubsystems import *
 
 from util.resources.UtilResources import *
