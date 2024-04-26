@@ -1,6 +1,4 @@
-"""
-    Defines the "About PyTT" action.
-"""
+""" Defines the "About PyTT" action. """
 #   Python standard library
 from typing import final
 

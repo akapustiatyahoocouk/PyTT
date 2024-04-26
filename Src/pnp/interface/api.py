@@ -1,6 +1,4 @@
-"""
-    The "PnP" component API.
-"""
+""" The "PnP" component API. """
 
 ##########
 #   Public entities

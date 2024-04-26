@@ -1,7 +1,5 @@
-"""
-    Defines a "resource factory" an agent responsible
-    for creation of localizable resources.
-"""
+""" Defines a "resource factory" an agent responsible
+    for creation of localizable resources. """
 #   Python standard library
 from typing import Any
 from abc import ABC, abstractmethod, abstractproperty

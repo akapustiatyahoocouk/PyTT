@@ -1,6 +1,4 @@
-"""
-    The "db" component API.
-"""
+""" The "db" component API. """
 
 from db.implementation.Account import *
 from db.implementation.Capabilities import *

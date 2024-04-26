@@ -1,6 +1,4 @@
-"""
-    The "workspace" component API.
-"""
+""" The "workspace" component API. """
 
 ##########
 #   Public entities

@@ -1,6 +1,4 @@
-"""
-    The message box modal dialog.
-"""
+""" The message box modal dialog. """
 #   Python standard library
 import tkinter as tk
 from enum import Enum

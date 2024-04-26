@@ -1,6 +1,4 @@
-"""
-    Resource definitions for "util" component.
-"""
+""" Resource definitions for "util" component. """
 #   Python standard library
 from typing import final
 

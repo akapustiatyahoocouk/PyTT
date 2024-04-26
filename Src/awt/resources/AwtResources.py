@@ -1,6 +1,4 @@
-"""
-    Resource definitions for "awt" component.
-"""
+""" Resource definitions for "awt" component. """
 #   Python standard library
 from typing import final, Optional
 import os

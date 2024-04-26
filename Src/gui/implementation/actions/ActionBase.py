@@ -1,6 +1,4 @@
-"""
-    Defines the common base for all actions.
-"""
+""" Defines the common base for all actions. """
 #   Python standard library
 from typing import Optional
 import tkinter as tk

@@ -1,6 +1,8 @@
+""" A submenu that takes its properties from a ResourceFactory
+    and updates these properties automatically when the default
+    Locale changes. """
 #   Python standard library
 from typing import Optional
-import tkinter as tk
 
 #   Dependencies on other PyTT components
 from util.interface.api import *
@@ -10,8 +12,8 @@ from .Submenu import Submenu
 
 class ResourceAwareSubmenu(Submenu):
     """ A submenu that takes its properties from a ResourceFactory
-        and updates these properties automatically when the Locale
-        offered by the specified LocaleProvider changes. """
+        and updates these properties automatically when the default
+        Locale changes. """
 
     ##########
     #   Construction
@@ -43,7 +45,7 @@ class ResourceAwareSubmenu(Submenu):
 
     ##########
     #   Implementation helpers
-    def __update_properties(self, *args):
+    def __update_properties(self, *_):
         self.label = self.__load__string(self.__resource_key_base + ".Label")
         self.hotkey = self.__load_optional_string(self.__resource_key_base + ".Hotkey")
         #TODO self.image
@@ -54,5 +56,5 @@ class ResourceAwareSubmenu(Submenu):
     def __load_optional_string(self, key: str) -> Optional[str]:
         try:
             return self.__resource_factory.get_string(key, Locale.default)
-        except:
+        except Exception:
             return None

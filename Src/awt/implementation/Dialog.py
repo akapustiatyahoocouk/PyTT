@@ -1,6 +1,4 @@
-"""
-    Dialog definition facilities.
-"""
+""" Dialog definition facilities. """
 #   Python standard library
 import tkinter as tk
 import tkinter.ttk as ttk

@@ -1,6 +1,4 @@
-"""
-    Resource definitions for "client" component.
-"""
+""" Resource definitions for "client" component. """
 #   Python standard library
 from typing import final, Optional
 import os

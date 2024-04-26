@@ -1,6 +1,4 @@
-"""
-    Defines the "Workspace type" ADT.
-"""
+""" Defines the "Workspace type" ADT. """
 #   Python standard library
 from typing import final, Set
 

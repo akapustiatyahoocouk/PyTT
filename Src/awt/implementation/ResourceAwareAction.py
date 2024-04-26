@@ -1,3 +1,6 @@
+""" An action that takes its properties from a ResourceFactory
+    and updates these properties automatically when the 
+    default Locale changes. """
 #   Python standard library
 import tkinter as tk
 
@@ -10,8 +13,8 @@ from .Action import Action
 
 class ResourceAwareAction(Action):
     """ An action that takes its properties from a ResourceFactory
-        and updates these properties automatically when the Locale
-        offered by the specified LocaleProvider changes. """
+        and updates these properties automatically when the default 
+        Locale changes. """
 
     ##########
     #   Construction
@@ -47,7 +50,7 @@ class ResourceAwareAction(Action):
 
     ##########
     #   Implementation helpers
-    def __update_properties(self, *args):
+    def __update_properties(self, *_):
         self.name = self.__load__string(self.__resource_key_base + ".Name")
         self.hotkey = self.__load_optional_string(self.__resource_key_base + ".Hotkey")
         self.description = self.__load_optional_string(self.__resource_key_base + ".Description")
@@ -61,18 +64,18 @@ class ResourceAwareAction(Action):
     def __load_optional_string(self, key: str) -> Optional[str]:
         try:
             return self.__resource_factory.get_string(key, Locale.default)
-        except:
+        except Exception:
             return None
 
     def __load_optional_image(self, key: str) -> Optional[tk.PhotoImage]:
         try:
             return self.__resource_factory.get_image(key, Locale.default)
-        except:
+        except Exception:
             return None
 
     def __load_optional_keystroke(self, key: str) -> Optional[KeyStroke]:
         try:
             s = self.__resource_factory.get_string(key, Locale.default)
             return KeyStroke.parse(s)
-        except:
+        except Exception:
             return None

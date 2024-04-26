@@ -1,6 +1,4 @@
-"""
-    Defines the "Create workspace" action.
-"""
+""" Defines the "Create workspace" action. """
 #   Python standard library
 from typing import final
 

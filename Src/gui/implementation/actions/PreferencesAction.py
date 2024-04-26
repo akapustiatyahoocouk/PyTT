@@ -1,6 +1,4 @@
-"""
-    Defnes "PyTT preferences" action.
-"""
+""" Defines "PyTT preferences" action. """
 #   Python standard library
 from typing import final
 

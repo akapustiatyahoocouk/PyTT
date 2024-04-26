@@ -1,6 +1,4 @@
-"""
-    The "gui" component API.
-"""
+""" The "gui" component API. """
 
 ##########
 #   Public entities

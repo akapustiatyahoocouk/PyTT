@@ -1,7 +1,5 @@
-"""
-    A generic "resource bundle" provides resources for a
-    specific locale.
-"""
+""" A generic "resource bundle" provides resources for a
+    specific locale. """
 #   Python standard library
 from typing import final, Any
 from abc import ABC, abstractproperty, abstractmethod

@@ -1,6 +1,4 @@
-"""
-    Defnes "exit PyTT" action.
-"""
+""" Defines "exit PyTT" action. """
 #   Python standard library
 from typing import final
 

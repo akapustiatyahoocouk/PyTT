@@ -1,6 +1,4 @@
-"""
-    The "sql_db" component API.
-"""
+""" The "sql_db" component API. """
 
 from sql_db.implementation.SqlAccount import *
 from sql_db.implementation.SqlDatabase import *

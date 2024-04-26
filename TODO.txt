@@ -1,4 +1,6 @@
 ========== IMMEDIATE PIPELINE ======================================
+*   Merge LocalizableSubsystem into Subsystem, essentially making
+    all Subsystems localizable.
 *   Make sure class constructors (__init__(self,...) have proper
     docstrings (for public constructors only!)
 *   Clicking on a TextField doesn't give it the keyboard focus.

@@ -1,6 +1,4 @@
-"""
-    Defines exceptions thrown by the high-level (business storage) workspace API.
-"""
+""" Defines exceptions thrown by the high-level (business storage) workspace API. """
 
 ##########
 #   Public entities

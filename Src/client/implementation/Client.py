@@ -1,6 +1,4 @@
-"""
-    PyTT Client launcher.
-"""
+""" PyTT Client launcher. """
 #   Python standard library
 from typing import final
 from abc import abstractproperty

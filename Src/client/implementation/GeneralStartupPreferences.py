@@ -1,6 +1,4 @@
-"""
-    PyTT Client General/Startup preferences.
-"""
+""" PyTT Client General/Startup preferences. """
 #   Python standard library
 import tkinter as tk
 

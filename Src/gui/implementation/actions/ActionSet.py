@@ -1,6 +1,4 @@
-"""
-    The set of actions defined by Admin skin.
-"""
+""" The set of actions defined by Admin skin. """
 #   Python standard library
 from typing import final
 

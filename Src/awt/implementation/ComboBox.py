@@ -1,7 +1,4 @@
-"""
-    Defines a combo box (drop-down list, potentially editable)
-    UI widget.
-"""
+""" Defines a combo box (drop-down list, potentially editable) UI widget. """
 #   Python standard library
 from typing import Optional, Any
 import tkinter as tk

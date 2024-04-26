@@ -22,7 +22,7 @@ class RootSubsystem(LocalizableSubsystem):
 
     def __init__(self):
         assert RootSubsystem.__instance_acquisition_in_progress, "Use RootSubsystem.instance instead"
-        Subsystem.__init__(self, None)
+        LocalizableSubsystem.__init__(self, None)
 
     @staticproperty
     def instance() -> Subsystem:
@@ -62,7 +62,7 @@ class UtilitiesSubsystem(LocalizableSubsystem):
 
     def __init__(self):
         assert UtilitiesSubsystem.__instance_acquisition_in_progress, "Use UtilitiesSubsystem.instance instead"
-        Subsystem.__init__(self, RootSubsystem.instance)
+        LocalizableSubsystem.__init__(self, RootSubsystem.instance)
 
     @staticproperty
     def instance() -> Subsystem:
@@ -102,7 +102,7 @@ class UiSubsystem(LocalizableSubsystem):
 
     def __init__(self):
         assert UiSubsystem.__instance_acquisition_in_progress, "Use UiSubsystem.instance instead"
-        Subsystem.__init__(self, RootSubsystem.instance)
+        LocalizableSubsystem.__init__(self, RootSubsystem.instance)
 
     @staticproperty
     def instance() -> Subsystem:

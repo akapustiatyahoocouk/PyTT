@@ -1,6 +1,4 @@
-"""
-    Package declarations for admin_skin_impl package.
-"""
+""" Package declarations for admin_skin_impl package. """
 print('Loading package', __file__)
 
 #   Python standard library

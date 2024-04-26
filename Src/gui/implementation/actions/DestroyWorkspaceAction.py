@@ -1,6 +1,4 @@
-"""
-    Defines the "Destroy workspace" action.
-"""
+""" Defines the "Destroy workspace" action. """
 #   Python standard library
 from typing import final
 

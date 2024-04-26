@@ -1,5 +1,7 @@
+""" A menu that appears as a sub-menu within another menu. """
 #   Python standard library
 from typing import Optional
+import tkinter as tk
 
 #   Internal dependencies on modules within the same component
 from .MenuItem import MenuItem
@@ -8,7 +10,8 @@ from .Menu import Menu
 ##########
 #   Public entities
 class Submenu(MenuItem, Menu):
-
+    """ A menu that appears as a sub-menu within another menu. """
+    
     ##########
     #   Construction
     def __init__(self,
@@ -58,7 +61,7 @@ class Submenu(MenuItem, Menu):
             else:
                 try:
                     tk_underline = self.__label.lower().index(new_hotkey.lower())
-                except:
+                except Exception:
                     tk_underline = None
                 tk_menu.entryconfig(tk_menu_item_index, underline=tk_underline)
         #   Record the new hotkey

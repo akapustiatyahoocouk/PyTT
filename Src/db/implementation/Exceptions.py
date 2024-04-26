@@ -1,6 +1,4 @@
-"""
-    Defines exceptions thrown by the low-level (data storage) database API.
-"""
+""" Defines exceptions thrown by the low-level (data storage) database API. """
 from typing import Any
 
 ##########

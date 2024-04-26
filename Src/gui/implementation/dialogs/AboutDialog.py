@@ -1,6 +1,4 @@
-"""
-    Implements "About PyTT" modal dialog.
-"""
+""" Implements "About PyTT" modal dialog. """
 #   Python standard library
 from typing import final
 from enum import Enum

@@ -1,6 +1,4 @@
-"""
-    A mixin for all tk.BaseWidgets that makes them AWT-friendly.
-"""
+""" A mixin for all tk.BaseWidgets that makes them AWT-friendly. """
 #   Python standard library
 import tkinter as tk
 

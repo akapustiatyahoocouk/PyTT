@@ -1,3 +1,5 @@
+""" A menu item that presents a text and is optionally 
+        bound with an Action. """
 #   Python standard library
 from typing import Optional
 import tkinter as tk
@@ -14,6 +16,8 @@ from .ActionEvent import ActionEvent
 ##########
 #   Public entities
 class SimpleMenuItem(MenuItem):
+    """ A menu item that presents a text and is optionally 
+        bound with an Action. """
 
     ##########
     #   Construction
@@ -80,7 +84,7 @@ class SimpleMenuItem(MenuItem):
             else:
                 try:
                     tk_underline = self.__label.lower().index(new_hotkey.lower())
-                except:
+                except Exception:
                     tk_underline = None
                 tk_menu.entryconfig(tk_menu_item_index, underline=tk_underline)
         #   Record the new hotkey
@@ -88,10 +92,14 @@ class SimpleMenuItem(MenuItem):
 
     @property
     def shortcut(self) -> str:
+        """ The shortcut character of this menu item (underlined 
+            in the UI); None if this menu item has no shortcut. """
         return self.__shortcut
 
-    @label.setter
+    @shortcut.setter
     def shortcut(self, new_shortcut: KeyStroke) -> None:
+        """ Sets the shortcut character of this menu item (underlined 
+            in the UI); None for this menu item to have no shortcut. """
         assert ((new_shortcut is None) or
                 isinstance(new_shortcut, KeyStroke))
 

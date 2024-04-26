@@ -1,6 +1,4 @@
-"""
-    Defines the ActionEventListener ADT.
-"""
+""" Defines the ActionEventListener ADT. """
 #   Python standard library
 from typing import TypeAlias, Callable
 

@@ -1,6 +1,4 @@
-"""
-    Implements persistent settings of a single component.
-"""
+""" Implements persistent settings of a single component. """
 #   Python standard library
 from typing import final, Optional
 from configparser import ConfigParser

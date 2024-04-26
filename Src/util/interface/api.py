@@ -1,6 +1,4 @@
-"""
-    The "util" component API.
-"""
+"""  The "util" component API. """
 
 ##########
 #   Public entities

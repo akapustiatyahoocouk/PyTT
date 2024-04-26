@@ -1,6 +1,4 @@
-"""
-    The "AWT" component API.
-"""
+""" The "AWT" component API. """
 
 ##########
 #   Public entities

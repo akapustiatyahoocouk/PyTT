@@ -1,6 +1,4 @@
-"""
-    SQL data types
-"""
+""" SQL data types. """
 #   Python standard library
 from typing import final
 from enum import Enum

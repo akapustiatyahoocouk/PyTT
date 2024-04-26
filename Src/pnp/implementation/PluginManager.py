@@ -1,6 +1,4 @@
-"""
-    Defines the Plugin Manager API.
-"""
+""" Defines the Plugin Manager API. """
 #   Python standard library
 from typing import final
 import os

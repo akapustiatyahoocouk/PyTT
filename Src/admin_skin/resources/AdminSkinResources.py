@@ -1,6 +1,4 @@
-"""
-    Resource definitions for "gui" component.
-"""
+""" Resource definitions for "gui" component. """
 #   Python standard library
 from typing import final
 import os

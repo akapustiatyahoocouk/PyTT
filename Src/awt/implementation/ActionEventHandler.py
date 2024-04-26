@@ -1,6 +1,4 @@
-"""
-    Defines the categorising handler of ActionEvents.
-"""
+""" Defines the categorising handler of ActionEvents. """
 #   Internal dependencies on modules within the same component
 from .ActionEvent import ActionEvent
 

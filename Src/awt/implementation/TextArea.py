@@ -1,6 +1,7 @@
+""" A tk.Text with AWT extensions. """
+
 #   Python standard library
-from typing import Optional, Any
-from inspect import signature
+from typing import Any
 import tkinter as tk
 import idlelib.redirector as rd
 
@@ -23,9 +24,9 @@ class TextArea(tk.Text,
     @staticproperty
     def TEXT() -> str:
         """ The name of the "TEXT" property of this text area. """
-        if TextField.__text_impl is None:
-            TextField.__text_impl = "TEXT"
-        return TextField.__text_impl
+        if TextArea.__text_impl is None:
+            TextArea.__text_impl = "TEXT"
+        return TextArea.__text_impl
 
     ##########
     #   Construction
@@ -49,26 +50,35 @@ class TextArea(tk.Text,
     ##########
     #   ttk emulation for AWT;s sake
     def state(self) -> Any:
+        """ Simulates ttk "state" handling. """
         return ()   #   disabled, etc.
 
     ##########
     #   Properties
     @property
     def text(self) -> str:
+        """ The text content of this text area; uses '\n'
+            for line breaks. """
         return self.get('1.0', 'end-1c')
 
     @text.setter
     def text(self, new_text: str) -> None:
+        """ Sets the text content of this text area; use '\n'
+            for line breaks. """
         assert isinstance(new_text, str)
         self.delete('1.0', tk.END)
         self.insert('end', new_text)
 
     @property
     def readonly(self) -> bool:
+        """ True if this TextArea is read-only, False if
+            modifiable by the user (default). """
         return self.__readonly
-        
+
     @readonly.setter
     def readonly(self, new_readonly: bool) -> None:
+        """ Makes this TextArea read-only (True), or modifiable
+            by the user (False). """
         assert isinstance(new_readonly, bool)
         if new_readonly != self.__readonly:
             self.__readonly = new_readonly
@@ -78,4 +88,3 @@ class TextArea(tk.Text,
             else:
                 self.redirector.unregister("insert")
                 self.redirector.unregister("delete")
-    

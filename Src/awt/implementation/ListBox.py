@@ -1,6 +1,4 @@
-"""
-    Defines a list box UI widget.
-"""
+""" Defines a list box UI widget. """
 #   Python standard library
 from typing import Optional, Any
 import tkinter as tk

@@ -1,6 +1,4 @@
-"""
-    Defines the "Close workspace" action.
-"""
+""" Defines the "Close workspace" action. """
 #   Python standard library
 from typing import final
 

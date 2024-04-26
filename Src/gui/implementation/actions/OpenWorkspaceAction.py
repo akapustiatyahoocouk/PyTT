@@ -1,6 +1,4 @@
-"""
-    Defines the "Open workspace" action.
-"""
+""" Defines the "Open workspace" action. """
 #   Python standard library
 from typing import final
 

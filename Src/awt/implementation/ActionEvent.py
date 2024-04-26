@@ -1,6 +1,4 @@
-"""
-    Defines the ActionEvent API.
-"""
+""" Defines the ActionEvent API. """
 #   Dependencies on other PyTT components
 from util.interface.api import *
 

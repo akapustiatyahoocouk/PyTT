@@ -1,6 +1,4 @@
-"""
-    Persistent settings of the Admin skin.
-"""
+""" Persistent settings of the Admin skin. """
 #   Python standard library
 from typing import final
 

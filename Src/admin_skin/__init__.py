@@ -1,6 +1,4 @@
-"""
-    Package declarations for admin_skin_impl package.
-"""
+""" Package declarations for admin_skin_impl package. """
 #   Python standard library
 from typing import final
 

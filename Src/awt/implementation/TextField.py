@@ -1,6 +1,6 @@
+""" A ttk.Entry with AWT extensions. """
+
 #   Python standard library
-from typing import Optional
-from inspect import signature
 import tkinter as tk
 import tkinter.ttk as ttk
 import idlelib.redirector as rd
@@ -42,7 +42,7 @@ class TextField(ttk.Entry,
         self.configure(textvariable=self.__variable)
 
         self.__readonly = False
-        
+
         #   Set up event handlers
         self.__variable.trace_add("write", self.__on_tk_text_changed)
         self.redirector = rd.WidgetRedirector(self)
@@ -51,28 +51,38 @@ class TextField(ttk.Entry,
     #   Properties
     @property
     def text(self) -> str:
+        """ The text content of this text field. """
         return self.__variable.get()
 
     @text.setter
     def text(self, new_text: str) -> None:
+        """ Sets the text content of this text field. """
         assert isinstance(new_text, str)
         self.__variable.set(new_text)
 
     @property
     def password_entry(self) -> bool:
+        """ True if this TextField is a hidden password entry
+            field, False if it is a plain text entry field (default). """
         raise NotImplementedError
 
     @password_entry.setter
     def password_entry(self, new_password_entry: bool) -> None:
+        """ Makes this TextField a hidden password entry field (True),
+            or a plain text entry field (False). """
         assert isinstance(new_password_entry, bool)
         self.configure(show="\u2022" if new_password_entry else None)
 
     @property
     def readonly(self) -> bool:
+        """ True if this TextField is read-only, False if
+            modifiable by the user (default). """
         return self.__readonly
-        
+
     @readonly.setter
     def readonly(self, new_readonly: bool) -> None:
+        """ Makes this TextField read-only (True), or modifiable
+            by the user (False). """
         assert isinstance(new_readonly, bool)
         if new_readonly != self.__readonly:
             self.__readonly = new_readonly
@@ -85,7 +95,8 @@ class TextField(ttk.Entry,
 
     ##########
     #   Tk event handlers
-    def __on_tk_text_changed(self, *args):
-        evt = PropertyChangeEvent(source=self, affected_object=self, changed_property=TextField.TEXT)
+    def __on_tk_text_changed(self, *_):
+        evt = PropertyChangeEvent(source=self,
+                                  affected_object=self,
+                                  changed_property=TextField.TEXT)
         self.process_property_change_event(evt)
-

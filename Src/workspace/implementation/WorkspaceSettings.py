@@ -1,6 +1,4 @@
-"""
-    Persistent settings of the Workspace.
-"""
+""" Persistent settings of the Workspace. """
 #   Python standard library
 from typing import final
 from .WorkspaceType import WorkspaceType

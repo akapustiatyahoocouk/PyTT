@@ -1,6 +1,4 @@
-"""
-    Define a concept of "skin" - a certain way of presenting a UI.
-"""
+""" Define a concept of "skin" - a certain way of presenting a UI. """
 from abc import ABC, abstractmethod, abstractproperty
 import tkinter as tk
 

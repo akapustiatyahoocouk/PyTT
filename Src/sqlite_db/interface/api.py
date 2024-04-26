@@ -1,6 +1,4 @@
-"""
-    The "sqlite3 DB" component API.
-"""
+""" The "sqlite3 DB" component API. """
 
 ##########
 #   Public entities

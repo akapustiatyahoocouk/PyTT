@@ -1,6 +1,4 @@
-"""
-    Defines a mix-in for Action event processing capability.
-"""
+""" Defines a mix-in for Action event processing capability. """
 #   Python standard library
 from typing import Callable, Union
 from inspect import signature

@@ -1,6 +1,4 @@
-"""
-    Resource definitions for "sqlite_db" component.
-"""
+""" Resource definitions for "sqlite_db" component. """
 #   Python standard library
 from typing import final
 import os

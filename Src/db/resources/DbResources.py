@@ -1,6 +1,4 @@
-"""
-    Resource definitions for "db" component.
-"""
+""" Resource definitions for "db" component. """
 #   Python standard library
 from typing import final, Optional
 import os

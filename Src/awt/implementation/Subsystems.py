@@ -1,7 +1,4 @@
 """ Defines the AWT subsystem. """
-#   Python standard library
-from typing import Optional, Set
-from abc import ABC, abstractproperty
 
 #   Dependencies on other PyTT components
 from util.interface.api import *
@@ -21,7 +18,7 @@ class AwtSubsystem(LocalizableSubsystem):
 
     def __init__(self):
         assert AwtSubsystem.__instance_acquisition_in_progress, "Use AwtSubsystem.instance instead"
-        Subsystem.__init__(self, UiSubsystem.instance)
+        LocalizableSubsystem.__init__(self, UiSubsystem.instance)
 
     @staticproperty
     def instance() -> Subsystem:
