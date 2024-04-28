@@ -107,6 +107,27 @@ class WorkspaceType:
         except Exception as ex:
             raise WorkspaceError.wrap(ex)
 
+    def enter_existing_workspace_address(self, parent: tk.BaseWidget) -> "WorkspaceAddress":
+        """
+            Prompts the user to interactively specify an address
+            of an existing workspace of this type.
+
+            @param parent:
+                The widget to use as a "parent" widget for any modal
+                dialog(s) used during workspace address entry; None
+                to use the GuiRoot.
+            @return:
+                The workspace address specified by the user; None
+                if the user has cancelled the process of workspace
+                address entry.
+        """
+        from .WorkspaceAddress import WorkspaceAddress
+        try:
+            db_address = self.__db_type.enter_existing_database_address(parent)
+            return WorkspaceAddress(db_address) if db_address else None
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
+
     ##########
     #   Workspace handling
     def create_workspace(self,

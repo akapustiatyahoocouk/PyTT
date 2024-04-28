@@ -103,6 +103,7 @@ class SqliteDatabase(SqlDatabase):
                 raise DatabaseIoError(str(ex)) from ex
             finally:
                 self.__is_open = False
+                SqlDatabase.close(self)
 
     ##########
     #   SqlDatabase - Overridables (database engine - specific)
@@ -135,7 +136,15 @@ class SqliteDatabase(SqlDatabase):
                 cur = self.__connection.cursor()
                 cur.execute(sql)
                 rowid = cur.lastrowid
+                cur.close()
                 return rowid
+            elif sql.strip().upper().startswith("SELECT"):
+                cur = self.__connection.cursor()
+                cur.execute(sql)
+                columns = list(map(lambda d: d[0], cur.description))
+                rows = cur.fetchall()
+                cur.close()
+                return SqlRecordSet(columns, rows)
             else:
                 self.__connection.execute(sql)
         except Exception as ex:

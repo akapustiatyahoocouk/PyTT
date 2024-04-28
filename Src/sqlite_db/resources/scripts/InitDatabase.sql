@@ -38,6 +38,8 @@ CREATE TABLE [accounts]
     [can_backup_and_restore] CHAR(1) NOT NULL,  --  "Y" (true) or "N" (false)
     --- End of capability fields
     [email_addresses] TEXT,                     --  '\n' - separated list, NULL == none
+    [fk_user] INTEGER NOT NULL,
     --- Foreign keys
-    FOREIGN KEY([pk]) REFERENCES [objects]([pk])
+    FOREIGN KEY([pk]) REFERENCES [objects]([pk]),
+    FOREIGN KEY([fk_user]) REFERENCES [users]([pk])
 );

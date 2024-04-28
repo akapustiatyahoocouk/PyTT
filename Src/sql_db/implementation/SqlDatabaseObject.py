@@ -1,4 +1,4 @@
-#   Python standard library
+﻿#   Python standard library
 from abc import ABC, abstractmethod
 import time
 
@@ -24,6 +24,8 @@ class SqlDatabaseObject(DatabaseObject):
 
         assert not (oid in db._SqlDatabase__objects)
         self.__db = db
+        db._SqlDatabase__objects[oid] = self
+
         self.__oid = oid
         self.__live = True
         

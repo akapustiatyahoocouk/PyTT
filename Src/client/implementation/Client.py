@@ -164,7 +164,7 @@ if __name__ == "__main__":
     #   tree is complete, so we can load all Preferences        
     Preferences.load()
 
-    #   Perform initial login; use last successful login by default
+    #   Perform initial login; use last successful login is necessary
     login = ""
     if GeneralStartupPreferences.instance.use_last_login.value:
         login = GuiSettings.last_login
@@ -177,7 +177,12 @@ if __name__ == "__main__":
 
     #   Do we need to re-load the last used workspace?
     if GeneralStartupPreferences.instance.restore_workspace.value:
-        a = WorkspaceSettings.last_workspace_address
+        workspace_address = WorkspaceSettings.last_workspace_address
+        try:
+            workspace = workspace_address.workspace_type.open_workspace(workspace_address)
+            workspace.login(credentials=CurrentCredentials.get())
+        except Exception as ex:
+            ErrorDialog.show(None, ex)
         pass
     #   Select the initial skin TODO properly - use active skin from previous session!
     ActiveSkin.set(SkinRegistry.default_skin)

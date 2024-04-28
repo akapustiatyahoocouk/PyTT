@@ -1,6 +1,7 @@
 #   Python standard library
 from abc import abstractmethod
 from weakref import WeakValueDictionary
+import hashlib
 
 #   Dependencies on other PyTT components
 from db.interface.api import *
@@ -20,11 +21,45 @@ class SqlDatabase(Database):
         self.__objects = WeakValueDictionary()  #   OID -> SqlDatabaseObject
 
     ##########
+    #   Database - Operations (general)
+    def close(self) -> None:
+        for (oid, obj) in self.__objects:
+            obj._SqlDatabaseObject__live = False
+
+    ##########
+    #   Database - Operations (associations)
+    def try_login(self, login: str, password: str) -> Optional[Account]:
+        assert isinstance(login, str)
+        assert isinstance(password, str)
+
+        sha1 = hashlib.sha1()
+        sha1.update(password.encode("utf-8"))
+        password_hash = sha1.hexdigest().upper()
+
+        stat = self.create_statement(
+            """ SELECT [accounts].[pk] AS [account_oid]
+                  FROM [users],[accounts]
+                 WHERE [accounts].[fk_user] = [users].[pk]
+                   AND [users].[enabled] = ?
+                   AND [accounts].[enabled] = ?
+                   AND [accounts].[login] = ?
+                   AND [accounts].[password_hash] = ?""")
+        stat.set_bool_parameter(0, True)
+        stat.set_bool_parameter(1, True)
+        stat.set_string_parameter(2, login)
+        stat.set_string_parameter(3, password_hash)
+        rs = stat.execute()
+        assert len(rs) <= 1
+        for r in rs:
+            return self._get_account_proxy(r["account_oid"])
+        return None
+
+    ##########
     #   Overridables (database engine - specific)
     @property
     def string_opening_quote(self) -> str:
         return "'"  #   as per SQL standard
-    
+
     @property
     def string_closing_quote(self) -> str:
         return "'"  #   as per SQL standard
@@ -63,7 +98,7 @@ class SqlDatabase(Database):
     @property
     def identifier_opening_quote(self) -> str:
         return "\"" #   as per SQL standard
-    
+
     @property
     def identifier_closing_quote(self) -> str:
         return "\"" #   as per SQL standard
@@ -217,9 +252,12 @@ class SqlDatabase(Database):
         #   TODO select, insert, delete, update require their own
         #   subclasses of SqlStatement!
         from .SqlInsertStatement import SqlInsertStatement
+        from .SqlSelectStatement import SqlSelectStatement
 
         if sql_template.upper().startswith("INSERT"):
             sql_statement = SqlInsertStatement(self, sql_template)  #   may raise DatabaseError
+        elif sql_template.upper().startswith("SELECT"):
+            sql_statement = SqlSelectStatement(self, sql_template)  #   may raise DatabaseError
         else:
             sql_statement = SqlStatement(self, sql_template)    #   may raise DatabaseError
 
@@ -271,20 +309,20 @@ class SqlDatabase(Database):
         assert (inactivity_timeout is None) or isinstance(inactivity_timeout, int)
         assert ui_locale is None or isinstance(ui_locale, Locale)
         assert isinstance(email_addresses, list)    #   and all elements are strings
-        
+
         #   Validate parameters (real name is valid, etc.)
-        
+
         #   Insert the relevant records into the database
         try:
             self.begin_transaction();
-            
+
             stat1 = self.create_statement(
                 """INSERT INTO objects
                           (object_type_name)
                           VALUES (?)""");
             stat1.set_string_parameter(0, User.TYPE_NAME)
             user_oid = stat1.execute()
-        
+
             stat2 = self.create_statement(
                 """INSERT INTO users
                           (pk,enabled,real_name,inactivity_timeout,ui_locale,email_addresses)
@@ -310,15 +348,11 @@ class SqlDatabase(Database):
         obj = self.__objects.get(oid, None)
         if isinstance(obj, SqlUser):
             return obj
-        obj = SqlUser(self, oid)
-        self.__objects[oid] = obj
-        return obj
+        return SqlUser(self, oid)
 
     def _get_account_proxy(self, oid: OID) -> Account:
         from .SqlAccount import SqlAccount
         obj = self.__objects.get(oid, None)
         if isinstance(obj, SqlAccount):
             return obj
-        obj = SqlAccount(self, oid)
-        self.__objects[oid] = obj
-        return obj
+        return SqlAccount(self, oid)

@@ -143,7 +143,7 @@ class OpenWorkspaceDialog(Dialog):
             self.request_refresh()
 
     def __on_browse(self, evt: ActionEvent) -> None:
-        wa = self.__selected_workspace_type.enter_new_workspace_address(self)
+        wa = self.__selected_workspace_type.enter_existing_workspace_address(self)
         if wa is None:
             return
         self.__selected_workspace_address = wa

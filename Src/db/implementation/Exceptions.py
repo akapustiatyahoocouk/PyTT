@@ -67,3 +67,11 @@ class DoesNotExistError(DatabaseError):
         super().__init__("The " + object_type_name +
                          " with '" + property_name + "' = '" + str(property_value) +
                          "' does not exist")
+
+class AccessDeniedError(DatabaseError):
+    """ Thrown when a login attempt fails. """
+
+    ##########
+    #   Construction
+    def __init__(self):
+        super().__init__("Access denied")

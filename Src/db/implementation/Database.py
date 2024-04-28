@@ -1,3 +1,5 @@
+""" A persistent container where data is kept. """
+
 #   Python standard library
 from typing import List
 from abc import ABC, abstractmethod, abstractproperty
@@ -8,11 +10,13 @@ from util.interface.api import *
 #   Internal dependencies on modules within the same component
 from .DatabaseAddress import DatabaseAddress
 from .DatabaseType import DatabaseType
+from .Exceptions import AccessDeniedError
 
 ##########
 #   Public entities
 class Database(ABC):
-
+    """ A persistent container where data is kept. """
+    
     ##########
     #   object (entry/exit protocol needed for Dialog.do_modal
     def __enter__(self) -> None:
@@ -58,7 +62,49 @@ class Database(ABC):
         raise NotImplementedError()
 
     ##########
+    #   Operations (associations)
+    @abstractmethod
+    def try_login(self, login: str, password: str) -> Optional["Account"]:
+        """
+            Attempts a login. If the account with the specified
+            login and password exists in this database, is enabled
+            and belongs to an enabled user, then returns it; else
+            returns None.
+
+            @param login:
+                The account login.
+            @param password:
+                The account password.
+            @raise DatabaseError:
+                If an error occurs.
+        """
+        raise NotImplementedError()
+
+    def login(self, login: str, password: str) -> Optional["Account"]:
+        """
+            Performs a login. If the account with the specified
+            login and password exists in this database, is enabled
+            and belongs to an enabled user, then returns it; else
+            an error occurs.
+
+            @param login:
+                The account login.
+            @param password:
+                The account password.
+            @raise DatabaseError:
+                If an error occurs.
+        """
+        assert isinstance(login, str)
+        assert isinstance(password, str)
+
+        account = self.try_login(login, password)
+        if account is None:
+            raise AccessDeniedError()
+        return account
+
+    ##########
     #   Operations (life cycle)
+    @abstractmethod
     def create_user(self,
                     enabled: bool = True,
                     real_name: str = None,  #   MUST specify!

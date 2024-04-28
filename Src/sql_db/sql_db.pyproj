@@ -23,6 +23,9 @@
   <ItemGroup>
     <Compile Include="implementation\SqlDatabase.py" />
     <Compile Include="implementation\SqlAccount.py" />
+    <Compile Include="implementation\SqlRecord.py" />
+    <Compile Include="implementation\SqlRecordSet.py" />
+    <Compile Include="implementation\SqlSelectStatement.py" />
     <Compile Include="implementation\SqlUser.py" />
     <Compile Include="implementation\SqlDatabaseObject.py" />
     <Compile Include="implementation\SqlDataType.py" />

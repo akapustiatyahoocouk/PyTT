@@ -82,6 +82,16 @@ class SqliteDatabaseType(DatabaseType):
             defaultextension=SqliteDatabaseType.PREFERRED_EXTENSION)
         return SqliteDatabaseAddress(file_name) if file_name else None
 
+    def enter_existing_database_address(self, parent: tk.BaseWidget) -> DatabaseAddress:
+        file_name = filedialog.askopenfilename(
+            parent=parent.winfo_toplevel(),
+            title='Open SQLite database',
+            initialdir=None,    #   TODO last used UI directory
+            filetypes=(('SQLite PyTT files', SqliteDatabaseType.PREFERRED_EXTENSION),
+                       ('All files', ".*")),
+            defaultextension=SqliteDatabaseType.PREFERRED_EXTENSION)
+        return SqliteDatabaseAddress(file_name) if file_name else None
+
     ##########
     #   Database handling
     def create_database(self, address: DatabaseAddress) -> Database:

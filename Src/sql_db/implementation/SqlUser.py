@@ -122,8 +122,9 @@ class SqlUser(SqlDatabaseObject, User):
                            can_log_events,
                            can_generate_reports,
                            can_backup_and_restore,
-                           email_addresses)
-                          VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""");
+                           email_addresses,
+                           fk_user)
+                          VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""");
             stat2.set_int_parameter(0, account_oid)
             stat2.set_bool_parameter(1, enabled)
             stat2.set_string_parameter(2, login)
@@ -142,6 +143,7 @@ class SqlUser(SqlDatabaseObject, User):
             stat2.set_bool_parameter(15, capabilities.contains_all(Capabilities.GENERATE_REPORTS))
             stat2.set_bool_parameter(16, capabilities.contains_all(Capabilities.BACKUP_AND_RESTORE))
             stat2.set_string_parameter(17, None if len(email_addresses) == 0 else "\n".join(email_addresses))
+            stat2.set_int_parameter(18, self.oid)
             stat2.execute()
 
             self.database.commit_transaction()

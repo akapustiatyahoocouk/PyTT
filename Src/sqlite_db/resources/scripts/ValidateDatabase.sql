@@ -15,6 +15,7 @@ SELECT [pk], [enabled], [login], [password_hash],
        [can_log_events],
        [can_generate_reports],
        [can_backup_and_restore],
-       [email_addresses] FROM [accounts];
+       [email_addresses],
+       [fk_user] FROM [accounts];
 
 

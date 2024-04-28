@@ -1,7 +1,12 @@
 ========== IMMEDIATE PIPELINE ======================================
+*   Implement shortcust something like Ctrl+Alt+X shall look through
+    the menu bar' items of a Window (if there is a menu bar), locate
+    the matching menu item and simulate invoking it.
+*   Make sure TextArea's "enabled: bool" property works just like
+    it does in ttk-based AWT fields.
 *   Merge LocalizableSubsystem into Subsystem, essentially making
     all Subsystems localizable.
-*   Make sure class constructors (__init__(self,...) have proper
+*   Make sure class constructors __init__(self,...) have proper
     docstrings (for public constructors only!)
 *   Clicking on a TextField doesn't give it the keyboard focus.
     Fix this. TextArea does not seem to have this problem.

@@ -245,6 +245,7 @@ class CreateWorkspaceDialog(Dialog):
                 admin_login=login,
                 admin_password=password)
             self.__result = CreateWorkspaceDialogResult.OK
+            CurrentCredentials.set(Credentials(login, password))
             self.end_modal()
         except Exception as ex:
             ErrorDialog.show(self, ex)

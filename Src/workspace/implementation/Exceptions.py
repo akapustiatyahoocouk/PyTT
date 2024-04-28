@@ -21,7 +21,7 @@ class WorkspaceError(Exception):
     def wrap(ex: Exception) -> "WorkspaceError":
         if isinstance(ex, WorkspaceError):
             return ex
-        #   TODO implement properly
+        #   TODO implement properly, setting __cause__ as well
         return WorkspaceError(str(ex))
 
 
