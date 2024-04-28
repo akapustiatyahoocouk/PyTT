@@ -44,7 +44,7 @@ class DatabaseIoError(DatabaseError):
     def __init__(self, message: str):
         super().__init__(message)
 
-class AlreadyExistsError(DatabaseError):
+class DatabaseObjectAlreadyExistsError(DatabaseError):
     """ Thrown when an db API service fails because it tries to
         create an object whose "must be unique" property
         matches that of an already existing object. """
@@ -56,7 +56,7 @@ class AlreadyExistsError(DatabaseError):
                          " with '" + property_name + "' = '" + str(property_value) +
                          "' already exists")
 
-class DoesNotExistError(DatabaseError):
+class DatabaseObjectDoesNotExistError(DatabaseError):
     """ Thrown when an db API service fails because it tries to
         access an object whose "must be unique" property
         does not match that of any already existing object. """
@@ -68,7 +68,7 @@ class DoesNotExistError(DatabaseError):
                          " with '" + property_name + "' = '" + str(property_value) +
                          "' does not exist")
 
-class AccessDeniedError(DatabaseError):
+class DatabaseAccessDeniedError(DatabaseError):
     """ Thrown when a login attempt fails. """
 
     ##########
@@ -76,7 +76,7 @@ class AccessDeniedError(DatabaseError):
     def __init__(self):
         super().__init__("Access denied")
 
-class ObjectDeadError(DatabaseError):
+class DatabaseObjectDeadError(DatabaseError):
     """ Thrown when an attempt is made to use a "dead" object. """
 
     ##########

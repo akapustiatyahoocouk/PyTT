@@ -25,7 +25,7 @@ class SqlDatabase(Database):
     ##########
     #   Database - Operations (general)
     def close(self) -> None:
-        for (oid, obj) in self.__objects:
+        for (oid, obj) in self.__objects.items():
             obj._invalidate_property_cache()
             obj._mark_dead()
         Database.close(self)
@@ -362,7 +362,7 @@ class SqlDatabase(Database):
     #   Implementation helpers (internal use only)
     def _ensure_open(self) -> None:
         if not self.is_open:
-            raise ObjectDeadError("Database")
+            raise DatabaseObjectDeadError("Database")
 
     def _get_user_proxy(self, oid: OID) -> User:
         from .SqlUser import SqlUser

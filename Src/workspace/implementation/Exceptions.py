@@ -1,5 +1,8 @@
 """ Defines exceptions thrown by the high-level (business storage) workspace API. """
 
+#   Dependencies on other PyTT components
+import db.interface.api as dbapi
+
 ##########
 #   Public entities
 class WorkspaceError(Exception):
@@ -21,7 +24,13 @@ class WorkspaceError(Exception):
     def wrap(ex: Exception) -> "WorkspaceError":
         if isinstance(ex, WorkspaceError):
             return ex
-        result = WorkspaceError(str(ex))
+        elif isinstance(ex, dbapi.InvalidDatabaseAddress):
+            result = InvalidWorkspaceAddressError()
+        elif isinstance(ex, dbapi.DatabaseAccessDeniedError):
+            result = WorkspaceAccessDeniedError()
+        #   TODO other WorkspaceError subclasses
+        else:
+            result = WorkspaceError(str(ex))
         result.__cause__ = ex
         return result
 
@@ -33,8 +42,8 @@ class InvalidWorkspaceAddressError(WorkspaceError):
     def __init__(self):
         super().__init__('Invalid workspace address')
 
-class AccessDeniedError(WorkspaceError):
-    """ Thrown when a login attempt fails. """
+class WorkspaceAccessDeniedError(WorkspaceError):
+    """ Thrown when a workspace login attempt fails. """
 
     ##########
     #   Construction

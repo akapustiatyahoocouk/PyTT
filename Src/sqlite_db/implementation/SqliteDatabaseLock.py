@@ -39,7 +39,7 @@ class SqliteDatabaseLock(ClassWithConstants):
         except Exception as ex:
             #   OOPS! Something is already there
             if not os.path.isdir(path):
-                raise AlreadyExistsError("database lock", "path", path)
+                raise DatabaseObjectAlreadyExistsError("database lock", "path", path)
             #   When was it last modified ?
             mtime = os.path.getmtime(path)
             now = time.time()

@@ -11,7 +11,7 @@ from util.interface.api import *
 #   Internal dependencies on modules within the same component
 from .DatabaseAddress import DatabaseAddress
 from .DatabaseType import DatabaseType
-from .Exceptions import AccessDeniedError
+from .Exceptions import DatabaseAccessDeniedError
 from .Notifications import *
 from queue import Empty, Queue
 
@@ -117,7 +117,7 @@ class Database(ABC):
 
         account = self.try_login(login, password)
         if account is None:
-            raise AccessDeniedError()
+            raise DatabaseAccessDeniedError()
         return account
 
     ##########

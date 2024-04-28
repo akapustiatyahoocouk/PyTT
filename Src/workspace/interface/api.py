@@ -2,7 +2,9 @@
 
 ##########
 #   Public entities
+from workspace.implementation.BusinessAccount import *
 from workspace.implementation.BusinessObject import *
+from workspace.implementation.BusinessUser import *
 from workspace.implementation.Capabilities import *
 from workspace.implementation.Credentials import *
 from workspace.implementation.CurrentCredentials import *

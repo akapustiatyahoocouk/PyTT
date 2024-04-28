@@ -181,7 +181,12 @@ if __name__ == "__main__":
         try:
             workspace = workspace_address.workspace_type.open_workspace(workspace_address)
             workspace.login(credentials=CurrentCredentials.get())
+            Workspace.current = workspace
+        except WorkspaceAccessDeniedError as ex:
+            workspace.close()
+            ErrorDialog.show(None, ex)
         except Exception as ex:
+            workspace.close()
             ErrorDialog.show(None, ex)
         pass
     #   Select the initial skin TODO properly - use active skin from previous session!

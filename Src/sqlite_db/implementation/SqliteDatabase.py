@@ -58,13 +58,13 @@ class SqliteDatabase(SqlDatabase):
         try:
             if create_new:
                 if os.path.exists(db_path):
-                    raise AlreadyExistsError("database", "path", db_path)
+                    raise DatabaseObjectAlreadyExistsError("database", "path", db_path)
                 self.__connection = sqlite3.connect(db_path, isolation_level=None)   # may raise any error, really
                 init_script = SqliteDbResources.string("InitDatabaseScript")
                 self.execute_script(init_script)
             else:
                 if not os.path.isfile(db_path):
-                    raise DoesNotExistError("database", "path", db_path)
+                    raise DoesNotExistErrorDoesNotExistError("database", "path", db_path)
                 self.__connection = sqlite3.connect(db_path, isolation_level=None)   # may raise any error, really
                 validate_script = SqliteDbResources.string("ValidateDatabaseScript")
                 self.execute_script(validate_script)

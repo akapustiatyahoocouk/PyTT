@@ -2,7 +2,7 @@
 from typing import final
 
 #   Dependencies on other PyTT components
-from db.interface.api import *
+import db.interface.api as dbapi
 
 #   Internal dependencies on modules within the same component
 from .WorkspaceType import WorkspaceType
@@ -14,8 +14,8 @@ class WorkspaceAddress:
 
     ##########
     #   Construction internal only)
-    def __init__(self, db_address: DatabaseAddress):
-        assert isinstance(db_address, DatabaseAddress)
+    def __init__(self, db_address: dbapi.DatabaseAddress):
+        assert isinstance(db_address, dbapi.DatabaseAddress)
 
         self.__db_address = db_address
 

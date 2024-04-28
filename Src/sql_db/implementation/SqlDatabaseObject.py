@@ -67,7 +67,7 @@ class SqlDatabaseObject(DatabaseObject):
     def _ensure_live(self) -> None:
         self.__db._ensure_open() # may raise DatabaseError
         if not self.__live:
-            raise ObjectDeadError(self.type_display_name)
+            raise DatabaseObjectDeadError(self.type_display_name)
 
     def _mark_dead(self) -> None:
         self.__live = False

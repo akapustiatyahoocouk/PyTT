@@ -8,13 +8,14 @@ from weakref import WeakKeyDictionary, WeakValueDictionary
 
 #   Dependencies on other PyTT components
 from util.interface.api import *
-from db.interface.api import *
+import db.interface.api as dbapi
 
 #   Internal dependencies on modules within the same component
 from .WorkspaceType import WorkspaceType
 from .WorkspaceAddress import WorkspaceAddress
 from .Exceptions import WorkspaceError
 from .Credentials import Credentials
+from .Capabilities import Capabilities
 from .BusinessObject import BusinessObject
 
 ##########
@@ -53,9 +54,9 @@ class Workspace(metaclass=WorkspaceMeta):
 
     ##########
     #   Construction (internal only)
-    def __init__(self, address: WorkspaceAddress, db: Database):
+    def __init__(self, address: WorkspaceAddress, db: dbapi.Database):
         assert isinstance(address, WorkspaceAddress)
-        assert isinstance(db, Database)
+        assert isinstance(db, dbapi.Database)
 
         self.__address = address
         self.__db = db
@@ -157,7 +158,7 @@ class Workspace(metaclass=WorkspaceMeta):
         return self._get_business_proxy(data_account)
 
     def login(self, login: Optional[str] = None, password: Optional[str] = None,
-              credentials: Optional[Credentials] = None) -> Optional[Account]:
+              credentials: Optional[Credentials] = None) -> Optional["BusinessAccount"]:
         """
             Performs a login. If the account with the specified
             login and password exists in this database, is enabled
@@ -242,18 +243,22 @@ class Workspace(metaclass=WorkspaceMeta):
 
     ##########
     #   Implementation helpers
-    def _get_business_proxy(self, data_object: DatabaseObject) -> BusinessObject:
-        assert isinstance(data_object, DatabaseObject)
+    def _get_business_proxy(self, data_object: dbapi.DatabaseObject) -> BusinessObject:
+        from .BusinessUser import BusinessUser
+        from .BusinessAccount import BusinessAccount
+        
+        assert isinstance(data_object, dbapi.DatabaseObject)
         business_object = self.__map_data_objects_to_business_objects.get(data_object, None)
         if business_object is None:
             #   Need to create a new business proxy for the data_object
-            if isinstance(data_object, User):
-                raise NotImplementedError()
-            elif isinstance(data_object, Account):
-                raise NotImplementedError()
+            if isinstance(data_object, dbapi.User):
+                business_object = BusinessUser(self, data_object)
+            elif isinstance(data_object, dbapi.Account):
+                business_object = BusinessAccount(self, data_object)
             else:
                 raise NotImplementedError()
+            self.__map_data_objects_to_business_objects[data_object] = business_object
         else:
             #   Business proxy already exists - make sure it's valid
             assert business_object._data_object is data_object
-            return business_object
+        return business_object

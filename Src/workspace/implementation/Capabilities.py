@@ -3,9 +3,9 @@
 from typing import TypeAlias
 
 #   Dependencies on other PyTT components
-from db.interface.api import Capability as DbCapability, Capabilities as DbCapabilities
+import db.interface.api as dbapi
 
 ##########
 #   Public entities
-Capability: TypeAlias = DbCapability
-Capabilities: TypeAlias = DbCapabilities
+Capability: TypeAlias = dbapi.Capability
+Capabilities: TypeAlias = dbapi.Capabilities

@@ -3,10 +3,11 @@
 from typing import final, Set
 
 #   Dependencies on other PyTT components
-from db.interface.api import *
-from .Credentials import Credentials
+import db.interface.api as dbapi
+from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
+from .Credentials import Credentials
 from .Exceptions import WorkspaceError
 
 ##########
@@ -21,9 +22,9 @@ class WorkspaceType:
 
     ##########
     #   Construction (internal only)
-    def __init__(self, db_type: DatabaseType):
+    def __init__(self, db_type: dbapi.DatabaseType):
         assert WorkspaceType.__construction_permitted
-        assert isinstance(db_type, DatabaseType)
+        assert isinstance(db_type, dbapi.DatabaseType)
 
         self.__db_type = db_type
 
@@ -39,7 +40,7 @@ class WorkspaceType:
         if WorkspaceType.__all is None:
             WorkspaceType.__construction_permitted = True
             WorkspaceType.__all = []
-            for db_type in DatabaseType.all:
+            for db_type in dbapi.DatabaseType.all:
                 WorkspaceType.__all.append(WorkspaceType(db_type))
             WorkspaceType.__construction_permitted = False
         return set(WorkspaceType.__all)
@@ -239,7 +240,7 @@ class WorkspaceType:
         return None
 
     @staticmethod
-    def resolve(db_type: DatabaseType) -> "WorkspaceType":
+    def resolve(db_type: dbapi.DatabaseType) -> "WorkspaceType":
         """
             Returns the WorkspaceType that corresponds to the
             specified DatabaseType.
@@ -250,7 +251,7 @@ class WorkspaceType:
                 The workspace type that represents the specified
                 database type.
         """
-        assert isinstance(db_type, DatabaseType)
+        assert isinstance(db_type, dbapi.DatabaseType)
 
         for wt in WorkspaceType.all:
             if wt.__db_type is db_type:
