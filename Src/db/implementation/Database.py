@@ -120,6 +120,16 @@ class Database(ABC):
             raise DatabaseAccessDeniedError()
         return account
 
+    @abstractproperty
+    def users(self) -> Set["User"]:
+        """
+            The unordered set of all Users in this Database.
+            
+            @raise DatabaseError:
+                If an error occurs.
+        """
+        raise NotImplementedError()
+            
     ##########
     #   Operations (life cycle)
     @abstractmethod
@@ -157,7 +167,7 @@ class Database(ABC):
 
     ##########
     #   Operations (notifications)
-    def add_notification_listener(l: Union[NotificationListener, NotificationHandler]) -> None:
+    def add_notification_listener(self, l: Union[DatabaseNotificationListener, DatabaseNotificationHandler]) -> None:
         """ Registers the specified listener or handler to be
             notified when adatabase notification is processed.
             A given listener can be registered at most once;
@@ -166,12 +176,12 @@ class Database(ABC):
 
             IMPORTANT: This method is thread-safe."""
         assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
-                isinstance(l, NotificationHandler))
+                isinstance(l, DatabaseNotificationHandler))
         with self.__notification_listeners_guard:
             if l not in self.__notification_listeners:
                 self.__notification_listeners.append(l)
 
-    def remove_notification_listener(l: Union[NotificationListener, NotificationHandler]) -> None:
+    def remove_notification_listener(self, l: Union[DatabaseNotificationListener, DatabaseNotificationHandler]) -> None:
         """ Un-registers the specified listener or handler to no
             longer be notified when a database notification is
             processed.
@@ -181,22 +191,22 @@ class Database(ABC):
 
             IMPORTANT: This method is thread-safe."""
         assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
-                isinstance(l, NotificationHandler))
+                isinstance(l, DatabaseNotificationHandler))
         with self.__notification_listeners_guard:
             if l in self.__notification_listeners:
                 self.__notification_listeners.remove(l)
 
     @property
-    def notification_listeners(self) -> list[Union[NotificationListener, NotificationHandler]]:
+    def notification_listeners(self) -> list[Union[DatabaseNotificationListener, DatabaseNotificationHandler]]:
         """ The list of all notification listeners registered so far.
 
             IMPORTANT: This property is thread-safe. """
         with self.__notification_listeners_guard:
             return self.__notification_listeners.copy()
 
-    def process_notification(self, n: Notification) -> bool:
+    def process_notification(self, n: DatabaseNotification) -> bool:
         """
-            Called to process a Notification.
+            Called to process a DatabaseNotification.
             IMPORTANT: The hidden notification thread running behind
             a Database will call this method when notifications are
             enqueued and must then be processed.
@@ -208,10 +218,10 @@ class Database(ABC):
             @param event:
                 The notification to process.
         """
-        assert isinstance(n, Notification)
+        assert isinstance(n, DatabaseNotification)
         for l in self.notification_listeners:
             try:
-                if isinstance(l, NotificationHandler):
+                if isinstance(l, DatabaseNotificationHandler):
                     if isinstance(n, DatabaseObjectCreatedNotification):
                         l.on_database_object_created(n)
                     elif isinstance(n, DatabaseObjectDestroyedNotification):
@@ -226,17 +236,17 @@ class Database(ABC):
             except Exception as ex:
                 pass    #   TODO log the exception
 
-    def enqueue_notification(self, n: Notification) -> None:
+    def enqueue_notification(self, n: DatabaseNotification) -> None:
         """
-            Enqueues a Notification to be processed as soon as
-            practicable by the hidden notification thread.
+            Enqueues a DatabaseNotification to be processed as 
+            soon as practicable by the hidden notification thread.
 
             IMPORTANT: This method is thread-safe.
             
             @param n:
                 The notification to enqueue.
         """
-        assert isinstance(n, Notification)
+        assert isinstance(n, DatabaseNotification)
         self.__queued_notifications.put(n)
 
     ##########
@@ -245,7 +255,7 @@ class Database(ABC):
         while not self.__notification_thread_stop_requested:
             try:
                 n = self.__queued_notifications.get(block=True, timeout=1)  # wait in 1s chunks
-                assert isinstance(n, Notification)
+                assert isinstance(n, DatabaseNotification)
                 self.process_notification(n)
             except Empty:   #   queue is still empty after a wait chunk
                 pass

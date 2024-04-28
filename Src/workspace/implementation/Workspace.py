@@ -5,6 +5,7 @@
 #   Python standard library
 from typing import final
 from weakref import WeakKeyDictionary, WeakValueDictionary
+import threading
 
 #   Dependencies on other PyTT components
 from util.interface.api import *
@@ -17,6 +18,7 @@ from .Exceptions import WorkspaceError
 from .Credentials import Credentials
 from .Capabilities import Capabilities
 from .BusinessObject import BusinessObject
+from .Notifications import *
 
 ##########
 #   Public entities
@@ -60,8 +62,17 @@ class Workspace(metaclass=WorkspaceMeta):
 
         self.__address = address
         self.__db = db
+        
+        self.__lock = threading.RLock() #   for all access synchronization
+        
         self.__map_data_objects_to_business_objects = WeakValueDictionary()
         self.__access_rights = WeakKeyDictionary()  #   Credentials -> Capabilities
+        
+        #   Forward database notifications to workspace clients
+        self.__notification_listeners = []
+        self.__notification_listeners_guard = threading.Lock()
+
+        db.add_notification_listener(self.__on_database_notification)
 
     ##########
     #   Properties
@@ -82,6 +93,11 @@ class Workspace(metaclass=WorkspaceMeta):
         """ True if this Workspace is currently open (i.e. can be
             used to access the physical database), False if closed. """
         return self.__db.is_open
+
+    @property
+    def lock(self) -> threading.RLock:
+        """ The RLock object to use for all threaded access synchronization. """
+        return self.__lock
 
     ##########
     #   Operations (general)
@@ -189,6 +205,77 @@ class Workspace(metaclass=WorkspaceMeta):
         return self._get_business_proxy(data_account)
 
     ##########
+    #   Operations (notifications)
+    def add_notification_listener(self, l: Union[WorkspaceNotificationListener, WorkspaceNotificationHandler]) -> None:
+        """ Registers the specified listener or handler to be
+            notified when a workspace notification is processed.
+            A given listener can be registered at most once;
+            subsequent attempts to register the same listener
+            again will have no effect.
+
+            IMPORTANT: This method is thread-safe."""
+        assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
+                isinstance(l, WorkspaceNotificationHandler))
+        with self.__notification_listeners_guard:
+            if l not in self.__notification_listeners:
+                self.__notification_listeners.append(l)
+
+    def remove_notification_listener(self, l: Union[WorkspaceNotificationListener, WorkspaceNotificationHandler]) -> None:
+        """ Un-registers the specified listener or handler to no
+            longer be notified when a workspace notification is
+            processed.
+            A given listener can be un-registered at most once;
+            subsequent attempts to un-register the same listener
+            again will have no effect.
+
+            IMPORTANT: This method is thread-safe."""
+        assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
+                isinstance(l, WorkspaceNotificationHandler))
+        with self.__notification_listeners_guard:
+            if l in self.__notification_listeners:
+                self.__notification_listeners.remove(l)
+
+    @property
+    def notification_listeners(self) -> list[Union[WorkspaceNotificationListener, WorkspaceNotificationHandler]]:
+        """ The list of all notification listeners registered so far.
+
+            IMPORTANT: This property is thread-safe. """
+        with self.__notification_listeners_guard:
+            return self.__notification_listeners.copy()
+
+    def process_notification(self, n: WorkspaceNotification) -> bool:
+        """
+            Called to process a WorkspaceNotification.
+            IMPORTANT: The hidden notification thread running behind
+            a Workspace will call this method when notifications are
+            enqueued and must then be processed.
+
+            IMPORTANT: This method is thread-safe.
+
+            @param self:
+                The workspace on which the method has been called.
+            @param event:
+                The notification to process.
+        """
+        assert isinstance(n, WorkspaceNotification)
+        for l in self.notification_listeners:
+            try:
+                if isinstance(l, WorkspaceNotificationHandler):
+                    if isinstance(n, BusinessObjectCreatedNotification):
+                        l.on_workspace_object_created(n)
+                    elif isinstance(n, BusinessObjectDestroyedNotification):
+                        l.on_workspace_object_destroyed(n)
+                    elif isinstance(n, BusinessObjectModifiedNotification):
+                        l.on_workspace_object_modified(n)
+                    else:
+                        raise NotImplementedError()
+                    l.on_property_change(n)
+                else:
+                    l(n)
+            except Exception as ex:
+                pass    #   TODO log the exception
+
+    ##########
     #   Operations (static property change handling)
     @staticmethod
     def add_property_change_listener(l: Union[PropertyChangeEventListener, PropertyChangeEventHandler]) -> None:
@@ -262,3 +349,32 @@ class Workspace(metaclass=WorkspaceMeta):
             #   Business proxy already exists - make sure it's valid
             assert business_object._data_object is data_object
         return business_object
+
+    ##########
+    #   Event handlers
+    def __on_database_notification(self, dbn: dbapi.DatabaseNotification) -> None:
+        #TODO kill off print(str(threading.current_thread().ident) + ":" + repr(dbn))
+        #   This listener is called on the notification thread
+        #   internal to the underlying Database. Normally we would
+        #   just forward notifications to the Workspace clients; however,
+        #   some DB notifications must cause e.g. invalidation of the
+        #   Workspace caches, etc.
+        if (isinstance(dbn, dbapi.DatabaseObjectCreatedNotification) or
+            isinstance(dbn, dbapi.DatabaseObjectDestroyedNotification) or
+            isinstance(dbn, dbapi.DatabaseObjectModifiedNotification)):
+            #   If User or Account is affected in any way, we may have 
+            #   to recalculate all cached access rights
+            if isinstance(dbn.object, dbapi.User) or isinstance(dbn.object, dbapi.Account):
+                with self.__lock:
+                    self.__access_rights.clear()
+        #   ...and now to the forwarding
+        if isinstance(dbn, dbapi.DatabaseObjectCreatedNotification):
+            n = BusinessObjectCreatedNotification(self, self._get_business_proxy(dbn.object))
+        elif isinstance(dbn, dbapi.DatabaseObjectDestroyedNotification):
+            n = BusinessObjectDestroyedNotification(self, self._get_business_proxy(dbn.object))
+        elif isinstance(dbn, dbapi.DatabaseObjectModifiedNotification):
+            n = BusinessObjectModifiedNotification(self, self._get_business_proxy(dbn.object), dbn.property_name)
+        else:
+            raise NotImplementedError()
+        self.process_notification(n)
+        

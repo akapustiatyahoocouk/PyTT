@@ -1,15 +1,15 @@
 """ PyTT Client launcher. """
 #   Python standard library
 from typing import final
-from abc import abstractproperty
 import sys
 import os.path
 from datetime import datetime, UTC
+import threading
 
 #   Dependencies on other PyTT components
 root_directory = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 print("Starting PyTT from", root_directory)
-sys.path.insert(0, root_directory)
+sys.path.insert(0, root_directory)  #   TODO THIS HAPPENS TWICE - HERE AND FROM PLUGINLOADER
 
 from gui.interface.api import *
 from awt.interface.api import *
@@ -142,6 +142,7 @@ if __name__ == "__main__":
 
     print('Python is', sys.version_info)
     print('System locale is', Locale.default)
+    print("Main thread is " + str(threading.current_thread().ident))
 
     CommandLine.parse()
 
@@ -183,10 +184,10 @@ if __name__ == "__main__":
             workspace.login(credentials=CurrentCredentials.get())
             Workspace.current = workspace
         except WorkspaceAccessDeniedError as ex:
-            workspace.close()
+            #TODO ? workspace.close()
             ErrorDialog.show(None, ex)
         except Exception as ex:
-            workspace.close()
+            #TODO ? workspace.close()
             ErrorDialog.show(None, ex)
         pass
     #   Select the initial skin TODO properly - use active skin from previous session!

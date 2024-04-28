@@ -6,7 +6,7 @@ from threading import Thread
 
 ##########
 #   Public entities
-class Notification:
+class DatabaseNotification:
     """ The common base class for all Database notifications. """
 
     ##########
@@ -23,14 +23,14 @@ class Notification:
         """ The Database where the change has occurred. """
         return self.__database
 
-class DatabaseObjectCreatedNotification(Notification):
+class DatabaseObjectCreatedNotification(DatabaseNotification):
     """ Notifies interested parties that a new object has
         just been created in the database. """
 
     ##########
     #   Construction
     def __init__(self, database: "Database", obj: "DatabaseObject"):
-        Notification.__init__(self, database)
+        DatabaseNotification.__init__(self, database)
         
         from .DatabaseObject import DatabaseObject
         assert isinstance(obj, DatabaseObject)
@@ -44,14 +44,14 @@ class DatabaseObjectCreatedNotification(Notification):
         """ The newly created object. """
         return self.__object
 
-class DatabaseObjectDestroyedNotification(Notification):
+class DatabaseObjectDestroyedNotification(DatabaseNotification):
     """ Notifies interested parties that an object has
         just been destroyed in the database. """
 
     ##########
     #   Construction
     def __init__(self, database: "Database", obj: "DatabaseObject"):
-        Notification.__init__(self, database)
+        DatabaseNotification.__init__(self, database)
         
         from .DatabaseObject import DatabaseObject
         assert isinstance(obj, DatabaseObject)
@@ -62,18 +62,18 @@ class DatabaseObjectDestroyedNotification(Notification):
     #   Properties
     @property
     def object(self) -> "DatabaseObject":
-        """ The destroyed object (aklready "dead" by the time
+        """ The destroyed object (already "dead" by the time
             this notification reaches interested parties!. """
         return self.__object
 
-class DatabaseObjectModifiedNotification(Notification):
+class DatabaseObjectModifiedNotification(DatabaseNotification):
     """ Notifies interested parties that an object has
         just been modified in the database. """
 
     ##########
     #   Construction
     def __init__(self, database: "Database", obj: "DatabaseObject", property_name: str):
-        Notification.__init__(self, database)
+        DatabaseNotification.__init__(self, database)
         
         from .DatabaseObject import DatabaseObject
         assert isinstance(obj, DatabaseObject)
@@ -94,13 +94,13 @@ class DatabaseObjectModifiedNotification(Notification):
         """ The name of the object's property that has been modified. """
         return self.__property_name
 
-NotificationListener: TypeAlias = Callable[[Notification], None]
+DatabaseNotificationListener: TypeAlias = Callable[[DatabaseNotification], None]
 """ A signature of a listener to database notifications - a function
     or a bound method.
     IMPORTANT: will normally be called on a hidden "notification"
     thread running behind theDatabase. """
 
-class NotificationHandler:
+class DatabaseNotificationHandler:
 
     ##########
     #   Operations

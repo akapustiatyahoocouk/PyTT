@@ -191,7 +191,7 @@ class WorkspaceType:
         try:
             account = user.create_account(login=admin_login,
                                           password=admin_password,
-                                          capabilities=Capabilities.ADMINISTRATOR)
+                                          capabilities=dbapi.Capabilities.ADMINISTRATOR)
         except Exception as ex:
             try:
                 db.close()

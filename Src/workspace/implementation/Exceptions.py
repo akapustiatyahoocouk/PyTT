@@ -24,7 +24,7 @@ class WorkspaceError(Exception):
     def wrap(ex: Exception) -> "WorkspaceError":
         if isinstance(ex, WorkspaceError):
             return ex
-        elif isinstance(ex, dbapi.InvalidDatabaseAddress):
+        elif isinstance(ex, dbapi.InvalidDatabaseAddressError):
             result = InvalidWorkspaceAddressError()
         elif isinstance(ex, dbapi.DatabaseAccessDeniedError):
             result = WorkspaceAccessDeniedError()

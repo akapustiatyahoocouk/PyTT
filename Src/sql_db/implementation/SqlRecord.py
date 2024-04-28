@@ -26,11 +26,11 @@ class SqlRecord:
             try:
                 return self.__row[key]
             except Exception as ex:
-                raise DoesNotExistErrorDoesNotExistError("field", "index", key)
+                raise DatabaseObjectDoesNotExistError("field", "index", key)
         elif isinstance(key, str):
             index = self.__rs._get_column_index(key)
             if index is None:
-                raise DoesNotExistErrorDoesNotExistError("field", "index", key)
+                raise DatabaseObjectDoesNotExistError("field", "index", key)
             return self.__row[index]
         else:
-            raise DoesNotExistErrorDoesNotExistError("field", "index", key)
+            raise DatabaseObjectDoesNotExistError("field", "index", key)

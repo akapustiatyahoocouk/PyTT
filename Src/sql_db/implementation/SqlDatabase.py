@@ -59,6 +59,17 @@ class SqlDatabase(Database):
             return self._get_account_proxy(r["account_oid"])
         return None
 
+    @property
+    def users(self) -> Set[User]:
+        self._ensure_open() # may raise DatabaseError
+        
+        stat = self.create_statement(" SELECT [pk] FROM [users]")
+        rs = stat.execute()
+        result = set()
+        for r in rs:
+            result.add(self._get_user_proxy(r["pk]"]))
+        return result
+
     ##########
     #   Overridables (database engine - specific)
     @property

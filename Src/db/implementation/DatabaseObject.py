@@ -9,7 +9,7 @@ import tkinter as tk
 from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
-from db.implementation.Database import Database
+from .Database import Database
 
 ##########
 #   Public entities

@@ -24,7 +24,7 @@ class BusinessObject(ABCWithConstants):
     def __init__(self, workspace: "Workspace", data_object: dbapi.DatabaseObject):
         from .Workspace import Workspace
         assert isinstance(workspace, Workspace)
-        assert isinstance(data_object, DatabaseObject)
+        assert isinstance(data_object, dbapi.DatabaseObject)
         
         self.__workspace = workspace
         self._data_object = data_object

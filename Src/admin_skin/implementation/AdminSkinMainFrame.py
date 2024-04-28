@@ -55,12 +55,8 @@ class AdminSkinMainFrame(Frame,
         self.menu_bar = menu_bar
 
         #   Create controls
-        self.__aboutButton = Button(self, action=self.__action_set.about)
-        self.__quitButton = Button(self, action=self.__action_set.exit)
 
         #   Set up control structure
-        self.__aboutButton.pack()
-        self.__quitButton.pack()
 
         #   Restore position & state
         self.__load_position()
@@ -69,7 +65,7 @@ class AdminSkinMainFrame(Frame,
         self.add_window_listener(self)
         self.add_widget_listener(self)
 
-        #TOCO kill off self.add_key_listener(lambda e: print(e))
+        #TODO kill off self.add_key_listener(lambda e: print(e))
 
         Workspace.add_property_change_listener(self.__on_workspace_changed)
         Locale.add_property_change_listener(self.__on_locale_changed)

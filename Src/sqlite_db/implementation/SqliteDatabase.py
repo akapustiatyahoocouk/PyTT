@@ -12,7 +12,7 @@ from sql_db.interface.api import *
 from .SqliteDatabaseType import SqliteDatabaseType
 from .SqliteDatabaseAddress import SqliteDatabaseAddress
 from .SqliteDatabaseLock import SqliteDatabaseLock
-from sqlite_db.resources.SqliteDbResources import *
+from ..resources.SqliteDbResources import *
 
 ##########
 #   Public entities
@@ -64,12 +64,12 @@ class SqliteDatabase(SqlDatabase):
                 self.execute_script(init_script)
             else:
                 if not os.path.isfile(db_path):
-                    raise DoesNotExistErrorDoesNotExistError("database", "path", db_path)
+                    raise DatabaseObjectDoesNotExistError("database", "path", db_path)
                 self.__connection = sqlite3.connect(db_path, isolation_level=None)   # may raise any error, really
                 validate_script = SqliteDbResources.string("ValidateDatabaseScript")
                 self.execute_script(validate_script)
         except Exception as ex:
-            print(traceback.format_exc())
+            #TODO kill off print(traceback.format_exc())
             if self.__connection:
                 self.__connection.close()
             if create_new:

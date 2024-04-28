@@ -10,7 +10,7 @@ from util.interface.api import *
 #   Internal dependencies on modules within the same component
 from .DatabaseObject import DatabaseObject
 from .Account import Account
-from db.resources.DbResources import DbResources
+from ..resources.DbResources import DbResources
 
 ##########
 #   Public entities
