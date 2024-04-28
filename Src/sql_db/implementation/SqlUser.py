@@ -149,7 +149,16 @@ class SqlUser(SqlDatabaseObject, User):
             self.database.commit_transaction()
             account = self.database._get_account_proxy(account_oid)
             
-            #   Schedule change notifications
+            #   Issue notifications
+            self.database.enqueue_notification(
+                DatabaseObjectCreatedNotification(
+                    self.database, 
+                    account))
+            self.database.enqueue_notification(
+                DatabaseObjectModifiedNotification(
+                    self.database, 
+                    self,
+                    User.ACCOUNTS_ASSOCIATION_NAME))
             #   TODO
             
             #   Done

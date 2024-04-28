@@ -103,7 +103,7 @@ class Workspace(metaclass=WorkspaceMeta):
         """
             Returns the Capabilities granted by the specified
             user credentials.
-            
+
             @param credentials:
                 The user credentials.
             @return:
@@ -115,7 +115,7 @@ class Workspace(metaclass=WorkspaceMeta):
         """
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
-        
+
         capabilities = self.__access_rights.get(credentials, None)
         if capabilities is None:
             try:
@@ -156,14 +156,14 @@ class Workspace(metaclass=WorkspaceMeta):
             raise WorkspaceError.wrap(ex)
         return self._get_business_proxy(data_account)
 
-    def login(self, login: Optional[str] = None, password: Optional[str] = None, 
+    def login(self, login: Optional[str] = None, password: Optional[str] = None,
               credentials: Optional[Credentials] = None) -> Optional[Account]:
         """
             Performs a login. If the account with the specified
             login and password exists in this database, is enabled
             and belongs to an enabled user, then returns it; else
             an error occurs.
-            
+
             Either login+password or credentials must be specified.
 
             @param login:

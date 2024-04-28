@@ -18,6 +18,8 @@ class SqlDatabase(Database):
     ##########
     #   Construction
     def __init__(self):
+        Database.__init__(self)
+        
         self.__objects = WeakValueDictionary()  #   OID -> SqlDatabaseObject
 
     ##########
@@ -26,6 +28,7 @@ class SqlDatabase(Database):
         for (oid, obj) in self.__objects:
             obj._invalidate_property_cache()
             obj._mark_dead()
+        Database.close(self)
 
     ##########
     #   Database - Operations (associations)
@@ -341,7 +344,16 @@ class SqlDatabase(Database):
             stat2.execute()
 
             self.commit_transaction()
-            return self._get_user_proxy(user_oid)
+            user = self._get_user_proxy(user_oid)
+            
+            #   Issue notifications
+            self.enqueue_notification(
+                DatabaseObjectCreatedNotification(
+                    self, 
+                    user))
+
+            #   Done
+            return user
         except Exception as ex:
             self.rollback_transaction()
             raise DatabaseError.wrap(ex)

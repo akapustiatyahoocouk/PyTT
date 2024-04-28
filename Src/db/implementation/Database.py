@@ -1,8 +1,9 @@
 """ A persistent container where data is kept. """
 
 #   Python standard library
-from typing import List
+from typing import List, Union
 from abc import ABC, abstractmethod, abstractproperty
+from threading import Lock, Semaphore
 
 #   Dependencies on other PyTT components
 from util.interface.api import *
@@ -11,12 +12,29 @@ from util.interface.api import *
 from .DatabaseAddress import DatabaseAddress
 from .DatabaseType import DatabaseType
 from .Exceptions import AccessDeniedError
+from .Notifications import *
+from queue import Empty, Queue
 
 ##########
 #   Public entities
 class Database(ABC):
     """ A persistent container where data is kept. """
-    
+
+    ##########
+    #   Construction
+    def __init__(self):
+
+        self.__queued_notifications = Queue()
+
+        #   TODO make list elements WEAK references to actual listeners
+        self.__notification_listeners = []
+        self.__notification_listeners_guard = Lock()
+
+        self.__notification_thread_stop_requested = False
+        self.__notification_thread = Thread(target=self.__run_notification_thread, args=[])
+        self.__notification_thread.daemon = True
+        self.__notification_thread.start()
+
     ##########
     #   object (entry/exit protocol needed for Dialog.do_modal
     def __enter__(self) -> None:
@@ -59,7 +77,7 @@ class Database(ABC):
                 If an error occurs; the Database object is
                 still "closed" before the exception is thrown.
         """
-        raise NotImplementedError()
+        self.__notification_thread_stop_requested = True # stops notification thread eventually
 
     ##########
     #   Operations (associations)
@@ -136,3 +154,98 @@ class Database(ABC):
                 If an error occurs.
         """
         raise NotImplementedError()
+
+    ##########
+    #   Operations (notifications)
+    def add_notification_listener(l: Union[NotificationListener, NotificationHandler]) -> None:
+        """ Registers the specified listener or handler to be
+            notified when adatabase notification is processed.
+            A given listener can be registered at most once;
+            subsequent attempts to register the same listener
+            again will have no effect.
+
+            IMPORTANT: This method is thread-safe."""
+        assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
+                isinstance(l, NotificationHandler))
+        with self.__notification_listeners_guard:
+            if l not in self.__notification_listeners:
+                self.__notification_listeners.append(l)
+
+    def remove_notification_listener(l: Union[NotificationListener, NotificationHandler]) -> None:
+        """ Un-registers the specified listener or handler to no
+            longer be notified when a database notification is
+            processed.
+            A given listener can be un-registered at most once;
+            subsequent attempts to un-register the same listener
+            again will have no effect.
+
+            IMPORTANT: This method is thread-safe."""
+        assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
+                isinstance(l, NotificationHandler))
+        with self.__notification_listeners_guard:
+            if l in self.__notification_listeners:
+                self.__notification_listeners.remove(l)
+
+    @property
+    def notification_listeners(self) -> list[Union[NotificationListener, NotificationHandler]]:
+        """ The list of all notification listeners registered so far.
+
+            IMPORTANT: This property is thread-safe. """
+        with self.__notification_listeners_guard:
+            return self.__notification_listeners.copy()
+
+    def process_notification(self, n: Notification) -> bool:
+        """
+            Called to process a Notification.
+            IMPORTANT: The hidden notification thread running behind
+            a Database will call this method when notifications are
+            enqueued and must then be processed.
+
+            IMPORTANT: This method is thread-safe.
+
+            @param self:
+                The Database on which the method has been called.
+            @param event:
+                The notification to process.
+        """
+        assert isinstance(n, Notification)
+        for l in self.notification_listeners:
+            try:
+                if isinstance(l, NotificationHandler):
+                    if isinstance(n, DatabaseObjectCreatedNotification):
+                        l.on_database_object_created(n)
+                    elif isinstance(n, DatabaseObjectDestroyedNotification):
+                        l.on_database_object_destroyed(n)
+                    elif isinstance(n, DatabaseObjectModifiedNotification):
+                        l.on_database_object_modified(n)
+                    else:
+                        raise NotImplementedError()
+                    l.on_property_change(n)
+                else:
+                    l(n)
+            except Exception as ex:
+                pass    #   TODO log the exception
+
+    def enqueue_notification(self, n: Notification) -> None:
+        """
+            Enqueues a Notification to be processed as soon as
+            practicable by the hidden notification thread.
+
+            IMPORTANT: This method is thread-safe.
+            
+            @param n:
+                The notification to enqueue.
+        """
+        assert isinstance(n, Notification)
+        self.__queued_notifications.put(n)
+
+    ##########
+    #   Threads
+    def __run_notification_thread(self) -> None:
+        while not self.__notification_thread_stop_requested:
+            try:
+                n = self.__queued_notifications.get(block=True, timeout=1)  # wait in 1s chunks
+                assert isinstance(n, Notification)
+                self.process_notification(n)
+            except Empty:   #   queue is still empty after a wait chunk
+                pass
