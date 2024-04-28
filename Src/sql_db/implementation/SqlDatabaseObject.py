@@ -13,12 +13,12 @@ from .SqlDatabase import SqlDatabase
 #   Public entities
 class SqlDatabaseObject(DatabaseObject):
     """ A generic object residing in an SQL database. """
-    
+
     ##########
     #   Construction - internal only
     def __init__(self, db: SqlDatabase, oid: OID):
         DatabaseObject.__init__(self)
-        
+
         assert isinstance(db, SqlDatabase)
         assert isinstance(oid, OID)
 
@@ -28,7 +28,7 @@ class SqlDatabaseObject(DatabaseObject):
 
         self.__oid = oid
         self.__live = True
-        
+
         #   Property cache support
         self.__property_cache_expires_at = None #   properties not cached!
 
@@ -61,3 +61,13 @@ class SqlDatabaseObject(DatabaseObject):
 
     def _invalidate_property_cache(self) -> None:
         self.__property_cache_expires_at = None
+
+    ##########
+    #   Implementation helpers
+    def _ensure_live(self) -> None:
+        self.__db._ensure_open() # may raise DatabaseError
+        if not self.__live:
+            raise ObjectDeadError(self.type_display_name)
+
+    def _mark_dead(self) -> None:
+        self.__live = False

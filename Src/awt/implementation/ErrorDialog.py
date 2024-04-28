@@ -83,6 +83,7 @@ class ErrorDialog(Dialog):
         #   Set up event handlers
         self.__list_box.add_item_listener(self.__list_box_item_listener)
 
+        self.__save_button.add_action_listener(self.__on_save)
         self.__ok_button.add_action_listener(self.__on_ok)
 
         self.ok_button = self.__ok_button
@@ -123,6 +124,9 @@ class ErrorDialog(Dialog):
     def __list_box_item_listener(self, evt: ItemEvent) -> None:
         assert isinstance(evt, ItemEvent)
         self.__tabbed_pane.select(self.__list_box.selected_index)
+
+    def __on_save(self, evt = None) -> None:
+        MessageBox.show(self, "Save", "Not yet implemented", MessageBoxIcon.INFORMATION)
 
     def __on_ok(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)

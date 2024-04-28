@@ -1,3 +1,5 @@
+""" A common base class for all objects residing in a database. """
+
 #   Python standard library
 from typing import TypeAlias
 from abc import ABC, abstractproperty, abstractmethod

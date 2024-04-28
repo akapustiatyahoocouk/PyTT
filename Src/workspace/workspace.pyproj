@@ -21,6 +21,8 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="implementation\BusinessObject.py" />
+    <Compile Include="implementation\Capabilities.py" />
     <Compile Include="implementation\WorkspaceSettings.py" />
     <Compile Include="implementation\Exceptions.py" />
     <Compile Include="implementation\Workspace.py" />

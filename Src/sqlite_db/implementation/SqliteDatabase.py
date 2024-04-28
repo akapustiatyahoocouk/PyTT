@@ -108,27 +108,31 @@ class SqliteDatabase(SqlDatabase):
     ##########
     #   SqlDatabase - Overridables (database engine - specific)
     def begin_transaction(self) -> None:
+        self._ensure_open() # may raise DatabaseError
         try:
             self.__connection.execute("begin")
         except Exception as ex:
             #   TODO log ?
-            raise DatabaseError(str(ex)) from ex
+            raise DatabaseError.wrap(ex)
 
     def commit_transaction(self) -> None:
+        self._ensure_open() # may raise DatabaseError
         try:
             self.__connection.execute("commit")
         except Exception as ex:
             #   TODO log ?
-            raise DatabaseError(str(ex)) from ex
+            raise DatabaseError.wrap(ex)
 
     def rollback_transaction(self) -> None:
+        self._ensure_open() # may raise DatabaseError
         try:
             self.__connection.execute("rollback")
         except Exception as ex:
             #   TODO log ?
-            raise DatabaseError(str(ex)) from ex
+            raise DatabaseError.wrap(ex)
 
     def execute_sql(self, sql: str) -> None:
+        self._ensure_open() # may raise DatabaseError
         assert isinstance(sql, str)
 
         try:
@@ -149,5 +153,5 @@ class SqliteDatabase(SqlDatabase):
                 self.__connection.execute(sql)
         except Exception as ex:
             #   TODO log ?
-            raise DatabaseError(str(ex)) from ex
+            raise DatabaseError.wrap(ex)
 

@@ -2,6 +2,8 @@
 
 ##########
 #   Public entities
+from workspace.implementation.BusinessObject import *
+from workspace.implementation.Capabilities import *
 from workspace.implementation.Credentials import *
 from workspace.implementation.CurrentCredentials import *
 from workspace.implementation.Exceptions import *

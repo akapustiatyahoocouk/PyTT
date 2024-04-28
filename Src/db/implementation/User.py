@@ -20,6 +20,12 @@ class User(DatabaseObject):
     ##########
     #   Constants
     TYPE_NAME = "User"
+    ENABLED_PROPERTY_NAME = "enabled"
+    REAL_NAME_PROPERTY_NAME = "realName"
+    INACTIVITY_TIMEOUT_PROPERTY_NAME = "inactivityTimeout"
+    UI_LOCALE_PROPERTY_NAME = "uiLocale"
+    EMAIL_ADDRESSES_PROPERTY_NAME = "emailAddresses"
+    ACCOUNTS_ASSOCIATION_NAME = "accounts"
 
     ##########
     #   UI traits

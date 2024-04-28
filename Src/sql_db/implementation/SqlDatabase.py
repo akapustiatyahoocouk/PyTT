@@ -24,14 +24,16 @@ class SqlDatabase(Database):
     #   Database - Operations (general)
     def close(self) -> None:
         for (oid, obj) in self.__objects:
-            obj._SqlDatabaseObject__live = False
+            obj._invalidate_property_cache()
+            obj._mark_dead()
 
     ##########
     #   Database - Operations (associations)
     def try_login(self, login: str, password: str) -> Optional[Account]:
+        self._ensure_open() # may raise DatabaseError
         assert isinstance(login, str)
         assert isinstance(password, str)
-
+        
         sha1 = hashlib.sha1()
         sha1.update(password.encode("utf-8"))
         password_hash = sha1.hexdigest().upper()
@@ -157,6 +159,7 @@ class SqlDatabase(Database):
     ##########
     #   Operations
     def execute_script(self, script: str) -> None:
+        self._ensure_open() # may raise DatabaseError
         assert isinstance(script, str)
 
         #   First, we must break "script" into individual statements:
@@ -243,6 +246,7 @@ class SqlDatabase(Database):
             @raise DatabaseError:
                 If an error occurs (e.g. invalid sql_template syntax, etc.)
         """
+        self._ensure_open() # may raise DatabaseError
         assert isinstance(sql_template, str)
 
         sql_template = sql_template.strip()
@@ -294,7 +298,7 @@ class SqlDatabase(Database):
                     case _:
                         raise NotImplementedError()
         except Exception as ex:
-            raise DatabaseError(str(ex)) from ex
+            raise DatabaseError.wrap(ex)
 
     ##########
     #   Database - Operations (life cycle)
@@ -304,6 +308,7 @@ class SqlDatabase(Database):
                     inactivity_timeout: Optional[int] = None,
                     ui_locale: Optional[Locale] = None,
                     email_addresses: List[str] = []) -> "User":
+        self._ensure_open() # may raise DatabaseError
         assert isinstance(enabled, bool)
         assert isinstance(real_name, str)
         assert (inactivity_timeout is None) or isinstance(inactivity_timeout, int)
@@ -339,10 +344,14 @@ class SqlDatabase(Database):
             return self._get_user_proxy(user_oid)
         except Exception as ex:
             self.rollback_transaction()
-            raise DatabaseError(str(ex)) from ex
+            raise DatabaseError.wrap(ex)
 
     ##########
     #   Implementation helpers (internal use only)
+    def _ensure_open(self) -> None:
+        if not self.is_open:
+            raise ObjectDeadError("Database")
+
     def _get_user_proxy(self, oid: OID) -> User:
         from .SqlUser import SqlUser
         obj = self.__objects.get(oid, None)

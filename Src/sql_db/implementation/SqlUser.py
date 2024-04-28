@@ -147,10 +147,16 @@ class SqlUser(SqlDatabaseObject, User):
             stat2.execute()
 
             self.database.commit_transaction()
-            return self.database._get_account_proxy(account_oid)
+            account = self.database._get_account_proxy(account_oid)
+            
+            #   Schedule change notifications
+            #   TODO
+            
+            #   Done
+            return account
         except Exception as ex:
             self.database.rollback_transaction()
-            raise DatabaseError(str(ex)) from ex
+            raise DatabaseError.wrap(ex)
 
     ##########
     #   Property cache support

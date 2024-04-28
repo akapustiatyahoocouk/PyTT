@@ -50,4 +50,4 @@ class SqlSelectStatement(SqlStatement):
             return self.database.execute_sql(self.prepared_sql)
         except Exception as ex:
             #   TODO log ?
-            raise DatabaseError(str(ex)) from ex
+            raise DatabaseError.wrap(ex)

@@ -4,6 +4,7 @@
 
 #   Python standard library
 from typing import final
+from weakref import WeakKeyDictionary, WeakValueDictionary
 
 #   Dependencies on other PyTT components
 from util.interface.api import *
@@ -14,6 +15,7 @@ from .WorkspaceType import WorkspaceType
 from .WorkspaceAddress import WorkspaceAddress
 from .Exceptions import WorkspaceError
 from .Credentials import Credentials
+from .BusinessObject import BusinessObject
 
 ##########
 #   Public entities
@@ -57,6 +59,8 @@ class Workspace(metaclass=WorkspaceMeta):
 
         self.__address = address
         self.__db = db
+        self.__map_data_objects_to_business_objects = WeakValueDictionary()
+        self.__access_rights = WeakKeyDictionary()  #   Credentials -> Capabilities
 
     ##########
     #   Properties
@@ -92,6 +96,36 @@ class Workspace(metaclass=WorkspaceMeta):
             self.__db.close()
         except Exception as ex:
             raise WorkspaceError(str(ex)) from ex
+
+    ##########
+    #   Operations (access control)
+    def get_capabilities(self, credentials: Credentials) -> Capabilities:
+        """
+            Returns the Capabilities granted by the specified
+            user credentials.
+            
+            @param credentials:
+                The user credentials.
+            @return:
+                The Capabilities granted by the specified user
+                credentials, can be Capabilities.NONE if the
+                specfied credentials are e.g. not in the database.
+            @raise WorkspaceError:
+                If a data access error occurs.
+        """
+        self._ensure_live() # may raise WorkspaceError
+        assert isinstance(credentials, Credentials)
+        
+        capabilities = self.__access_rights.get(credentials, None)
+        if capabilities is None:
+            try:
+                data_account = self.__data_object.database.try_login(credentials.login, credentials.__password)
+                capabilities = data_account.capabilities if data_account is not None else Capabilities.NONE
+                self.__access_rights[credentials] = capabilities
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
+        return capabilities
+
 
     ##########
     #   Operations (associations)
@@ -208,5 +242,18 @@ class Workspace(metaclass=WorkspaceMeta):
 
     ##########
     #   Implementation helpers
-    def _get_business_proxy(self, data_object: DatabaseObject) -> "BusinessObject":
-        raise NotImplementedError()
+    def _get_business_proxy(self, data_object: DatabaseObject) -> BusinessObject:
+        assert isinstance(data_object, DatabaseObject)
+        business_object = self.__map_data_objects_to_business_objects.get(data_object, None)
+        if business_object is None:
+            #   Need to create a new business proxy for the data_object
+            if isinstance(data_object, User):
+                raise NotImplementedError()
+            elif isinstance(data_object, Account):
+                raise NotImplementedError()
+            else:
+                raise NotImplementedError()
+        else:
+            #   Business proxy already exists - make sure it's valid
+            assert business_object._data_object is data_object
+            return business_object

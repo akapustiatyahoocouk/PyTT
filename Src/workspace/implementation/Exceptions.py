@@ -21,9 +21,9 @@ class WorkspaceError(Exception):
     def wrap(ex: Exception) -> "WorkspaceError":
         if isinstance(ex, WorkspaceError):
             return ex
-        #   TODO implement properly, setting __cause__ as well
-        return WorkspaceError(str(ex))
-
+        result = WorkspaceError(str(ex))
+        result.__cause__ = ex
+        return result
 
 class InvalidWorkspaceAddressError(WorkspaceError):
     """ Thrown when an invalid workspace address is supplied to a db API service. """
@@ -32,3 +32,11 @@ class InvalidWorkspaceAddressError(WorkspaceError):
     #   Construction
     def __init__(self):
         super().__init__('Invalid workspace address')
+
+class AccessDeniedError(WorkspaceError):
+    """ Thrown when a login attempt fails. """
+
+    ##########
+    #   Construction
+    def __init__(self):
+        super().__init__("Access denied")

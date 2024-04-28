@@ -19,6 +19,12 @@ class Account(DatabaseObject):
     ##########
     #   Constants
     TYPE_NAME = "Account"
+    ENABLED_PROPERTY_NAME = "enabled"
+    LOGIN_PROPERTY_NAME = "login"
+    PASSWORD_PROPERTY_NAME = "password"
+    CAPABILITIES_PROPERTY_NAME = "capabulities"
+    EMAIL_ADDRESSES_PROPERTY_NAME = "emailAddresses"
+    USER_ASSOCIATION_NAME = "user"
 
     ##########
     #   UI traits
