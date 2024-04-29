@@ -62,15 +62,14 @@ class PreferencesDialog(Dialog):
             image=GuiResources.image("PreferencesDialog.CancelButton.Icon"))
 
         #   Create dynamic controls
-        self.__map_tree_node_ids_to_preferences = dict()
         self.__map_preferences_to_editors = dict()
         self.__map_preferences_to_tab_pane_indices = dict()
-        self.__populate_preferences_tree("", Preferences.ROOT)
+        self.__populate_preferences_tree(None, Preferences.ROOT)
 
         #   Adjust control
         self.__preferences_tabbed_pane.focusable = False
         if GuiSettings.current_preferences is not None:
-            self.__select_preferences_node(None, GuiSettings.current_preferences)
+            self.__select_preferences_node(self.__preferences_tree_view.root_nodes, GuiSettings.current_preferences)
 
         #   Set up control structure
         self.__controls_panel.pack(fill=tk.X, padx=0, pady=0)
@@ -103,8 +102,8 @@ class PreferencesDialog(Dialog):
     ##########
     #   Refreshable
     def refresh(self) -> None:
-        focus_node_id = self.__preferences_tree_view.focused_item
-        preferences = self.__map_tree_node_ids_to_preferences.get(focus_node_id, None)
+        focused_node = self.__preferences_tree_view.focused_node
+        preferences = focused_node.tag if focused_node is not None else None
         editor = self.__map_preferences_to_editors.get(preferences, None)
         
         if preferences is None:
@@ -134,13 +133,15 @@ class PreferencesDialog(Dialog):
             #   ... then sub-children
             self.__record_preference_values(child)
 
-    def __populate_preferences_tree(self, parent_item: str, preferences: Preferences):
+    def __populate_preferences_tree(self, parent_node: TreeNode, preferences: Preferences):
         children = list(preferences.children)
         self.__sort_preferences(children)
         for child in children:
             #   Do this child...
-            child_node_id = self.__preferences_tree_view.insert(parent_item, tk.END, text=child.display_name)
-            self.__map_tree_node_ids_to_preferences[child_node_id] = child
+            if parent_node is None:
+                child_node = self.__preferences_tree_view.root_nodes.add(child.display_name, tag=child)
+            else:
+                child_node = parent_node.child_nodes.add(child.display_name, tag=child)
             editor = child.create_editor(self.__preferences_tabbed_pane)
             self.__map_preferences_to_editors[child] = editor
             if editor is not None:
@@ -148,7 +149,7 @@ class PreferencesDialog(Dialog):
                 self.__preferences_tabbed_pane.add(editor, state="normal", text=preferences.qualified_name)
                 self.__map_preferences_to_tab_pane_indices[child] = editor_tab_index
             #   ... then sub-children
-            self.__populate_preferences_tree(child_node_id, child)
+            self.__populate_preferences_tree(child_node, child)
 
     def __sort_preferences(self, elements: List[Preferences]) -> None:
         if len(elements) <= 1:
@@ -161,22 +162,22 @@ class PreferencesDialog(Dialog):
         elements.extend(sorted_by_order)
         elements.extend(sorted_by_name)
     
-    def __select_preferences_node(self, parent_node_id: Any, preferences: Preferences) -> bool:
-        for node in self.__preferences_tree_view.get_children(parent_node_id):
-            if self.__map_tree_node_ids_to_preferences[node] == preferences:
-                self.__preferences_tree_view.see(node)
-                self.__preferences_tree_view.selection_set([node])
+    def __select_preferences_node(self, parent_nodes: TreeNodeCollection, preferences: Preferences) -> bool:
+        for node in parent_nodes:
+            if node.tag == preferences:
+                self.__preferences_tree_view.see(node._TreeNode__tk_node_id)    #   TODO use awt.TreeView API
+                self.__preferences_tree_view.selection_set([node._TreeNode__tk_node_id])    #   TODO use awt.TreeView API
                 self.request_refresh()
                 return True
-            if self.__select_preferences_node(node, preferences):
+            if self.__select_preferences_node(node.child_nodes, preferences):
                 return True
         return False
             
     ##########
     #   Event listeners
     def __preferences_tree_view_listener(self, evt: ItemEvent):
-        focus_node_id = self.__preferences_tree_view.focused_item
-        preferences = self.__map_tree_node_ids_to_preferences.get(focus_node_id, None)
+        focused_node = self.__preferences_tree_view.focused_node
+        preferences = focused_node.tag if focused_node is not None else None
         GuiSettings.current_preferences = preferences
         self.request_refresh()
 

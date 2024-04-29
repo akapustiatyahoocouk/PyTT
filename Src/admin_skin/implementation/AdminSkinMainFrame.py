@@ -25,6 +25,8 @@ class AdminSkinMainFrame(Frame,
         WidgetEventHandler.__init__(self)
         WindowEventHandler.__init__(self)
 
+        self.__views = []   #   parallel to the self.__views_tabbed_pane
+        
         self.__action_set = ActionSet()
 
         self.__file_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "FileMenu")
@@ -60,14 +62,11 @@ class AdminSkinMainFrame(Frame,
         self.__regenerate_dynamic_menus()
 
         #   Create controls
-        self.__views_tabbed_name = TabbedPane(self)
-        self.__views_tabbed_name.focusable = False
-        self.__views_tabbed_name.pack(expand=True, fill=tk.BOTH, padx=0, pady=0)
-        self.__views_tabbed_name.add(Label(self.__views_tabbed_name, background="red"), state="normal", text='text 1')
-        self.__views_tabbed_name.add(Label(self.__views_tabbed_name, background="green"), state="normal", text='text 2')
-        self.__views_tabbed_name.add(Label(self.__views_tabbed_name, background="blue"), state="normal", text='text 3')
+        self.__views_tabbed_pane = TabbedPane(self)
+        self.__views_tabbed_pane.focusable = False
 
         #   Set up control structure
+        self.__views_tabbed_pane.pack(expand=True, fill=tk.BOTH, padx=0, pady=0)
 
         #   Restore position & state
         self.__load_position()
@@ -153,10 +152,20 @@ class AdminSkinMainFrame(Frame,
     def open_view(self, view_type: ViewType) -> View:
         assert isinstance(view_type, ViewType)
 
-        #   If there already exists a view of this type in this
-        #   frame, just select it as "current"...
-        #   ...otherwise create a new view
-
+        #   If there already exists a view of this type in this frame...
+        for i in range(len(self.__views)):
+            if self.__views[i].type == view_type:
+                #   ...then just select it as "current"...
+                self.__views_tabbed_pane.select(i)
+                return self.__views[i]
+        #   ...otherwise create a new view...
+        view = view_type.create_view(self.__views_tabbed_pane)
+        self.__views.append(view)
+        self.__views_tabbed_pane.add(view, state="normal", text=view.type.display_name)
+        #   ...and select it as "current"...
+        self.__views_tabbed_pane.select(len(self.__views) - 1)
+        return view
+    
     ##########
     #   Implementation helpers
     def __load_position(self):
@@ -196,4 +205,7 @@ class AdminSkinMainFrame(Frame,
 
     def __on_locale_changed(self, evt) -> None:
         assert isinstance(evt, PropertyChangeEvent)
+        #   TODO tab names of the self.__views_tabbed_pane must be 
+        #   localized, because they are actually display names of view types
+        #   e.g. self.__views_tabbed_pane.tab(tabWidget, text = 'myNewText')
         self.request_refresh()

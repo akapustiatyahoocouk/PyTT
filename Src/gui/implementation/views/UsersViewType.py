@@ -62,6 +62,8 @@ class UsersViewType(ViewType):
     #   Operations
     def create_view(self, parent: tk.BaseWidget) -> View:
         assert isinstance(parent, tk.BaseWidget)
+
+        from .UsersView import UsersView
         return UsersView(parent)
 
 ##########
