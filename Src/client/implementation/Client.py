@@ -1,4 +1,5 @@
 """ PyTT Client launcher. """
+
 #   Python standard library
 from typing import final
 import sys
@@ -6,10 +7,12 @@ import os.path
 from datetime import datetime, UTC
 import threading
 
-#   Dependencies on other PyTT components
-root_directory = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-print("Starting PyTT from", root_directory)
-sys.path.insert(0, root_directory)  #   TODO THIS HAPPENS TWICE - HERE AND FROM PLUGINLOADER
+#   Dependencies on other PyTT components.
+#   IMPORTANT: We need to adjust the sys.path to find them!
+if __name__ == "__main__":
+    root_directory = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+    print("Starting PyTT from", root_directory)
+    sys.path.insert(0, root_directory)  #   TODO THIS HAPPENS TWICE - HERE AND FROM PLUGINLOADER
 
 from gui.interface.api import *
 from awt.interface.api import *
@@ -18,6 +21,9 @@ from pnp.interface.api import *
 from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
+#   NOTE that we can't use relative import "from .CommandLine ...",
+#   because when __name__ == "__main__" (PyTT client invoked as
+#   an application) there is no root module to be relative to.
 from client.implementation.CommandLine import CommandLine
 from client.implementation.GeneralStartupPreferences import GeneralStartupPreferences
 
@@ -137,16 +143,8 @@ class SplashScreen: #   TODO move to a separate file
 #     sys.exit()
 
 ##########
-#   PyTT entry point
-if __name__ == "__main__":
-
-    print('Python is', sys.version_info)
-    print('System locale is', Locale.default)
-    print("Main thread is " + str(threading.current_thread().ident))
-
-    CommandLine.parse()
-
-    #   Load plugins (showing splash screen if necessary)
+#   Implementation yhelpers
+def load_plugins():
     if CommandLine.show_splash_screen:
         splash_start_time = datetime.now(UTC)
         SplashScreen.show()
@@ -161,11 +159,7 @@ if __name__ == "__main__":
                 SplashScreen.hide()
                 break
     
-    #   Now that all plugins are loaded, the Preferences
-    #   tree is complete, so we can load all Preferences        
-    Preferences.load()
-
-    #   Perform initial login; use last successful login is necessary
+def perform_initial_login():
     login = ""
     if GeneralStartupPreferences.instance.use_last_login.value:
         login = GuiSettings.last_login
@@ -176,20 +170,67 @@ if __name__ == "__main__":
             sys.exit()
         CurrentCredentials.set(dlg.credentials)
 
-    #   Do we need to re-load the last used workspace?
-    if GeneralStartupPreferences.instance.restore_workspace.value:
-        workspace_address = WorkspaceSettings.last_workspace_address
+def open_last_used_workspace():
+    workspace_address = WorkspaceSettings.last_workspace_address
+    if workspace_address is None:
+        return
+    workspace = None
+    while True:
         try:
-            workspace = workspace_address.workspace_type.open_workspace(workspace_address)
+            if workspace is None:
+                workspace = workspace_address.workspace_type.open_workspace(workspace_address)
             workspace.login(credentials=CurrentCredentials.get())
             Workspace.current = workspace
+            return
         except WorkspaceAccessDeniedError as ex:
-            #TODO ? workspace.close()
-            ErrorDialog.show(None, ex)
-        except Exception as ex:
-            #TODO ? workspace.close()
-            ErrorDialog.show(None, ex)
-        pass
+            title = GuiResources.string("CannotAccessWorkspaceDialog.Title")
+            message = GuiResources.string("CannotAccessWorkspaceDialog.Message").format(workspace_address.display_form)
+            if MessageBox.show(None, 
+                               title,
+                               message,
+                               MessageBoxIcon.QUESTION,
+                               MessageBoxButtons.YES_NO) == MessageBoxResult.YES:
+                perform_initial_login()
+                continue
+            workspace.close()
+            return
+        except Exception as ex1:
+            workspace.close()
+            ErrorDialog.show(None, ex1)
+            title = GuiResources.string("CannotOpenWorkspaceDialog.Title")
+            message = GuiResources.string("CannotOpenWorkspaceDialog.Message").format(workspace_address.display_form)
+            if MessageBox.show(None, 
+                               title,
+                               message,
+                               MessageBoxIcon.QUESTION,
+                               MessageBoxButtons.YES_NO) == MessageBoxResult.YES:
+                pass    # TODO do it!
+            return
+    
+##########
+#   PyTT entry point
+if __name__ == "__main__":
+
+    print('Python is', sys.version_info)
+    print('System locale is', Locale.default)
+    print("Main thread is " + str(threading.current_thread().ident))
+
+    CommandLine.parse()
+
+    #   Load plugins (showing splash screen if necessary)
+    load_plugins()
+    
+    #   Now that all plugins are loaded, the Preferences
+    #   tree is complete, so we can load all Preferences        
+    Preferences.load()
+
+    #   Perform initial login; use last successful login if necessary
+    perform_initial_login()
+
+    #   Do we need to re-load the last used workspace?
+    if GeneralStartupPreferences.instance.restore_workspace.value:
+        open_last_used_workspace()
+
     #   Select the initial skin TODO properly - use active skin from previous session!
     ActiveSkin.set(SkinRegistry.default_skin)
 

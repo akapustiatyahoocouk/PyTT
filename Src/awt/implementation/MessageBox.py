@@ -2,6 +2,7 @@
 #   Python standard library
 import tkinter as tk
 from enum import Enum
+from turtle import bgcolor
 
 #   Internal dependencies on modules within the same component
 from .ActionEvent import ActionEvent
@@ -122,7 +123,7 @@ class MessageBox(Dialog):
             case MessageBoxIcon.ERROR:
                 self.__pic1 = Label(self.__pan1,
                                     image = AwtResources.image("MessageBox.ErrorIcon"))
-        self.__text = Label(self.__pan2, text=str(message))
+        self.__text = Label(self.__pan2, text=str(message), justify=tk.CENTER)
 
         self.__separator = Separator(self, orient="horizontal")
 
@@ -138,6 +139,13 @@ class MessageBox(Dialog):
                 self.__cancel_button = Button(self,
                     text=AwtResources.string("MessageBox.CancelButton.Text"),
                     image=AwtResources.image("MessageBox.CancelButton.Icon"))
+            case MessageBoxButtons.YES_NO:
+                self.__yes_button = Button(self,
+                    text=AwtResources.string("MessageBox.YesButton.Text"),
+                    image=AwtResources.image("MessageBox.YesButton.Icon"))
+                self.__no_button = Button(self,
+                    text=AwtResources.string("MessageBox.NoButton.Text"),
+                    image=AwtResources.image("MessageBox.NoButton.Icon"))
             case _:
                 raise NotImplementedError()
 
@@ -156,6 +164,9 @@ class MessageBox(Dialog):
             case MessageBoxButtons.OK_CANCEL:
                 self.__cancel_button.pack(side=tk.RIGHT, padx=0, pady=0)
                 self.__ok_button.pack(side=tk.RIGHT, padx=0, pady=0)
+            case MessageBoxButtons.YES_NO:
+                self.__no_button.pack(side=tk.RIGHT, padx=0, pady=0)
+                self.__yes_button.pack(side=tk.RIGHT, padx=0, pady=0)
             case _:
                 raise NotImplementedError()
 
@@ -170,6 +181,11 @@ class MessageBox(Dialog):
                 self.cancel_button = self.__cancel_button
                 self.__ok_button.add_action_listener(self.__on_ok)
                 self.__cancel_button.add_action_listener(self.__on_cancel)
+            case MessageBoxButtons.YES_NO:
+                self.ok_button = self.__yes_button
+                self.cancel_button = self.__no_button
+                self.__yes_button.add_action_listener(self.__on_yes)
+                self.__no_button.add_action_listener(self.__on_no)
             case _:
                 raise NotImplementedError()
 
@@ -191,7 +207,7 @@ class MessageBox(Dialog):
              title: str,
              message: str,
              icon: MessageBoxIcon = MessageBoxIcon.NONE,
-             buttons: MessageBoxButtons = MessageBoxButtons.OK):
+             buttons: MessageBoxButtons = MessageBoxButtons.OK) -> MessageBoxResult:
         """ 
             Displays a modal message box.
 
@@ -205,9 +221,12 @@ class MessageBox(Dialog):
                 The icon for the message box; must not be None.
             @param buttons:
                 The message box buttons to display; must not be None.
+            @return:
+                The user's choice.
         """
         with MessageBox(parent, title, message, icon, buttons) as mb:
             mb.do_modal()
+            return mb.result
 
     ##########
     #   Event listeners
@@ -219,4 +238,14 @@ class MessageBox(Dialog):
     def __on_cancel(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)
         self.__result = MessageBoxResult.CANCEL
+        self.end_modal()
+
+    def __on_yes(self, evt: ActionEvent) -> None:
+        assert isinstance(evt, ActionEvent)
+        self.__result = MessageBoxResult.YES
+        self.end_modal()
+
+    def __on_no(self, evt: ActionEvent) -> None:
+        assert isinstance(evt, ActionEvent)
+        self.__result = MessageBoxResult.NO
         self.end_modal()

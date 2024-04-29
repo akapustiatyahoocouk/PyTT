@@ -83,6 +83,28 @@ class FileResourceBundle(ResourceBundle):
 
     ##########
     #   Implementation helpers
+    def __process_escapes(self, s: str) -> str:
+        scan = 0
+        result = ""
+        while scan < len(s):
+            if s[scan] == "\\":
+                scan += 1
+                if scan >= len(s):
+                    return result   #   TODO an orphaned \ before EOLN
+                elif s[scan] == "n":
+                    result += "\n"
+                    scan += 1
+                elif s[scan] == "t":
+                    result += "\t"
+                    scan += 1
+                else:
+                    result += s[scan]   #   \\, \?, etc.
+                    scan += 1
+            else:
+                result += s[scan]
+                scan += 1
+        return result
+    
     def __prepare_resource(self, resource_definition: str) -> (ResourceType, Any):
         assert isinstance(resource_definition, str)
 
@@ -100,4 +122,4 @@ class FileResourceBundle(ResourceBundle):
                 return (ResourceType.STRING, f.read())
             #   TODO shortcuts, etc.
         else:
-            return (ResourceType.STRING, resource_definition)
+            return (ResourceType.STRING, self.__process_escapes(resource_definition))

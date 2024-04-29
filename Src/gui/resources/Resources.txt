@@ -109,3 +109,9 @@ OpenWorkspaceDialog.OkButton.Text=OK
 OpenWorkspaceDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 OpenWorkspaceDialog.CancelButton.Text=Cancel
 OpenWorkspaceDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+
+CannotAccessWorkspaceDialog.Title=Could not reopen last workspace
+CannotAccessWorkspaceDialog.Message=The login credentials do not permit accessing the workspace\n{0}.\nWould you like to re-login as a different user?
+
+CannotOpenWorkspaceDialog.Title=Could not reopen last workspace
+CannotOpenWorkspaceDialog.Message=Would you like to remove the workspace\n{0}\nfrom recent workspaces list?

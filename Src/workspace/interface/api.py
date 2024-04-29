@@ -7,7 +7,6 @@ from workspace.implementation.BusinessObject import *
 from workspace.implementation.BusinessUser import *
 from workspace.implementation.Capabilities import *
 from workspace.implementation.Credentials import *
-from workspace.implementation.CurrentCredentials import *
 from workspace.implementation.Exceptions import *
 from workspace.implementation.Notifications import *
 from workspace.implementation.Workspace import *

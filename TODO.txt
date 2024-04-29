@@ -29,10 +29,8 @@
 *   Add context (right click) menu to awt TextField and other text
     entry fields, with Copy, Cut, Parse, etc. For disabled text
     entry widgets only Copy shall work.
-*   Teach FileResourceBundle to handle escape sequences in string
-    resources, such as '\t' and '\n'. The \ itself must then be
-    represented as '\\' in a resource text file. The '\' at the
-    end of the line shoube be treated as a continuation line.
+*   In FileResourceBundle the '\' at the end of the line shoube 
+    be treated as a continuation line.
 *   In many places in code there is "pass". Check on these - usually
     they silence the exception handlers; at least print the 
     exceptions as a red flag for debug runs, and log them too for

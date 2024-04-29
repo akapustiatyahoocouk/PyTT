@@ -13,3 +13,7 @@ MessageBox.OkButton.Text=OK
 MessageBox.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 MessageBox.CancelButton.Text=Cancel
 MessageBox.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+MessageBox.YesButton.Text=Yes
+MessageBox.YesButton.Icon=ImageFile:images/actions/OkSmall.png
+MessageBox.NoButton.Text=No
+MessageBox.NoButton.Icon=ImageFile:images/actions/CancelSmall.png

@@ -47,6 +47,7 @@
     <Compile Include="implementation\dialogs\OpenWorkspaceDialog.py" />
     <Compile Include="implementation\dialogs\CreateWorkspaceDialog.py" />
     <Compile Include="implementation\dialogs\PreferencesDialog.py" />
+    <Compile Include="implementation\misc\CurrentCredentials.py" />
     <Compile Include="implementation\misc\GuiSettings.py" />
     <Compile Include="interface\api.py" />
     <Compile Include="implementation\dialogs\AboutDialog.py" />
