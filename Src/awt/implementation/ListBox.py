@@ -80,7 +80,6 @@ class ListBox(Panel,
         #   TODO scrollbars
 
         #   Set up control structure
-        #scrollbar.pack(side="right", fill="y")
         self.__tree_view.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
         #   Set up event handlers

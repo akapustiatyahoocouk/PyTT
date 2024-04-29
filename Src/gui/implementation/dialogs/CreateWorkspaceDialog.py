@@ -44,6 +44,8 @@ class CreateWorkspaceDialog(Dialog):
                         parent,
                         GuiResources.string("CreateWorkspaceDialog.Title"))
 
+        self.__selected_workspace_type = None
+        self.__selected_workspace_address = None
         self.__result = CreateWorkspaceDialogResult.CANCEL
         self.__workspace = None
 
@@ -105,14 +107,12 @@ class CreateWorkspaceDialog(Dialog):
         #   Adjust controls
         self.__workspace_type_combo_box.editable = False
         for ws_type in WorkspaceType.all:
-            self.__workspace_type_combo_box.items.add(ws_type)
+            self.__workspace_type_combo_box.items.add(ws_type.display_name, tag=ws_type)
         if len(self.__workspace_type_combo_box.items) > 0:
             self.__workspace_type_combo_box.selected_index = 0  #   TODO last created ws type
+            self.__selected_workspace_type = self.__workspace_type_combo_box.selected_item.tag
 
         self.__workspace_address_text_field.readonly = True
-
-        self.__selected_workspace_type = self.__workspace_type_combo_box.selected_item
-        self.__selected_workspace_address = None
 
         self.__use_current_credentials_radio_button.checked = True
         self.__admin_password1_text_field.password_entry = True
@@ -207,9 +207,9 @@ class CreateWorkspaceDialog(Dialog):
     ##########
     #   Event listeners
     def __on_workspace_type_changed(self, evt: ItemEvent) -> None:
-        wt = self.__workspace_type_combo_box.selected_item
-        if wt != self.__selected_workspace_type:
-            self.__selected_workspace_type = wt
+        selected_item = self.__workspace_type_combo_box.selected_item
+        if (selected_item is not None) and (selected_item.tag != self.__selected_workspace_type):
+            self.__selected_workspace_type = selected_item.tag
             self.__selected_workspace_address = None
             self.__workspace_address_text_field.text = ""
             self.request_refresh()

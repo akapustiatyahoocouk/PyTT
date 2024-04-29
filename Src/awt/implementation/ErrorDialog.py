@@ -73,7 +73,7 @@ class ErrorDialog(Dialog):
 
         #   Set up control structure
         self.__controls_panel.pack(fill=tk.X, padx=0, pady=0)
-        self.__list_box.pack(side=tk.LEFT, padx=0, pady=0)
+        self.__list_box.pack(side=tk.LEFT, padx=0, pady=0, fill=tk.Y)
         self.__tabbed_pane.pack(fill=tk.X, padx=0, pady=0)
 
         self.__separator.pack(fill=tk.X, padx=0, pady=4)

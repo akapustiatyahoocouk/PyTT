@@ -42,6 +42,8 @@ class OpenWorkspaceDialog(Dialog):
                         parent,
                         GuiResources.string("OpenWorkspaceDialog.Title"))
 
+        self.__selected_workspace_type = None
+        self.__selected_workspace_address = None
         self.__result = OpenWorkspaceDialogResult.CANCEL
         self.__workspace = None
 
@@ -73,14 +75,12 @@ class OpenWorkspaceDialog(Dialog):
         #   Adjust controls
         self.__workspace_type_combo_box.editable = False
         for ws_type in WorkspaceType.all:
-            self.__workspace_type_combo_box.items.add(ws_type)
+            self.__workspace_type_combo_box.items.add(ws_type.display_name, tag=ws_type)
         if len(self.__workspace_type_combo_box.items) > 0:
             self.__workspace_type_combo_box.selected_index = 0  #   TODO last opened ws type
+            self.__selected_workspace_type = self.__workspace_type_combo_box.selected_item.tag
 
         self.__workspace_address_text_field.readonly = True
-
-        self.__selected_workspace_type = self.__workspace_type_combo_box.selected_item
-        self.__selected_workspace_address = None
 
         #   Set up control structure
         self.__controls_panel.pack(fill=tk.X, padx=0, pady=0)
@@ -135,9 +135,9 @@ class OpenWorkspaceDialog(Dialog):
     ##########
     #   Event listeners
     def __on_workspace_type_changed(self, evt: ItemEvent) -> None:
-        wt = self.__workspace_type_combo_box.selected_item
-        if wt != self.__selected_workspace_type:
-            self.__selected_workspace_type = wt
+        selected_item = self.__workspace_type_combo_box.selected_item
+        if (selected_item is not None) and (selected_item.tag != self.__selected_workspace_type):
+            self.__selected_workspace_type = selected_item.tag
             self.__selected_workspace_address = None
             self.__workspace_address_text_field.text = ""
             self.request_refresh()

@@ -32,7 +32,7 @@ class TreeNode:
         self.__image = image
         self.__tag = tag
 
-        self.__parent = None    #   TreeNode for bound non-root nodes
+        self.__parent_node = None    #   TreeNode for bound non-root nodes
         self.__child_nodes = TreeNodeCollection(self)
         self.__tree_view = None #   None for free tree nodes
 
@@ -51,8 +51,8 @@ class TreeNode:
         return self.__tag
 
     @property
-    def parent(self) -> str:
-        return self.__parent
+    def parent_node(self) -> str:
+        return self.__parent_node
 
     @property
     def child_nodes(self) -> "TreeNodeCollection":
@@ -100,11 +100,11 @@ class TreeNodeCollection:
             #   Create a new, initially bound, tree node
             node = TreeNode(item, image, tag)
             assert node.tree_view is None
-            assert node.parent is None
+            assert node.parent_node is None
             #   Add the newly created tree node to this tree node collection
             self.__members.append(node)
             if isinstance(self.__owner, TreeNode):
-                node.__parent = self.__owner
+                node._TreeNode__parent_node = self.__owner
             #   If this tree node collection is part of a TreeView,
             #   bind the newly created node to the TreeView
             if isinstance(self.__owner, TreeNode) and (self.__owner.tree_view is not None):
@@ -159,8 +159,8 @@ class TreeView(ttk.Treeview,
         return self.__root_nodes
 
     @property
-    def focused_node(self) -> Optional[TreeNode]:
-        """ The currently focused tree node, None if there isn't one. """
+    def current_node(self) -> Optional[TreeNode]:
+        """ The currently highlighted tree node, None if there isn't one. """
         focus = self.selection()
         return self.__find_tree_node_by_tk_id(self.__root_nodes, focus[0]) if len(focus) > 0 else None
 
@@ -179,7 +179,7 @@ class TreeView(ttk.Treeview,
     #   Tk event handlers
     def __on_tk_treeview_selected(self, evt: tk.Event):
         assert isinstance(evt, tk.Event)
-        if self.focused_node is not None:
+        if self.current_node is not None:
             self.process_item_event(ItemEvent(self, ItemEventType.ITEM_SELECTED))
         else:
             self.process_item_event(ItemEvent(self, ItemEventType.ITEM_UNSELECTED))

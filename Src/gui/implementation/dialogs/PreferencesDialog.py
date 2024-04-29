@@ -102,8 +102,8 @@ class PreferencesDialog(Dialog):
     ##########
     #   Refreshable
     def refresh(self) -> None:
-        focused_node = self.__preferences_tree_view.focused_node
-        preferences = focused_node.tag if focused_node is not None else None
+        current_node = self.__preferences_tree_view.current_node
+        preferences = current_node.tag if current_node is not None else None
         editor = self.__map_preferences_to_editors.get(preferences, None)
         
         if preferences is None:
@@ -176,8 +176,8 @@ class PreferencesDialog(Dialog):
     ##########
     #   Event listeners
     def __preferences_tree_view_listener(self, evt: ItemEvent):
-        focused_node = self.__preferences_tree_view.focused_node
-        preferences = focused_node.tag if focused_node is not None else None
+        current_node = self.__preferences_tree_view.current_node
+        preferences = current_node.tag if current_node is not None else None
         GuiSettings.current_preferences = preferences
         self.request_refresh()
 

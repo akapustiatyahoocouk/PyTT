@@ -12,6 +12,38 @@ from .ItemEventProcessorMixin import ItemEventProcessorMixin
 
 ##########
 #   Public entities
+class ComboBoxItem:
+    """ A single itemof a ComboBox. Can be either free (not
+        currently used by any ComboBox) or bound (used by
+        exactly 1 ComboBox. All ComboBoxItems are created as free
+        ComboBox items and are then addedd to a ComboBox, binding
+        them there, although some services can combine these 2
+        operations in one call. """
+
+    ##########
+    #   Construction
+    def __init__(self, text: str = "", tag: Any = None) -> None:
+        assert isinstance(text, str)
+
+        self.__text = text
+        self.__tag = tag
+
+        self.__combo_box= None #   None for free combo box items
+
+    ##########
+    #   Properties
+    @property
+    def text(self) -> str:
+        return self.__text
+
+    @property
+    def tag(self) -> Any:
+        return self.__tag
+
+    @property
+    def combo_box(self) -> "ComboBox":
+        return self.__combo_box
+
 class ComboBoxItems:
     """ An ordered list of items of a ComboBox. """
 
@@ -37,12 +69,12 @@ class ComboBoxItems:
     #   Properties
     @property
     def length(self) -> int:
-        """ The number of items n this collection of ComboBox items. """
+        """ The number of items in this collection of ComboBox items. """
         return len(self.__items)
 
     ##########
     #   Operations
-    def add(self, item: Any) -> int:
+    def add(self, item, tag: Any = None) -> ComboBoxItem:
         """
             Adds the specified item to the end of this collection of
             ComboBox items.
@@ -52,11 +84,23 @@ class ComboBoxItems:
             @return:
                 The index of the newly added item.
         """
-        assert item is not None
-
-        self.__items.append(item)
-        self.__combo_box["values"] = (*self.__combo_box["values"], item)
-        return len(self.__items) - 1
+        loc = locals()
+        if isinstance(item, str):
+            #   Create a new, initially bound, combo box item
+            new_item = ComboBoxItem(item, tag)
+            assert new_item.combo_box is None
+            self.__items.append(new_item)
+            new_item._ComboBoxItem__combo_box = self.__combo_box
+            self.__combo_box["values"] = (*self.__combo_box["values"], item)
+            return new_item
+            #   Done assing a new ComboBoxItem
+            return node
+        elif isinstance(item, ComboBoxItem):
+            #   The item must NOT already be bound
+            assert item.combo_box is None
+            raise NotImplementedError()
+        else:
+            raise NotImplementedError()
 
 class ComboBox(ttk.Combobox,
                BaseWidgetMixin,

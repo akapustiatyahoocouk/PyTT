@@ -59,7 +59,6 @@ class AdminSkinMainFrame(Frame,
 
         self.menu_bar = self.__menu_bar
         self.__regenerate_dynamic_menus()
-        self.__regenerate_dynamic_menus()
 
         #   Create controls
         self.__views_tabbed_pane = TabbedPane(self)
@@ -205,6 +204,7 @@ class AdminSkinMainFrame(Frame,
 
     def __on_locale_changed(self, evt) -> None:
         assert isinstance(evt, PropertyChangeEvent)
+        self.__regenerate_dynamic_menus()
         #   TODO tab names of the self.__views_tabbed_pane must be 
         #   localized, because they are actually display names of view types
         #   e.g. self.__views_tabbed_pane.tab(tabWidget, text = 'myNewText')
