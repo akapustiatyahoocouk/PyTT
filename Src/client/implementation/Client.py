@@ -180,11 +180,11 @@ def open_last_used_workspace():
             if workspace is None:
                 workspace = workspace_address.workspace_type.open_workspace(workspace_address)
             workspace.login(credentials=CurrentCredentials.get())
-            Workspace.current = workspace
+            CurrentWorkspace.set(workspace)
             return
         except WorkspaceAccessDeniedError as ex:
-            title = GuiResources.string("CannotAccessWorkspaceDialog.Title")
-            message = GuiResources.string("CannotAccessWorkspaceDialog.Message").format(workspace_address.display_form)
+            title = GuiResources.string("CannotAccessLastWorkspaceDialog.Title")
+            message = GuiResources.string("CannotAccessLastWorkspaceDialog.Message").format(workspace_address.display_form)
             if MessageBox.show(None, 
                                title,
                                message,
@@ -194,11 +194,12 @@ def open_last_used_workspace():
                 continue
             workspace.close()
             return
-        except Exception as ex1:
-            workspace.close()
-            ErrorDialog.show(None, ex1)
-            title = GuiResources.string("CannotOpenWorkspaceDialog.Title")
-            message = GuiResources.string("CannotOpenWorkspaceDialog.Message").format(workspace_address.display_form)
+        except Exception as ex:
+            if workspace:
+                workspace.close()
+            ErrorDialog.show(None, ex)
+            title = GuiResources.string("CannotReopenLastWorkspaceDialog.Title")
+            message = GuiResources.string("CannotReopenLastWorkspaceDialog.Message").format(workspace_address.display_form)
             if MessageBox.show(None, 
                                title,
                                message,

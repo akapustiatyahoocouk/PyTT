@@ -7,10 +7,11 @@ from awt.interface.api import *
 from workspace.interface.api import *
 
 #   Internal dependencies on modules within the same component
-from gui.implementation.dialogs.AboutDialog import AboutDialog
-from gui.implementation.actions.ActionBase import ActionBase
-from gui.implementation.skins.Skin import Skin
-from gui.implementation.skins.ActiveSkin import ActiveSkin
+from ..dialogs.AboutDialog import AboutDialog
+from ..actions.ActionBase import ActionBase
+from ..skins.Skin import Skin
+from ..skins.ActiveSkin import ActiveSkin
+from ..misc.CurrentWorkspace import CurrentWorkspace
 from gui.resources.GuiResources import GuiResources
 
 ##########
@@ -27,8 +28,8 @@ class CloseWorkspaceAction(ActionBase):
     ##########
     #   Action - Operations
     def execute(self, evt: ActionEvent) -> None:
-        ws = Workspace.current
-        Workspace.current = None
+        ws = CurrentWorkspace.get()
+        CurrentWorkspace.set(None)
         if ws is not None:
             #   TODO if there is a "current" activity, stop and record it
             try:

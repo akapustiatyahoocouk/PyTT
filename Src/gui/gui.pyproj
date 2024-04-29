@@ -24,6 +24,7 @@
     <Folder Include="implementation\actions\" />
     <Folder Include="implementation\dialogs\" />
     <Folder Include="implementation\misc\" />
+    <Folder Include="implementation\views\" />
     <Folder Include="interface\" />
     <Folder Include="implementation\" />
     <Folder Include="resources\" />
@@ -31,10 +32,12 @@
     <Folder Include="resources\images\actions\" />
     <Folder Include="implementation\skins\" />
     <Folder Include="resources\images\misc\" />
+    <Folder Include="resources\images\objects\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="implementation\actions\CloseWorkspaceAction.py" />
     <Compile Include="implementation\actions\DestroyWorkspaceAction.py" />
+    <Compile Include="implementation\actions\OpenViewAction.py" />
     <Compile Include="implementation\actions\PreferencesAction.py" />
     <Compile Include="implementation\actions\OpenWorkspaceAction.py" />
     <Compile Include="implementation\actions\CreateWorkspaceAction.py" />
@@ -47,8 +50,13 @@
     <Compile Include="implementation\dialogs\OpenWorkspaceDialog.py" />
     <Compile Include="implementation\dialogs\CreateWorkspaceDialog.py" />
     <Compile Include="implementation\dialogs\PreferencesDialog.py" />
+    <Compile Include="implementation\misc\CurrentWorkspace.py" />
     <Compile Include="implementation\misc\CurrentCredentials.py" />
     <Compile Include="implementation\misc\GuiSettings.py" />
+    <Compile Include="implementation\views\UsersView.py" />
+    <Compile Include="implementation\views\View.py" />
+    <Compile Include="implementation\views\UsersViewType.py" />
+    <Compile Include="implementation\views\ViewType.py" />
     <Compile Include="interface\api.py" />
     <Compile Include="implementation\dialogs\AboutDialog.py" />
     <Compile Include="implementation\dialogs\LoginDialog.py" />
@@ -85,6 +93,8 @@
     <Content Include="resources\images\misc\LicenseSmall.png" />
     <Content Include="resources\images\misc\LocaleLarge.png" />
     <Content Include="resources\images\misc\LocaleSmall.png" />
+    <Content Include="resources\images\objects\UserLarge.png" />
+    <Content Include="resources\images\objects\UserSmall.png" />
     <Content Include="resources\Resources.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

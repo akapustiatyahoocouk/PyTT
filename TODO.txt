@@ -1,4 +1,7 @@
 ========== IMMEDIATE PIPELINE ======================================
+*   Try to avoid string-style type hints. For example, consider
+    SqliteDatabaseType.instance -> "SqliteDatabaseType" as opposed
+    to UsersViewType.instance -> ViewType.
 *   Implement shortcust something like Ctrl+Alt+X shall look through
     the menu bar' items of a Window (if there is a menu bar), locate
     the matching menu item and simulate invoking it.

@@ -1,5 +1,6 @@
 """ A generic "Menu" is an ordered collection of MenuItems. """
 #   Python standard library
+from email.mime import image
 from typing import final, Any
 from abc import ABC
 import tkinter as tk
@@ -61,12 +62,15 @@ class MenuItems:
                 tk_underline = tk_text.lower().index(menu_item_hotkey.lower())
             except Exception:
                 tk_underline = None
-            #   TODO associated image
+            #   Associated image
+            tk_image = kwargs.get("image", None)
             #   TODO accelerator
             simple_menu_item = SimpleMenuItem(item)
             self.__menu._Menu__tk_impl.add_command(label=tk_text,
                                                    underline=tk_underline,
-                                                   command=simple_menu_item._on_tk_click)
+                                                   command=simple_menu_item._on_tk_click,
+                                                   image=tk_image,
+                                                   compound=tk.LEFT)
             self.__menu_items.append(simple_menu_item)
             simple_menu_item._MenuItem__menu = self.__menu
             return simple_menu_item
@@ -148,9 +152,19 @@ class MenuItems:
                 The 0-based index to remove an item at.
         """
         assert isinstance(index, int)
+        
+        self.__menu_items[index]._MenuItem__menu = None
         self.__menu_items.remove(self.__menu_items[index])
         self.__menu._Menu__tk_impl.delete(index)
 
+    def clear(self) -> None:
+        """
+            Removes all items from this menu item list.
+        """
+        for menu_item in self.__menu_items:
+            menu_item._MenuItem__menu = None
+        self.__menu_items.clear()
+        self.__menu._Menu__tk_impl.delete(0, tk.END)
 
 class Menu(ABC):
     """ A generic "Menu" is an ordered collection of MenuItems. """

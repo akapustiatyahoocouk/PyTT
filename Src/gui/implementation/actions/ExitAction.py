@@ -8,6 +8,7 @@ from workspace.interface.api import *
 
 #   Internal dependencies on modules within the same component
 from .ActionBase import ActionBase
+from ..misc.CurrentWorkspace import CurrentWorkspace
 from gui.resources.GuiResources import GuiResources
 
 ##########
@@ -25,8 +26,8 @@ class ExitAction(ActionBase):
     #   awt.Action - Operations
     def execute(self, evt: ActionEvent) -> None:
         #   Close "current" workspace IF there is one
-        ws = Workspace.current
-        Workspace.current = None
+        ws = CurrentWorkspace.get()
+        CurrentWorkspace.set(None)
         if ws is not None:
             #   TODO if there is a "current" activity, stop and record it
             ws.close()

@@ -23,36 +23,10 @@ from .Notifications import *
 ##########
 #   Public entities
 @final
-class WorkspaceMeta(ClassWithConstantsMeta):
-
-    @property
-    def current(cls) -> "Workspace":
-        return Workspace._Workspace__current_workspace
-
-    @current.setter
-    def current(cls, value: "Workspace"):
-        assert (value is None) or isinstance(value, Workspace)
-        if value is not Workspace._Workspace__current_workspace:
-            Workspace._Workspace__current_workspace = value
-            #   TODO notify interested listeners of the "current workspace" change
-            evt = PropertyChangeEvent(cls, cls, Workspace.CURRENT_WORKSPACE_PROPERTY_NAME)
-            cls.process_property_change_event(evt)
-
-@final
-class Workspace(metaclass=WorkspaceMeta):
+class Workspace:
     """ A persistent container where business data is kept,
         constituting of the underlying physical storage (database)
         and busibess/access rules . """
-
-    ##########
-    #   Implementation
-    __current_workspace = None
-    __property_change_listeners = []
-
-    ##########
-    #   Constants (observable property names)
-    CURRENT_WORKSPACE_PROPERTY_NAME = "current"
-    """ The name of the "current: Workspace" static property of a Workspace. """
 
     ##########
     #   Construction (internal only)
@@ -274,59 +248,6 @@ class Workspace(metaclass=WorkspaceMeta):
                     l(n)
             except Exception as ex:
                 pass    #   TODO log the exception
-
-    ##########
-    #   Operations (static property change handling)
-    @staticmethod
-    def add_property_change_listener(l: Union[PropertyChangeEventListener, PropertyChangeEventHandler]) -> None:
-        """ Registers the specified listener or handler to be
-            notified when a static property change event is
-            processed.
-            A given listener can be registered at most once;
-            subsequent attempts to register the same listener
-            again will have no effect. """
-        assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
-                isinstance(l, PropertyChangeEventHandler))
-        if l not in Workspace.__property_change_listeners:
-            Workspace.__property_change_listeners.append(l)
-
-    @staticmethod
-    def remove_property_change_listener(l: Union[PropertyChangeEventListener, PropertyChangeEventHandler]) -> None:
-        """ Un-registers the specified listener or handler to no
-            longer be notified when a static property change
-            event is processed.
-            A given listener can be un-registered at most once;
-            subsequent attempts to un-register the same listener
-            again will have no effect. """
-        assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
-                isinstance(l, PropertyChangeEventHandler))
-        if l in Workspace.__property_change_listeners:
-            Workspace.__property_change_listeners.remove(l)
-
-    @staticproperty
-    def property_change_listeners() -> list[Union[PropertyChangeEventListener, PropertyChangeEventHandler]]:
-        """ The list of all static property change listeners registered so far. """
-        return Workspace.__property_change_listeners.copy()
-
-    @staticmethod
-    def process_property_change_event(event : PropertyChangeEvent) -> bool:
-        """
-            Called to process an PropertyChangeEvent for a
-            change made to a static property.
-
-            @param event:
-                The property change event to process.
-        """
-        assert isinstance(event, PropertyChangeEvent)
-        for l in Workspace.property_change_listeners:
-            try:
-                if isinstance(l, PropertyChangeEventHandler):
-                    l.on_property_change(event)
-                else:
-                    l(event)
-            except Exception as ex:
-                pass    #   TODO log the exception
-        return event.processed
 
     ##########
     #   Implementation helpers

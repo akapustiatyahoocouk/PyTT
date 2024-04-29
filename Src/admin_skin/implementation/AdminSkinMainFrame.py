@@ -27,34 +27,45 @@ class AdminSkinMainFrame(Frame,
 
         self.__action_set = ActionSet()
 
-        file_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "FileMenu")
-        file_menu.items.add(self.__action_set.create_workspace)
-        file_menu.items.add(self.__action_set.open_workspace)
-        file_menu.items.add_seperator()
-        file_menu.items.add(self.__action_set.close_workspace)
-        file_menu.items.add_seperator()
-        file_menu.items.add(self.__action_set.destroy_workspace)
-        file_menu.items.add_seperator()
-        file_menu.items.add(self.__action_set.exit)
+        self.__file_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "FileMenu")
+        self.__file_menu.items.add(self.__action_set.create_workspace)
+        self.__file_menu.items.add(self.__action_set.open_workspace)
+        self.__file_menu.items.add_seperator()
+        self.__file_menu.items.add(self.__action_set.close_workspace)
+        self.__file_menu.items.add_seperator()
+        self.__file_menu.items.add(self.__action_set.destroy_workspace)
+        self.__file_menu.items.add_seperator()
+        self.__file_menu.items.add(self.__action_set.exit)
 
-        tools_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "ToolsMenu")
-        tools_menu.items.add(self.__action_set.preferences)
+        self.__view_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "ViewMenu")
 
-        help_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "HelpMenu")
-        help_menu.items.add('Help', hotkey="H")
-        help_menu.items.add('Search', hotkey="S").enabled = False
-        help_menu.items.add('Index', hotkey="I")
-        help_menu.items.add_seperator()
-        help_menu.items.add(self.__action_set.about)
+        self.__tools_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "ToolsMenu")
+        self.__tools_menu.items.add(self.__action_set.preferences)
 
-        menu_bar = MenuBar()
-        menu_bar.items.add(file_menu)
-        menu_bar.items.add(tools_menu)
-        menu_bar.items.add(help_menu)
+        self.__help_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "HelpMenu")
+        self.__help_menu.items.add('Help', hotkey="H")
+        self.__help_menu.items.add('Search', hotkey="S").enabled = False
+        self.__help_menu.items.add('Index', hotkey="I")
+        self.__help_menu.items.add_seperator()
+        self.__help_menu.items.add(self.__action_set.about)
 
-        self.menu_bar = menu_bar
+        self.__menu_bar = MenuBar()
+        self.__menu_bar.items.add(self.__file_menu)
+        self.__menu_bar.items.add(self.__view_menu)
+        self.__menu_bar.items.add(self.__tools_menu)
+        self.__menu_bar.items.add(self.__help_menu)
+
+        self.menu_bar = self.__menu_bar
+        self.__regenerate_dynamic_menus()
+        self.__regenerate_dynamic_menus()
 
         #   Create controls
+        self.__views_tabbed_name = TabbedPane(self)
+        self.__views_tabbed_name.focusable = False
+        self.__views_tabbed_name.pack(expand=True, fill=tk.BOTH, padx=0, pady=0)
+        self.__views_tabbed_name.add(Label(self.__views_tabbed_name, background="red"), state="normal", text='text 1')
+        self.__views_tabbed_name.add(Label(self.__views_tabbed_name, background="green"), state="normal", text='text 2')
+        self.__views_tabbed_name.add(Label(self.__views_tabbed_name, background="blue"), state="normal", text='text 3')
 
         #   Set up control structure
 
@@ -67,7 +78,7 @@ class AdminSkinMainFrame(Frame,
 
         #TODO kill off self.add_key_listener(lambda e: print(e))
 
-        Workspace.add_property_change_listener(self.__on_workspace_changed)
+        CurrentWorkspace.add_property_change_listener(self.__on_workspace_changed)
         Locale.add_property_change_listener(self.__on_locale_changed)
         #   TODO current credentials change
 
@@ -78,7 +89,7 @@ class AdminSkinMainFrame(Frame,
     #   Refreshable
     def refresh(self) -> None:
         credentials = CurrentCredentials.get()
-        workspace = Workspace.current
+        workspace = CurrentWorkspace.get()
 
         #   Frame title
         title = AdminSkinResources.string("MainFrame.Title")
@@ -129,7 +140,7 @@ class AdminSkinMainFrame(Frame,
     ##########
     #   Operations
     def activate(self): # TODO replace with a setter property for "active" ?
-        """ Activates this window, by showing/de-iconizing it 
+        """ Activates this window, by showing/de-iconizing it
             and bringing it to front. """
         self.window_state = WindowState.NORMAL
         #TODO kill off when confirmed not needed self.tkraise()
@@ -138,6 +149,13 @@ class AdminSkinMainFrame(Frame,
     def deactivate(self):   # TODO replace with a setter property for "active" ?
         """ Hides this window. """
         self.window_state = WindowState.WITHDRAWN
+
+    def open_view(self, view_type: ViewType) -> View:
+        assert isinstance(view_type, ViewType)
+
+        #   If there already exists a view of this type in this
+        #   frame, just select it as "current"...
+        #   ...otherwise create a new view
 
     ##########
     #   Implementation helpers
@@ -163,6 +181,12 @@ class AdminSkinMainFrame(Frame,
                 AdminSkinSettings.main_frame_y = int(find.group(4))
         elif self.window_state is WindowState.MAXIMIZED:
             AdminSkinSettings.main_frame_maximized = True
+
+    def __regenerate_dynamic_menus(self) -> None:
+        #   TODO kill old self.__view_menu items
+        self.__view_menu.items.clear()
+        for open_view_action in self.__action_set.open_view:
+            self.__view_menu.items.add(open_view_action)
 
     ##########
     #   Event listeners

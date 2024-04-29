@@ -10,6 +10,7 @@ from awt.interface.api import *
 from workspace.interface.api import *
 
 #   Internal dependencies on modules within the same component
+from ..misc.CurrentCredentials import CurrentCredentials
 from gui.resources.GuiResources import GuiResources
 
 ##########

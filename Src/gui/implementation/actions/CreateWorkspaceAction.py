@@ -8,6 +8,7 @@ from workspace.interface.api import *
 
 #   Internal dependencies on modules within the same component
 from gui.implementation.dialogs.CreateWorkspaceDialog import CreateWorkspaceDialog, CreateWorkspaceDialogResult
+from ..misc.CurrentWorkspace import CurrentWorkspace
 from .ActionBase import ActionBase
 
 ##########
@@ -28,9 +29,10 @@ class CreateWorkspaceAction(ActionBase):
             dlg.do_modal()
             if dlg.result is not CreateWorkspaceDialogResult.OK:
                 return
+            new_workspace = dlg.created_workspace
             #   Use the newly created workspace as "current" workspace
-            old_workspace = Workspace.current
-            Workspace.current = dlg.created_workspace
+            old_workspace = CurrentWorkspace.get()
+            CurrentWorkspace.set(new_workspace)
             if old_workspace:
                 #   TODO if there is a "current" activity, stop and record it
                 try:
@@ -38,4 +40,4 @@ class CreateWorkspaceAction(ActionBase):
                 except Exception as ex:
                     pass    # TODO show error dialog
         #   Record the newly created workspace as "last used"
-        WorkspaceSettings.last_workspace_address = Workspace.current.address
+        WorkspaceSettings.last_workspace_address = new_workspace.address
