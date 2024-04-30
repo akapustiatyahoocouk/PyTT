@@ -36,7 +36,6 @@ Actions.Exit.Shortcut=Alt+F4
 Actions.Exit.SmallImage=ImageFile:images/actions/ExitSmall.png
 Actions.Exit.LargeImage=ImageFile:images/actions/ExitLarge.png
 
-Actions.OpenView.Name=Open {0} view
 Actions.Preferences.Name=Preferences
 Actions.Preferences.Hotkey=P
 Actions.Preferences.Description=Sets up PyTT preferences

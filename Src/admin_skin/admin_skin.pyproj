@@ -31,8 +31,13 @@
     <Folder Include="interface\" />
     <Folder Include="implementation\" />
     <Folder Include="resources\" />
+    <Folder Include="resources\images\" />
+    <Folder Include="resources\images\actions\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="resources\images\actions\CloseViewLarge.png" />
+    <Content Include="resources\images\actions\CloseViewSmall.png" />
+    <Content Include="resources\Resources_ru.txt" />
     <Content Include="resources\Resources.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

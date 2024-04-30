@@ -37,7 +37,6 @@
   <ItemGroup>
     <Compile Include="implementation\actions\CloseWorkspaceAction.py" />
     <Compile Include="implementation\actions\DestroyWorkspaceAction.py" />
-    <Compile Include="implementation\actions\OpenViewAction.py" />
     <Compile Include="implementation\actions\PreferencesAction.py" />
     <Compile Include="implementation\actions\OpenWorkspaceAction.py" />
     <Compile Include="implementation\actions\CreateWorkspaceAction.py" />

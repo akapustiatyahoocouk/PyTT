@@ -9,7 +9,6 @@ from .OpenWorkspaceAction import OpenWorkspaceAction
 from .CloseWorkspaceAction import CloseWorkspaceAction
 from .DestroyWorkspaceAction import DestroyWorkspaceAction
 from .ExitAction import ExitAction
-from .OpenViewAction import OpenViewAction
 from .PreferencesAction import PreferencesAction
 from .AboutAction import AboutAction
 from gui.implementation.views.ViewType import ViewType
@@ -23,18 +22,11 @@ class ActionSet:
     ##########
     #   Construction
     def __init__(self):
-        all_view_types = list(ViewType.all)
-        all_view_types.sort(key=lambda vt: vt.display_name)
-
         self.__create_workspace = CreateWorkspaceAction()
         self.__open_workspace = OpenWorkspaceAction()
         self.__close_workspace = CloseWorkspaceAction()
         self.__destroy_workspace = DestroyWorkspaceAction()
         self.__exit = ExitAction()
-        
-        self.__open_view = []
-        for view_type in all_view_types:
-            self.__open_view.append(OpenViewAction(view_type))
         self.__preferences = PreferencesAction()
         self.__about = AboutAction()
 
@@ -64,10 +56,6 @@ class ActionSet:
     def exit(self) -> ExitAction:
         """ The "Exit PyTT" action. """
         return self.__exit
-
-    @property
-    def open_view(self) -> List[OpenViewAction]:
-        return self.__open_view.copy()
 
     @property
     def preferences(self) -> PreferencesAction:

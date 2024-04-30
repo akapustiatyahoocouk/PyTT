@@ -11,3 +11,10 @@ ToolsMenu.Label=Tools
 ToolsMenu.Hotkey=T
 HelpMenu.Label=Help
 HelpMenu.Hotkey=H
+
+##########
+#   Action
+Actions.OpenView.Name=Open {0} view
+Actions.CloseCurrentView.Name=Close current view
+Actions.CloseCurrentView.SmallImage=ImageFile:images/actions/CloseViewSmall.png
+Actions.CloseCurrentView.LargeImage=ImageFile:images/actions/CloseViewLarge.png

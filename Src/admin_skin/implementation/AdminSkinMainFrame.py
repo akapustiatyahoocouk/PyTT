@@ -70,6 +70,14 @@ class AdminSkinMainFrame(Frame,
         #   Restore position & state
         self.__load_position()
 
+        #   Restore active views
+        if len(AdminSkinSettings.active_views) == 0:
+            #   Open default bunch of views
+            self.open_view(UsersViewType.instance, save_active_views=True)
+        else:
+            #   Re-open views from last session
+            self.__load_active_views()
+
         #   Set up event handlers
         self.add_window_listener(self)
         self.add_widget_listener(self)
@@ -148,8 +156,9 @@ class AdminSkinMainFrame(Frame,
         """ Hides this window. """
         self.window_state = WindowState.WITHDRAWN
 
-    def open_view(self, view_type: ViewType) -> View:
+    def open_view(self, view_type: ViewType, save_active_views: bool) -> View:
         assert isinstance(view_type, ViewType)
+        assert isinstance(save_active_views, bool)
 
         #   If there already exists a view of this type in this frame...
         for i in range(len(self.__views)):
@@ -161,8 +170,12 @@ class AdminSkinMainFrame(Frame,
         view = view_type.create_view(self.__views_tabbed_pane)
         self.__views.append(view)
         self.__views_tabbed_pane.add(view, state="normal", text=view.type.display_name, image=view_type.small_image, compound=tk.LEFT)
-        #   ...and select it as "current"...
+        #   ...select it as "current"...
         self.__views_tabbed_pane.select(len(self.__views) - 1)
+        #   ...save the new "list of active views"...
+        if save_active_views:
+            self.__save_active_views()
+        #   ...and we're done
         return view
     
     ##########
@@ -190,16 +203,76 @@ class AdminSkinMainFrame(Frame,
         elif self.window_state is WindowState.MAXIMIZED:
             AdminSkinSettings.main_frame_maximized = True
 
-    def __regenerate_dynamic_menus(self) -> None:
-        #   TODO kill old self.__view_menu items
-        self.__view_menu.items.clear()
-        for open_view_action in self.__action_set.open_view:
-            self.__view_menu.items.add(open_view_action)
+    def __load_active_views(self) -> None:
+        active_view_infos = AdminSkinSettings.active_views
+        for active_view_info in active_view_infos:
+            self.open_view(active_view_info[0], save_active_views=False)
+        
+    def __save_active_views(self) -> None:
+        active_views = []
+        for view in self.__views:
+            active_views.append((view.type,))
+        AdminSkinSettings.active_views = active_views
 
+    def __close_all_active_views(self) -> None:
+        while len(self.__views) > 0:
+            item = self.__views[0]
+            del(item)
+            self.__views.pop()
+            self.__views_tabbed_pane.forget(0)
+
+    def __regenerate_dynamic_menus(self) -> None:
+        self.__view_menu.items.clear()
+
+        class ViewOpener(Action):
+            def __init__(self, main_frame, view_type):
+                Action.__init__(self, 
+                                name=AdminSkinResources.string("Actions.OpenView.Name")
+                                                       .format(view_type.display_name),
+                                small_image=view_type.small_image,
+                                large_image=view_type.large_image)
+                self.__main_frame = main_frame
+                self.__view_type = view_type
+            def execute(self, evt: ActionEvent) -> None:
+                self.__main_frame.open_view(self.__view_type, save_active_views=True)
+
+        class ViewCloser(Action):
+            def __init__(self, main_frame):
+                Action.__init__(self, 
+                                name=AdminSkinResources.string("Actions.CloseCurrentView.Name"),
+                                small_image=AdminSkinResources.image("Actions.CloseCurrentView.SmallImage"),
+                                large_image=AdminSkinResources.image("Actions.CloseCurrentView.LargeImage"))
+                self.__main_frame = main_frame
+            def execute(self, evt: ActionEvent) -> None:
+                pass
+
+        all_view_types = list(ViewType.all)
+        all_view_types.sort(key=lambda vt: vt.display_name)
+        for view_type in all_view_types:
+            action = ViewOpener(self, view_type)
+            self.__view_menu.items.add(action)
+            action.enabled = CurrentWorkspace.get() is not None
+        
+        self.__view_menu.items.add_seperator()
+
+        action = ViewCloser(self)
+        self.__view_menu.items.add(action)
+        action.enabled = CurrentWorkspace.get() is not None
+        
     ##########
     #   Event listeners
     def __on_workspace_changed(self, evt) -> None:
         assert isinstance(evt, PropertyChangeEvent)
+        self.__regenerate_dynamic_menus()
+        if CurrentWorkspace.get() is None:
+            #   TODO save active views info and close all views
+            self.__save_active_views()
+            self.__close_all_active_views()
+            pass
+        else:
+            #   Reopen all views
+            self.__load_active_views()
+            pass
         self.request_refresh()
 
     def __on_locale_changed(self, evt) -> None:

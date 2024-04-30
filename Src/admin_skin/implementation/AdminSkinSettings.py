@@ -1,8 +1,9 @@
 """ Persistent settings of the Admin skin. """
 #   Python standard library
-from typing import final
+from typing import final, List
 
 #   Dependencies on other PyTT components
+from gui.interface.api import *
 from util.interface.api import *
 
 ##########
@@ -74,6 +75,23 @@ class AdminSkinSettingsMeta(type):
         """ Set to True if the main frame is maximized, else to False. """
         assert isinstance(new_maximized, bool)
         cls.__impl.put_bool("main_frame_maximized", new_maximized)
+        
+    @property
+    def active_views(cls) -> List[(ViewType,)]:    #   TODO, view settings
+        result = []
+        chunks = cls.__impl.get("active_views", "").split(",")
+        for chunk in chunks:
+            view_type = ViewType.find(chunk)
+            if view_type:
+                result.append((view_type,))
+        return result
+        
+    @active_views.setter
+    def active_views(cls, viev_infos: List[(ViewType,)]) -> None:    #   TODO, view settings
+        assert isinstance(viev_infos, list)
+        ll = list(map(lambda vi: vi[0].mnemonic, viev_infos))   #   TODO, view settings
+        cls.__impl.put("active_views", ",".join(ll))
+        pass
 
 @final
 class AdminSkinSettings(metaclass=AdminSkinSettingsMeta):
