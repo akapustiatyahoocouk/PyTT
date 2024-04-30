@@ -1,2 +1,4 @@
+GeneralAppearancePreferences.LanguageLabel.Text=Language:
+
 GeneralStartupPreferencesEditor.UseLastLoginCheckBox.Text=Use login from the last session
 GeneralStartupPreferencesEditor.ReloadWorkspaceCheckBox.Text=Reload last used workspace

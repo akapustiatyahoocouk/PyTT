@@ -179,6 +179,15 @@ class ComboBox(ttk.Combobox,
             return None
         return self.__items[index]
 
+    @selected_item.setter
+    def selected_item(self, new_item: Optional[ComboBoxItem]) -> None:
+        assert (new_item is None) or isinstance(new_item, ComboBoxItem)
+
+        if new_item is None:
+            self.selected_index = -1
+        elif new_item in self.__items._ComboBoxItems__items:
+            self.selected_index = self.__items._ComboBoxItems__items.index(new_item)
+
     ##########
     #   Tk event handlers
     def __on_tk_combobox_selected(self, evt: tk.Event):

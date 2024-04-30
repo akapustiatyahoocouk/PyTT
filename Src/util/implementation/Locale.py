@@ -19,25 +19,11 @@ class LocaleMeta(ClassWithConstantsMeta):
     @property
     def system(cls):
         if cls._Locale__system_locale is None:
+            import locale
+            dl = locale.getdefaultlocale()
             try:
-                import locale, re
-                dl = locale.getdefaultlocale()
-                mlc = re.search(r"^([a-zA-Z]{2})_([a-zA-Z]{2})", dl[0])
-                ml = re.search(r"^([a-zA-Z]{2})", dl[0])
-                if mlc:
-                    language = mlc[1]
-                    country = mlc[2]
-                    variant = None
-                elif ml:
-                    language = mlc[1]
-                    country = None
-                    variant = None
-                else:
-                    language = None
-                    country = None
-                    variant = None
-                cls._Locale__system_locale = Locale(language, country, variant)
-            except:
+                cls._Locale__system_locale = Locale.parse(dl[0])
+            except ValueError:
                 cls._Locale__system_locale = Locale.ROOT
         return cls._Locale__system_locale
 
@@ -208,6 +194,39 @@ class Locale(metaclass=LocaleMeta):
             return Locale(self.__language)
         else:
             return Locale(self.__language, self.__country)
+
+    @staticmethod
+    def parse(locale_string: str) -> "Locale":
+        """
+            Attempts to parse a string representation of a locale
+            (that uses the same format as repr(Locale).
+        
+            @param locale_string:
+                The locale string to parse.
+            @return:
+                The parsed locale.
+            @raise ValueError:
+                If an error occurs.
+        """
+        try:
+            import re
+            mlc = re.search(r"^([a-zA-Z]{2})_([a-zA-Z]{2})", locale_string)
+            ml = re.search(r"^([a-zA-Z]{2})", locale_string)
+            if mlc:
+                language = mlc[1]
+                country = mlc[2]
+                variant = None
+            elif ml:
+                language = ml[1]
+                country = None
+                variant = None
+            else:
+                language = None
+                country = None
+                variant = None
+            return Locale(language, country, variant)
+        except:
+            raise ValueError(locale_string)
 
     ##########
     #   Operations (static property change handling)

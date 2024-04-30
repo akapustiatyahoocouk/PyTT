@@ -4,12 +4,13 @@ from abc import abstractmethod, abstractproperty
 import tkinter as tk
 
 #   Internal dependencies on modules within the same component
-from util.implementation.Annotations import staticproperty
-from util.implementation.Metaclasses import ABCWithConstants
-from util.implementation.Settings import Settings
-from util.implementation.ComponentSettings import ComponentSettings
-from util.implementation.Preference import Preference
-from util.implementation.BoolPreference import BoolPreference
+from .Annotations import staticproperty
+from .Metaclasses import ABCWithConstants
+from .Settings import Settings
+from .ComponentSettings import ComponentSettings
+from .Preference import Preference
+from .BoolPreference import BoolPreference
+from .LocalePreference import LocalePreference
 
 ##########
 #   Public entities
@@ -148,6 +149,8 @@ class Preferences(ABCWithConstants):
             try:
                 if isinstance(preference, BoolPreference):
                     preference.value = section.get_bool(key, preference.value)
+                elif isinstance(preference, LocalePreference):
+                    preference.value = section.get_locale(key, preference.value)
             except:
                 pass    #   use default value of the Preference
         #   ...then the children
@@ -164,6 +167,8 @@ class Preferences(ABCWithConstants):
                 try:
                     if isinstance(preference, BoolPreference):
                         section.put_bool(key, preference.value)
+                    elif isinstance(preference, LocalePreference):
+                        section.put_locale(key, preference.value)
                 except:
                     pass    #   use default value of the Preference
         #   ...then the children

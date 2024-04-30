@@ -36,6 +36,7 @@
     <Content Include="resources\Resources_ru.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="implementation\LocalePreference.py" />
     <Compile Include="implementation\GeneralPreferences.py" />
     <Compile Include="implementation\BoolPreference.py" />
     <Compile Include="implementation\Preference.py" />

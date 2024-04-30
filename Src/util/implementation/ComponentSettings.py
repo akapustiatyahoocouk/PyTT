@@ -3,6 +3,9 @@
 from typing import final, Optional
 from configparser import ConfigParser
 
+#   Internal dependencies on modules within the same component
+from .Locale import Locale
+
 ##########
 #   Public entities
 @final
@@ -78,3 +81,21 @@ class ComponentSettings:
         assert isinstance(value, bool)
 
         self.__config[self.__component_name][name] = str(value)
+
+    def get_locale(self, name: str, default_value: Locale) -> bool:
+        assert isinstance(name, str)
+        assert isinstance(default_value, Locale)
+
+        if self.__config.has_option(self.__component_name, name):
+            s = self.get(name, repr(default_value))
+            try:
+                return Locale.parse(s)
+            except ValueError:
+                return default_value
+        return default_value
+
+    def put_locale(self, name: str, value: Locale) -> None:
+        assert isinstance(name, str)
+        assert isinstance(value, Locale)
+
+        self.__config[self.__component_name][name] = repr(value)

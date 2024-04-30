@@ -82,13 +82,13 @@ class _Editor(Panel):
         self.__use_last_login_check_box = CheckBox(self, text=ClientResources.string("GeneralStartupPreferencesEditor.UseLastLoginCheckBox.Text"))
         self.__reload_workspace_check_box = CheckBox(self, text=ClientResources.string("GeneralStartupPreferencesEditor.ReloadWorkspaceCheckBox.Text"))
         
-        #   Set up control structure
-        self.__use_last_login_check_box.grid(row=0, column=1, padx=2, pady=2, sticky="WE")
-        self.__reload_workspace_check_box.grid(row=1, column=1, padx=2, pady=2, sticky="WE")
-
         #   Adjust controls
         self.__use_last_login_check_box.checked = GeneralStartupPreferences.instance.use_last_login.value
         self.__reload_workspace_check_box.checked = GeneralStartupPreferences.instance.restore_workspace.value
+
+        #   Set up control structure
+        self.__use_last_login_check_box.grid(row=0, column=1, padx=2, pady=2, sticky="WE")
+        self.__reload_workspace_check_box.grid(row=1, column=1, padx=2, pady=2, sticky="WE")
 
         #   Set up event handlers
         self.__use_last_login_check_box.add_action_listener(self.__use_last_login_check_box_clicked)
