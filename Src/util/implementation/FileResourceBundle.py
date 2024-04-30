@@ -24,7 +24,7 @@ class FileResourceBundle(ResourceBundle):
         self.__resource_definitions: dict[str, str] = dict()
         self.__resource_types: dict[str, ResourceType] = dict() # populated lazily
         self.__resources: dict[str, Any] = dict() # populated lazily
-        with open(file_name) as file:
+        with open(file_name, mode="r", encoding="utf-8") as file:
             for line in file:
                 line = line.strip()
                 if len(line) == 0  or line.startswith("#"):

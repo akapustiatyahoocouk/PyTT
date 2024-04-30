@@ -173,6 +173,14 @@ class PreferencesDialog(Dialog):
                 return True
         return False
             
+    def __apply_preferences(self, preferences: Preferences):
+        children = list(preferences.children)
+        for child in children:
+            #   Do this child...
+            child.apply()
+            #   ... then sub-children
+            self.__apply_preferences(child)
+
     ##########
     #   Event listeners
     def __preferences_tree_view_listener(self, evt: ItemEvent):
@@ -184,6 +192,7 @@ class PreferencesDialog(Dialog):
     def __on_ok(self, evt = None) -> None:
         if not self.__ok_button.enabled:
             return
+        self.__apply_preferences(Preferences.ROOT)
         self.__result = PreferencesDialogResult.OK
         self.end_modal()
 

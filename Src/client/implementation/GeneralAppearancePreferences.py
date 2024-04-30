@@ -54,6 +54,12 @@ class GeneralAppearancePreferences(Preferences):
 
     ##########
     #   Preferences - Operations
+    def apply(self) -> None:
+        super().apply()
+        Locale.default = self.__ui_locale.value
+        
+    ##########
+    #   Preferences - Operations
     def create_editor(self, parent: tk.BaseWidget) -> tk.BaseWidget:
         assert isinstance(parent, tk.BaseWidget)
         return _Editor(parent)

@@ -160,7 +160,7 @@ class AdminSkinMainFrame(Frame,
         #   ...otherwise create a new view...
         view = view_type.create_view(self.__views_tabbed_pane)
         self.__views.append(view)
-        self.__views_tabbed_pane.add(view, state="normal", text=view.type.display_name)
+        self.__views_tabbed_pane.add(view, state="normal", text=view.type.display_name, image=view_type.small_image, compound=tk.LEFT)
         #   ...and select it as "current"...
         self.__views_tabbed_pane.select(len(self.__views) - 1)
         return view

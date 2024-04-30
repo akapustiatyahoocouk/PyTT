@@ -1,2 +1,24 @@
+﻿PyTT.ProductName=PyTT Time Tracker
+PyTT.ProductVersion=Версия 1.0.0 (сборка 20240430)
+PyTT.ProductCopyright=Copyright (C) 2024, Andrey Kapustin
+PyTT.LargeImage=ImageFile:images/PyTTLarge.png
+PyTT.SmallImage=ImageFile:images/PyTTSmall.png
+
 PyTT.License=TextFile:documents/gpl-3.0-ru.txt
-#   TODO copy strings from invariant fiAboule
+
+Preferences.General=Общие
+
+##########
+#   Locale support
+Locale.Invariant=Инвариант
+
+Language.en=Английский
+Language.ru=Русский
+
+Country.GB=Великобритания
+
+##########
+#   Subsystems
+RootSubsystem.DisplayName=PyTT
+UiSubsystem.DisplayName=Интерфейс
+UtilitiesSubsystem.DisplayName=Утилиты

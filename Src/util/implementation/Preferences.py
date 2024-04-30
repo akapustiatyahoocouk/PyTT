@@ -103,27 +103,22 @@ class Preferences(ABCWithConstants):
     
     @property
     def preferences(self) -> Set["Preference"]:
+        """ The set of all Preference settings under this Preferences. """
         return set(self.__preferences)
 
     ##########
     #   Operations
     def add_preference(self, preference: Preference) -> None:
+        """
+            Adds the specified Preference setting to this Preference.
+
+            @param preference:
+                The Preference setting to add to this Preferences.
+        """
         assert isinstance(preference, Preference)
         
         if preference not in self.__preferences:
             self.__preferences.append(preference)
-
-    @staticmethod
-    def load() -> None:
-        section = Settings.get("Prefrences")
-        for subroot in Preferences.ROOT.children:
-            subroot.__load(section)
-
-    @staticmethod
-    def save() -> None:
-        section = Settings.get("Prefrences")
-        for subroot in Preferences.ROOT.children:
-            subroot.__save(section)
 
     def create_editor(self, parent: tk.BaseWidget) -> tk.BaseWidget:
         """
@@ -139,7 +134,31 @@ class Preferences(ABCWithConstants):
         """
         assert isinstance(parent, tk.BaseWidget)
         return None
+
+    def apply(self) -> None:
+        """ Applies the current value of all Preference settings
+            that exist under this Preferences to the currently
+            running application. """
+        pass            
         
+    @staticmethod
+    def load() -> None:
+        """ Loads the entire Preferences tree from persistent Preferences.
+            This means loaduing values of every Prefrence setting of
+            every Prefrences node in the Prefrences tree. """
+        section = Settings.get("Prefrences")
+        for subroot in Preferences.ROOT.children:
+            subroot.__load(section)
+
+    @staticmethod
+    def save() -> None:
+        """ Saves the entire Preferences tree from persistent Preferences.
+            This means saving values of every Prefrence setting of
+            every Prefrences node in the Prefrences tree. """
+        section = Settings.get("Prefrences")
+        for subroot in Preferences.ROOT.children:
+            subroot.__save(section)
+
     ##########
     #   Implementation helpers
     def __load(self, section: ComponentSettings) -> None:
@@ -152,7 +171,7 @@ class Preferences(ABCWithConstants):
                 elif isinstance(preference, LocalePreference):
                     preference.value = section.get_locale(key, preference.value)
             except:
-                pass    #   use default value of the Preference
+                pass    #   use default value of the Preference TODO and log ?
         #   ...then the children
         for child in self.__children:
             child.__load(section)
@@ -170,7 +189,7 @@ class Preferences(ABCWithConstants):
                     elif isinstance(preference, LocalePreference):
                         section.put_locale(key, preference.value)
                 except:
-                    pass    #   use default value of the Preference
+                    pass    #   use default value of the Preference TODO and log ?
         #   ...then the children
         for child in self.__children:
             child.__save(section)
