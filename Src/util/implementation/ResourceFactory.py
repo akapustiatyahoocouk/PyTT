@@ -1,7 +1,7 @@
 """ Defines a "resource factory" an agent responsible
     for creation of localizable resources. """
 #   Python standard library
-from typing import Any
+from typing import Any, Optional
 from abc import ABC, abstractmethod, abstractproperty
 import tkinter as tk
 
@@ -48,7 +48,7 @@ class ResourceFactory(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def get_resource(self, key: str, locale: Locale = Locale.default) -> Any:
+    def get_resource(self, key: str, locale: Optional[Locale] = None) -> Any:
         """
             Retrieves the specified resource for the specified locale.
             It this cannot be done, attempts to do the same for the parent
@@ -58,7 +58,7 @@ class ResourceFactory(ABC):
             @param key:
                 The resource key.
             @param locale:
-                The required resource locale.
+                The required resource locale; None == current default.
             @return:
                 The resource for the specified key.
             @raise KeyError:
@@ -67,7 +67,7 @@ class ResourceFactory(ABC):
         """
         raise NotImplementedError()
 
-    def get_string(self, key: str, locale: Locale = Locale.default) -> str:
+    def get_string(self, key: str, locale: Optional[Locale] = None) -> str:
         """
             Retrieves the specified string resource for the specified locale.
             It this cannot be done, attempts to do the same for the parent
@@ -77,7 +77,7 @@ class ResourceFactory(ABC):
             @param key:
                 The resource key.
             @param locale:
-                The required resource locale.
+                The required resource locale; None == current default.
             @return:
                 The string resource for the specified key.
             @raise KeyError:
@@ -91,7 +91,7 @@ class ResourceFactory(ABC):
                        "' does not exist in " + self.name +
                        " or related resources")
 
-    def get_image(self, key: str, locale: Locale = Locale.default) -> tk.PhotoImage:
+    def get_image(self, key: str, locale: Optional[Locale] = None) -> tk.PhotoImage:
         """
             Retrieves the specified image resource for the specified locale.
             It this cannot be done, attempts to do the same for the parent
@@ -101,7 +101,7 @@ class ResourceFactory(ABC):
             @param key:
                 The resource key.
             @param locale:
-                The required resource locale.
+                The required resource locale; None == current default.
             @return:
                 The image resource for the specified key.
             @raise KeyError:

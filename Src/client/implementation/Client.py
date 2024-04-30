@@ -26,6 +26,7 @@ from util.interface.api import *
 #   an application) there is no root module to be relative to.
 from client.implementation.CommandLine import CommandLine
 from client.implementation.GeneralStartupPreferences import GeneralStartupPreferences
+from client.implementation.GeneralAppearancePreferences import GeneralAppearancePreferences
 
 @final
 class SplashScreen: #   TODO move to a separate file
@@ -224,6 +225,9 @@ if __name__ == "__main__":
     #   Now that all plugins are loaded, the Preferences
     #   tree is complete, so we can load all Preferences        
     Preferences.load()
+    ui_locale = GeneralAppearancePreferences.instance.ui_locale.value
+    if ui_locale in LocalizableSubsystem.all_supported_locales():
+        Locale.default = ui_locale
 
     #   Perform initial login; use last successful login if necessary
     perform_initial_login()

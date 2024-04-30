@@ -1,5 +1,5 @@
 #   Python standard library
-from typing import Any
+from typing import Any, Optional
 import os
 import re
 import tkinter as tk
@@ -82,16 +82,18 @@ class FileResourceFactory(ResourceFactory):
                 return ResourceType.NONE
             locale = locale.parent
 
-    def get_resource(self, key: str, locale: Locale = Locale.default) -> Any:
+    def get_resource(self, key: str, locale: Optional[Locale]) -> Any:
         assert isinstance(key, str)
-        assert isinstance(locale, Locale)
+        assert (locale is None) or isinstance(locale, Locale)
 
+        if locale is None:
+            locale = Locale.default
         while True:
             resource_bundle = self.__resource_bundles.get(locale, None)
             if resource_bundle is not None:
                 try:
                     return resource_bundle.get_resource(key)
-                except:
+                except Exception as ex:
                     pass
             #   Try parent locale
             if locale == Locale.ROOT:

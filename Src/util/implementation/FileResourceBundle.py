@@ -118,7 +118,7 @@ class FileResourceBundle(ResourceBundle):
             text_file_name = resource_definition[9:]
             if not os.path.isabs(text_file_name):
                 text_file_name = os.path.join(os.path.dirname(self.__file_name), text_file_name)
-            with open(text_file_name, "r") as f:
+            with open(text_file_name, mode="r", encoding="utf-8") as f:
                 return (ResourceType.STRING, f.read())
             #   TODO shortcuts, etc.
         else:

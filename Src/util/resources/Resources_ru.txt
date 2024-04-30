@@ -1,2 +1,2 @@
 PyTT.License=TextFile:documents/gpl-3.0-ru.txt
-#   TODO copy strings from invariant file
+#   TODO copy strings from invariant fiAboule

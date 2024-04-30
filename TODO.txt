@@ -1,4 +1,7 @@
 ========== IMMEDIATE PIPELINE ======================================
+*   locale: Locale = Locale.default doesn't work as a default value
+    for a function parameter!!! It must be resolved at function
+    run time!!!
 *   Try to avoid string-style type hints. For example, consider
     SqliteDatabaseType.instance -> "SqliteDatabaseType" as opposed
     to UsersViewType.instance -> ViewType.

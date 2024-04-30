@@ -38,8 +38,6 @@ class LocaleMeta(ClassWithConstantsMeta):
         assert isinstance(value, Locale)
         if value != cls._Locale__default_locale:
             from .PropertyChangeEvent import PropertyChangeEvent
-            from .LocaleProvider import LocaleProvider
-            from .DefaultLocaleProvider import DefaultLocaleProvider
             cls._Locale__default_locale = value
             evt = PropertyChangeEvent(cls, cls, Locale.DEFAULT_LOCALE_PROPERTY_NAME)
             cls.process_property_change_event(evt)
