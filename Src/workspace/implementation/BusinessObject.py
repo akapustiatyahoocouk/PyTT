@@ -85,6 +85,23 @@ class BusinessObject(ABCWithConstants):
     ##########
     #   Operations (access control)
     @abstractmethod
+    def can_modify(self, credentials: Credentials) -> bool:
+        """
+            Checks whether the specified credentials allow 
+            modifying this business object or some properties thereof.
+            
+            @param credentials:
+                The credentials to check.
+            @return:
+                True if the specified credentials allow destroying 
+                this business object or some properties thereof, 
+                False if not.
+            @raise WorkspaceError:
+                If a data access error occurs.
+        """
+        raise NotImplementedError()
+
+    @abstractmethod
     def can_destroy(self, credentials: Credentials) -> bool:
         """
             Checks whether the specified credentials allow 

@@ -9,6 +9,7 @@ from util.interface.api import *
 from .Credentials import Credentials
 from .Capabilities import Capabilities
 from .BusinessObject import BusinessObject
+from .Exceptions import *
 
 ##########
 #   Public entities
@@ -32,6 +33,9 @@ class BusinessUser(BusinessObject):
     
     ##########
     #   Operations (access control)
+    def can_modify(self, credentials: Credentials) -> bool:
+        raise NotImplementedError()
+
     def can_destroy(self, credentials: Credentials) -> bool:
         raise NotImplementedError()
 
@@ -81,7 +85,13 @@ class BusinessUser(BusinessObject):
         """
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
-        raise NotImplementedError()
+        
+        if self.workspace.get_capabilities(credentials) == None:
+            raise WorkspaceAccessDeniedError()
+        try:
+            return self._data_object.real_name
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     def set_real_name(self, new_real_name: str) -> None:
         """

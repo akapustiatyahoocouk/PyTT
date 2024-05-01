@@ -119,7 +119,6 @@ class TreeNodeCollection:
             elif isinstance(self.__owner, TreeView):
                 #   This is a collection of root nodes of a TreeView
                 node._TreeNode__tree_view = self.__owner
-                self.__owner._TreeView__root_nodes.__members.append(node)
                 #   Add Tk tree node to the underlying control
                 if image is None:
                     node._TreeNode__tk_node_id = self.__owner.insert("", tk.END, text=item)

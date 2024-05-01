@@ -8,6 +8,7 @@ from db.interface.api import *
 #   Internal dependencies on modules within the same component
 from .SqlDatabase import SqlDatabase
 from .SqlDatabaseObject import SqlDatabaseObject
+from .SqlDataType import SqlDataType
 
 ##########
 #   Public entities
@@ -20,6 +21,13 @@ class SqlUser(SqlDatabaseObject, User):
         SqlDatabaseObject.__init__(self, db, oid)
         User.__init__(self)
 
+        #   Property cache
+        self._enabled = None
+        self._real_name = None
+        self._inactivity_timeout = None
+        self._ui_locale = None
+        self._email_addresses = None
+
     ##########
     #   DatabaseObject - Operations (life cycle)
     def destroy(self) -> None:
@@ -29,7 +37,10 @@ class SqlUser(SqlDatabaseObject, User):
     #   User - Properties
     @property
     def enabled(self) -> bool:
-        raise NotImplementedError()
+        self._ensure_live()
+        
+        self._load_property_cache()
+        return self._enabled
 
     @enabled.setter
     def enabled(self, new_enabled: bool) -> None:
@@ -37,7 +48,10 @@ class SqlUser(SqlDatabaseObject, User):
 
     @property
     def real_name(self) -> str:
-        raise NotImplementedError()
+        self._ensure_live()
+        
+        self._load_property_cache()
+        return self._real_name
 
     @real_name.setter
     def real_name(self, new_real_name: str) -> None:
@@ -45,7 +59,10 @@ class SqlUser(SqlDatabaseObject, User):
 
     @property
     def inactivity_timeout(self) -> Optional[int]:
-        raise NotImplementedError()
+        self._ensure_live()
+        
+        self._load_property_cache()
+        return self._inactivity_timeout
 
     @inactivity_timeout.setter
     def inactivity_timeout(self, new_inactivity_timeout: Optional[int]) -> None:
@@ -53,7 +70,10 @@ class SqlUser(SqlDatabaseObject, User):
 
     @property
     def ui_locale(self) -> Optional[Locale]:
-        raise NotImplementedError()
+        self._ensure_live()
+        
+        self._load_property_cache()
+        return self._ui_locale
 
     @ui_locale.setter
     def ui_locale(self, new_ui_locale: Optional[Locale]) -> None:
@@ -61,7 +81,10 @@ class SqlUser(SqlDatabaseObject, User):
 
     @property
     def email_addresses(self) -> List[str]:
-        raise NotImplementedError()
+        self._ensure_live()
+        
+        self._load_property_cache()
+        return self._email_addresses.copy()
 
     @email_addresses.setter
     def email_addresses(self, new_email_addresses: List[str]) -> None:
@@ -170,8 +193,27 @@ class SqlUser(SqlDatabaseObject, User):
     ##########
     #   Property cache support
     def _reload_property_cache(self) -> None:
-        stat = self.database.create_statement(
-            """SELECT * FROM users WHERE pk = ?""");
-        stat.set_int_parameter(self.oid)
-        rs = self.database.execute_sql(stat)
-        pass    #   Nothing cached as DatabaseObject level
+        try:
+            stat = self.database.create_statement(
+                """SELECT * FROM users WHERE pk = ?""");
+            stat.set_int_parameter(0, self.oid)
+            rs = stat.execute()
+            assert len(rs) <= 1
+            if len(rs) == 0:
+                #   OOPS! The record is not in the database!
+                self._mark_dead()
+                raise DatabaseObjectDeadError(Account.TYPE_NAME)
+            r = rs[0]
+            self._enabled = r["enabled", SqlDataType.BOOLEAN]
+            self._real_name = r["real_name", SqlDataType.STRING]
+            self._inactivity_timeout = r["inactivity_timeout", SqlDataType.INTEGER]
+            ui_locale_name = r["ui_locale", SqlDataType.STRING]
+            self._ui_locale = None if ui_locale_name is None else Locale.parse(ui_locale_name)
+            email_addresses = r["email_addresses", SqlDataType.STRING]
+            if email_addresses is None:
+                self._email_addresses = []
+            else:
+                self._email_addresses = email_addresses.split("\n")
+        except Exception as ex:
+            raise DatabaseError.wrap(ex)
+

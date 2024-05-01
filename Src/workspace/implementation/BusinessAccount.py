@@ -33,6 +33,9 @@ class BusinessAccount(BusinessObject):
     
     ##########
     #   Operations (access control)
+    def can_modify(self, credentials: Credentials) -> bool:
+        raise NotImplementedError()
+
     def can_destroy(self, credentials: Credentials) -> bool:
         raise NotImplementedError()
 

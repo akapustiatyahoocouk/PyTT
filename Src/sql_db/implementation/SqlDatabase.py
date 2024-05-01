@@ -67,7 +67,7 @@ class SqlDatabase(Database):
         rs = stat.execute()
         result = set()
         for r in rs:
-            result.add(self._get_user_proxy(r["pk]"]))
+            result.add(self._get_user_proxy(r["pk"]))
         return result
 
     ##########

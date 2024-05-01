@@ -1,6 +1,6 @@
 """ Persistent settings of the Admin skin. """
 #   Python standard library
-from typing import final, List
+from typing import final, List, Optional
 
 #   Dependencies on other PyTT components
 from gui.interface.api import *
@@ -94,6 +94,20 @@ class AdminSkinSettingsMeta(type):
         ll = list(map(lambda vt: vt.mnemonic, viev_types))
         cls.__impl.put("active_views", ",".join(ll))
         pass
+
+    @property
+    def current_view(cls) -> Optional[ViewType]:
+        mnemonic = cls.__impl.get("current_view", "")
+        return ViewType.find(mnemonic)
+        
+    @current_view.setter
+    def current_view(cls, viev_type: ViewType) -> None:
+        assert (viev_type is None) or isinstance(viev_type, ViewType)
+
+        if viev_type is None:
+            cls.__impl.remove("current_view")
+        else:
+            cls.__impl.put("current_view", viev_type.mnemonic)
 
 @final
 class AdminSkinSettings(metaclass=AdminSkinSettingsMeta):

@@ -83,8 +83,8 @@ class AdminSkinMainFrame(Frame,
         self.add_window_listener(self)
         self.add_widget_listener(self)
 
-        #TODO kill off self.add_key_listener(lambda e: print(e))
-
+        self.__views_tabbed_pane.add_property_change_listener(self.__views_tabbed_pane_selection_changed)
+        
         CurrentWorkspace.add_property_change_listener(self.__on_workspace_changed)
         Locale.add_property_change_listener(self.__on_locale_changed)
         #   TODO current credentials change
@@ -152,6 +152,19 @@ class AdminSkinMainFrame(Frame,
         assert isinstance(evt, WindowEvent)
         evt.processed = True
         self.__action_set.exit.execute(ActionEvent(self))
+
+    ##########
+    #   Properties
+    @property    
+    def current_view(self) -> View:
+        """ The View currently selected in this frame, or
+            None if no view is currently selected. """
+        selected_view_tab_name = self.__views_tabbed_pane.select()
+        if selected_view_tab_name != "":
+            selected_view_index = self.__views_tabbed_pane.index(selected_view_tab_name)
+            return self.__views[selected_view_index]
+        else:
+            return None
 
     ##########
     #   Operations
@@ -232,14 +245,24 @@ class AdminSkinMainFrame(Frame,
         active_view_types = AdminSkinSettings.active_views
         for active_view_type in active_view_types:
             self.open_view(active_view_type, save_active_views=False)
-        #   TODO load and select the "current" view
+        #   Load and select the "current" view
+        current_view = AdminSkinSettings.current_view
+        for i in range(len(self.__views)):
+            if self.__views[i].type == current_view:
+                self.__views_tabbed_pane.select(i)
+                break
 
     def __save_active_views(self) -> None:
         active_views = []
         for view in self.__views:
             active_views.append(view.type)
         AdminSkinSettings.active_views = active_views
-        #   TODO save the "current" view
+        #   Save the "current" view too
+        current_tab_index = self.__views_tabbed_pane.current_tab_index
+        if current_tab_index is None:
+            AdminSkinSettings.current_view = None
+        else:
+            AdminSkinSettings.current_view = self.__views[current_tab_index].type
 
     def __close_all_active_views(self) -> None:
         while len(self.__views) > 0:
@@ -295,6 +318,10 @@ class AdminSkinMainFrame(Frame,
 
     ##########
     #   Event listeners
+    def __views_tabbed_pane_selection_changed(self, evt: PropertyChangeEvent) -> None:
+        assert isinstance(evt, PropertyChangeEvent)
+        self.__save_active_views()
+        
     def __on_workspace_changed(self, evt) -> None:
         assert isinstance(evt, PropertyChangeEvent)
         self.__regenerate_dynamic_menus()

@@ -125,7 +125,7 @@ class Workspace:
         self._ensure_open() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        capabilities = self.get_capabilities.get(credentials)   # may raise WorkspaceError
+        capabilities = self.get_capabilities(credentials)   # may raise WorkspaceError
         if capabilities is None:
             return False
         return capabilities.contains_any(Capabilities.ADMINISTRATOR, Capabilities.MANAGE_USERS)

@@ -187,7 +187,7 @@ class Capabilities(ClassWithConstants):
         return Capabilities.__all_impl
 
     ##########
-    #   Construction (internal only)
+    #   Construction
     def __init__(self, bit_mask: int) -> None:
         assert isinstance(bit_mask, int)
         self.__bit_mask = (bit_mask & 0x1FFF)
@@ -199,16 +199,6 @@ class Capabilities(ClassWithConstants):
             return Capabilities(self.__bit_mask | op2.__bit_mask)
         else:
             return Capabilities(self.__bit_mask  | op2.value)
-
-    def __ior__(self, op2) -> "Capabilities":
-        assert isinstance(self, Capabilities)
-        assert isinstance(op2, Capabilities) or isinstance(op2, Capability)
-
-        if isinstance(op2, Capabilities):
-            self.__bit_mask |= op2.__bit_mask
-        else:
-            self.__bit_mask  |= op2.value
-        return self
 
     ##########
     #   Operations
@@ -233,7 +223,7 @@ class Capabilities(ClassWithConstants):
             #   Check for containing a single capability
             return (self.__bit_mask & op2.value) != 0
 
-    def contains_any(self, args) -> bool:
+    def contains_any(self, *args) -> bool:
         """
             Checks whether this capability set contains any of the
             specified capabilities or a single specified capability.

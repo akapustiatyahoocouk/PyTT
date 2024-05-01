@@ -49,7 +49,10 @@ class SqlAccount(SqlDatabaseObject, Account):
 
     @property
     def login(self) -> str:
-        raise NotImplementedError()
+        self._ensure_live()
+        
+        self._load_property_cache()
+        return self._login
 
     @login.setter
     def login(self, new_login: str) -> None:
@@ -57,6 +60,8 @@ class SqlAccount(SqlDatabaseObject, Account):
 
     @property
     def password(self) -> str:
+        """ Don't use! Needed here because password.setter 
+            logic won;t work otherwise. """
         raise NotImplementedError()
 
     @password.setter
@@ -65,11 +70,17 @@ class SqlAccount(SqlDatabaseObject, Account):
 
     @property
     def password_hash(self) -> str:
-        raise NotImplementedError()
+        self._ensure_live()
+        
+        self._load_property_cache()
+        return self._password_hash
 
     @property
     def capabilities(self) -> Capabilities:
-        raise NotImplementedError()
+        self._ensure_live()
+        
+        self._load_property_cache()
+        return self._capabilities
 
     @capabilities.setter
     def capabilities(self, new_capabilities: Capabilities) -> None:
@@ -81,7 +92,10 @@ class SqlAccount(SqlDatabaseObject, Account):
 
     @email_addresses.setter
     def email_addresses(self, new_email_addresses: List[str]) -> None:
-        raise NotImplementedError()
+        self._ensure_live()
+        
+        self._load_property_cache()
+        return self._email_addresses.copy()
 
     ##########
     #   Account - Associations
