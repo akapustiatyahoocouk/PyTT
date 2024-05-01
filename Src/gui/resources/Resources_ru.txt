@@ -1,0 +1,36 @@
+﻿
+##########
+#   Actions TODO
+Actions.CreateWorkspace.Name=Создать рабочее пространство
+Actions.CreateWorkspace.Hotkey=С
+Actions.CreateWorkspace.Description=Создаёт новое рабочее пространство
+
+
+##########
+#   Dialogs TODO
+AboutDialog.Title=Про PyTT
+AboutDialog.LicenseButton.Text=Лицензия
+AboutDialog.LanguagesButton.Text=Трансляции
+AboutDialog.ComponentsButton.Text=Расширения
+AboutDialog.OkButton.Text=Дальше
+
+LicenseDialog.Title=Лицензия PyTT
+LicenseDialog.OkButton.Text=Дальше
+
+LanguagesDialog.Title=Трансляции
+LanguagesDialog.OkButton.Text=Дальше
+
+##########
+#   View types YODO
+UsersViewType.DisplayName=Пользователи
+
+ActivityTypesViewType.DisplayName=Типы активностей
+
+##########
+#   Views TODO
+UsersViewEditor.CreateUserButton.Text=Создать пользователя
+UsersViewEditor.ModifyUserButton.Text=Редактировать пользователя
+UsersViewEditor.DestroyUserButton.Text=Удалить пользователя
+UsersViewEditor.CreateAccountButton.Text=Создать учётную запись
+UsersViewEditor.ModifyAccountButton.Text=Редактировать учётную запись
+UsersViewEditor.DestroyAccountButton.Text=Удалить учётную запись

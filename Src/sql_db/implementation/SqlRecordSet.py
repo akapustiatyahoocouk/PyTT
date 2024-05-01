@@ -19,28 +19,34 @@ class SqlRecordSet:
         self.__columns = columns
         self.__rows = rows
         self.__map_column_names_to_indices = None   # lazily prepared dict()
-        self.__current_row = 0
         
     ##########
     #   object
     def __len__(self) -> int:
         return len(self.__rows)
     
-    def __iter__(self) -> "SqlRecordSet":
-        self.__current_row = 0
-        return self
+    def __getitem__(self, index: int) -> SqlRecord:
+        assert isinstance(index, int)
+        return SqlRecord(self, index, self.__rows[index])
 
-    def __next__(self) -> SqlRecord:
-        if self.__current_row < len(self.__rows):
-            row = self.__rows[self.__current_row]
-            self.__current_row += 1
-            return SqlRecord(self, row)
-        else:
-            raise StopIteration
+    def __iter__(self) -> "SqlRecordSet":
+        class Iterator:
+            def __init__(self, rs):
+                self.__rs = rs
+                self.__current_row_index = 0
+            def __next__(self) -> SqlRecord:
+                if self.__current_row_index < len(self.__rs._SqlRecordSet__rows):
+                    row_number = self.__current_row_index
+                    row = self.__rs._SqlRecordSet__rows[row_number]
+                    self.__current_row_index += 1
+                    return SqlRecord(self.__rs, row_number, row)
+                else:
+                    raise StopIteration
+        return Iterator(self)
 
     ##########
     #   Implementation helpers
-    def _get_column_index(self, column: str) -> Optional[int]:
+    def __get_column_index(self, column: str) -> Optional[int]:
         if self.__map_column_names_to_indices is None:
             self.__map_column_names_to_indices = dict()
             for i in range(len(self.__columns)):

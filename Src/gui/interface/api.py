@@ -28,6 +28,8 @@ from gui.implementation.skins.Skin import *
 from gui.implementation.skins.SkinRegistry import *
 from gui.implementation.skins.ActiveSkin import *
 
+from gui.implementation.views.ActivityTypesView import *
+from gui.implementation.views.ActivityTypesViewType import *
 from gui.implementation.views.UsersView import *
 from gui.implementation.views.UsersViewType import *
 from gui.implementation.views.View import *

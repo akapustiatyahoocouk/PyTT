@@ -121,7 +121,26 @@ CannotReopenLastWorkspaceDialog.Title=Could not reopen last workspace
 CannotReopenLastWorkspaceDialog.Message=Would you like to remove the workspace\n{0}\nfrom recent workspaces list?
 
 ##########
-#   Views
+#   View types
 UsersViewType.DisplayName=Users
 UsersViewType.SmallImage=ImageFile:images/objects/UserSmall.png
 UsersViewType.LargeImage=ImageFile:images/objects/UserLarge.png
+
+ActivityTypesViewType.DisplayName=Activity types
+ActivityTypesViewType.SmallImage=ImageFile:images/objects/ActivityTypeSmall.png
+ActivityTypesViewType.LargeImage=ImageFile:images/objects/ActivityTypeLarge.png
+
+##########
+#   Views
+UsersViewEditor.CreateUserButton.Text=Create user
+UsersViewEditor.CreateUserButton.Image=ImageFile:images/actions/CreateUserSmall.png
+UsersViewEditor.ModifyUserButton.Text=Modify user
+UsersViewEditor.ModifyUserButton.Image=ImageFile:images/actions/ModifyUserSmall.png
+UsersViewEditor.DestroyUserButton.Text=Destroy user
+UsersViewEditor.DestroyUserButton.Image=ImageFile:images/actions/DestroyUserSmall.png
+UsersViewEditor.CreateAccountButton.Text=Create account
+UsersViewEditor.CreateAccountButton.Image=ImageFile:images/actions/CreateAccountSmall.png
+UsersViewEditor.ModifyAccountButton.Text=Modify account
+UsersViewEditor.ModifyAccountButton.Image=ImageFile:images/actions/ModifyAccountSmall.png
+UsersViewEditor.DestroyAccountButton.Text=Destroy account
+UsersViewEditor.DestroyAccountButton.Image=ImageFile:images/actions/DestroyAccountSmall.png

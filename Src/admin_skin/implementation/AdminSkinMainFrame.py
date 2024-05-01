@@ -26,7 +26,7 @@ class AdminSkinMainFrame(Frame,
         WindowEventHandler.__init__(self)
 
         self.__views = []   #   parallel to the self.__views_tabbed_pane
-        
+
         self.__action_set = ActionSet()
 
         self.__file_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "FileMenu")
@@ -74,6 +74,7 @@ class AdminSkinMainFrame(Frame,
         if len(AdminSkinSettings.active_views) == 0:
             #   Open default bunch of views
             self.open_view(UsersViewType.instance, save_active_views=True)
+            self.open_view(ActivityTypesViewType.instance, save_active_views=True)
         else:
             #   Re-open views from last session
             self.__load_active_views()
@@ -105,8 +106,17 @@ class AdminSkinMainFrame(Frame,
             title += " - " + workspace.address.display_form
         self.title(title)
 
-        #   Action availability
+        #   Action availability - statically created actions
         self.__action_set.close_workspace.enabled = workspace is not None
+
+        #   Action availability - dynamically created actions
+        for open_view_action in self.__open_view_actions:
+            open_view_action.enabled = (workspace is not None)
+        selected_view_tab_name = self.__views_tabbed_pane.select()
+        self.__close_current_view_action.enabled = ((workspace is not None) and
+                                                    (selected_view_tab_name != ""))
+        self.__close_all_views_action.enabled = ((workspace is not None) and
+                                                 (len(self.__views) > 0))
 
     ##########
     #   WidgetEventHandler
@@ -177,7 +187,22 @@ class AdminSkinMainFrame(Frame,
             self.__save_active_views()
         #   ...and we're done
         return view
-    
+
+    def close_current_view(self) -> None:
+        selected_view_tab_name = self.__views_tabbed_pane.select()
+        if selected_view_tab_name != "":
+            selected_view_index = self.__views_tabbed_pane.index(selected_view_tab_name)
+            item = self.__views[selected_view_index]
+            del(item)
+            self.__views.pop(selected_view_index)
+            self.__views_tabbed_pane.forget(selected_view_index)
+        pass
+
+    def close_all_views(self) -> None:
+        self.__close_all_active_views()
+        self.__save_active_views()
+        self.request_refresh()
+
     ##########
     #   Implementation helpers
     def __load_position(self):
@@ -204,15 +229,17 @@ class AdminSkinMainFrame(Frame,
             AdminSkinSettings.main_frame_maximized = True
 
     def __load_active_views(self) -> None:
-        active_view_infos = AdminSkinSettings.active_views
-        for active_view_info in active_view_infos:
-            self.open_view(active_view_info[0], save_active_views=False)
-        
+        active_view_types = AdminSkinSettings.active_views
+        for active_view_type in active_view_types:
+            self.open_view(active_view_type, save_active_views=False)
+        #   TODO load and select the "current" view
+
     def __save_active_views(self) -> None:
         active_views = []
         for view in self.__views:
-            active_views.append((view.type,))
+            active_views.append(view.type)
         AdminSkinSettings.active_views = active_views
+        #   TODO save the "current" view
 
     def __close_all_active_views(self) -> None:
         while len(self.__views) > 0:
@@ -226,7 +253,7 @@ class AdminSkinMainFrame(Frame,
 
         class ViewOpener(Action):
             def __init__(self, main_frame, view_type):
-                Action.__init__(self, 
+                Action.__init__(self,
                                 name=AdminSkinResources.string("Actions.OpenView.Name")
                                                        .format(view_type.display_name),
                                 small_image=view_type.small_image,
@@ -236,29 +263,36 @@ class AdminSkinMainFrame(Frame,
             def execute(self, evt: ActionEvent) -> None:
                 self.__main_frame.open_view(self.__view_type, save_active_views=True)
 
-        class ViewCloser(Action):
+        class CloseCurrentViewAction(ResourceAwareAction):
             def __init__(self, main_frame):
-                Action.__init__(self, 
-                                name=AdminSkinResources.string("Actions.CloseCurrentView.Name"),
-                                small_image=AdminSkinResources.image("Actions.CloseCurrentView.SmallImage"),
-                                large_image=AdminSkinResources.image("Actions.CloseCurrentView.LargeImage"))
+                ResourceAwareAction.__init__(self, AdminSkinResources.factory, "Actions.CloseCurrentView")
                 self.__main_frame = main_frame
             def execute(self, evt: ActionEvent) -> None:
-                pass
+                self.__main_frame.close_current_view()
+
+        class CloseAllViewsAction(ResourceAwareAction):
+            def __init__(self, main_frame):
+                ResourceAwareAction.__init__(self, AdminSkinResources.factory, "Actions.CloseAllViews")
+                self.__main_frame = main_frame
+            def execute(self, evt: ActionEvent) -> None:
+                self.__main_frame.close_all_views()
 
         all_view_types = list(ViewType.all)
         all_view_types.sort(key=lambda vt: vt.display_name)
+        self.__open_view_actions = []
         for view_type in all_view_types:
             action = ViewOpener(self, view_type)
+            self.__open_view_actions.append(action)
             self.__view_menu.items.add(action)
-            action.enabled = CurrentWorkspace.get() is not None
-        
+
         self.__view_menu.items.add_seperator()
 
-        action = ViewCloser(self)
-        self.__view_menu.items.add(action)
-        action.enabled = CurrentWorkspace.get() is not None
-        
+        self.__close_current_view_action = CloseCurrentViewAction(self)
+        self.__view_menu.items.add(self.__close_current_view_action)
+
+        self.__close_all_views_action = CloseAllViewsAction(self)
+        self.__view_menu.items.add(self.__close_all_views_action)
+
     ##########
     #   Event listeners
     def __on_workspace_changed(self, evt) -> None:
@@ -278,7 +312,7 @@ class AdminSkinMainFrame(Frame,
     def __on_locale_changed(self, evt) -> None:
         assert isinstance(evt, PropertyChangeEvent)
         self.__regenerate_dynamic_menus()
-        #   TODO tab names of the self.__views_tabbed_pane must be 
+        #   TODO tab names of the self.__views_tabbed_pane must be
         #   localized, because they are actually display names of view types
         #   e.g. self.__views_tabbed_pane.tab(tabWidget, text = 'myNewText')
         self.request_refresh()

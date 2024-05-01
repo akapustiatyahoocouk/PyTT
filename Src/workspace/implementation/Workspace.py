@@ -3,7 +3,7 @@
     and busibess/access rules . """
 
 #   Python standard library
-from typing import final
+from typing import final, Set
 from weakref import WeakKeyDictionary, WeakValueDictionary
 import threading
 
@@ -18,6 +18,7 @@ from .Exceptions import WorkspaceError
 from .Credentials import Credentials
 from .Capabilities import Capabilities
 from .BusinessObject import BusinessObject
+from .BusinessUser import BusinessUser
 from .Notifications import *
 
 ##########
@@ -36,12 +37,12 @@ class Workspace:
 
         self.__address = address
         self.__db = db
-        
+
         self.__lock = threading.RLock() #   for all access synchronization
-        
+
         self.__map_data_objects_to_business_objects = WeakValueDictionary()
         self.__access_rights = WeakKeyDictionary()  #   Credentials -> Capabilities
-        
+
         #   Forward database notifications to workspace clients
         self.__notification_listeners = []
         self.__notification_listeners_guard = threading.Lock()
@@ -104,19 +105,30 @@ class Workspace:
             @raise WorkspaceError:
                 If a data access error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
+        self._ensure_open() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
         capabilities = self.__access_rights.get(credentials, None)
         if capabilities is None:
             try:
-                data_account = self.__data_object.database.try_login(credentials.login, credentials.__password)
-                capabilities = data_account.capabilities if data_account is not None else Capabilities.NONE
+                data_account = self.__db.try_login(credentials.login, credentials._Credentials__password)
+                if (data_account is not None) and data_account.enabled and data_account.user.enabled:
+                    capabilities = data_account.capabilities
+                else:
+                    capabilities = Capabilities.NONE
                 self.__access_rights[credentials] = capabilities
             except Exception as ex:
                 raise WorkspaceError.wrap(ex)
         return capabilities
 
+    def can_manage_users(self, credentials: Credentials) -> bool:
+        self._ensure_open() # may raise WorkspaceError
+        assert isinstance(credentials, Credentials)
+
+        capabilities = self.get_capabilities.get(credentials)   # may raise WorkspaceError
+        if capabilities is None:
+            return False
+        return capabilities.contains_any(Capabilities.ADMINISTRATOR, Capabilities.MANAGE_USERS)
 
     ##########
     #   Operations (associations)
@@ -177,6 +189,26 @@ class Workspace:
         except Exception as ex:
             raise WorkspaceError.wrap(ex)
         return self._get_business_proxy(data_account)
+
+    def get_users(self, credentials: Credentials) -> Set[BusinessUser]:
+        assert isinstance(credentials, Credentials)
+
+        try:
+            result = set()
+            if self.get_capabilities(credentials) is None:
+                #   The caller has no access to the database OR account/user is disables
+                pass
+            elif self.can_manage_users(credentials):
+                #   The caller can see all users
+                for data_user in self.__db.users:
+                    result.add(self._get_business_proxy(data_user))
+            else:
+                #   The caller can only see their own user
+                data_account = self.__db.login(credentials.login, credentials.__password)
+                result.add(self._get_business_proxy(data_account.user))
+            return result
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     ##########
     #   Operations (notifications)
@@ -251,10 +283,14 @@ class Workspace:
 
     ##########
     #   Implementation helpers
+    def _ensure_open(self) -> None:
+        if not self.__db.is_open:
+            raise WorkspaceObjectDeadError("Workspace")
+
     def _get_business_proxy(self, data_object: dbapi.DatabaseObject) -> BusinessObject:
         from .BusinessUser import BusinessUser
         from .BusinessAccount import BusinessAccount
-        
+
         assert isinstance(data_object, dbapi.DatabaseObject)
         business_object = self.__map_data_objects_to_business_objects.get(data_object, None)
         if business_object is None:
@@ -283,7 +319,7 @@ class Workspace:
         if (isinstance(dbn, dbapi.DatabaseObjectCreatedNotification) or
             isinstance(dbn, dbapi.DatabaseObjectDestroyedNotification) or
             isinstance(dbn, dbapi.DatabaseObjectModifiedNotification)):
-            #   If User or Account is affected in any way, we may have 
+            #   If User or Account is affected in any way, we may have
             #   to recalculate all cached access rights
             if isinstance(dbn.object, dbapi.User) or isinstance(dbn.object, dbapi.Account):
                 with self.__lock:
@@ -298,4 +334,3 @@ class Workspace:
         else:
             raise NotImplementedError()
         self.process_notification(n)
-        

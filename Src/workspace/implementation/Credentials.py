@@ -32,7 +32,7 @@ class Credentials:
     ##########
     #   object
     def __hash__(self) -> int:
-        return hash(self.__login())
+        return hash(self.__login)
 
     #   a Credentials instance compares "less than" any other instance
     def __eq__(self, other) -> bool:

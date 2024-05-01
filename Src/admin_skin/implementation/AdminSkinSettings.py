@@ -77,19 +77,21 @@ class AdminSkinSettingsMeta(type):
         cls.__impl.put_bool("main_frame_maximized", new_maximized)
         
     @property
-    def active_views(cls) -> List[(ViewType,)]:    #   TODO, view settings
+    def active_views(cls) -> List[ViewType]:
         result = []
         chunks = cls.__impl.get("active_views", "").split(",")
         for chunk in chunks:
             view_type = ViewType.find(chunk)
             if view_type:
-                result.append((view_type,))
+                result.append(view_type)
         return result
         
     @active_views.setter
-    def active_views(cls, viev_infos: List[(ViewType,)]) -> None:    #   TODO, view settings
-        assert isinstance(viev_infos, list)
-        ll = list(map(lambda vi: vi[0].mnemonic, viev_infos))   #   TODO, view settings
+    def active_views(cls, viev_types: List[ViewType]) -> None:
+        assert isinstance(viev_types, list)
+        assert all(isinstance(vi, ViewType) for vi in viev_types)
+
+        ll = list(map(lambda vt: vt.mnemonic, viev_types))
         cls.__impl.put("active_views", ",".join(ll))
         pass
 

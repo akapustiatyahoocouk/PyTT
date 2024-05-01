@@ -49,3 +49,11 @@ class WorkspaceAccessDeniedError(WorkspaceError):
     #   Construction
     def __init__(self):
         super().__init__("Access denied")
+
+class WorkspaceObjectDeadError(WorkspaceError):
+    """ Thrown when an attempt is made to use a "dead" object. """
+
+    ##########
+    #   Construction
+    def __init__(self, object_type_name: str):
+        super().__init__("The " + object_type_name + " is dead")

@@ -52,7 +52,9 @@
     <Compile Include="implementation\misc\CurrentWorkspace.py" />
     <Compile Include="implementation\misc\CurrentCredentials.py" />
     <Compile Include="implementation\misc\GuiSettings.py" />
+    <Compile Include="implementation\views\ActivityTypesView.py" />
     <Compile Include="implementation\views\UsersView.py" />
+    <Compile Include="implementation\views\ActivityTypesViewType.py" />
     <Compile Include="implementation\views\View.py" />
     <Compile Include="implementation\views\UsersViewType.py" />
     <Compile Include="implementation\views\ViewType.py" />
@@ -110,8 +112,13 @@
     <Content Include="resources\images\misc\LicenseSmall.png" />
     <Content Include="resources\images\misc\LocaleLarge.png" />
     <Content Include="resources\images\misc\LocaleSmall.png" />
+    <Content Include="resources\images\objects\AccountLarge.png" />
+    <Content Include="resources\images\objects\AccountSmall.png" />
+    <Content Include="resources\images\objects\ActivityTypeLarge.png" />
+    <Content Include="resources\images\objects\ActivityTypeSmall.png" />
     <Content Include="resources\images\objects\UserLarge.png" />
     <Content Include="resources\images\objects\UserSmall.png" />
+    <Content Include="resources\Resources_ru.txt" />
     <Content Include="resources\Resources.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

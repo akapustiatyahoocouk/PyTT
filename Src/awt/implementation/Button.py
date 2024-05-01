@@ -80,6 +80,17 @@ class Button(ttk.Button,
         self.configure(command = self.__on_tk_click)
 
     ##########
+    #   Properties
+    @property
+    def text(self) -> str:
+        return self.configure()["text"]
+    
+    @text.setter
+    def text(self, new_text: str) -> str:
+        assert isinstance(new_text, str)
+        self.configure(text=new_text)
+
+    ##########
     #   Implementation helpers
     @staticmethod
     def __filter_tk_kwargs(kwargs) -> dict:

@@ -3,6 +3,7 @@
     then repainting. """
 #   Python standard library
 import tkinter as tk
+import traceback
 
 #   Dependencies on other PyTT components
 from util.interface.api import *
@@ -68,7 +69,7 @@ class Refreshable:
                 try:
                     refresh_root.refresh()
                 except Exception:
-                    pass    #   TODO report exceptions
+                    print(traceback.format_exc())
                 refresh_root._Refreshable__refresh_underway = False
         if isinstance(refresh_root, tk.BaseWidget):
             for child in refresh_root.winfo_children():

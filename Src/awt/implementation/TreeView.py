@@ -134,6 +134,23 @@ class TreeNodeCollection:
         else:
             raise NotImplementedError()
 
+    def clear(self) -> None:
+        while len(self.__members) > 0:
+            member_node = self.__members[0]
+            self.__members.pop()
+            #   Mist delete all child nodes of the member_node
+            member_node.child_nodes.clear()
+            #   Remove the underlying Tk node...
+            tree_view = member_node._TreeNode__tree_view
+            if tree_view is not None:
+                tree_view.delete(member_node._TreeNode__tk_node_id) #   member_node was bound...
+                member_node._TreeNode__tree_view = None             #   ...and is now free
+                member_node._TreeNode__tk_node_id = None
+            else:
+                assert member_node._TreeNode__tk_node_id is None    #   ...for consistency
+            #   ...and adjust the TreeNode to reflect ots removal from the tree
+            member_node._TreeNode__parent_node
+
 class TreeView(ttk.Treeview,
                BaseWidgetMixin,
                ItemEventProcessorMixin):

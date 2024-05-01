@@ -193,8 +193,26 @@ class Capabilities(ClassWithConstants):
         self.__bit_mask = (bit_mask & 0x1FFF)
 
     ##########
+    #   object
+    def __or__(self, op2) -> "Capabilities":
+        if isinstance(op2, Capabilities):
+            return Capabilities(self.__bit_mask | op2.__bit_mask)
+        else:
+            return Capabilities(self.__bit_mask  | op2.value)
+
+    def __ior__(self, op2) -> "Capabilities":
+        assert isinstance(self, Capabilities)
+        assert isinstance(op2, Capabilities) or isinstance(op2, Capability)
+
+        if isinstance(op2, Capabilities):
+            self.__bit_mask |= op2.__bit_mask
+        else:
+            self.__bit_mask  |= op2.value
+        return self
+
+    ##########
     #   Operations
-    def contains_all(self, op2) -> bool:
+    def contains_all(self, op2) -> bool:    #   TODO use args, like contains_any
         """
             Checks whether this capability set contains all of the
             specified capabilities or a single specified capability.
@@ -214,3 +232,27 @@ class Capabilities(ClassWithConstants):
         else:
             #   Check for containing a single capability
             return (self.__bit_mask & op2.value) != 0
+
+    def contains_any(self, args) -> bool:
+        """
+            Checks whether this capability set contains any of the
+            specified capabilities or a single specified capability.
+
+            @param args:
+                The list of Capabilities or a Capability to check for.
+            @return:
+                True if this capability set contains any of the
+                specified capabilities or a single specified
+                capability, else False.
+        """
+        for arg in args:
+            assert isinstance(arg, Capabilities) or isinstance(arg, Capability)
+            if isinstance(arg, Capabilities):
+                #   Check for containing a capabilities set
+                if (self.__bit_mask & arg.__bit_mask) != 0:
+                    return True
+            else:
+                #   Check for containing a single capability
+                if (self.__bit_mask & arg.value) != 0:
+                    return True
+        return False

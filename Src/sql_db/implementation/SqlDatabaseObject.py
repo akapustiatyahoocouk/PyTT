@@ -56,8 +56,8 @@ class SqlDatabaseObject(DatabaseObject):
             self._reload_property_cache()   #   can raise DatabaseError
             self.__property_cache_expires_at = time.time() + SqlDatabaseObject.__PROPERTY_CACHE_TIMEOUT_SEC
 
-    def _reload_property_cache(self) -> None:
-        pass    #   Nothing cached as DatabaseObject level
+    def _reload_property_cache(self) -> None:   #   Can throw DatabaseError
+        pass    #   Nothing is cached as DatabaseObject level
 
     def _invalidate_property_cache(self) -> None:
         self.__property_cache_expires_at = None

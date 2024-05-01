@@ -9,7 +9,6 @@ from util.interface.api import *
 from .Credentials import Credentials
 from .Capabilities import Capabilities
 from .BusinessObject import BusinessObject
-from .Workspace import Workspace
 
 ##########
 #   Public entities
@@ -28,7 +27,7 @@ class BusinessUser(BusinessObject):
 
     ##########
     #   Construction (internal only)
-    def __init__(self, workspace: Workspace, data_object: dbapi.User):
+    def __init__(self, workspace: "Workspace", data_object: dbapi.User):
         BusinessObject.__init__(self, workspace, data_object)
     
     ##########
