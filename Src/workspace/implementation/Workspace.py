@@ -3,7 +3,7 @@
     and busibess/access rules . """
 
 #   Python standard library
-from typing import final, Set
+from typing import final, Set, List
 from weakref import WeakKeyDictionary, WeakValueDictionary
 import threading
 
@@ -209,6 +209,51 @@ class Workspace:
             return result
         except Exception as ex:
             raise WorkspaceError.wrap(ex)
+
+    ##########
+    #   Operations (life cycle)
+    def create_user(self,
+                    credentials: Credentials,
+                    enabled: bool = True,
+                    real_name: str = None,  #   MUST specify!
+                    inactivity_timeout: Optional[int] = None,
+                    ui_locale: Optional[Locale] = None,
+                    email_addresses: List[str] = []) -> BusinessUser:
+        """
+            Creates a new BusinessUser.
+
+            @param credentials:
+                The credentials of the service caller.
+            @param enabled:
+                True to create an initially enabled BusinessUser, False
+                to create an initially disabled BusinessUser.
+            @param real_name:
+                The "real name" for the new BusinessUser.
+            @param inactivity_timeout:
+                The inactivity timeout for the new BusinessUser, expressed
+                in minutes, or None if the new user shall have no
+                inactivity timeout.
+            @param ui_locale:
+                The preferred UI locale for the new BusinessUser, or None if
+                the new user shall have no preferred UI locale (and will
+                be therefore using the system/default UI Locale).
+            @param email_addresses:
+                The list of e-mail addresses for the new BusinessUser;
+                cannot be None or contain Nones, but can be empty.
+            @return:
+                The newly created BusinessUser.
+            @raise WorkspaceError:
+                If an error occurs.
+        """
+        assert isinstance(credentials, Credentials)
+        assert isinstance(enabled, bool)
+        assert isinstance(real_name, str)
+        assert (inactivity_timeout is None) or isinstance(inactivity_timeout, int)
+        assert (ui_locale is None) or isinstance(ui_locale, Locale)
+        assert isinstance(email_addresses, list)
+        assert all(isinstance(a, str) for a in email_addresses)
+        
+        raise NotImplementedError()
 
     ##########
     #   Operations (notifications)

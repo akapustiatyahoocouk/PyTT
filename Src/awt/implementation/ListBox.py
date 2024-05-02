@@ -37,10 +37,25 @@ class ListBoxItem:
     def text(self) -> str:
         return self.__text
 
+    @text.setter
+    def text(self, new_text: str) -> None:
+        assert isinstance(new_text, str)
+        if new_text != self.__text:
+            self.__text = new_text
+            if self.__list_box is not None:
+                #   Must update the text of the underlying TreeNode
+                index = self.__list_box._ListBox__items.index(self)
+                tree_node = self.__list_box._ListBox__items._ListBoxItems__tree_view_items[index]
+                tree_node.text = new_text
+
     @property
     def tag(self) -> Any:
         return self.__tag
 
+    @tag.setter
+    def tag(self, tag: Any) -> None:
+        self.__tag = tag
+    
     @property
     def list_box(self) -> "ListBox":
         return self.__list_box
@@ -105,6 +120,9 @@ class ListBoxItems:
         self.__items.append(item)
         self.__item_ids.append(item_id)
         return len(self.__items) - 1
+
+    def index(self, element):
+        return self.__items.index(element)
 
 class ListBox(Panel,
               ItemEventProcessorMixin):

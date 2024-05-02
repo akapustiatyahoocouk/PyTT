@@ -42,6 +42,14 @@ class TreeNode:
     def text(self) -> str:
         return self.__text
 
+    @text.setter
+    def text(self, new_text: str) -> None:
+        assert isinstance(new_text, str)
+        self.__text = new_text
+        if self.__tree_view is not None:
+            #   This is a bound TreeNode - must update the underlying ttk tree node
+            self.__tree_view.item(self.__tk_node_id, text=new_text)
+
     @property
     def image(self) -> Optional[tk.PhotoImage]:
         return self.__image

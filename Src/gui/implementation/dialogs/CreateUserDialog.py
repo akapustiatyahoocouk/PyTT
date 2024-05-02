@@ -169,8 +169,11 @@ class CreateUserDialog(Dialog):
         self.cancel_button = self.__cancel_button
 
         self.__real_name_text_field.add_property_change_listener(self.__text_field_change_listener)
+        self.__inactivity_timeout_value_combo_box.add_item_listener(self.__combo_box_listener)
+        self.__inactivity_timeout_unit_combo_box.add_item_listener(self.__combo_box_listener)
+        self.__ui_locale_combo_box.add_item_listener(self.__combo_box_listener)
 
-        #self.__ok_button.add_action_listener(self.__on_ok)
+        self.__ok_button.add_action_listener(self.__on_ok)
         self.__cancel_button.add_action_listener(self.__on_cancel)
 
         #   Done
@@ -181,6 +184,9 @@ class CreateUserDialog(Dialog):
     ##########
     #   Refreshable
     def refresh(self) -> None:
+        self.__inactivity_timeout_unit_combo_box.enabled = \
+            ((self.__inactivity_timeout_value_combo_box.selected_item is not None) and
+             (self.__inactivity_timeout_value_combo_box.selected_item.tag != 0))
         self.__ok_button.enabled = len(self.__real_name_text_field.text.strip()) > 0
 
     ##########
@@ -199,7 +205,33 @@ class CreateUserDialog(Dialog):
     ##########
     #   Event listeners
     def __text_field_change_listener(self, evt: PropertyChangeEvent) -> None:
+        assert isinstance(evt, PropertyChangeEvent)
         self.request_refresh()
+
+    def __combo_box_listener(self, evt: ItemEvent) -> None:
+        assert isinstance(evt, ItemEvent)
+        self.request_refresh()
+
+    def __on_ok(self, evt = None) -> None:
+        real_name = self.__real_name_text_field.text
+        enabled = self.__enabled_check_box.checked
+        ui_locale = self.__ui_locale_combo_box.selected_item.tag
+        inactivity_timeout = (self.__inactivity_timeout_value_combo_box.selected_item.tag *
+                              self.__inactivity_timeout_unit_combo_box.selected_item.tag)
+        email_addresses = self.__email_address_list_editor.email_addresses
+        
+        try:
+            self.__created_user = self.__workspace.create_user(
+                    credentials=self.__credentials,
+                    enabled=enabled,
+                    real_name=real_name,
+                    inactivity_timeout=None if inactivity_timeout == 0 else inactivity_timeout,
+                    ui_locale=ui_locale,
+                    email_addresses=email_addresses)
+            self.__result = CreateUserDialogResult.CANCEL
+            self.end_modal()
+        except Exception as ex:
+            ErrorDialog.show(self, ex)
 
     def __on_cancel(self, evt = None) -> None:
         self.__result = CreateUserDialogResult.CANCEL
