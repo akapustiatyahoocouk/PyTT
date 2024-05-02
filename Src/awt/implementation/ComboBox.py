@@ -65,13 +65,6 @@ class ComboBoxItems:
         assert isinstance(index, int)
         return self.__items[index]
 
-    ######
-    #   Properties
-    @property
-    def length(self) -> int:
-        """ The number of items in this collection of ComboBox items. """
-        return len(self.__items)
-
     ##########
     #   Operations
     def add(self, item, tag: Any = None) -> ComboBoxItem:
@@ -81,8 +74,10 @@ class ComboBoxItems:
 
             @param item:
                 The item to add; cannot be None.
+            @param tag:
+                The tag to add to a new str-based item.
             @return:
-                The index of the newly added item.
+                The newly added item.
         """
         loc = locals()
         if isinstance(item, str):
@@ -100,7 +95,7 @@ class ComboBoxItems:
             assert item.combo_box is None
             raise NotImplementedError()
         else:
-            raise NotImplementedError()
+            raise ValueError(str(loc))
 
 class ComboBox(ttk.Combobox,
                BaseWidgetMixin,

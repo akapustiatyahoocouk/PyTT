@@ -52,6 +52,17 @@ Actions.About.SmallImage=ImageFile:images/actions/AboutSmall.png
 Actions.About.LargeImage=ImageFile:images/actions/AboutLarge.png
 
 ##########
+#   Controls
+EmailAddressListEditor.AddEmailAddressButton.Text=Add
+EmailAddressListEditor.AddEmailAddressButton.Image=ImageFile:images/actions/AddEmailAddressSmall.png
+EmailAddressListEditor.ModifyEmailAddressButton.Text=Modify
+EmailAddressListEditor.ModifyEmailAddressButton.Image=ImageFile:images/actions/ModifyEmailAddressSmall.png
+EmailAddressListEditor.RemoveEmailAddressButton.Text=Remove
+EmailAddressListEditor.RemoveEmailAddressButton.Image=ImageFile:images/actions/RemoveEmailAddressSmall.png
+EmailAddressListEditor.AddEmailAddressDialog.Title=Add e-mail address
+EmailAddressListEditor.AddEmailAddressDialog.Prompt=Enter e-mail address:
+
+##########
 #   Dialogs
 AboutDialog.Title=About PyTT
 AboutDialog.LicenseButton.Text=License

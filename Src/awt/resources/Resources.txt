@@ -17,3 +17,8 @@ MessageBox.YesButton.Text=Yes
 MessageBox.YesButton.Icon=ImageFile:images/actions/OkSmall.png
 MessageBox.NoButton.Text=No
 MessageBox.NoButton.Icon=ImageFile:images/actions/CancelSmall.png
+
+EditStringDialog.OkButton.Text=OK
+EditStringDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+EditStringDialog.CancelButton.Text=Cancel
+EditStringDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png

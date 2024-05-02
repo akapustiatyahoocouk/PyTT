@@ -150,6 +150,9 @@ class TreeNodeCollection:
             #   ...and adjust the TreeNode to reflect ots removal from the tree
             member_node._TreeNode__parent_node
 
+    def index(self, element):
+        return self.__members.index(element)
+        
 class TreeView(ttk.Treeview,
                BaseWidgetMixin,
                ItemEventProcessorMixin):

@@ -13,6 +13,7 @@ from awt.implementation.Button import *
 from awt.implementation.CheckBox import *
 from awt.implementation.ComboBox import *
 from awt.implementation.Dialog import *
+from awt.implementation.EditStringDialog import *
 from awt.implementation.ErrorDialog import *
 from awt.implementation.Frame import *
 from awt.implementation.GuiRoot import *
