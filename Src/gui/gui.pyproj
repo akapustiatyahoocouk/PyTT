@@ -24,6 +24,7 @@
     <Folder Include="implementation\actions\" />
     <Folder Include="implementation\dialogs\" />
     <Folder Include="implementation\misc\" />
+    <Folder Include="implementation\controls\" />
     <Folder Include="implementation\views\" />
     <Folder Include="interface\" />
     <Folder Include="implementation\" />
@@ -44,6 +45,8 @@
     <Compile Include="implementation\actions\ActionBase.py" />
     <Compile Include="implementation\actions\ActionSet.py" />
     <Compile Include="implementation\actions\ExitAction.py" />
+    <Compile Include="implementation\controls\EmailAddressListEditor.py" />
+    <Compile Include="implementation\GuiSubsystems.py" />
     <Compile Include="implementation\dialogs\LanguagesDialog.py" />
     <Compile Include="implementation\dialogs\LicenseDialog.py" />
     <Compile Include="implementation\dialogs\CreateUserDialog.py" />

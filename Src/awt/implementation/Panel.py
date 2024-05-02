@@ -13,7 +13,7 @@ class Panel(ttk.Frame, BaseWidgetMixin):
 
     ##########
     #   Construction
-    def __init__(self, parent: tk.BaseWidget = None, **kwargs):
+    def __init__(self, parent: tk.BaseWidget, **kwargs):
         """Construct an awt Panel widget with the specified parent. """
         ttk.Frame.__init__(self, parent, **kwargs)
         BaseWidgetMixin.__init__(self)

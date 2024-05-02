@@ -76,7 +76,7 @@ class ListBox(Panel,
         self.__items = ListBoxItems(self)
         self.__creating_items = False
 
-        self.__tree_view = TreeView(self, show="tree", selectmode=tk.BROWSE)
+        self.__tree_view = TreeView(self, show="tree", selectmode=tk.BROWSE, **kwargs)
         #   TODO scrollbars
 
         #   Set up control structure

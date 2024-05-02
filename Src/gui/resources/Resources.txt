@@ -1,3 +1,4 @@
+GuiSubsystem.DisplayName=GUI
 
 ##########
 #   Actions
@@ -123,6 +124,13 @@ CannotReopenLastWorkspaceDialog.Message=Would you like to remove the workspace\n
 CreateUserDialog.Title=Create user
 CreateUserDialog.RealNameLabel.Text=Real name:
 CreateUserDialog.EnabledCheckBox.Text=User is enabled
+CreateUserDialog.EmailAddressesLabel.Text=E-mail addresses:
+CreateUserDialog.InactivityTimeoutLabel.Text=Inactivity timeout:
+CreateUserDialog.InactivityTimeoutNone=none
+CreateUserDialog.InactivityTimeoutHours=hours
+CreateUserDialog.InactivityTimeoutMinutes=minutes
+CreateUserDialog.UiLocaleLabel.Text=UI language:
+CreateUserDialog.UiLocaleSystemDefault=System default
 CreateUserDialog.OkButton.Text=OK
 CreateUserDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 CreateUserDialog.CancelButton.Text=Cancel

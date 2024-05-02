@@ -2,7 +2,7 @@
 
 ##########
 #   Public entities
-from gui.resources.GuiResources import *
+from gui.implementation.GuiSubsystems import *
 
 from gui.implementation.actions.AboutAction import *
 from gui.implementation.actions.ActionBase import *
@@ -35,3 +35,5 @@ from gui.implementation.views.UsersView import *
 from gui.implementation.views.UsersViewType import *
 from gui.implementation.views.View import *
 from gui.implementation.views.ViewType import *
+
+from gui.resources.GuiResources import *
