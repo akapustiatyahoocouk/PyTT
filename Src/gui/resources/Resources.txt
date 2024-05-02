@@ -120,6 +120,14 @@ CannotOpenWorkspaceDialog.Message=Would you like to remove the workspace\n{0}\nf
 CannotReopenLastWorkspaceDialog.Title=Could not reopen last workspace
 CannotReopenLastWorkspaceDialog.Message=Would you like to remove the workspace\n{0}\nfrom recent workspaces list?
 
+CreateUserDialog.Title=Create user
+CreateUserDialog.RealNameLabel.Text=Real name:
+CreateUserDialog.EnabledCheckBox.Text=User is enabled
+CreateUserDialog.OkButton.Text=OK
+CreateUserDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+CreateUserDialog.CancelButton.Text=Cancel
+CreateUserDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+
 ##########
 #   View types
 UsersViewType.DisplayName=Users

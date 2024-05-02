@@ -46,6 +46,7 @@
     <Compile Include="implementation\actions\ExitAction.py" />
     <Compile Include="implementation\dialogs\LanguagesDialog.py" />
     <Compile Include="implementation\dialogs\LicenseDialog.py" />
+    <Compile Include="implementation\dialogs\CreateUserDialog.py" />
     <Compile Include="implementation\dialogs\OpenWorkspaceDialog.py" />
     <Compile Include="implementation\dialogs\CreateWorkspaceDialog.py" />
     <Compile Include="implementation\dialogs\PreferencesDialog.py" />

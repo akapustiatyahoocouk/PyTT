@@ -11,6 +11,7 @@ from .UsersViewType import UsersViewType
 from .View import View
 from ..misc.CurrentWorkspace import CurrentWorkspace
 from ..misc.CurrentCredentials import CurrentCredentials
+from ..dialogs.CreateUserDialog import *
 from gui.resources.GuiResources import GuiResources
 
 ##########
@@ -71,6 +72,8 @@ class UsersView(View):
         #   Set up event handlers
         self.__users_tree_view.add_item_listener(self.__users_tree_view_listener)
 
+        self.__create_user_button.add_action_listener(self.__on_create_user_button_clicked)
+        
         CurrentWorkspace.add_property_change_listener(self.__on_workspace_changed)
         Locale.add_property_change_listener(self.__on_locale_changed)
         #   TODO current credentials change
@@ -185,3 +188,11 @@ class UsersView(View):
     def __users_tree_view_listener(self, evt: ItemEvent) -> None:
         assert isinstance(evt, ItemEvent)
         self.request_refresh()
+
+    def __on_create_user_button_clicked(self, evt: ActionEvent) -> None:
+        assert isinstance(evt, ActionEvent)
+        with CreateUserDialog(self.winfo_toplevel()) as dlg:
+            dlg.do_modal()
+            if dlg.result is CreateUserDialogResult.CANCEL:
+                return
+
