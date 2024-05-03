@@ -228,7 +228,7 @@ class CreateUserDialog(Dialog):
                     inactivity_timeout=None if inactivity_timeout == 0 else inactivity_timeout,
                     ui_locale=ui_locale,
                     email_addresses=email_addresses)
-            self.__result = CreateUserDialogResult.CANCEL
+            self.__result = CreateUserDialogResult.OK
             self.end_modal()
         except Exception as ex:
             ErrorDialog.show(self, ex)

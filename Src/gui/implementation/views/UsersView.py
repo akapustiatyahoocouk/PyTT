@@ -123,6 +123,20 @@ class UsersView(View):
         node = self.__users_tree_view.current_node
         return None if node is None else node.tag
 
+    @selected_object.setter
+    def selected_object(self, obj: Optional[BusinessObject]) -> None:
+        self.perform_refresh()
+        if obj is None:
+            return
+        for user_node in self.__users_tree_view.root_nodes:
+            if user_node.tag == obj:
+                self.__users_tree_view.current_node = user_node
+                return
+            for account_node in user_node.child_nodes:
+                if account_node.tag == obj:
+                    self.__users_tree_view.current_node = account_node
+                    return
+
     @property
     def selected_user(self) -> Optional[BusinessUser]:
         obj = self.selected_object
@@ -161,6 +175,8 @@ class UsersView(View):
         if (workspace is None) or (credentials is None):
             self.__users_tree_view.root_nodes.clear()
             return
+        selected_object = self.selected_object
+
         #   Prepare the list of accessible BusinessUsers sorted by real_name
         users = list(workspace.get_users(credentials))
         try:
@@ -179,8 +195,13 @@ class UsersView(View):
             self.__users_tree_view.root_nodes.add(user.display_name,
                                                   image=user.small_image,
                                                   tag=user)
-        #   ...each representing a BusinessUser...
+        #   ...each representing a proper BusinessUser
+        for i in range(len(users)):
+            self.__users_tree_view.root_nodes[i].text = users[i].display_name
+            self.__users_tree_view.root_nodes[i].tag = users[i]
 
+        #   Try to jeep the selection
+        self.selected_object = selected_object
         pass
 
     ##########
@@ -195,4 +216,6 @@ class UsersView(View):
             dlg.do_modal()
             if dlg.result is CreateUserDialogResult.CANCEL:
                 return
-
+            created_user = dlg.created_user
+            self.selected_object = created_user
+            self.__users_tree_view.focus_set()

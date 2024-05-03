@@ -252,8 +252,17 @@ class Workspace:
         assert (ui_locale is None) or isinstance(ui_locale, Locale)
         assert isinstance(email_addresses, list)
         assert all(isinstance(a, str) for a in email_addresses)
-        
-        raise NotImplementedError()
+
+        try:
+            data_user = self.__db.create_user(
+                enabled=enabled,
+                real_name=real_name,
+                inactivity_timeout=inactivity_timeout,
+                ui_locale=ui_locale,
+                email_addresses=email_addresses);
+            return self._get_business_proxy(data_user)
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     ##########
     #   Operations (notifications)

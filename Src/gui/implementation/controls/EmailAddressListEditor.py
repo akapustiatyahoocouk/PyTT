@@ -62,7 +62,7 @@ class EmailAddressListEditor(Panel):
         #   Make sure the "e-mail addrsses: list has a proper number...
         while len(self.__email_addresses_list_box.items) > len(self.__email_addresses):
             #   Too many items in the list
-            pass
+            raise NotImplementedError()
         while len(self.__email_addresses_list_box.items) < len(self.__email_addresses):
             #   Too few items in the list
             self.__email_addresses_list_box.items.add("")

@@ -43,6 +43,7 @@ from awt.implementation.RadioButtonGroup import *
 from awt.implementation.Refreshable import *
 from awt.implementation.ResourceAwareAction import *
 from awt.implementation.ResourceAwareSubmenu import *
+from awt.implementation.Scrollbar import *
 from awt.implementation.Separator import *
 from awt.implementation.SimpleMenuItem import *
 from awt.implementation.Submenu import *
