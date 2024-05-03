@@ -20,6 +20,7 @@ from gui.implementation.dialogs.DestroyUserDialog import *
 from gui.implementation.dialogs.LanguagesDialog import *
 from gui.implementation.dialogs.LicenseDialog import *
 from gui.implementation.dialogs.LoginDialog import *
+from gui.implementation.dialogs.ModifyUserDialog import *
 from gui.implementation.dialogs.OpenWorkspaceDialog import *
 
 from gui.implementation.misc.CurrentCredentials import *

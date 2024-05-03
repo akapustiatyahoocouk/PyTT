@@ -81,7 +81,7 @@ class EmailAddressListEditor(Panel):
         assert isinstance(new_email_addresses, list)
         assert all(isinstance(a, str) for a in new_email_addresses)
         self.__email_addresses = new_email_addresses.copy()
-        self.request_referesh()
+        self.request_refresh()
 
 
     ##########

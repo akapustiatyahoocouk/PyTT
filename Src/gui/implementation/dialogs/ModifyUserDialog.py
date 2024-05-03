@@ -1,11 +1,9 @@
-""" Implements the "Create user" modal dialog. """
+""" Implements the "Modify user" modal dialog. """
 
 #   Python standard library
 from typing import final, Optional, Callable
 from enum import Enum
 import tkinter as tk
-
-from requests import get
 
 #   Dependencies on other PyTT components
 from awt.interface.api import *
@@ -20,75 +18,84 @@ from ..controls.EmailAddressListEditor import EmailAddressListEditor
 ##########
 #   Public entities
 @final
-class CreateUserDialogResult(Enum):
-    """ The result of modal invocation of the CreateUserDialog. """
+class ModifyUserDialogResult(Enum):
+    """ The result of modal invocation of the ModifyUserDialog. """
 
     OK = 1
-    """ A new BusinessUser has been created in the specified workspace. """
+    """ A BusinessUser has been modified. """
 
     CANCEL = 2
     """ Dialog cancelled by user. """
 
 @final
-class CreateUserDialog(Dialog):
-    """ The modal "Create user" dialog. """
+class ModifyUserDialog(Dialog):
+    """ The modal "Modify user" dialog. """
 
     ##########
     #   Construction
     def __init__(self, parent: tk.BaseWidget,
-                 workspace: Optional[Workspace] = None,
+                 user: BusinessUser = None,
                  credentials: Optional[Credentials] = None):
         """
-            Constructs the "create user" dialog.
+            Constructs the "Modify user" dialog.
 
             @param parent:
                 The parent widget for the dialog (actually the closest
                 enclosing top-level widget or frame is used),
                 None == no parent.
-            @param workspace:
-                The workspace to create a new user in; None == use
-                the CurrentWorkspace.
+            @param user:
+                The BusinessUser to modify.
             @param credentials:
                 The credentials to use for workspace access; None == use
                 the CurrentCredentials.
+            @raise WorkspaceError:
+                If a workspace access error occurs.
         """
         Dialog.__init__(self,
                         parent,
-                        GuiResources.string("CreateUserDialog.Title"))
+                        GuiResources.string("ModifyUserDialog.Title"))
 
-        self.__result = CreateUserDialogResult.CANCEL
-        self.__created_user = None
+        assert isinstance(user, BusinessUser)
+        self.__user = user
+        self.__result = ModifyUserDialogResult.CANCEL
 
-        #   Resolve workspace & credentials
-        assert (workspace is None) or isinstance(workspace, Workspace)
+        #   Resolve credentials
         assert (credentials is None) or isinstance(credentials, Credentials)
-        self.__workspace = workspace if workspace is not None else CurrentWorkspace.get()
         self.__credentials = credentials if credentials is not None else CurrentCredentials.get()
-        assert self.__workspace is not None
         assert self.__credentials is not None
+
+        #   Save current user properties
+        self.__user_enabled = user.is_enabled(self.__credentials)
+        self.__user_real_name = user.get_real_name(self.__credentials)
+        self.__user_inactivity_timeout = user.get_inactivity_timeout(self.__credentials)
+        self.__user_ui_locale = user.get_ui_locale(self.__credentials)
+        self.__user_email_addresses = user.get_email_addresses(self.__credentials)
 
         #   Create controls
         self.__controls_panel = Panel(self)
 
         self.__real_name_label = Label(
             self.__controls_panel,
-            text=GuiResources.string("CreateUserDialog.RealNameLabel.Text"),
+            text=GuiResources.string("ModifyUserDialog.RealNameLabel.Text"),
             anchor=tk.E)
-        self.__real_name_text_field = TextField(self.__controls_panel, width=40)
+        self.__real_name_text_field = TextField(
+            self.__controls_panel, 
+            width=40,
+            text=self.__user_real_name)
 
         self.__enabled_check_box = CheckBox(
             self.__controls_panel,
-            text=GuiResources.string("CreateUserDialog.EnabledCheckBox.Text"))
+            text=GuiResources.string("ModifyUserDialog.EnabledCheckBox.Text"))
 
         self.__email_addresses_label = Label(
             self.__controls_panel,
-            text=GuiResources.string("CreateUserDialog.EmailAddressesLabel.Text"),
+            text=GuiResources.string("ModifyUserDialog.EmailAddressesLabel.Text"),
             anchor=tk.E)
         self.__email_address_list_editor = EmailAddressListEditor(self.__controls_panel)
 
         self.__inactivity_timeout_label = Label(
             self.__controls_panel,
-            text=GuiResources.string("CreateUserDialog.InactivityTimeoutLabel.Text"),
+            text=GuiResources.string("ModifyUserDialog.InactivityTimeoutLabel.Text"),
             anchor=tk.E)
         self.__inactivity_timeout_panel = Panel(self.__controls_panel)
         self.__inactivity_timeout_value_combo_box = ComboBox(self.__inactivity_timeout_panel)
@@ -96,50 +103,52 @@ class CreateUserDialog(Dialog):
 
         self.__ui_locale_label = Label(
             self.__controls_panel,
-            text=GuiResources.string("CreateUserDialog.UiLocaleLabel.Text"),
+            text=GuiResources.string("ModifyUserDialog.UiLocaleLabel.Text"),
             anchor=tk.E)
         self.__ui_locale_combo_box = ComboBox(self.__controls_panel)
 
         self.__separator = Separator(self, orient="horizontal")
 
         self.__ok_button = Button(self,
-            text=GuiResources.string("CreateUserDialog.OkButton.Text"),
-            image=GuiResources.image("CreateUserDialog.OkButton.Icon"))
+            text=GuiResources.string("ModifyUserDialog.OkButton.Text"),
+            image=GuiResources.image("ModifyUserDialog.OkButton.Icon"))
         self.__cancel_button = Button(self,
-            text=GuiResources.string("CreateUserDialog.CancelButton.Text"),
-            image=GuiResources.image("CreateUserDialog.CancelButton.Icon"))
+            text=GuiResources.string("ModifyUserDialog.CancelButton.Text"),
+            image=GuiResources.image("ModifyUserDialog.CancelButton.Icon"))
 
         #   Adjust controls
-        self.__enabled_check_box.checked = True
-        
+        self.__enabled_check_box.checked = self.__user_enabled
+
+        self.__email_address_list_editor.email_addresses = self.__user_email_addresses
+
         for i in range(60):
             if i == 0:
                 self.__inactivity_timeout_value_combo_box.items.add(
-                    GuiResources.string("CreateUserDialog.InactivityTimeoutNone"),
+                    GuiResources.string("ModifyUserDialog.InactivityTimeoutNone"),
                     tag=i)
             else:
                 self.__inactivity_timeout_value_combo_box.items.add(str(i), tag=i)
         self.__inactivity_timeout_value_combo_box.editable = False
 
         self.__inactivity_timeout_unit_combo_box.items.add(
-            GuiResources.string("CreateUserDialog.InactivityTimeoutMinutes"),
+            GuiResources.string("ModifyUserDialog.InactivityTimeoutMinutes"),
             tag=1)
         self.__inactivity_timeout_unit_combo_box.items.add(
-            GuiResources.string("CreateUserDialog.InactivityTimeoutHours"),
+            GuiResources.string("ModifyUserDialog.InactivityTimeoutHours"),
             tag=60)
-        self.__inactivity_timeout_unit_combo_box.selected_index = 1
-
-        self.__inactivity_timeout_value_combo_box.selected_index = 1
         self.__inactivity_timeout_unit_combo_box.editable = False
+
+        self.__inactivity_timeout_value_combo_box.selected_index = 1    #   TODO
+        self.__inactivity_timeout_unit_combo_box.selected_index = 1     #   TODO
 
         all_locales = list(LocalizableSubsystem.all_supported_locales())
         all_locales.sort(key=lambda l: repr(l))
         self.__ui_locale_combo_box.items.add(
-            GuiResources.string("CreateUserDialog.UiLocaleSystemDefault"),
+            GuiResources.string("ModifyUserDialog.UiLocaleSystemDefault"),
             tag=None)
         for locale in all_locales:
             self.__ui_locale_combo_box.items.add(str(locale), tag=locale)
-        self.__ui_locale_combo_box.selected_index = 0
+        self.__ui_locale_combo_box.selected_index = 0   #   TODO
         self.__ui_locale_combo_box.editable = False
 
         #   Set up control structure
@@ -194,15 +203,9 @@ class CreateUserDialog(Dialog):
     ##########
     #   Properties
     @property
-    def result(self) -> CreateUserDialogResult:
+    def result(self) -> ModifyUserDialogResult:
         """ The dialog result after a modal invocation. """
         return self.__result
-
-    @property
-    def created_user(self) -> Optional[BusinessUser]:
-        """ The BusinessUser created during dialog invocation;
-            None if the dialog was cancelled. """
-        return self.__created_user
 
     ##########
     #   Event listeners
@@ -221,20 +224,21 @@ class CreateUserDialog(Dialog):
         inactivity_timeout = (self.__inactivity_timeout_value_combo_box.selected_item.tag *
                               self.__inactivity_timeout_unit_combo_box.selected_item.tag)
         email_addresses = self.__email_address_list_editor.email_addresses
-        
+
         try:
-            self.__created_user = self.__workspace.create_user(
-                    credentials=self.__credentials,
-                    enabled=enabled,
-                    real_name=real_name,
-                    inactivity_timeout=None if inactivity_timeout == 0 else inactivity_timeout,
-                    ui_locale=ui_locale,
-                    email_addresses=email_addresses)
-            self.__result = CreateUserDialogResult.OK
+            #   TODO apply user properties
+            #self.__user = self.__workspace.create_user(
+            #        credentials=self.__credentials,
+            #        enabled=enabled,
+            #        real_name=real_name,
+            #        inactivity_timeout=None if inactivity_timeout == 0 else inactivity_timeout,
+            #        ui_locale=ui_locale,
+            #        email_addresses=email_addresses)
+            self.__result = ModifyUserDialogResult.OK
             self.end_modal()
         except Exception as ex:
             ErrorDialog.show(self, ex)
 
     def __on_cancel(self, evt = None) -> None:
-        self.__result = CreateUserDialogResult.CANCEL
+        self.__result = ModifyUserDialogResult.CANCEL
         self.end_modal()

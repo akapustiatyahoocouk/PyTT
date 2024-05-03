@@ -60,7 +60,13 @@ class BusinessUser(BusinessObject):
         """
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
-        raise NotImplementedError()
+
+        if self.workspace.get_capabilities(credentials) == None:
+            raise WorkspaceAccessDeniedError()
+        try:
+            return self._data_object.enabled
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     def set_enabled(self, credentials: Credentials, new_enabled: bool) -> None:
         """
@@ -134,7 +140,13 @@ class BusinessUser(BusinessObject):
         """
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
-        raise NotImplementedError()
+
+        if self.workspace.get_capabilities(credentials) == None:
+            raise WorkspaceAccessDeniedError()
+        try:
+            return self._data_object.inactivity_timeout
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     def set_inactivity_timeout(self, credentials: Credentials, new_inactivity_timeout: Optional[int]) -> None:
         """
@@ -173,7 +185,13 @@ class BusinessUser(BusinessObject):
         """
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
-        raise NotImplementedError()
+
+        if self.workspace.get_capabilities(credentials) == None:
+            raise WorkspaceAccessDeniedError()
+        try:
+            return self._data_object.ui_locale
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     def set_ui_locale(self, credentials: Credentials, new_ui_locale: Optional[Locale]) -> None:
         """
@@ -208,7 +226,13 @@ class BusinessUser(BusinessObject):
         """
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
-        raise NotImplementedError()
+
+        if self.workspace.get_capabilities(credentials) == None:
+            raise WorkspaceAccessDeniedError()
+        try:
+            return self._data_object.email_addresses
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     def set_email_addresses(self, credentials: Credentials, new_email_addresses: List[str]) -> None:
         """

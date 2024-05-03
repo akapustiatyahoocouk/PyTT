@@ -22,7 +22,7 @@ class DestroyUserDialogResult(Enum):
     """ The result of modal invocation of the DestroyUserDialog. """
 
     OK = 1
-    """ A BusinessUser has been destroyed in the current workspace. """
+    """ A BusinessUser has been destroyed. """
 
     CANCEL = 2
     """ Dialog cancelled by user. """
@@ -53,12 +53,12 @@ class DestroyUserDialog(Dialog):
                         parent,
                         GuiResources.string("DestroyUserDialog.Title"))
 
+        assert isinstance(user, BusinessUser)
+        self.__user = user
         self.__result = DestroyUserDialogResult.CANCEL
 
         #   Resolve credentials
-        assert isinstance(user, BusinessUser)
         assert (credentials is None) or isinstance(credentials, Credentials)
-        self.__user = user
         self.__credentials = credentials if credentials is not None else CurrentCredentials.get()
         assert self.__credentials is not None
 

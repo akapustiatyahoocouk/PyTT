@@ -147,6 +147,21 @@ CreateUserDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 CreateUserDialog.CancelButton.Text=Cancel
 CreateUserDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
 
+ModifyUserDialog.Title=Modify user
+ModifyUserDialog.RealNameLabel.Text=Real name:
+ModifyUserDialog.EnabledCheckBox.Text=User is enabled
+ModifyUserDialog.EmailAddressesLabel.Text=E-mail addresses:
+ModifyUserDialog.InactivityTimeoutLabel.Text=Inactivity timeout:
+ModifyUserDialog.InactivityTimeoutNone=none
+ModifyUserDialog.InactivityTimeoutHours=hour(s)
+ModifyUserDialog.InactivityTimeoutMinutes=minute(s)
+ModifyUserDialog.UiLocaleLabel.Text=UI language:
+ModifyUserDialog.UiLocaleSystemDefault=System default
+ModifyUserDialog.OkButton.Text=OK
+ModifyUserDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+ModifyUserDialog.CancelButton.Text=Cancel
+ModifyUserDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+
 DestroyUserDialog.Title=Delete user
 DestroyUserDialog.PrimptLabel.Text=Are you sure you want to permananently\ndelete user '{0}' and all associated accounts?
 DestroyUserDialog.OkButton.Text=OK
