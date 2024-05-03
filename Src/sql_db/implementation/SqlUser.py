@@ -31,7 +31,40 @@ class SqlUser(SqlDatabaseObject, User):
     ##########
     #   DatabaseObject - Operations (life cycle)
     def destroy(self) -> None:
-        raise NotImplementedError()
+        self._ensure_live()
+        
+        #   TODO Destroy associated Events
+        #   TODO Destroy associated Works
+        #   TODO Destroy associated PrivateActivities (including PrivateTasks)
+        #   Destroy associated Accounts
+        for account in self.accounts:
+            account.destroy()
+        #   Destroy the User
+        try:
+            self.database.begin_transaction();
+            
+            stat1 = self.database.create_statement(
+                """DELETE FROM [users] WHERE [pk] = ?""");
+            stat1.set_int_parameter(0, self.oid)
+            stat1.execute()
+        
+            stat2 = self.database.create_statement(
+                """DELETE FROM [objects] WHERE [pk] = ?""");
+            stat2.set_int_parameter(0, self.oid)
+            stat2.execute()
+
+            self.database.commit_transaction()
+            
+            #   Issue notifications
+            self.database.enqueue_notification(
+                DatabaseObjectDestroyedNotification(
+                    self.database, 
+                    self))
+            
+            #   Done
+        except Exception as ex:
+            self.database.rollback_transaction()
+            raise DatabaseError.wrap(ex)
 
     ##########
     #   User - Properties
@@ -94,7 +127,19 @@ class SqlUser(SqlDatabaseObject, User):
     #   User - Associations
     @property
     def accounts(self) -> Set[Account]:
-        raise NotImplementedError()
+        self._ensure_live()
+        
+        try:        
+            stat = self.database.create_statement(
+                """SELECT [pk] FROM [accounts] WHERE [fk_user] = ?""")
+            stat.set_int_parameter(0, self.oid)
+            rs = stat.execute()
+            result = set()
+            for r in rs:
+                result.add(self._get_account_proxy(r["pk"]))
+            return result
+        except Exception as ex:
+            raise DatabaseError.wrap(ex)
 
     ##########
     #   User - Operations (life cycle)

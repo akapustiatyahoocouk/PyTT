@@ -62,13 +62,16 @@ class SqlDatabase(Database):
     @property
     def users(self) -> Set[User]:
         self._ensure_open() # may raise DatabaseError
-        
-        stat = self.create_statement(" SELECT [pk] FROM [users]")
-        rs = stat.execute()
-        result = set()
-        for r in rs:
-            result.add(self._get_user_proxy(r["pk"]))
-        return result
+
+        try:        
+            stat = self.create_statement(" SELECT [pk] FROM [users]")
+            rs = stat.execute()
+            result = set()
+            for r in rs:
+                result.add(self._get_user_proxy(r["pk"]))
+            return result
+        except Exception as ex:
+            raise DatabaseError.wrap(ex)
 
     ##########
     #   Overridables (database engine - specific)

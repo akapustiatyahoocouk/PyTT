@@ -147,6 +147,13 @@ CreateUserDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 CreateUserDialog.CancelButton.Text=Cancel
 CreateUserDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
 
+DestroyUserDialog.Title=Delete user
+DestroyUserDialog.PrimptLabel.Text=Are you sure you want to permananently\ndelete user '{0}' and all associated accounts?
+DestroyUserDialog.OkButton.Text=OK
+DestroyUserDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+DestroyUserDialog.CancelButton.Text=Cancel
+DestroyUserDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+
 ##########
 #   View types
 UsersViewType.DisplayName=Users

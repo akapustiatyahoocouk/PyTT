@@ -1,4 +1,5 @@
 """ Implements "Login to PyTT" modal dialog. """
+
 #   Python standard library
 from typing import final, Optional, Callable
 from enum import Enum

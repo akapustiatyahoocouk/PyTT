@@ -37,7 +37,13 @@ class BusinessUser(BusinessObject):
         raise NotImplementedError()
 
     def can_destroy(self, credentials: Credentials) -> bool:
-        raise NotImplementedError()
+        self._ensure_live() # may raise WorkspaceError
+        assert isinstance(credentials, Credentials)
+        
+        try:
+            return self.workspace.can_manage_users(credentials)
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     ##########
     #   Operations (properties)

@@ -12,6 +12,7 @@ from .View import View
 from ..misc.CurrentWorkspace import CurrentWorkspace
 from ..misc.CurrentCredentials import CurrentCredentials
 from ..dialogs.CreateUserDialog import *
+from ..dialogs.DestroyUserDialog import *
 from gui.resources.GuiResources import GuiResources
 
 ##########
@@ -73,6 +74,7 @@ class UsersView(View):
         self.__users_tree_view.add_item_listener(self.__users_tree_view_listener)
 
         self.__create_user_button.add_action_listener(self.__on_create_user_button_clicked)
+        self.__destroy_user_button.add_action_listener(self.__on_destroy_user_button_clicked)
         
         CurrentWorkspace.add_property_change_listener(self.__on_workspace_changed)
         Locale.add_property_change_listener(self.__on_locale_changed)
@@ -219,3 +221,11 @@ class UsersView(View):
             created_user = dlg.created_user
             self.selected_object = created_user
             self.__users_tree_view.focus_set()
+        self.request_refresh()
+
+    def __on_destroy_user_button_clicked(self, evt: ActionEvent) -> None:
+        assert isinstance(evt, ActionEvent)
+        with DestroyUserDialog(self.winfo_toplevel(), self.selected_user) as dlg:
+            dlg.do_modal()
+        self.request_refresh()
+        
