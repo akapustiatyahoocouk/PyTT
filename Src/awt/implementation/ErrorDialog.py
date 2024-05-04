@@ -29,7 +29,7 @@ class ErrorDialog(Dialog):
     def __init__(self,
                  parent: tk.BaseWidget,
                  ex: Exception):
-        Dialog.__init__(self, parent, AwtResources.string("ErrorDialog.Title"))
+        Dialog.__init__(self, parent, AwtResources.string("ErrorDialog.Title") + " - " + str(ex))
 
         assert isinstance(ex, Exception)
         self.__ex = ex

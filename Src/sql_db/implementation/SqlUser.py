@@ -218,7 +218,7 @@ class SqlUser(SqlDatabaseObject, User):
             rs = stat.execute()
             result = set()
             for r in rs:
-                result.add(self._get_account_proxy(r["pk"]))
+                result.add(self.database._get_account_proxy(r["pk"]))
             return result
         except Exception as ex:
             raise DatabaseError.wrap(ex)

@@ -243,12 +243,17 @@ class ModifyUserDialog(Dialog):
         email_addresses = self.__email_address_list_editor.email_addresses
 
         try:
-            #   Apply user properties TODO only those which have  changed
-            self.__user.set_enabled(self.__credentials, enabled);
-            self.__user.set_real_name(self.__credentials, real_name);
-            self.__user.set_inactivity_timeout(self.__credentials, inactivity_timeout);
-            self.__user.set_ui_locale(self.__credentials, ui_locale);
-            self.__user.set_email_addresses(self.__credentials, email_addresses);
+            #   Apply user properties (only those which have  changed)
+            if enabled != self.__user_enabled:
+                self.__user.set_enabled(self.__credentials, enabled);
+            if real_name != self.__user_real_name:
+                self.__user.set_real_name(self.__credentials, real_name);
+            if inactivity_timeout != self.__user_inactivity_timeout:
+                self.__user.set_inactivity_timeout(self.__credentials, inactivity_timeout);
+            if ui_locale != self.__user_ui_locale:
+                self.__user.set_ui_locale(self.__credentials, ui_locale);
+            if email_addresses != self.__user_email_addresses:
+                self.__user.set_email_addresses(self.__credentials, email_addresses);
             self.__result = ModifyUserDialogResult.OK
             self.end_modal()
         except Exception as ex:

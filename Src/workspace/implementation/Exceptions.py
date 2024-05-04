@@ -57,3 +57,12 @@ class WorkspaceObjectDeadError(WorkspaceError):
     #   Construction
     def __init__(self, object_type_name: str):
         super().__init__("The " + object_type_name + " is dead")
+
+class WorkspaceAccessWouldBeLostError(WorkspaceError):
+    """ Thrown when an attempt is made to leave a Workspace without 
+        an enabled user/account which has ADMINISTRATOR capability. """
+
+    ##########
+    #   Construction
+    def __init__(self):
+        super().__init__("Workspace access would be lost")

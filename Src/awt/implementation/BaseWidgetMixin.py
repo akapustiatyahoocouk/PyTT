@@ -29,6 +29,7 @@ class BaseWidgetMixin(KeyEventProcessorMixin,
 
         self.__visible = True
         self.__focusable = True
+        self.__enabled = True
         self.configure(takefocus=1)
 
         self.bind("<KeyPress>", self.__on_tk_keydown)
@@ -74,35 +75,46 @@ class BaseWidgetMixin(KeyEventProcessorMixin,
     @property
     def enabled(self):
         """ True if this widget is enabled, False if disabled. """
-        return tk.DISABLED not in self.state()
+        return self.__enabled
+        #   TODO kill off return tk.DISABLED not in self.state()
 
     @enabled.setter
-    def enabled(self, yes: bool):
+    def enabled(self, new_enabled: bool):
         """
             Enables or disables this widget.
 
-            @param value:
+            @param new_enabled:
                 True to enable this widget, false to disable.
         """
-        if yes:
-            self.state(["!disabled"])
-        else:
-            self.state(["disabled"])
+        assert isinstance(new_enabled, bool)
+
+        if new_enabled != self.__enabled:
+            self.__enabled = new_enabled
+            if new_enabled:
+                self.state(["!disabled"])
+            else:
+                self.state(["disabled"])
+        #   Both "focusable" and "enabled" properties of an AWT
+        #   widget are relevant for its focusability
+        self.__configure_tk_widget_focusability()
 
     @property
     def focusable(self) -> bool:
-        """ True if this worget is capable of receiving keyboard 
+        """ True if this worget is capable of receiving keyboard
             input focus, False if not. """
         return self.__focusable
 
     @focusable.setter
     def focusable(self, new_focusable: bool) -> None:
-        """ Specifies whether this widget is capable of receiving 
+        """ Specifies whether this widget is capable of receiving
             keyboard input focus (True), or not (if False). """
         assert isinstance(new_focusable, bool)
+
         if new_focusable != self.__focusable:
             self.__focusable = new_focusable
-            self.configure(takefocus=1 if new_focusable else 0)
+        #   Both "focusable" and "enabled" properties of an AWT
+        #   widget are relevant for its focusability
+        self.__configure_tk_widget_focusability()
 
     ##########
     #   Operations
@@ -133,6 +145,11 @@ class BaseWidgetMixin(KeyEventProcessorMixin,
         y = int(sh/2) - int(h/2)
         #   TODO Try to keep the dialog within screen boundaries
         self.geometry("%dx%d+%d+%d" % (w, h, x, y))
+
+    ##########
+    #   Implementation helpers
+    def __configure_tk_widget_focusability(self) -> None:
+        self.configure(takefocus=1 if (self.__focusable and self.__enabled) else 0)
 
     ##########
     #   Tk event handlers
