@@ -1,5 +1,7 @@
 #   Python standard library
 import re
+from tkinter import YES
+from tkinter.messagebox import QUESTION, YESNO
 
 #   Dependencies on other PyTT components
 from awt.interface.api import *
@@ -62,7 +64,7 @@ class EmailAddressListEditor(Panel):
         #   Make sure the "e-mail addrsses: list has a proper number...
         while len(self.__email_addresses_list_box.items) > len(self.__email_addresses):
             #   Too many items in the list
-            raise NotImplementedError()
+            self.__email_addresses_list_box.items.remove_at(len(self.__email_addresses_list_box.items) - 1)
         while len(self.__email_addresses_list_box.items) < len(self.__email_addresses):
             #   Too few items in the list
             self.__email_addresses_list_box.items.add("")
@@ -86,7 +88,7 @@ class EmailAddressListEditor(Panel):
 
     ##########
     #   Implementation helpers
-    def __is_valid_email_address(self, s: str) -> bool:
+    def __is_valid_email_address(self, s: str) -> bool: #   TODO use Workspace.validator
         assert isinstance(s, str)
 
         pattern = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"
@@ -138,4 +140,14 @@ class EmailAddressListEditor(Panel):
 
     def __remove_email_address_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)
+        si = self.__email_addresses_list_box.selected_item
+        email_address = si.text
+        if MessageBox.show(self.winfo_toplevel(),
+                title=GuiResources.string("EmailAddressListEditor.RemoveEmailAddressDialog.Title"),
+                message=GuiResources.string("EmailAddressListEditor.RemoveEmailAddressDialog.Prompt").format(email_address),
+                icon=MessageBoxIcon.QUESTION,
+                buttons=MessageBoxButtons.YES_NO) == MessageBoxResult.YES:
+            self.__email_addresses.remove(email_address)
+            self.request_refresh()
+            
 

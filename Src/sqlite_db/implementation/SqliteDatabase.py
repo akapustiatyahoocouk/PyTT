@@ -44,6 +44,7 @@ class SqliteDatabase(SqlDatabase):
         self.__address = address
         self.__connection = None
         self.__is_open = True
+        self.__validator = Validator()
 
         #   Obtain the lock BEFORE opening a connection
         db_path = address._SqliteDatabaseAddress__path
@@ -91,6 +92,10 @@ class SqliteDatabase(SqlDatabase):
     @property
     def is_open(self) -> bool:
         return self.__is_open
+
+    @property
+    def validator(self) -> Validator:
+        return self.__validator
 
     ##########
     #   Database - Operations (general)

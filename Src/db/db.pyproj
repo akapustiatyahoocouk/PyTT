@@ -34,6 +34,7 @@
     <Compile Include="implementation\User.py" />
     <Compile Include="implementation\DatabaseObject.py" />
     <Compile Include="implementation\Database.py" />
+    <Compile Include="implementation\Validator.py" />
     <Compile Include="interface\api.py" />
     <Compile Include="implementation\DatabaseAddress.py" />
     <Compile Include="implementation\DatabaseType.py" />

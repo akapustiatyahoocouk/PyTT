@@ -45,7 +45,7 @@ class ListBoxItem:
             if self.__list_box is not None:
                 #   Must update the text of the underlying TreeNode
                 index = self.__list_box._ListBox__items.index(self)
-                tree_node = self.__list_box._ListBox__items._ListBoxItems__tree_view_items[index]
+                tree_node = self.__list_box._ListBox__items._ListBoxItems__tree_nodes[index]
                 tree_node.text = new_text
 
     @property
@@ -72,7 +72,7 @@ class ListBoxItems:
 
         self.__list_box = list_box
         self.__items = []
-        self.__tree_view_items = [] #   Parallel to self.__items
+        self.__tree_nodes = [] #   Parallel to self.__items
 
     ##########
     #   object
@@ -106,7 +106,7 @@ class ListBoxItems:
             new_item._ListBoxItem__list_box = self.__list_box
             #   Create the underlying TreeView item
             tree_view_item = self.__list_box._ListBox__tree_view.root_nodes.add(item, tag=new_item)
-            self.__tree_view_items.append(tree_view_item)
+            self.__tree_nodes.append(tree_view_item)
             #   Done assing a new ListBoxItem
             return new_item
         elif isinstance(item, ListBoxItem):
@@ -124,6 +124,19 @@ class ListBoxItems:
     def index(self, element):
         return self.__items.index(element)
 
+    def remove_at(self, index: int) -> None:
+        assert isinstance(index, int)
+        
+        item = self.__items[index]
+        self.__items.pop(index)
+        #   Destroy underlying tree view node
+        tree_node = self.__tree_nodes.pop(index)
+        tree_view = tree_node.tree_view
+        tree_view.root_nodes.remove_at(index)
+        #   Make sure all tree nodes display proper texts
+        for i in range(len(self.__items)):
+            tree_view.root_nodes[i].text = self.__items[i].text
+        
 class ListBox(Panel,
               ItemEventProcessorMixin):
     """ A ttk.Treeview that behaves as a list box. """
@@ -180,7 +193,7 @@ class ListBox(Panel,
                     self.__tree_view.selection_remove(item)
             else:
                 assert 0 <= new_index < len(self.__items)
-                tree_node_id = self.__items._ListBoxItems__tree_view_items[new_index]._TreeNode__tk_node_id
+                tree_node_id = self.__items._ListBoxItems__tree_nodes[new_index]._TreeNode__tk_node_id
                 self.__tree_view.selection_set(tree_node_id)
             new_index = self.selected_index
             if new_index != old_index:

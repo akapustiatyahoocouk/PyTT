@@ -4,6 +4,7 @@
 from typing import List, Union
 from abc import ABC, abstractmethod, abstractproperty
 from threading import Lock, Semaphore
+from queue import Empty, Queue
 
 #   Dependencies on other PyTT components
 from util.interface.api import *
@@ -13,7 +14,7 @@ from .DatabaseAddress import DatabaseAddress
 from .DatabaseType import DatabaseType
 from .Exceptions import DatabaseAccessDeniedError
 from .Notifications import *
-from queue import Empty, Queue
+from .Validator import *
 
 ##########
 #   Public entities
@@ -64,6 +65,11 @@ class Database(ABC):
     def is_open(self) -> bool:
         """ True if this Database is currently open (i.e. can be
             used to access the physical database), False if closed. """
+        raise NotImplementedError()
+
+    @abstractproperty
+    def validator(self) -> Validator:
+        """ The Validator used by this database. """
         raise NotImplementedError()
 
     ##########

@@ -9,5 +9,6 @@ from db.implementation.DatabaseType import *
 from db.implementation.Exceptions import *
 from db.implementation.Notifications import *
 from db.implementation.User import *
+from db.implementation.Validator import *
 
 from db.resources.DbResources import *

@@ -66,6 +66,8 @@ class CreateUserDialog(Dialog):
         self.__credentials = credentials if credentials is not None else CurrentCredentials.get()
         assert self.__workspace is not None
         assert self.__credentials is not None
+        
+        self.__validator = self.__workspace.validator
 
         #   Create controls
         self.__controls_panel = Panel(self)
@@ -189,7 +191,7 @@ class CreateUserDialog(Dialog):
         self.__inactivity_timeout_unit_combo_box.enabled = \
             ((self.__inactivity_timeout_value_combo_box.selected_item is not None) and
              (self.__inactivity_timeout_value_combo_box.selected_item.tag != 0))
-        self.__ok_button.enabled = len(self.__real_name_text_field.text.strip()) > 0
+        self.__ok_button.enabled = self.__validator.user.is_valid_real_name(self.__real_name_text_field.text)
 
     ##########
     #   Properties

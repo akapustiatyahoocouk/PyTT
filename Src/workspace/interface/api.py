@@ -9,6 +9,7 @@ from workspace.implementation.Capabilities import *
 from workspace.implementation.Credentials import *
 from workspace.implementation.Exceptions import *
 from workspace.implementation.Notifications import *
+from workspace.implementation.Validator import *
 from workspace.implementation.Workspace import *
 from workspace.implementation.WorkspaceAddress import *
 from workspace.implementation.WorkspaceSettings import *

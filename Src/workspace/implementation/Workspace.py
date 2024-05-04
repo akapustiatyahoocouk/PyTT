@@ -20,6 +20,7 @@ from .Capabilities import Capabilities
 from .BusinessObject import BusinessObject
 from .BusinessUser import BusinessUser
 from .Notifications import *
+from .Validator import *
 
 ##########
 #   Public entities
@@ -63,11 +64,16 @@ class Workspace:
             for both open and closed workspaces. """
         return self.__address
 
-    @abstractproperty
+    @property
     def is_open(self) -> bool:
         """ True if this Workspace is currently open (i.e. can be
             used to access the physical database), False if closed. """
         return self.__db.is_open
+
+    @property
+    def validator(self) -> Validator:
+        """ The Validator used by this Workspace. """
+        return self.__db.validator
 
     @property
     def lock(self) -> threading.RLock:
