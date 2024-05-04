@@ -79,7 +79,7 @@ class ModifyUserDialog(Dialog):
             text=GuiResources.string("ModifyUserDialog.RealNameLabel.Text"),
             anchor=tk.E)
         self.__real_name_text_field = TextField(
-            self.__controls_panel, 
+            self.__controls_panel,
             width=40,
             text=self.__user_real_name)
 
@@ -138,8 +138,21 @@ class ModifyUserDialog(Dialog):
             tag=60)
         self.__inactivity_timeout_unit_combo_box.editable = False
 
-        self.__inactivity_timeout_value_combo_box.selected_index = 1    #   TODO
-        self.__inactivity_timeout_unit_combo_box.selected_index = 1     #   TODO
+        if self.__user_inactivity_timeout is None:
+            self.__inactivity_timeout_value_combo_box.selected_index = 0
+            self.__inactivity_timeout_unit_combo_box.selected_index = 1
+        elif (self.__user_inactivity_timeout > 0 and
+              self.__user_inactivity_timeout < 60):
+            self.__inactivity_timeout_value_combo_box.selected_index = self.__user_inactivity_timeout
+            self.__inactivity_timeout_unit_combo_box.selected_index = 0
+        elif (self.__user_inactivity_timeout % 60 == 0 and
+              self.__user_inactivity_timeout // 60 > 0 and
+              self.__user_inactivity_timeout // 60 <= 60):
+            self.__inactivity_timeout_value_combo_box.selected_index = self.__user_inactivity_timeout // 60
+            self.__inactivity_timeout_unit_combo_box.selected_index = 1
+        else:
+            self.__inactivity_timeout_value_combo_box.selected_index = 1
+            self.__inactivity_timeout_unit_combo_box.selected_index = 1
 
         all_locales = list(LocalizableSubsystem.all_supported_locales())
         all_locales.sort(key=lambda l: repr(l))
@@ -148,8 +161,12 @@ class ModifyUserDialog(Dialog):
             tag=None)
         for locale in all_locales:
             self.__ui_locale_combo_box.items.add(str(locale), tag=locale)
-        self.__ui_locale_combo_box.selected_index = 0   #   TODO
         self.__ui_locale_combo_box.editable = False
+
+        if self.__user_ui_locale in all_locales:
+            self.__ui_locale_combo_box.selected_index = all_locales.index(self.__user_ui_locale) + 1
+        else:
+            self.__ui_locale_combo_box.selected_index = 0
 
         #   Set up control structure
         self.__controls_panel.pack(fill=tk.X, padx=0, pady=0)
@@ -226,14 +243,12 @@ class ModifyUserDialog(Dialog):
         email_addresses = self.__email_address_list_editor.email_addresses
 
         try:
-            #   TODO apply user properties
-            #self.__user = self.__workspace.create_user(
-            #        credentials=self.__credentials,
-            #        enabled=enabled,
-            #        real_name=real_name,
-            #        inactivity_timeout=None if inactivity_timeout == 0 else inactivity_timeout,
-            #        ui_locale=ui_locale,
-            #        email_addresses=email_addresses)
+            #   Apply user properties TODO only those which have  changed
+            self.__user.set_enabled(self.__credentials, enabled);
+            self.__user.set_real_name(self.__credentials, real_name);
+            self.__user.set_inactivity_timeout(self.__credentials, inactivity_timeout);
+            self.__user.set_ui_locale(self.__credentials, ui_locale);
+            self.__user.set_email_addresses(self.__credentials, email_addresses);
             self.__result = ModifyUserDialogResult.OK
             self.end_modal()
         except Exception as ex:

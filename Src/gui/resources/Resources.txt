@@ -61,6 +61,10 @@ EmailAddressListEditor.RemoveEmailAddressButton.Text=Remove
 EmailAddressListEditor.RemoveEmailAddressButton.Image=ImageFile:images/actions/RemoveEmailAddressSmall.png
 EmailAddressListEditor.AddEmailAddressDialog.Title=Add e-mail address
 EmailAddressListEditor.AddEmailAddressDialog.Prompt=Enter e-mail address:
+EmailAddressListEditor.ModifyEmailAddressDialog.Title=Modify e-mail address
+EmailAddressListEditor.ModifyEmailAddressDialog.Prompt=Enter e-mail address:
+EmailAddressListEditor.RemoveEmailAddressDialog.Title=Remove e-mail address
+EmailAddressListEditor.RemoveEmailAddressDialog.Prompt=Are you sure you want to remove e-mail address\n{0}
 
 ##########
 #   Dialogs

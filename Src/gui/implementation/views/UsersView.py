@@ -131,6 +131,7 @@ class UsersView(View):
 
     @selected_object.setter
     def selected_object(self, obj: Optional[BusinessObject]) -> None:
+        assert (obj is None) or isinstance(obj, BusinessObject)
         self.perform_refresh()
         if obj is None:
             return
@@ -148,10 +149,20 @@ class UsersView(View):
         obj = self.selected_object
         return obj if isinstance(obj, BusinessUser) else None
     
+    @selected_user.setter
+    def selected_user(self, user: Optional[BusinessUser]) -> None:
+        assert (user is None) or isinstance(user, BusinessUser)
+        self.selected_object = user
+
     @property
     def selected_account(self) -> Optional[BusinessAccount]:
         obj = self.selected_object
         return obj if isinstance(obj, BusinessAccount) else None
+
+    @selected_account.setter
+    def selected_account(self, account: Optional[BusinessAccount]) -> None:
+        assert (account is None) or isinstance(account, BusinessAccount)
+        self.selected_object = account
 
     ##########
     #   Implementation helpers
@@ -229,11 +240,14 @@ class UsersView(View):
 
     def __on_modify_user_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)
+        user = self.selected_user
         try:
-            with ModifyUserDialog(self.winfo_toplevel(), self.selected_user) as dlg:
+            with ModifyUserDialog(self.winfo_toplevel(), user) as dlg:
                 dlg.do_modal()
         except Exception as ex: #   error in ModifyUserDialog constructor
             ErrorDialog.show(None, ex)
+        self.selected_user = user
+        self.__users_tree_view.focus_set()
         self.request_refresh()
 
     def __on_destroy_user_button_clicked(self, evt: ActionEvent) -> None:

@@ -11,7 +11,7 @@ CREATE TABLE [users]
     [real_name] VARCHAR(128) NOT NULL,
     [inactivity_timeout] INTEGER,       --  in minutes; NULL == none
     [ui_locale] VARCHAR(64),            --  "en_GB", etc; NULL == none
-    [email_addresses] TEXT,             --  '\n' - separated list, NULL == none
+    [email_addresses] TEXT,             --  '|' - separated list, NULL == none
     --- Foreign keys
     FOREIGN KEY([pk]) REFERENCES [objects]([pk])
 );
@@ -37,7 +37,7 @@ CREATE TABLE [accounts]
     [can_generate_reports] CHAR(1) NOT NULL,    --  "Y" (true) or "N" (false)
     [can_backup_and_restore] CHAR(1) NOT NULL,  --  "Y" (true) or "N" (false)
     --- End of capability fields
-    [email_addresses] TEXT,                     --  '\n' - separated list, NULL == none
+    [email_addresses] TEXT,                     --  '|' - separated list, NULL == none
     [fk_user] INTEGER NOT NULL,
     --- Foreign keys
     FOREIGN KEY([pk]) REFERENCES [objects]([pk]),

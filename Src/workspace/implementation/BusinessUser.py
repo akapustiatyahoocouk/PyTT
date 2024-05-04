@@ -34,6 +34,20 @@ class BusinessUser(BusinessObject):
     ##########
     #   Operations (access control)
     def can_modify(self, credentials: Credentials) -> bool:
+        self._ensure_live() # may raise WorkspaceError
+        assert isinstance(credentials, Credentials)
+
+        try:
+            #   A user can modify their own details, plus anyone 
+            #   who can manage users can modify details of any user
+            if self.workspace.can_manage_users(credentials):
+                return True
+            data_account = self._data_object.database.login(credentials.login, credentials._Credentials__password)
+            if data_account.user == self._data_object:
+                return True
+            return False            
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
         raise NotImplementedError()
 
     def can_destroy(self, credentials: Credentials) -> bool:
@@ -82,7 +96,14 @@ class BusinessUser(BusinessObject):
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert isinstance(new_enabled, bool)
-        raise NotImplementedError()
+        
+        if not self.can_modify(credentials):
+            raise WorkspaceAccessDeniedError()
+        try:
+            self._data_object.enabled = new_enabled
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
+
 
     def get_real_name(self, credentials: Credentials) -> str:
         """
@@ -105,7 +126,7 @@ class BusinessUser(BusinessObject):
         except Exception as ex:
             raise WorkspaceError.wrap(ex)
 
-    def set_real_name(self, new_real_name: str) -> None:
+    def set_real_name(self, credentials: Credentials, new_real_name: str) -> None:
         """
             Sets the "real name" of this BusinessUser.
 
@@ -119,7 +140,13 @@ class BusinessUser(BusinessObject):
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert isinstance(new_real_name, str)
-        raise NotImplementedError()
+
+        if not self.can_modify(credentials):
+            raise WorkspaceAccessDeniedError()
+        try:
+            self._data_object.real_name = new_real_name
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     def get_inactivity_timeout(self, credentials: Credentials) -> Optional[int]:
         """
@@ -168,7 +195,13 @@ class BusinessUser(BusinessObject):
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert (new_inactivity_timeout is None) or isinstance(new_inactivity_timeout, int)
-        raise NotImplementedError()
+
+        if not self.can_modify(credentials):
+            raise WorkspaceAccessDeniedError()
+        try:
+            self._data_object.inactivity_timeout = new_inactivity_timeout
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     def get_ui_locale(self, credentials: Credentials) -> Optional[Locale]:
         """
@@ -210,7 +243,13 @@ class BusinessUser(BusinessObject):
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert (new_ui_locale is None) or isinstance(new_ui_locale, Locale)
-        raise NotImplementedError()
+
+        if not self.can_modify(credentials):
+            raise WorkspaceAccessDeniedError()
+        try:
+            self._data_object.ui_locale = new_ui_locale
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     def get_email_addresses(self, credentials: Credentials) -> List[str]:
         """
@@ -249,7 +288,13 @@ class BusinessUser(BusinessObject):
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         #   TODO validate new_email_addresses
-        raise NotImplementedError()
+
+        if not self.can_modify(credentials):
+            raise WorkspaceAccessDeniedError()
+        try:
+            self._data_object.email_addresses = new_email_addresses
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     ##########
     #   Operations (associations)

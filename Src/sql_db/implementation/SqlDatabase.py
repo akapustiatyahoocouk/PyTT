@@ -91,11 +91,7 @@ class SqlDatabase(Database):
         chunk = ""
         while scan < len(s):
             c = s[scan]
-            if c == "\n":
-                chunk += "\\n";
-                scan += 1
-                #   TODO other escape sequences
-            elif c == self.string_opening_quote:
+            if c == self.string_opening_quote:
                 #   Quote must be reprsented as quote-quote within string literals
                 chunk += self.string_opening_quote + self.string_opening_quote;
                 scan += 1
@@ -105,9 +101,11 @@ class SqlDatabase(Database):
             elif ord(c) >= 32 and ord(c) < 127:
                 chunk += c
                 scan += 1
-            else:
-                #   UNICODE, special characters
-                raise NotImplementedError()
+            else:   #   UNICODE, special characters
+                chunks.append(self.string_opening_quote + chunk + self.string_closing_quote)
+                chunk = ""
+                chunks.append("CHAR(" + str(c) + ")")
+                scan += 1
         #   Record the last chunk
         chunks.append(self.string_opening_quote + chunk + self.string_closing_quote)
         empty_literal = self.string_opening_quote + self.string_closing_quote
@@ -274,11 +272,14 @@ class SqlDatabase(Database):
         #   subclasses of SqlStatement!
         from .SqlInsertStatement import SqlInsertStatement
         from .SqlSelectStatement import SqlSelectStatement
+        from .SqlUpdateStatement import SqlUpdateStatement
 
         if sql_template.upper().startswith("INSERT"):
             sql_statement = SqlInsertStatement(self, sql_template)  #   may raise DatabaseError
         elif sql_template.upper().startswith("SELECT"):
             sql_statement = SqlSelectStatement(self, sql_template)  #   may raise DatabaseError
+        elif sql_template.upper().startswith("UPDATE"):
+            sql_statement = SqlUpdateStatement(self, sql_template)  #   may raise DatabaseError
         else:
             sql_statement = SqlStatement(self, sql_template)    #   may raise DatabaseError
 

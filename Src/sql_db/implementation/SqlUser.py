@@ -54,6 +54,7 @@ class SqlUser(SqlDatabaseObject, User):
             stat2.execute()
 
             self.database.commit_transaction()
+            self._mark_dead()
             
             #   Issue notifications
             self.database.enqueue_notification(
@@ -77,7 +78,23 @@ class SqlUser(SqlDatabaseObject, User):
 
     @enabled.setter
     def enabled(self, new_enabled: bool) -> None:
-        raise NotImplementedError()
+        self._ensure_live()
+        assert isinstance(new_enabled, bool)
+        
+        try:        
+            stat = self.database.create_statement(
+                """UPDATE [users] SET [enabled] = ? WHERE [pk] = ?""")
+            stat.set_bool_parameter(0, new_enabled)
+            stat.set_int_parameter(1, self.oid)
+            row_count = stat.execute()
+            assert row_count <= 1
+            if row_count == 0:
+                #   OOPS! The database row does not exist!
+                self._mark_dead()
+                raise DatabaseObjectDeadError(User.TYPE_NAME)
+            self._enabled = new_enabled
+        except Exception as ex:
+            raise DatabaseError.wrap(ex)
 
     @property
     def real_name(self) -> str:
@@ -88,7 +105,23 @@ class SqlUser(SqlDatabaseObject, User):
 
     @real_name.setter
     def real_name(self, new_real_name: str) -> None:
-        raise NotImplementedError()
+        self._ensure_live()
+        assert isinstance(new_real_name, str)
+        
+        try:        
+            stat = self.database.create_statement(
+                """UPDATE [users] SET [real_name] = ? WHERE [pk] = ?""")
+            stat.set_string_parameter(0, new_real_name)
+            stat.set_int_parameter(1, self.oid)
+            row_count = stat.execute()
+            assert row_count <= 1
+            if row_count == 0:
+                #   OOPS! The database row does not exist!
+                self._mark_dead()
+                raise DatabaseObjectDeadError(User.TYPE_NAME)
+            self._real_name = new_real_name
+        except Exception as ex:
+            raise DatabaseError.wrap(ex)
 
     @property
     def inactivity_timeout(self) -> Optional[int]:
@@ -99,7 +132,23 @@ class SqlUser(SqlDatabaseObject, User):
 
     @inactivity_timeout.setter
     def inactivity_timeout(self, new_inactivity_timeout: Optional[int]) -> None:
-        raise NotImplementedError()
+        self._ensure_live()
+        assert (new_inactivity_timeout is None) or isinstance(new_inactivity_timeout, int)
+        
+        try:        
+            stat = self.database.create_statement(
+                """UPDATE [users] SET [inactivity_timeout] = ? WHERE [pk] = ?""")
+            stat.set_int_parameter(0, new_inactivity_timeout)
+            stat.set_int_parameter(1, self.oid)
+            row_count = stat.execute()
+            assert row_count <= 1
+            if row_count == 0:
+                #   OOPS! The database row does not exist!
+                self._mark_dead()
+                raise DatabaseObjectDeadError(User.TYPE_NAME)
+            self._inactivity_timeout = new_inactivity_timeout
+        except Exception as ex:
+            raise DatabaseError.wrap(ex)
 
     @property
     def ui_locale(self) -> Optional[Locale]:
@@ -110,7 +159,23 @@ class SqlUser(SqlDatabaseObject, User):
 
     @ui_locale.setter
     def ui_locale(self, new_ui_locale: Optional[Locale]) -> None:
-        raise NotImplementedError()
+        self._ensure_live()
+        assert (new_ui_locale is None) or isinstance(new_ui_locale, Locale)
+        
+        try:        
+            stat = self.database.create_statement(
+                """UPDATE [users] SET [ui_locale] = ? WHERE [pk] = ?""")
+            stat.set_string_parameter(0, None if new_ui_locale is None else repr(new_ui_locale))
+            stat.set_int_parameter(1, self.oid)
+            row_count = stat.execute()
+            assert row_count <= 1
+            if row_count == 0:
+                #   OOPS! The database row does not exist!
+                self._mark_dead()
+                raise DatabaseObjectDeadError(User.TYPE_NAME)
+            self._ui_locale = new_ui_locale
+        except Exception as ex:
+            raise DatabaseError.wrap(ex)
 
     @property
     def email_addresses(self) -> List[str]:
@@ -121,7 +186,24 @@ class SqlUser(SqlDatabaseObject, User):
 
     @email_addresses.setter
     def email_addresses(self, new_email_addresses: List[str]) -> None:
-        raise NotImplementedError()
+        self._ensure_live()
+        assert isinstance(new_email_addresses, list)
+        assert all(isinstance(a, str) for a in new_email_addresses) #   TODO properly!
+        
+        try:        
+            stat = self.database.create_statement(
+                """UPDATE [users] SET [email_addresses] = ? WHERE [pk] = ?""")
+            stat.set_string_parameter(0, None if len(new_email_addresses) == 0 else "|".join(new_email_addresses))
+            stat.set_int_parameter(1, self.oid)
+            row_count = stat.execute()
+            assert row_count <= 1
+            if row_count == 0:
+                #   OOPS! The database row does not exist!
+                self._mark_dead()
+                raise DatabaseObjectDeadError(User.TYPE_NAME)
+            self._email_addresses = new_email_addresses
+        except Exception as ex:
+            raise DatabaseError.wrap(ex)
 
     ##########
     #   User - Associations
@@ -247,7 +329,7 @@ class SqlUser(SqlDatabaseObject, User):
             if len(rs) == 0:
                 #   OOPS! The record is not in the database!
                 self._mark_dead()
-                raise DatabaseObjectDeadError(Account.TYPE_NAME)
+                raise DatabaseObjectDeadError(User.TYPE_NAME)
             r = rs[0]
             self._enabled = r["enabled", SqlDataType.BOOLEAN]
             self._real_name = r["real_name", SqlDataType.STRING]
@@ -258,7 +340,7 @@ class SqlUser(SqlDatabaseObject, User):
             if email_addresses is None:
                 self._email_addresses = []
             else:
-                self._email_addresses = email_addresses.split("\n")
+                self._email_addresses = email_addresses.split("|")
         except Exception as ex:
             raise DatabaseError.wrap(ex)
 

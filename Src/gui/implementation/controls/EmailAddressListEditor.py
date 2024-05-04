@@ -119,6 +119,22 @@ class EmailAddressListEditor(Panel):
 
     def __modify_email_address_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)
+        si = self.__email_addresses_list_box.selected_item
+        old_email_address = si.text
+        with EditStringDialog(self.winfo_toplevel(),
+                              GuiResources.string("EmailAddressListEditor.ModifyEmailAddressDialog.Title"),
+                              GuiResources.string("EmailAddressListEditor.ModifyEmailAddressDialog.Prompt"),
+                              value=old_email_address,
+                              validator=self.__is_valid_email_address) as dlg:
+            dlg.do_modal()
+            if dlg.result is not EditStringDialogResult.OK:
+                return
+            new_email_address = dlg.value
+            self.__email_addresses[self.__email_addresses.index(old_email_address)] = new_email_address
+            self.__email_addresses.sort()
+            self.perform_refresh()
+            index = self.__email_addresses.index(new_email_address)
+            self.__email_addresses_list_box.selected_index = index
 
     def __remove_email_address_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)

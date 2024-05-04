@@ -149,6 +149,12 @@ class SqliteDatabase(SqlDatabase):
                 rows = cur.fetchall()
                 cur.close()
                 return SqlRecordSet(columns, rows)
+            elif sql.strip().upper().startswith("UPDATE"):
+                cur = self.__connection.cursor()
+                cur.execute(sql)
+                rowcount = cur.rowcount
+                cur.close()
+                return rowcount
             else:
                 self.__connection.execute(sql)
         except Exception as ex:

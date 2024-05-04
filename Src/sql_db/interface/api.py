@@ -9,4 +9,5 @@ from sql_db.implementation.SqlRecord import *
 from sql_db.implementation.SqlRecordSet import *
 from sql_db.implementation.SqlSelectStatement import *
 from sql_db.implementation.SqlStatement import *
+from sql_db.implementation.SqlUpdateStatement import *
 from sql_db.implementation.SqlUser import *
