@@ -30,22 +30,22 @@ class BusinessUser(BusinessObject):
     #   Construction (internal only)
     def __init__(self, workspace: "Workspace", data_object: dbapi.User):
         BusinessObject.__init__(self, workspace, data_object)
-    
+
     ##########
-    #   Operations (access control)
+    #   BusinessObject - Operations (access control)
     def can_modify(self, credentials: Credentials) -> bool:
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
         try:
-            #   A user can modify their own details, plus anyone 
+            #   A user can modify their own details, plus anyone
             #   who can manage users can modify details of any user
             if self.workspace.can_manage_users(credentials):
                 return True
             data_account = self._data_object.database.login(credentials.login, credentials._Credentials__password)
             if data_account.user == self._data_object:
                 return True
-            return False            
+            return False
         except Exception as ex:
             raise WorkspaceError.wrap(ex)
         raise NotImplementedError()
@@ -53,9 +53,41 @@ class BusinessUser(BusinessObject):
     def can_destroy(self, credentials: Credentials) -> bool:
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
-        
+
         try:
             return self.workspace.can_manage_users(credentials)
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
+
+    ##########
+    #   BusinessObjectOperations (life cycle)
+    def destroy(self, credentials: Credentials) -> None:
+        self._ensure_live() # may raise WorkspaceError
+        assert isinstance(credentials, Credentials)
+
+        try:
+            if self._data_object.enabled:
+                #   We're destroying an "enabled" user - at least
+                #   one other "enabled" user must exist, with at
+                #   least one "enabled" account that has ADMINISTRATOR 
+                #   capabilities
+                access_would_be_lost = True
+                db = self.workspace._Workspace__db
+                for data_user in db.users:
+                    if ((data_user == self._data_object) or
+                        (not data_user.enabled) or
+                        (not access_would_be_lost)):
+                        continue    #   data_user cannot be a possible "admin user" OR access would not be lost
+                    for data_account in data_user.accounts:
+                        if ((not data_account.enabled) or
+                            (not data_account.capabilities.contains_all(dbapi.Capabilities.ADMINISTRATOR)) or
+                            (not access_would_be_lost)):
+                            continue    #   data_account cannot be a possible "admin account" OR access would not be lost
+                        access_would_be_lost = False
+                if access_would_be_lost:
+                    raise WorkspaceAccessWouldBeLostError()
+            #   ...and the rest is up to the base implementation
+            BusinessObject.destroy(self, credentials)
         except Exception as ex:
             raise WorkspaceError.wrap(ex)
 
@@ -64,7 +96,7 @@ class BusinessUser(BusinessObject):
     def is_enabled(self, credentials: Credentials) -> bool:
         """
             Checks whether this BusinessUser is enabled or disabled.
-            
+
             @param credentials:
                 The credentials of the servie caller.
             @return:
@@ -96,7 +128,31 @@ class BusinessUser(BusinessObject):
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert isinstance(new_enabled, bool)
-        
+
+        try:
+            if self._data_object.enabled and not new_enabled:
+                #   We're disabling an "enabled" user - at least
+                #   one other "enabled" user must exist, with at
+                #   least one "enabled" account that has ADMINISTRATOR 
+                #   capabilities
+                access_would_be_lost = True
+                db = self.workspace._Workspace__db
+                for data_user in db.users:
+                    if ((data_user == self._data_object) or
+                        (not data_user.enabled) or
+                        (not access_would_be_lost)):
+                        continue    #   data_user cannot be a possible "admin user" OR access would not be lost
+                    for data_account in data_user.accounts:
+                        if ((not data_account.enabled) or
+                            (not data_account.capabilities.contains_all(dbapi.Capabilities.ADMINISTRATOR)) or
+                            (not access_would_be_lost)):
+                            continue    #   data_account cannot be a possible "admin account" OR access would not be lost
+                        access_would_be_lost = False
+                if access_would_be_lost:
+                    raise WorkspaceAccessWouldBeLostError()
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
+
         if not self.can_modify(credentials):
             raise WorkspaceAccessDeniedError()
         try:
@@ -104,11 +160,10 @@ class BusinessUser(BusinessObject):
         except Exception as ex:
             raise WorkspaceError.wrap(ex)
 
-
     def get_real_name(self, credentials: Credentials) -> str:
         """
             Returns the "real name" of this BusinessUser.
-            
+
             @param credentials:
                 The credentials of the servie caller.
             @return:
@@ -118,7 +173,7 @@ class BusinessUser(BusinessObject):
         """
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
-        
+
         if self.workspace.get_capabilities(credentials) == None:
             raise WorkspaceAccessDeniedError()
         try:
@@ -151,11 +206,11 @@ class BusinessUser(BusinessObject):
     def get_inactivity_timeout(self, credentials: Credentials) -> Optional[int]:
         """
             Returns the inactivity timeout of this BusinessUser.
-            
+
             When a BusinessUser has the "inactivity timeout" configured,
             then starts some Activity and does nothing at all for
             that period of time, the Activity ends automatically.
-            
+
             @param credentials:
                 The credentials of the servie caller.
             @return:
@@ -206,7 +261,7 @@ class BusinessUser(BusinessObject):
     def get_ui_locale(self, credentials: Credentials) -> Optional[Locale]:
         """
             Returns the preferred UI locale of this BusinessUser.
-            
+
             @param credentials:
                 The credentials of the servie caller.
             @return:
@@ -254,7 +309,7 @@ class BusinessUser(BusinessObject):
     def get_email_addresses(self, credentials: Credentials) -> List[str]:
         """
             Returns the list of e-mail addresses of this BusinessUser.
-            
+
             @param credentials:
                 The credentials of the servie caller.
             @return:
@@ -301,7 +356,7 @@ class BusinessUser(BusinessObject):
     def get_accounts(self, credentials: Credentials) -> Set["BusinessAccount"]:
         """
             Returns the set of all BusinessAccounts of this BusinessUser.
-            
+
             @param credentials:
                 The credentials of the servie caller.
             @return:
