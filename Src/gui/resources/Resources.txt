@@ -185,6 +185,18 @@ CreateAccountDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 CreateAccountDialog.CancelButton.Text=Cancel
 CreateAccountDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
 
+ModifyAccountDialog.Title=Modify account
+ModifyAccountDialog.LoginLabel.Text=Login:
+ModifyAccountDialog.Password1Label.Text=Password:
+ModifyAccountDialog.Password2Label.Text=Retype password:
+ModifyAccountDialog.EnabledCheckBox.Text=Account is enabled
+ModifyAccountDialog.EmailAddressesLabel.Text=E-mail addresses:
+ModifyAccountDialog.CapabilitiesLabel.Text=Capabilities:
+ModifyAccountDialog.OkButton.Text=OK
+ModifyAccountDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+ModifyAccountDialog.CancelButton.Text=Cancel
+ModifyAccountDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+
 ##########
 #   View types
 UsersViewType.DisplayName=Users

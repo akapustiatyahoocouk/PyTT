@@ -17,6 +17,7 @@ from ..dialogs.CreateUserDialog import *
 from ..dialogs.ModifyUserDialog import *
 from ..dialogs.DestroyUserDialog import *
 from ..dialogs.CreateAccountDialog import *
+from ..dialogs.ModifyAccountDialog import *
 from gui.resources.GuiResources import GuiResources
 
 ##########
@@ -81,6 +82,7 @@ class UsersView(View):
         self.__modify_user_button.add_action_listener(self.__on_modify_user_button_clicked)
         self.__destroy_user_button.add_action_listener(self.__on_destroy_user_button_clicked)
         self.__create_account_button.add_action_listener(self.__on_create_account_button_clicked)
+        self.__modify_account_button.add_action_listener(self.__on_modify_account_button_clicked)
 
         CurrentWorkspace.add_property_change_listener(self.__on_workspace_changed)
         Locale.add_property_change_listener(self.__on_locale_changed)
@@ -107,6 +109,8 @@ class UsersView(View):
         selected_account = self.selected_account
         try:
             can_manage_users = workspace.can_manage_users(credentials)
+            mu = False if selected_user is None else selected_user.can_modify(credentials)
+            ma = False if selected_account is None else selected_account.can_modify(credentials)
         except Exception:
             can_manage_users = False
 
@@ -114,10 +118,10 @@ class UsersView(View):
         #   real_name) of itself and SOME details (like password) of
         #   its own accounts
         self.__create_user_button.enabled = can_manage_users
-        self.__modify_user_button.enabled = can_manage_users and (selected_user is not None)
+        self.__modify_user_button.enabled = (can_manage_users or mu) and (selected_user is not None)
         self.__destroy_user_button.enabled = can_manage_users and (selected_user is not None)
         self.__create_account_button.enabled = can_manage_users and (selected_user is not None)
-        self.__modify_account_button.enabled = can_manage_users and (selected_account is not None)
+        self.__modify_account_button.enabled = (can_manage_users or ma) and (selected_account is not None)
         self.__destroy_account_button.enabled = can_manage_users and (selected_account is not None)
 
     ##########
@@ -217,14 +221,19 @@ class UsersView(View):
                                                   tag=user)
         #   ...each representing a proper BusinessUser
         for i in range(len(users)):
+            try:
+                user_disabled_suffix = "" if users[i].is_enabled(credentials) else ' [disabled]'
+            except Exception:
+                user_disabled_suffix = ""
             user_node = self.__users_tree_view.root_nodes[i]
-            user_node.text = users[i].display_name
+            user_node.text = users[i].display_name + user_disabled_suffix
             user_node.tag = users[i]
             #   ...and having proper account nodes underneath
             self.__refresh_account_nodes(user_node, users[i])
 
-        #   Try to jeep the selection
-        self.selected_object = selected_object
+        #   Try to keep the selection
+        if self.selected_object != selected_object:
+            self.selected_object = selected_object
 
     def __refresh_account_nodes(self, user_node: TreeNode, user: BusinessUser) -> None:
         credentials = CurrentCredentials.get()
@@ -250,8 +259,12 @@ class UsersView(View):
                                       tag=account)
         #   ...each representing a proper BusinessAccount
         for i in range(len(accounts)):
+            try:
+                account_disabled_suffix = "" if accounts[i].is_enabled(credentials) else ' [disabled]'
+            except Exception as ex:
+                account_disabled_suffix = ""
             account_node = user_node.child_nodes[i]
-            account_node.text = accounts[i].display_name
+            account_node.text = accounts[i].display_name + account_disabled_suffix
             account_node.tag = accounts[i]
 
     ##########
@@ -262,41 +275,62 @@ class UsersView(View):
 
     def __on_create_user_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)
-        with CreateUserDialog(self.winfo_toplevel()) as dlg:
-            dlg.do_modal()
-            if dlg.result is CreateUserDialogResult.CANCEL:
-                return
-            created_user = dlg.created_user
-            self.selected_object = created_user
-            self.__users_tree_view.focus_set()
-        self.request_refresh()
+        try:
+            with CreateUserDialog(self.winfo_toplevel()) as dlg:
+                dlg.do_modal()
+                if dlg.result is CreateUserDialogResult.CANCEL:
+                    return
+                created_user = dlg.created_user
+                self.selected_object = created_user
+                self.__users_tree_view.focus_set()
+            self.request_refresh()
+        except Exception as ex: #   error in ModifyUserDialog constructor
+            ErrorDialog.show(None, ex)
 
     def __on_modify_user_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)
-        user = self.selected_user
         try:
+            user = self.selected_user
             with ModifyUserDialog(self.winfo_toplevel(), user) as dlg:
                 dlg.do_modal()
+            self.selected_user = user
+            self.__users_tree_view.focus_set()
+            self.request_refresh()
         except Exception as ex: #   error in ModifyUserDialog constructor
             ErrorDialog.show(None, ex)
-        self.selected_user = user
-        self.__users_tree_view.focus_set()
-        self.request_refresh()
 
     def __on_destroy_user_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)
-        with DestroyUserDialog(self.winfo_toplevel(), self.selected_user) as dlg:
-            dlg.do_modal()
-        self.request_refresh()
+        try:
+            with DestroyUserDialog(self.winfo_toplevel(), self.selected_user) as dlg:
+                dlg.do_modal()
+            self.request_refresh()
+        except Exception as ex: #   error in ModifyUserDialog constructor
+            ErrorDialog.show(None, ex)
 
     def __on_create_account_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)
         user = self.selected_user
-        with CreateAccountDialog(self.winfo_toplevel(), user) as dlg:
-            dlg.do_modal()
-            if dlg.result is CreateAccountDialogResult.CANCEL:
-                return
-            created_account = dlg.created_account
-            self.selected_object = created_account
+        try:
+            with CreateAccountDialog(self.winfo_toplevel(), user) as dlg:
+                dlg.do_modal()
+                if dlg.result is CreateAccountDialogResult.CANCEL:
+                    return
+                created_account = dlg.created_account
+                self.selected_object = created_account
+                self.__users_tree_view.focus_set()
+            self.request_refresh()
+        except Exception as ex: #   error in ModifyUserDialog constructor
+            ErrorDialog.show(None, ex)
+
+    def __on_modify_account_button_clicked(self, evt: ActionEvent) -> None:
+        assert isinstance(evt, ActionEvent)
+        try:
+            account = self.selected_account
+            with ModifyAccountDialog(self.winfo_toplevel(), account) as dlg:
+                dlg.do_modal()
+            self.selected_account = account
             self.__users_tree_view.focus_set()
-        self.request_refresh()
+            self.request_refresh()
+        except Exception as ex: #   error in ModifyUserDialog constructor
+            ErrorDialog.show(None, ex)

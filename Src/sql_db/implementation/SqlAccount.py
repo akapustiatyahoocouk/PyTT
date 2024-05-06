@@ -45,7 +45,23 @@ class SqlAccount(SqlDatabaseObject, Account):
 
     @enabled.setter
     def enabled(self, new_enabled: bool) -> None:
-        raise NotImplementedError()
+        self._ensure_live()
+        assert isinstance(new_enabled, bool)
+        
+        try:        
+            stat = self.database.create_statement(
+                """UPDATE [accounts] SET [enabled] = ? WHERE [pk] = ?""")
+            stat.set_bool_parameter(0, new_enabled)
+            stat.set_int_parameter(1, self.oid)
+            row_count = stat.execute()
+            assert row_count <= 1
+            if row_count == 0:
+                #   OOPS! The database row does not exist!
+                self._mark_dead()
+                raise DatabaseObjectDeadError(User.TYPE_NAME)
+            self._enabled = new_enabled
+        except Exception as ex:
+            raise DatabaseError.wrap(ex)
 
     @property
     def login(self) -> str:
@@ -56,7 +72,23 @@ class SqlAccount(SqlDatabaseObject, Account):
 
     @login.setter
     def login(self, new_login: str) -> None:
-        raise NotImplementedError()
+        self._ensure_live()
+        assert isinstance(new_login, str)
+
+        try:        
+            stat = self.database.create_statement(
+                """UPDATE [accounts] SET [login] = ? WHERE [pk] = ?""")
+            stat.set_string_parameter(0, new_login)
+            stat.set_int_parameter(1, self.oid)
+            row_count = stat.execute()
+            assert row_count <= 1
+            if row_count == 0:
+                #   OOPS! The database row does not exist!
+                self._mark_dead()
+                raise DatabaseObjectDeadError(User.TYPE_NAME)
+            self._login = new_login
+        except Exception as ex:
+            raise DatabaseError.wrap(ex)
 
     @property
     def password(self) -> str:
@@ -66,7 +98,27 @@ class SqlAccount(SqlDatabaseObject, Account):
 
     @password.setter
     def password(self, new_password: str) -> None:
-        raise NotImplementedError()
+        self._ensure_live()
+        assert isinstance(new_password, str)
+
+        sha1 = hashlib.sha1()
+        sha1.update(new_password.encode("utf-8"))
+        password_hash = sha1.hexdigest().upper()
+
+        try:        
+            stat = self.database.create_statement(
+                """UPDATE [accounts] SET [password_hash] = ? WHERE [pk] = ?""")
+            stat.set_string_parameter(0, password_hash)
+            stat.set_int_parameter(1, self.oid)
+            row_count = stat.execute()
+            assert row_count <= 1
+            if row_count == 0:
+                #   OOPS! The database row does not exist!
+                self._mark_dead()
+                raise DatabaseObjectDeadError(User.TYPE_NAME)
+            self._password_hash = password_hash
+        except Exception as ex:
+            raise DatabaseError.wrap(ex)
 
     @property
     def password_hash(self) -> str:
@@ -84,18 +136,77 @@ class SqlAccount(SqlDatabaseObject, Account):
 
     @capabilities.setter
     def capabilities(self, new_capabilities: Capabilities) -> None:
-        raise NotImplementedError()
+        self._ensure_live()
+        assert isinstance(new_capabilities, Capabilities)
+
+        try:        
+            stat = self.database.create_statement(
+                """UPDATE [accounts] 
+                      SET [is_administrator] = ?,
+                          [can_manage_users] = ?,
+                          [can_manage_stock_items] = ?,
+                          [can_manage_beneficiaries] = ?,
+                          [can_manage_workloads] = ?,
+                          [can_manage_public_activities] = ?,
+                          [can_manage_public_tasks] = ?,
+                          [can_manage_private_activities] = ?,
+                          [can_manage_private_tasks] = ?,
+                          [can_log_work] = ?,
+                          [can_log_events] = ?,
+                          [can_generate_reports] = ?,
+                          [can_backup_and_restore] = ?
+                    WHERE [pk] = ?""")
+            stat.set_bool_parameter(0, new_capabilities.contains_all(Capabilities.ADMINISTRATOR))
+            stat.set_bool_parameter(1, new_capabilities.contains_all(Capabilities.MANAGE_USERS))
+            stat.set_bool_parameter(2, new_capabilities.contains_all(Capabilities.MANAGE_STOCK_ITEMS))
+            stat.set_bool_parameter(3, new_capabilities.contains_all(Capabilities.MANAGE_BENEFICIARIES))
+            stat.set_bool_parameter(4, new_capabilities.contains_all(Capabilities.MANAGE_WORKLOADS))
+            stat.set_bool_parameter(5, new_capabilities.contains_all(Capabilities.MANAGE_PUBLIC_ACTIVITIES))
+            stat.set_bool_parameter(6, new_capabilities.contains_all(Capabilities.MANAGE_PUBLIC_TASKS))
+            stat.set_bool_parameter(7, new_capabilities.contains_all(Capabilities.MANAGE_PRIVATE_ACTIVITIES))
+            stat.set_bool_parameter(8, new_capabilities.contains_all(Capabilities.MANAGE_PRIVATE_TASKS))
+            stat.set_bool_parameter(9, new_capabilities.contains_all(Capabilities.LOG_WORK))
+            stat.set_bool_parameter(10, new_capabilities.contains_all(Capabilities.LOG_EVENTS))
+            stat.set_bool_parameter(11, new_capabilities.contains_all(Capabilities.GENERATE_REPORTS))
+            stat.set_bool_parameter(12, new_capabilities.contains_all(Capabilities.BACKUP_AND_RESTORE))
+            stat.set_int_parameter(13, self.oid)
+            row_count = stat.execute()
+            assert row_count <= 1
+            if row_count == 0:
+                #   OOPS! The database row does not exist!
+                self._mark_dead()
+                raise DatabaseObjectDeadError(User.TYPE_NAME)
+            self._capabilities = new_capabilities
+        except Exception as ex:
+            raise DatabaseError.wrap(ex)
 
     @property
     def email_addresses(self) -> List[str]:
-        raise NotImplementedError()
+        self._ensure_live()
+        
+        self._load_property_cache()
+        return self._email_addresses
 
     @email_addresses.setter
     def email_addresses(self, new_email_addresses: List[str]) -> None:
         self._ensure_live()
+        assert isinstance(new_email_addresses, list)
+        assert all(isinstance(a, str) for a in new_email_addresses) #   TODO properly!
         
-        self._load_property_cache()
-        return self._email_addresses.copy()
+        try:        
+            stat = self.database.create_statement(
+                """UPDATE [accounts] SET [email_addresses] = ? WHERE [pk] = ?""")
+            stat.set_string_parameter(0, None if len(new_email_addresses) == 0 else "|".join(new_email_addresses))
+            stat.set_int_parameter(1, self.oid)
+            row_count = stat.execute()
+            assert row_count <= 1
+            if row_count == 0:
+                #   OOPS! The database row does not exist!
+                self._mark_dead()
+                raise DatabaseObjectDeadError(User.TYPE_NAME)
+            self._email_addresses = new_email_addresses
+        except Exception as ex:
+            raise DatabaseError.wrap(ex)
 
     ##########
     #   Account - Associations
@@ -157,7 +268,7 @@ class SqlAccount(SqlDatabaseObject, Account):
             if email_addresses is None:
                 self._email_addresses = []
             else:
-                self._email_addresses = email_addresses.split("\n")
+                self._email_addresses = email_addresses.split("|")
             self._fk_user = r["fk_user", SqlDataType.INTEGER]
         except Exception as ex:
             raise DatabaseError.wrap(ex)

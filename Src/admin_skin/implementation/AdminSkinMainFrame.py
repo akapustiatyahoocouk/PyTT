@@ -45,9 +45,9 @@ class AdminSkinMainFrame(Frame,
         self.__tools_menu.items.add(self.__action_set.preferences)
 
         self.__help_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "HelpMenu")
-        self.__help_menu.items.add('Help', hotkey="H")
+        self.__help_menu.items.add('Help', hotkey="H").enabled = False
         self.__help_menu.items.add('Search', hotkey="S").enabled = False
-        self.__help_menu.items.add('Index', hotkey="I")
+        self.__help_menu.items.add('Index', hotkey="I").enabled = False
         self.__help_menu.items.add_seperator()
         self.__help_menu.items.add(self.__action_set.about)
 

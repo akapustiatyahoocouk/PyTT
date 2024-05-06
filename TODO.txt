@@ -1,4 +1,7 @@
 ========== IMMEDIATE PIPELINE ======================================
+*   When opening a database that was recently (or is now) in use,
+    an error is reported (which is proper), but the Admin Skin
+    Main Frame starts off with views (should start without views).
 *   locale: Locale = Locale.default doesn't work as a default value
     for a function parameter!!! It must be resolved at function
     run time!!!

@@ -48,7 +48,6 @@ class BusinessUser(BusinessObject):
             return False
         except Exception as ex:
             raise WorkspaceError.wrap(ex)
-        raise NotImplementedError()
 
     def can_destroy(self, credentials: Credentials) -> bool:
         self._ensure_live() # may raise WorkspaceError
@@ -69,7 +68,7 @@ class BusinessUser(BusinessObject):
             if self._data_object.enabled:
                 #   We're destroying an "enabled" user - at least
                 #   one other "enabled" user must exist, with at
-                #   least one "enabled" account that has ADMINISTRATOR 
+                #   least one "enabled" account that has ADMINISTRATOR
                 #   capabilities
                 access_would_be_lost = True
                 db = self.workspace._Workspace__db
@@ -133,7 +132,7 @@ class BusinessUser(BusinessObject):
             if self._data_object.enabled and not new_enabled:
                 #   We're disabling an "enabled" user - at least
                 #   one other "enabled" user must exist, with at
-                #   least one "enabled" account that has ADMINISTRATOR 
+                #   least one "enabled" account that has ADMINISTRATOR
                 #   capabilities
                 access_would_be_lost = True
                 db = self.workspace._Workspace__db
@@ -342,7 +341,8 @@ class BusinessUser(BusinessObject):
         """
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
-        #   TODO validate new_email_addresses
+        assert isinstance(new_email_addresses, list)
+        assert all(isinstance(a, str) for a in new_email_addresses) #   TODO properly!
 
         if not self.can_modify(credentials):
             raise WorkspaceAccessDeniedError()
@@ -378,7 +378,7 @@ class BusinessUser(BusinessObject):
                     result.add(self.workspace._get_business_proxy(data_account))
             else:
                 #   The caller can only see their own user's accounts
-                data_user = self.__db.login(credentials.login, credentials._Credentials__password).user
+                data_user = self.workspace._Workspace__db.login(credentials.login, credentials._Credentials__password).user
                 if self._data_object == data_user:
                     for data_account in self._data_object.accounts:
                         result.add(self.workspace._get_business_proxy(data_account))

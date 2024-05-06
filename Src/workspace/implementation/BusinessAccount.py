@@ -10,6 +10,7 @@ from .Capabilities import Capabilities
 from .BusinessObject import BusinessObject
 from .BusinessUser import BusinessUser
 from .Workspace import Workspace
+from .Exceptions import *
 
 ##########
 #   Public entities
@@ -34,7 +35,20 @@ class BusinessAccount(BusinessObject):
     ##########
     #   Operations (access control)
     def can_modify(self, credentials: Credentials) -> bool:
-        raise NotImplementedError()
+        self._ensure_live() # may raise WorkspaceError
+        assert isinstance(credentials, Credentials)
+
+        try:
+            #   A user can modify their own details, plus anyone
+            #   who can manage users can modify details of any user
+            if self.workspace.can_manage_users(credentials):
+                return True
+            data_account = self._data_object.database.login(credentials.login, credentials._Credentials__password)
+            if data_account.user == self._data_object.user:
+                return True
+            return False
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     def can_destroy(self, credentials: Credentials) -> bool:
         raise NotImplementedError()
@@ -76,7 +90,40 @@ class BusinessAccount(BusinessObject):
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert isinstance(new_enabled, bool)
-        raise NotImplementedError()
+
+        try:
+            if self._data_object.enabled and not new_enabled:
+                #   We're disabling an "enabled" account - at least
+                #   one other "enabled" user must exist, with at
+                #   least one "enabled" account that has ADMINISTRATOR 
+                #   capabilities
+                access_would_be_lost = True
+                db = self.workspace._Workspace__db
+                for data_user in db.users:
+                    if ((not data_user.enabled) or
+                        (not access_would_be_lost)):
+                        continue    #   data_user cannot be a possible "admin user" OR access would not be lost
+                    for data_account in data_user.accounts:
+                        if ((data_account == self._data_object) or
+                            (not data_account.enabled) or
+                            (not data_account.capabilities.contains_all(dbapi.Capabilities.ADMINISTRATOR)) or
+                            (not access_would_be_lost)):
+                            continue    #   data_account cannot be a possible "admin account" OR access would not be lost
+                        access_would_be_lost = False
+                if access_would_be_lost:
+                    raise WorkspaceAccessWouldBeLostError()
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
+
+        #   IMPORTANT: A client must have "manage users" capability
+        #   to modify account's login - i.e. anyone who does NOT have
+        #   that capability cannot change their own login
+        if not self.workspace.can_manage_users(credentials):
+            raise WorkspaceAccessDeniedError()
+        try:
+            self._data_object.enabled = new_enabled
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     def get_login(self, credentials: Credentials) -> str:
         """
@@ -91,7 +138,6 @@ class BusinessAccount(BusinessObject):
         """
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
-
 
         if self.workspace.get_capabilities(credentials) == None:
             raise WorkspaceAccessDeniedError()
@@ -114,7 +160,17 @@ class BusinessAccount(BusinessObject):
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert isinstance(new_login, str)
-        raise NotImplementedError()
+
+        #   IMPORTANT: A client must have "manage users" capability
+        #   to modify account's login - i.e. anyone who does NOT have
+        #   that capability cannot change their own login
+        if not self.workspace.can_manage_users(credentials):
+            raise WorkspaceAccessDeniedError()
+        try:
+            #   Do the work
+            self._data_object.login = new_login
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     def get_password_hash(self, credentials: Credentials) -> str:
         """
@@ -130,7 +186,13 @@ class BusinessAccount(BusinessObject):
         """
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
-        raise NotImplementedError()
+
+        if self.workspace.get_capabilities(credentials) == None:
+            raise WorkspaceAccessDeniedError()
+        try:
+            return self._data_object.password_hash
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     def set_password(self, credentials: Credentials, new_password: str) -> None:
         """
@@ -146,7 +208,13 @@ class BusinessAccount(BusinessObject):
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert isinstance(new_password, str)
-        raise NotImplementedError()
+
+        if not self.can_modify(credentials):
+            raise WorkspaceAccessDeniedError()
+        try:
+            self._data_object.password = new_password
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     def get_capabilities(self, credentials: Credentials) -> Capabilities:
         """
@@ -161,7 +229,13 @@ class BusinessAccount(BusinessObject):
         """
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
-        raise NotImplementedError()
+
+        if self.workspace.get_capabilities(credentials) == None:
+            raise WorkspaceAccessDeniedError()
+        try:
+            return self._data_object.capabilities
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     def set_capabilities(self, credentials: Credentials, new_capabilities: Capabilities) -> None:
         """
@@ -177,7 +251,17 @@ class BusinessAccount(BusinessObject):
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert isinstance(new_capabilities, Capabilities)
-        raise NotImplementedError()
+
+        #   IMPORTANT: A client must have "manage users" capability
+        #   to modify account's capabilities - i.e. anyone who does NOT have
+        #   that capability cannot change their own capabilities
+        if not self.workspace.can_manage_users(credentials):
+            raise WorkspaceAccessDeniedError()
+        try:
+            #   Do the work
+            self._data_object.capabilities = new_capabilities
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     def get_email_addresses(self, credentials: Credentials) -> List[str]:
         """
@@ -193,7 +277,13 @@ class BusinessAccount(BusinessObject):
         """
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
-        raise NotImplementedError()
+
+        if self.workspace.get_capabilities(credentials) == None:
+            raise WorkspaceAccessDeniedError()
+        try:
+            return self._data_object.email_addresses
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     def set_email_addresses(self, credentials: Credentials, new_email_addresses: List[str]) -> None:
         """
@@ -209,8 +299,15 @@ class BusinessAccount(BusinessObject):
         """
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
-        #   TODO validate new_email_addresses
-        raise NotImplementedError()
+        assert isinstance(new_email_addresses, list)
+        assert all(isinstance(a, str) for a in new_email_addresses) #   TODO properly!
+
+        if not self.can_modify(credentials):
+            raise WorkspaceAccessDeniedError()
+        try:
+            self._data_object.email_addresses = new_email_addresses
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     ##########
     #   Operations (associations)

@@ -204,6 +204,16 @@ class Capabilities(ClassWithConstants):
 
     ##########
     #   object
+    def __eq__(self, op2: "Capabilities") -> bool:
+        if not isinstance(op2, Capabilities):
+            return False
+        return self.__bit_mask == op2.__bit_mask
+
+    def __ne__(self, op2: "Capabilities") -> bool:
+        if not isinstance(op2, Capabilities):
+            return False
+        return self.__bit_mask != op2.__bit_mask
+
     def __or__(self, op2) -> "Capabilities":
         if isinstance(op2, Capabilities):
             return Capabilities(self.__bit_mask | op2.__bit_mask)
