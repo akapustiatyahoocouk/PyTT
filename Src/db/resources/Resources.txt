@@ -1,5 +1,21 @@
 
 ##########
+#   Enums
+Capability.ADMINISTRATOR=Administrator
+Capability.MANAGE_USERS=Manage users
+Capability.MANAGE_STOCK_ITEMS=Manage stock items
+Capability.MANAGE_BENEFICIARIES=Manage beneficiaries
+Capability.MANAGE_WORKLOADS=Manage workloads
+Capability.MANAGE_PUBLIC_ACTIVITIES=Manage public activities
+Capability.MANAGE_PUBLIC_TASKS=Manage public tasks
+Capability.MANAGE_PRIVATE_ACTIVITIES=Manage private activities
+Capability.MANAGE_PRIVATE_TASKS=Manage private tasks
+Capability.LOG_WORK=Log work
+Capability.LOG_EVENTS=Log events
+Capability.GENERATE_REPORTS=Generate reports
+Capability.BACKUP_AND_RESTORE=Backup and restore
+
+##########
 #   Object UI traits
 User.TypeDisplayName=user
 User.SmallImage=ImageFile:images/objects/UserSmall.png

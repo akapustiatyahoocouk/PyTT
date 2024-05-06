@@ -68,6 +68,16 @@ class DatabaseObjectDoesNotExistError(DatabaseError):
                          " with '" + property_name + "' = '" + str(property_value) +
                          "' does not exist")
 
+class InvalidDatabaseObjectPropertyError(DatabaseError):
+    """ Thrown when an db API service fails because it tries to
+        set a property of a database object toan invalie value. """
+
+    ##########
+    #   Construction
+    def __init__(self, object_type_name: str, property_name:str, property_value: Any):
+        super().__init__("Property '" + property_name + "' of " + object_type_name +
+                         " cannot be set to '" + str(property_value) + "'")
+
 class DatabaseAccessDeniedError(DatabaseError):
     """ Thrown when a login attempt fails. """
 

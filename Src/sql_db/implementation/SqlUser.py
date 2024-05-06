@@ -235,9 +235,21 @@ class SqlUser(SqlDatabaseObject, User):
         assert isinstance(login, str)
         assert isinstance(password, str)
         assert isinstance(capabilities, Capabilities)
-        assert isinstance(email_addresses, list)    #   and all elements are strings
+        assert isinstance(email_addresses, list)
+        assert all(isinstance(a, str) for a in email_addresses)
         
-        #   Validate parameters (real name is valid, etc.)
+        #   Validate parameters (login is valid, etc.)
+        if not self.database.validator.account.is_valid_enabled(enabled):
+            raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, "enabled", enabled)
+        if not self.database.validator.account.is_valid_login(login):
+            raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, "login", login)
+        if not self.database.validator.account.is_valid_password(password):
+            raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, "password", "***")
+        if not self.database.validator.account.is_valid_capabilities(capabilities):
+            raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, "capabilities", capabilities)
+        if not self.database.validator.account.is_valid_email_addresses(email_addresses):
+            raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, "email_addresses", email_addresses)
+
         sha1 = hashlib.sha1()
         sha1.update(password.encode("utf-8"))
         password_hash = sha1.hexdigest().upper()

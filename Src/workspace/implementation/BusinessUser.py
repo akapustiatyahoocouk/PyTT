@@ -366,7 +366,25 @@ class BusinessUser(BusinessObject):
         """
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
-        raise NotImplementedError()
+
+        try:
+            result = set()
+            if self.workspace.get_capabilities(credentials) is None:
+                #   The caller has no access to the database OR account/user is disabled
+                pass
+            elif self.workspace.can_manage_users(credentials):
+                #   The caller can see all accounts
+                for data_account in self._data_object.accounts:
+                    result.add(self.workspace._get_business_proxy(data_account))
+            else:
+                #   The caller can only see their own user's accounts
+                data_user = self.__db.login(credentials.login, credentials._Credentials__password).user
+                if self._data_object == data_user:
+                    for data_account in self._data_object.accounts:
+                        result.add(self.workspace._get_business_proxy(data_account))
+            return result
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     ##########
     #   Operations (life cycle)
@@ -405,5 +423,18 @@ class BusinessUser(BusinessObject):
         assert isinstance(login, str)
         assert isinstance(password, str)
         assert isinstance(capabilities, Capabilities)
-        assert isinstance(email_addresses, list)    #   and all elements are strings
-        raise NotImplementedError()
+        assert isinstance(email_addresses, list)
+        assert all(isinstance(a, str) for a in email_addresses)
+
+        try:
+            if not self.workspace.can_manage_users(credentials):
+                raise WorkspaceAccessDeniedError()
+            data_account = self._data_object.create_account(
+                enabled=enabled,
+                login=login,
+                password=password,
+                capabilities=capabilities,
+                email_addresses=email_addresses);
+            return self.workspace._get_business_proxy(data_account)
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)

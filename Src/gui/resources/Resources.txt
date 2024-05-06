@@ -173,6 +173,18 @@ DestroyUserDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 DestroyUserDialog.CancelButton.Text=Cancel
 DestroyUserDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
 
+CreateAccountDialog.Title=Create account
+CreateAccountDialog.LoginLabel.Text=Login:
+CreateAccountDialog.Password1Label.Text=Password:
+CreateAccountDialog.Password2Label.Text=Retype password:
+CreateAccountDialog.EnabledCheckBox.Text=Account is enabled
+CreateAccountDialog.EmailAddressesLabel.Text=E-mail addresses:
+CreateAccountDialog.CapabilitiesLabel.Text=Capabilities:
+CreateAccountDialog.OkButton.Text=OK
+CreateAccountDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+CreateAccountDialog.CancelButton.Text=Cancel
+CreateAccountDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+
 ##########
 #   View types
 UsersViewType.DisplayName=Users

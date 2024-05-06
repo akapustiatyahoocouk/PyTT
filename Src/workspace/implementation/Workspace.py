@@ -202,7 +202,7 @@ class Workspace:
         try:
             result = set()
             if self.get_capabilities(credentials) is None:
-                #   The caller has no access to the database OR account/user is disables
+                #   The caller has no access to the database OR account/user is disabled
                 pass
             elif self.can_manage_users(credentials):
                 #   The caller can see all users
@@ -210,7 +210,7 @@ class Workspace:
                     result.add(self._get_business_proxy(data_user))
             else:
                 #   The caller can only see their own user
-                data_account = self.__db.login(credentials.login, credentials.__password)
+                data_account = self.__db.login(credentials.login, credentials._Credentials__password)
                 result.add(self._get_business_proxy(data_account.user))
             return result
         except Exception as ex:
@@ -260,6 +260,8 @@ class Workspace:
         assert all(isinstance(a, str) for a in email_addresses)
 
         try:
+            if not self.can_manage_users(credentials):
+                raise WorkspaceAccessDeniedError()
             data_user = self.__db.create_user(
                 enabled=enabled,
                 real_name=real_name,

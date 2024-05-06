@@ -16,6 +16,7 @@ from ..misc.CurrentCredentials import CurrentCredentials
 from ..dialogs.CreateUserDialog import *
 from ..dialogs.ModifyUserDialog import *
 from ..dialogs.DestroyUserDialog import *
+from ..dialogs.CreateAccountDialog import *
 from gui.resources.GuiResources import GuiResources
 
 ##########
@@ -79,7 +80,8 @@ class UsersView(View):
         self.__create_user_button.add_action_listener(self.__on_create_user_button_clicked)
         self.__modify_user_button.add_action_listener(self.__on_modify_user_button_clicked)
         self.__destroy_user_button.add_action_listener(self.__on_destroy_user_button_clicked)
-        
+        self.__create_account_button.add_action_listener(self.__on_create_account_button_clicked)
+
         CurrentWorkspace.add_property_change_listener(self.__on_workspace_changed)
         Locale.add_property_change_listener(self.__on_locale_changed)
         #   TODO current credentials change
@@ -107,13 +109,13 @@ class UsersView(View):
             can_manage_users = workspace.can_manage_users(credentials)
         except Exception:
             can_manage_users = False
-        
+
         #   TODO a user should be able to modify SOME details (like
         #   real_name) of itself and SOME details (like password) of
-        #   its own accounts    
+        #   its own accounts
         self.__create_user_button.enabled = can_manage_users
         self.__modify_user_button.enabled = can_manage_users and (selected_user is not None)
-        self.__destroy_user_button.enabled = can_manage_users and (selected_user is not None) 
+        self.__destroy_user_button.enabled = can_manage_users and (selected_user is not None)
         self.__create_account_button.enabled = can_manage_users and (selected_user is not None)
         self.__modify_account_button.enabled = can_manage_users and (selected_account is not None)
         self.__destroy_account_button.enabled = can_manage_users and (selected_account is not None)
@@ -138,6 +140,7 @@ class UsersView(View):
         for user_node in self.__users_tree_view.root_nodes:
             if user_node.tag == obj:
                 self.__users_tree_view.current_node = user_node
+                self.__users_tree_view.see
                 return
             for account_node in user_node.child_nodes:
                 if account_node.tag == obj:
@@ -148,7 +151,7 @@ class UsersView(View):
     def selected_user(self) -> Optional[BusinessUser]:
         obj = self.selected_object
         return obj if isinstance(obj, BusinessUser) else None
-    
+
     @selected_user.setter
     def selected_user(self, user: Optional[BusinessUser]) -> None:
         assert (user is None) or isinstance(user, BusinessUser)
@@ -214,12 +217,42 @@ class UsersView(View):
                                                   tag=user)
         #   ...each representing a proper BusinessUser
         for i in range(len(users)):
-            self.__users_tree_view.root_nodes[i].text = users[i].display_name
-            self.__users_tree_view.root_nodes[i].tag = users[i]
+            user_node = self.__users_tree_view.root_nodes[i]
+            user_node.text = users[i].display_name
+            user_node.tag = users[i]
+            #   ...and having proper account nodes underneath
+            self.__refresh_account_nodes(user_node, users[i])
 
         #   Try to jeep the selection
         self.selected_object = selected_object
-        pass
+
+    def __refresh_account_nodes(self, user_node: TreeNode, user: BusinessUser) -> None:
+        credentials = CurrentCredentials.get()
+        assert (user_node is not None) and (user is not None) and (credentials is not None)
+
+        #   Prepare the list of accessible BusinessAccounts sorted by login
+        accounts = list(user.get_accounts(credentials))
+        try:
+            accounts.sort(key=lambda a: a.get_login(credentials))
+        except Exception as ex:
+            ErrorDialog.show(self, ex)
+            pass    #   TODO log the exception
+        #   Make sure the self.__users_tree_view contains a proper number
+        #   of root nodes...
+        while len(user_node.child_nodes) > len(accounts):
+            #   Too many leaf nodes under the user node
+            user_node.child_nodes.remove_at(len(user_node.child_nodes) - 1)
+        while len(user_node.child_nodes) < len(accounts):
+            #   Too gew leaf nodes under the user node
+            account = accounts[len(user_node.child_nodes)]
+            user_node.child_nodes.add(account.display_name,
+                                      image=account.small_image,
+                                      tag=account)
+        #   ...each representing a proper BusinessAccount
+        for i in range(len(accounts)):
+            account_node = user_node.child_nodes[i]
+            account_node.text = accounts[i].display_name
+            account_node.tag = accounts[i]
 
     ##########
     #   Event listeners
@@ -255,4 +288,15 @@ class UsersView(View):
         with DestroyUserDialog(self.winfo_toplevel(), self.selected_user) as dlg:
             dlg.do_modal()
         self.request_refresh()
-        
+
+    def __on_create_account_button_clicked(self, evt: ActionEvent) -> None:
+        assert isinstance(evt, ActionEvent)
+        user = self.selected_user
+        with CreateAccountDialog(self.winfo_toplevel(), user) as dlg:
+            dlg.do_modal()
+            if dlg.result is CreateAccountDialogResult.CANCEL:
+                return
+            created_account = dlg.created_account
+            self.selected_object = created_account
+            self.__users_tree_view.focus_set()
+        self.request_refresh()

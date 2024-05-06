@@ -54,7 +54,13 @@ class BusinessAccount(BusinessObject):
         """
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
-        raise NotImplementedError()
+
+        if self.workspace.get_capabilities(credentials) == None:
+            raise WorkspaceAccessDeniedError()
+        try:
+            return self._data_object.enabled
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     def set_enabled(self, credentials: Credentials, new_enabled: bool) -> None:
         """
@@ -85,7 +91,14 @@ class BusinessAccount(BusinessObject):
         """
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
-        raise NotImplementedError()
+
+
+        if self.workspace.get_capabilities(credentials) == None:
+            raise WorkspaceAccessDeniedError()
+        try:
+            return self._data_object.login
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     def set_login(self, credentials: Credentials, new_login: str) -> None:
         """

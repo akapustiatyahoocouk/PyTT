@@ -20,7 +20,7 @@ CREATE TABLE [accounts]
 (
     [pk] INTEGER NOT NULL PRIMARY KEY,
     [enabled] CHAR(1) NOT NULL,             --  "Y" (true) or "N" (false)
-    [login] VARCHAR(128) NOT NULL,
+    [login] VARCHAR(128) NOT NULL UNIQUE,
     [password_hash] CHAR(40) NOT NULL,      --  SHA-1 uppercase hashstring
     --- Start of capability fields
     [is_administrator] CHAR(1) NOT NULL,        --  "Y" (true) or "N" (false)

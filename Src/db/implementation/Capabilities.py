@@ -5,12 +5,17 @@ from enum import Enum
 #   Dependencies on other PyTT components
 from util.interface.api import *
 
+#   Internal dependencies on modules within the same component
+from ..resources.DbResources import DbResources
+
 ##########
 #   Public entities
 @final
 class Capability(Enum):
     """ Capabilities that can be assigned to Accounts. """
 
+    ##########
+    #   Constants
     ADMINISTRATOR = 0x0001
     """ Permits bearer to do anything within the workspace
         except violating its integrity (e.g. deleting or disabling
@@ -58,6 +63,11 @@ class Capability(Enum):
     BACKUP_AND_RESTORE = 0x1000
     """ Permits bearer to perform backup and restore tasks. """
 
+    ##########
+    #   object
+    def __str__(self) -> str:
+        return DbResources.string("Capability." + self.name)
+        
 @final
 class Capabilities(ClassWithConstants):
     """ A set of capabilities. """
