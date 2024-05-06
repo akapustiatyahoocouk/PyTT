@@ -136,6 +136,15 @@ class Workspace:
             return False
         return capabilities.contains_any(Capabilities.ADMINISTRATOR, Capabilities.MANAGE_USERS)
 
+    def can_manage_stock_items(self, credentials: Credentials) -> bool:
+        self._ensure_open() # may raise WorkspaceError
+        assert isinstance(credentials, Credentials)
+
+        capabilities = self.get_capabilities(credentials)   # may raise WorkspaceError
+        if capabilities is None:
+            return False
+        return capabilities.contains_any(Capabilities.ADMINISTRATOR, Capabilities.MANAGE_STOCK_ITEMS)
+
     ##########
     #   Operations (associations)
     def try_login(self, login: Optional[str], password: Optional[str],

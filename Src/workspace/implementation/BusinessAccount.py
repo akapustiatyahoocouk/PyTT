@@ -51,7 +51,13 @@ class BusinessAccount(BusinessObject):
             raise WorkspaceError.wrap(ex)
 
     def can_destroy(self, credentials: Credentials) -> bool:
-        raise NotImplementedError()
+        self._ensure_live() # may raise WorkspaceError
+        assert isinstance(credentials, Credentials)
+
+        try:
+            return self.workspace.can_manage_users(credentials)
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     ##########
     #   Operations (properties)
@@ -324,7 +330,13 @@ class BusinessAccount(BusinessObject):
         """
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
-        raise NotImplementedError()
+
+        if self.workspace.get_capabilities(credentials) == None:
+            raise WorkspaceAccessDeniedError()
+        try:
+            return self.workspace._get_business_proxy(self._data_object.user)
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
 
     ##########
     #   Operations (life cycle)

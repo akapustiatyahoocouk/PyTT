@@ -32,7 +32,42 @@ class SqlAccount(SqlDatabaseObject, Account):
     ##########
     #   DatabaseObject - Operations (life cycle)
     def destroy(self) -> None:
-        raise NotImplementedError()
+        self._ensure_live()
+        
+        #   TODO Dis-associate from quick pick items
+        #   Destroy the Account
+        try:
+            user = self.user
+            self.database.begin_transaction();
+            
+            stat1 = self.database.create_statement(
+                """DELETE FROM [accounts] WHERE [pk] = ?""");
+            stat1.set_int_parameter(0, self.oid)
+            stat1.execute()
+        
+            stat2 = self.database.create_statement(
+                """DELETE FROM [objects] WHERE [pk] = ?""");
+            stat2.set_int_parameter(0, self.oid)
+            stat2.execute()
+
+            self.database.commit_transaction()
+            self._mark_dead()
+            
+            #   Issue notifications
+            self.database.enqueue_notification(
+                DatabaseObjectDestroyedNotification(
+                    self.database, 
+                    self))
+            self.database.enqueue_notification(
+                DatabaseObjectModifiedNotification(
+                    self.database, 
+                    user,
+                    User.ACCOUNTS_ASSOCIATION_NAME))
+            
+            #   Done
+        except Exception as ex:
+            self.database.rollback_transaction()
+            raise DatabaseError.wrap(ex)
 
     ##########
     #   Account - Properties

@@ -18,6 +18,7 @@ from ..dialogs.ModifyUserDialog import *
 from ..dialogs.DestroyUserDialog import *
 from ..dialogs.CreateAccountDialog import *
 from ..dialogs.ModifyAccountDialog import *
+from ..dialogs.DestroyAccountDialog import *
 from gui.resources.GuiResources import GuiResources
 
 ##########
@@ -36,29 +37,29 @@ class UsersView(View):
 
         self.__create_user_button = Button(
             self.__actions_panel,
-            text=GuiResources.string("UsersViewEditor.CreateUserButton.Text"),
-            image=GuiResources.image("UsersViewEditor.CreateUserButton.Image"))
+            text=GuiResources.string("UsersView.CreateUserButton.Text"),
+            image=GuiResources.image("UsersView.CreateUserButton.Image"))
         self.__modify_user_button = Button(
             self.__actions_panel,
-            text=GuiResources.string("UsersViewEditor.ModifyUserButton.Text"),
-            image=GuiResources.image("UsersViewEditor.ModifyUserButton.Image"))
+            text=GuiResources.string("UsersView.ModifyUserButton.Text"),
+            image=GuiResources.image("UsersView.ModifyUserButton.Image"))
         self.__destroy_user_button = Button(
             self.__actions_panel,
-            text=GuiResources.string("UsersViewEditor.DestroyUserButton.Text"),
-            image=GuiResources.image("UsersViewEditor.DestroyUserButton.Image"))
+            text=GuiResources.string("UsersView.DestroyUserButton.Text"),
+            image=GuiResources.image("UsersView.DestroyUserButton.Image"))
 
         self.__create_account_button = Button(
             self.__actions_panel,
-            text=GuiResources.string("UsersViewEditor.CreateAccountButton.Text"),
-            image=GuiResources.image("UsersViewEditor.CreateAccountButton.Image"))
+            text=GuiResources.string("UsersView.CreateAccountButton.Text"),
+            image=GuiResources.image("UsersView.CreateAccountButton.Image"))
         self.__modify_account_button = Button(
             self.__actions_panel,
-            text=GuiResources.string("UsersViewEditor.ModifyAccountButton.Text"),
-            image=GuiResources.image("UsersViewEditor.ModifyAccountButton.Image"))
+            text=GuiResources.string("UsersView.ModifyAccountButton.Text"),
+            image=GuiResources.image("UsersView.ModifyAccountButton.Image"))
         self.__destroy_account_button = Button(
             self.__actions_panel,
-            text=GuiResources.string("UsersViewEditor.DestroyAccountButton.Text"),
-            image=GuiResources.image("UsersViewEditor.DestroyAccountButton.Image"))
+            text=GuiResources.string("UsersView.DestroyAccountButton.Text"),
+            image=GuiResources.image("UsersView.DestroyAccountButton.Image"))
 
         #   Adjust controls
         self.__users_tree_view = TreeView(self, show="tree", selectmode=tk.BROWSE)
@@ -83,6 +84,7 @@ class UsersView(View):
         self.__destroy_user_button.add_action_listener(self.__on_destroy_user_button_clicked)
         self.__create_account_button.add_action_listener(self.__on_create_account_button_clicked)
         self.__modify_account_button.add_action_listener(self.__on_modify_account_button_clicked)
+        self.__destroy_account_button.add_action_listener(self.__on_destroy_account_button_clicked)
 
         CurrentWorkspace.add_property_change_listener(self.__on_workspace_changed)
         Locale.add_property_change_listener(self.__on_locale_changed)
@@ -331,6 +333,15 @@ class UsersView(View):
                 dlg.do_modal()
             self.selected_account = account
             self.__users_tree_view.focus_set()
+            self.request_refresh()
+        except Exception as ex: #   error in ModifyUserDialog constructor
+            ErrorDialog.show(None, ex)
+
+    def __on_destroy_account_button_clicked(self, evt: ActionEvent) -> None:
+        assert isinstance(evt, ActionEvent)
+        try:
+            with DestroyAccountDialog(self.winfo_toplevel(), self.selected_account) as dlg:
+                dlg.do_modal()
             self.request_refresh()
         except Exception as ex: #   error in ModifyUserDialog constructor
             ErrorDialog.show(None, ex)
