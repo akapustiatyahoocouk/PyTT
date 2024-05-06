@@ -1,6 +1,8 @@
 """ The "db" component API. """
 
 from db.implementation.Account import *
+from db.implementation.Activity import *
+from db.implementation.ActivityType import *
 from db.implementation.Capabilities import *
 from db.implementation.Database import *
 from db.implementation.DatabaseAddress import *

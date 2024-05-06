@@ -80,7 +80,12 @@ class SqlUser(SqlDatabaseObject, User):
     def enabled(self, new_enabled: bool) -> None:
         self._ensure_live()
         assert isinstance(new_enabled, bool)
-        
+
+        #   Validate parameters TODO everywhere!!!
+        if not self.database.validator.user.is_valid_user_enabled(new_enabled):
+            raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, "enabled", enabled)    
+
+        #   Make database changes
         try:        
             stat = self.database.create_statement(
                 """UPDATE [users] SET [enabled] = ? WHERE [pk] = ?""")
@@ -254,7 +259,7 @@ class SqlUser(SqlDatabaseObject, User):
         sha1.update(password.encode("utf-8"))
         password_hash = sha1.hexdigest().upper()
             
-        #   Insert the relevant records into the database
+        #   Make database changes
         try:
             self.database.begin_transaction();
             

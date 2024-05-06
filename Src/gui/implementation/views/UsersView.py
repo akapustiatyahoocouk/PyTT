@@ -111,14 +111,14 @@ class UsersView(View):
         selected_account = self.selected_account
         try:
             can_manage_users = workspace.can_manage_users(credentials)
+            #   A user should be able to modify SOME details (like
+            #   real_name) of itself and SOME details (like password) of
+            #   its own accounts
             mu = False if selected_user is None else selected_user.can_modify(credentials)
             ma = False if selected_account is None else selected_account.can_modify(credentials)
         except Exception:
             can_manage_users = False
 
-        #   TODO a user should be able to modify SOME details (like
-        #   real_name) of itself and SOME details (like password) of
-        #   its own accounts
         self.__create_user_button.enabled = can_manage_users
         self.__modify_user_button.enabled = (can_manage_users or mu) and (selected_user is not None)
         self.__destroy_user_button.enabled = can_manage_users and (selected_user is not None)
@@ -146,7 +146,6 @@ class UsersView(View):
         for user_node in self.__users_tree_view.root_nodes:
             if user_node.tag == obj:
                 self.__users_tree_view.current_node = user_node
-                self.__users_tree_view.see
                 return
             for account_node in user_node.child_nodes:
                 if account_node.tag == obj:
@@ -183,17 +182,6 @@ class UsersView(View):
         self.__create_account_button.text = GuiResources.string("UsersViewEditor.CreateAccountButton.Text")
         self.__modify_account_button.text = GuiResources.string("UsersViewEditor.ModifyAccountButton.Text")
         self.__destroy_account_button.text = GuiResources.string("UsersViewEditor.DestroyAccountButton.Text")
-
-    ##########
-    #   Event handlers
-    def __on_workspace_changed(self, evt) -> None:
-        assert isinstance(evt, PropertyChangeEvent)
-        self.request_refresh()
-
-    def __on_locale_changed(self, evt) -> None:
-        assert isinstance(evt, PropertyChangeEvent)
-        self.__apply_default_locale()
-        self.request_refresh()
 
     def __refresh_user_nodes(self) -> None:
         workspace = CurrentWorkspace.get()
@@ -271,6 +259,15 @@ class UsersView(View):
 
     ##########
     #   Event listeners
+    def __on_workspace_changed(self, evt) -> None:
+        assert isinstance(evt, PropertyChangeEvent)
+        self.request_refresh()
+
+    def __on_locale_changed(self, evt) -> None:
+        assert isinstance(evt, PropertyChangeEvent)
+        self.__apply_default_locale()
+        self.request_refresh()
+
     def __users_tree_view_listener(self, evt: ItemEvent) -> None:
         assert isinstance(evt, ItemEvent)
         self.request_refresh()

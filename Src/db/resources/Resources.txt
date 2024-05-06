@@ -24,3 +24,7 @@ User.LargeImage=ImageFile:images/objects/UserLarge.png
 Account.TypeDisplayName=account
 Account.SmallImage=ImageFile:images/objects/AccountSmall.png
 Account.LargeImage=ImageFile:images/objects/AccountLarge.png
+
+ActivityType.TypeDisplayName=activity type
+ActivityType.SmallImage=ImageFile:images/objects/ActivityTypeSmall.png
+ActivityType.LargeImage=ImageFile:images/objects/ActivityTypeLarge.png

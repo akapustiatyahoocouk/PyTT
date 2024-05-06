@@ -334,8 +334,10 @@ class SqlDatabase(Database):
         assert isinstance(email_addresses, list)    #   and all elements are strings
 
         #   Validate parameters (real name is valid, etc.)
+        if not self.database.validator.user.is_valid_user_enabled(new_enabled):
+            raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, "enabled", enabled)    
 
-        #   Insert the relevant records into the database
+        #   Make database changes
         try:
             self.begin_transaction();
 
