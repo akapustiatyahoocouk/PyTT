@@ -1,20 +1,23 @@
-""" Resource definitions for "sqlite_db" component. """
+""" Resource definitions for "sql_db" component. """
+
 #   Python standard library
-from typing import final
+from typing import final, Optional
 import os
 import tkinter as tk
 
 #   Dependencies on other PyTT components
+from awt.interface.api import *
 from util.interface.api import *
 
 ##########
 #   Public entities
 @final
-class SqliteDbResources:
-    """ Resources provided by the "sqlite_db" component. """
+class SqlDbResources(ClassWithConstants):
+    """ Resources provided by the "sql_db" component. """
 
-    __impl = FileResourceFactory(os.path.join(
-        os.path.dirname(os.path.dirname(__file__)), "resources/Resources.txt"))
+    ##########
+    #   Implementation
+    __impl = FileResourceFactory(os.path.join(os.path.dirname(__file__), "Resources.txt"))
 
     ##########
     #   Construction - disable (this is an utility class)
@@ -26,14 +29,14 @@ class SqliteDbResources:
     @staticproperty
     def factory() -> ResourceFactory:
         """ The resource factory that provides the actual resources. """
-        return SqliteDbResources.__impl
+        return SqlDbResources.__impl
 
     ##########
     #   Operations
     @staticmethod
     def string(key: str, locale: Optional[Locale] = None) -> str:
-        return SqliteDbResources.__impl.get_string(key, locale)
+        return SqlDbResources.__impl.get_string(key, locale)
 
     @staticmethod
     def image(key: str, locale: Optional[Locale] = None) -> tk.PhotoImage:
-        return SqliteDbResources.__impl.get_image(key, locale)
+        return SqlDbResources.__impl.get_image(key, locale)

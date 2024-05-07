@@ -1,3 +1,4 @@
+DbSubsystem.DisplayName=Database API
 
 ##########
 #   Enums
@@ -28,3 +29,11 @@ Account.LargeImage=ImageFile:images/objects/AccountLarge.png
 ActivityType.TypeDisplayName=activity type
 ActivityType.SmallImage=ImageFile:images/objects/ActivityTypeSmall.png
 ActivityType.LargeImage=ImageFile:images/objects/ActivityTypeLarge.png
+
+PublicActivity.TypeDisplayName=public activity
+PublicActivity.SmallImage=ImageFile:images/objects/PublicActivitySmall.png
+PublicActivity.LargeImage=ImageFile:images/objects/PublicActivityLarge.png
+
+PrivateActivity.TypeDisplayName=private activity
+PrivateActivity.SmallImage=ImageFile:images/objects/PrivateActivitySmall.png
+PrivateActivity.LargeImage=ImageFile:images/objects/PrivateActivityLarge.png

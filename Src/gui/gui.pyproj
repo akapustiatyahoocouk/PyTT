@@ -137,6 +137,10 @@
     <Content Include="resources\images\objects\AccountSmall.png" />
     <Content Include="resources\images\objects\ActivityTypeLarge.png" />
     <Content Include="resources\images\objects\ActivityTypeSmall.png" />
+    <Content Include="resources\images\objects\PrivateActivityLarge.png" />
+    <Content Include="resources\images\objects\PrivateActivitySmall.png" />
+    <Content Include="resources\images\objects\PublicActivityLarge.png" />
+    <Content Include="resources\images\objects\PublicActivitySmall.png" />
     <Content Include="resources\images\objects\UserLarge.png" />
     <Content Include="resources\images\objects\UserSmall.png" />
     <Content Include="resources\Resources_ru.txt" />

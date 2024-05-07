@@ -10,6 +10,8 @@ from db.implementation.DatabaseObject import *
 from db.implementation.DatabaseType import *
 from db.implementation.Exceptions import *
 from db.implementation.Notifications import *
+from db.implementation.PrivateActivity import *
+from db.implementation.PublicActivity import *
 from db.implementation.User import *
 from db.implementation.Validator import *
 

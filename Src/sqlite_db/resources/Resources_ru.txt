@@ -1,0 +1,2 @@
+﻿SqliteDbSubsystem.DisplayName=SQLite
+

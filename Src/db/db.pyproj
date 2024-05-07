@@ -29,6 +29,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="implementation\Account.py" />
+    <Compile Include="implementation\PrivateActivity.py" />
+    <Compile Include="implementation\PublicActivity.py" />
     <Compile Include="implementation\Activity.py" />
     <Compile Include="implementation\Capabilities.py" />
     <Compile Include="implementation\Notifications.py" />
@@ -49,6 +51,10 @@
     <Content Include="resources\images\objects\AccountSmall.png" />
     <Content Include="resources\images\objects\ActivityTypeLarge.png" />
     <Content Include="resources\images\objects\ActivityTypeSmall.png" />
+    <Content Include="resources\images\objects\PrivateActivityLarge.png" />
+    <Content Include="resources\images\objects\PrivateActivitySmall.png" />
+    <Content Include="resources\images\objects\PublicActivityLarge.png" />
+    <Content Include="resources\images\objects\PublicActivitySmall.png" />
     <Content Include="resources\images\objects\UserLarge.png" />
     <Content Include="resources\images\objects\UserSmall.png" />
     <Content Include="resources\Resources.txt" />

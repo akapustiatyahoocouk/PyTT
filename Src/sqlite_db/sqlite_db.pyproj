@@ -36,6 +36,7 @@
     <Folder Include="resources\scripts\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="resources\Resources_ru.txt" />
     <Content Include="resources\Resources.txt" />
     <Content Include="resources\scripts\ValidateDatabase.sql" />
     <Content Include="resources\scripts\InitDatabase.sql" />

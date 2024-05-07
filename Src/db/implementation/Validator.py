@@ -100,6 +100,43 @@ class ActivityTypeValidator:
                all(((ord(c) >= 32 and ord(c) != 127) or (c == "\n") or (c == "\t")) for c in description))
 
 
+class ActivityValidator:
+    """ An agent that "knows" hot to check various properties
+        of various Activities in a database for validity. """
+
+    ##########
+    #   Operations
+    def is_valid_name(self, name: str) -> bool:
+       return (isinstance(name, str) and
+               (len(name) == len(name.strip())) and
+               (len(name) > 0) and
+               (len(name) <= 127) and
+               all((ord(c) >= 32 and ord(c) != 127) for c in name))
+
+    def is_valid_description(self, description: str) -> bool:
+       return (isinstance(description, str) and
+               all(((ord(c) >= 32 and ord(c) != 127) or (c == "\n") or (c == "\t")) for c in description))
+
+    def is_valid_timeout(self, timeout: int) -> bool:
+        if timeout is None:
+            return True
+        return (isinstance(timeout, int) and
+                (timeout > 0) and
+                (timeout < 60 * 60)) #   GUI limitation!
+
+    def is_valid_require_comment_on_start(self, require_comment_on_start: bool) -> bool:
+        return isinstance(require_comment_on_start, bool)
+
+    def is_valid_require_comment_on_finish(self, require_comment_on_finish: bool) -> bool:
+        return isinstance(require_comment_on_finish, bool)
+
+    def is_valid_full_screen_reminder(self, full_screen_reminder: bool) -> bool:
+        return isinstance(full_screen_reminder, bool)
+
+    def is_valid_task_completed(self, task_completed: bool) -> bool:
+        return isinstance(task_completed, bool)
+
+                
 class Validator:
     """ An agent that "knows" how to check various properties
         of database objects for validity. """
@@ -107,23 +144,29 @@ class Validator:
     ##########
     #   Construction
     def __init__(self):
-      self.__user = UserValidator()
-      self.__account = AccountValidator()
-      self.__activity_type = ActivityTypeValidator()
+        self.__user = UserValidator()
+        self.__account = AccountValidator()
+        self.__activity_type = ActivityTypeValidator()
+        self.__activity = ActivityValidator()
 
     ##########
     #   Properties
-    @property  
+    @property
     def user(self) -> UserValidator:
        """ The validator for User properties. """
        return self.__user
 
-    @property  
+    @property
     def account(self) -> AccountValidator:
        """ The validator for Account properties. """
        return self.__account
 
-    @property  
+    @property
     def activity_type(self) -> ActivityTypeValidator:
        """ The validator for ActivityType properties. """
        return self.__activity_type
+
+    @property
+    def activity(self) -> ActivityValidator:
+       """ The validator for Activity properties. """
+       return self.__activity

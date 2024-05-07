@@ -12,3 +12,5 @@ from sql_db.implementation.SqlSelectStatement import *
 from sql_db.implementation.SqlStatement import *
 from sql_db.implementation.SqlUpdateStatement import *
 from sql_db.implementation.SqlUser import *
+
+from sql_db.resources.SqlDbResources import *

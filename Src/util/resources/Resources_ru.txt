@@ -18,4 +18,5 @@ Country.GB=Великобритания
 #   Subsystems
 RootSubsystem.DisplayName=PyTT
 UiSubsystem.DisplayName=Интерфейс
+StorageSubsystem.DisplayName=Хранилище
 UtilitiesSubsystem.DisplayName=Утилиты

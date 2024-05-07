@@ -5,6 +5,7 @@ from util.interface.api import *
 
 ##########
 #   Public entities
+@final
 class GuiSubsystem(LocalizableSubsystem):
     """ The "Ui/GUI" subsustem. """ #   TODO move declarations of ALL subsystems to __init__.py's
 

@@ -259,6 +259,14 @@ ActivityTypesViewType.DisplayName=Activity types
 ActivityTypesViewType.SmallImage=ImageFile:images/objects/ActivityTypeSmall.png
 ActivityTypesViewType.LargeImage=ImageFile:images/objects/ActivityTypeLarge.png
 
+PublicActivitiesViewType.DisplayName=Public activities
+PublicActivitiesViewType.SmallImage=ImageFile:images/objects/PublicActivitySmall.png
+PublicActivitiesViewType.LargeImage=ImageFile:images/objects/PublicActivityLarge.png
+
+PrivateActivitiesViewType.DisplayName=Private activities
+PrivateActivitiesViewType.SmallImage=ImageFile:images/objects/PrivateActivitySmall.png
+PrivateActivitiesViewType.LargeImage=ImageFile:images/objects/PrivateActivityLarge.png
+
 ##########
 #   Views
 UsersView.CreateUserButton.Text=Create user

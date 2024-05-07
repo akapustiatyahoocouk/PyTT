@@ -20,4 +20,5 @@ Country.GB=United Kingdom
 #   Subsystems
 RootSubsystem.DisplayName=PyTT
 UiSubsystem.DisplayName=UI
+StorageSubsystem.DisplayName=Storage
 UtilitiesSubsystem.DisplayName=Utilities

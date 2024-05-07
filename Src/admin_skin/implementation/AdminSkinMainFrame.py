@@ -1,4 +1,5 @@
 """ The main UI frame of the Admin skin. """
+
 #   Python standard library
 from typing import final
 import re

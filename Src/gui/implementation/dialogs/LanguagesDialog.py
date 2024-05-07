@@ -40,6 +40,7 @@ class LanguagesDialog(Dialog):
 
         #   Adjust controls
         columns = list(map(lambda locale: str(locale), all_locales))
+        self.__languages_tree_view.column("#0", width=320)
         self.__languages_tree_view['columns'] = columns
         for key in columns:
             self.__languages_tree_view.heading(key, text=key)

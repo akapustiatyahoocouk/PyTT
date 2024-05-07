@@ -31,7 +31,6 @@
     <Compile Include="implementation\RadioButton.py" />
     <Compile Include="implementation\ErrorDialog.py" />
     <Compile Include="implementation\CheckBox.py" />
-    <Compile Include="implementation\AwtSubsystems.py" />
     <Compile Include="implementation\Scrollbar.py" />
     <Compile Include="implementation\TabbedPane.py" />
     <Compile Include="implementation\TextArea.py" />
