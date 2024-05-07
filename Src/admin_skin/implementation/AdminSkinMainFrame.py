@@ -39,6 +39,8 @@ class AdminSkinMainFrame(Frame,
         self.__file_menu.items.add_seperator()
         self.__file_menu.items.add(self.__action_set.exit)
 
+        self.__manage_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "ManageMenu")
+
         self.__view_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "ViewMenu")
 
         self.__tools_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "ToolsMenu")
@@ -53,6 +55,7 @@ class AdminSkinMainFrame(Frame,
 
         self.__menu_bar = MenuBar()
         self.__menu_bar.items.add(self.__file_menu)
+        self.__menu_bar.items.add(self.__manage_menu)
         self.__menu_bar.items.add(self.__view_menu)
         self.__menu_bar.items.add(self.__tools_menu)
         self.__menu_bar.items.add(self.__help_menu)

@@ -122,6 +122,43 @@ class ActivityTypesView(View):
         self.__modify_activity_type_button.text = GuiResources.string("ActivityTypesViewEditor.ModifyActivityTypeButton.Text")
         self.__destroy_activity_type_button.text = GuiResources.string("ActivityTypesViewEditor.DestroyActivityTypeButton.Text")
 
+    def __refresh_activity_type_nodes(self) -> None:
+        workspace = CurrentWorkspace.get()
+        credentials = CurrentCredentials.get()
+        if (workspace is None) or (credentials is None):
+            self.__users_tree_view.root_nodes.clear()
+            return
+        selected_object = self.selected_object
+
+        #   Prepare the list of accessible BusinessActivityTypes sorted by name
+        activity_types = list(workspace.get_activity_types(credentials))
+        try:
+            activity_types.sort(key=lambda u: u.get_name(credentials))
+        except Exception as ex:
+            ErrorDialog.show(self, ex)
+            pass    #   TODO log the exception
+        #   Make sure the self.__activity_types_tree_view contains a proper number
+        #   of root nodes...
+        while len(self.__activity_types_tree_view.root_nodes) > len(activity_types):
+            #   Too many root nodes in the activity types tree
+            self.__activity_types_tree_view.root_nodes.remove_at(len(self.__activity_types_tree_view.root_nodes) - 1)
+        while len(self.__activity_types_tree_view.root_nodes) < len(activity_types):
+            #   Too few root nodes in the activity types tree
+            activity_type = activity_types[len(self.__activity_types_tree_view.root_nodes)]
+            self.__activity_types_tree_view.root_nodes.add(
+                activity_type.display_name,
+                image=activity_type.small_image,
+                tag=activity_type)
+        #   ...each representing a proper BusinessActivityType
+        for i in range(len(activity_types)):
+            activity_type_node = self.__activity_types_tree_view.root_nodes[i]
+            activity_type_node.text = activity_types[i].display_name
+            activity_type_node.tag = activity_types[i]
+
+        #   Try to keep the selection
+        if self.selected_object != selected_object:
+            self.selected_object = selected_object
+
     ##########
     #   Event handlers
     def __on_workspace_changed(self, evt) -> None:

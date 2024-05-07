@@ -19,6 +19,7 @@ from .Credentials import Credentials
 from .Capabilities import Capabilities
 from .BusinessObject import BusinessObject
 from .BusinessUser import BusinessUser
+from .BusinessActivityType import BusinessActivityType
 from .Notifications import *
 from .Validator import *
 
@@ -225,6 +226,19 @@ class Workspace:
         except Exception as ex:
             raise WorkspaceError.wrap(ex)
 
+    def get_activity_types(self, credentials: Credentials) -> Set[BusinessActivityType]:
+        assert isinstance(credentials, Credentials)
+
+        try:
+            result = set()
+            if self.get_capabilities(credentials) is not None:
+                #   The caller can see all activity types
+                for data_activity_type in self.__db.activity_types:
+                    result.add(self._get_business_proxy(data_activity_type))
+            return result
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
+
     ##########
     #   Operations (life cycle)
     def create_user(self,
@@ -361,6 +375,7 @@ class Workspace:
     def _get_business_proxy(self, data_object: dbapi.DatabaseObject) -> BusinessObject:
         from .BusinessUser import BusinessUser
         from .BusinessAccount import BusinessAccount
+        from .BusinessActivityType import BusinessActivityType
 
         assert isinstance(data_object, dbapi.DatabaseObject)
         business_object = self.__map_data_objects_to_business_objects.get(data_object, None)
@@ -370,6 +385,8 @@ class Workspace:
                 business_object = BusinessUser(self, data_object)
             elif isinstance(data_object, dbapi.Account):
                 business_object = BusinessAccount(self, data_object)
+            elif isinstance(data_object, dbapi.ActivityType):
+                business_object = BusinessActivityType(self, data_object)
             else:
                 raise NotImplementedError()
             self.__map_data_objects_to_business_objects[data_object] = business_object

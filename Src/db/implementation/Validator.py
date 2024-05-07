@@ -82,6 +82,24 @@ class AccountValidator:
                 all(_is_valid_email_address(ea) for ea in email_addresses))
 
 
+class ActivityTypeValidator:
+    """ An agent that "knows" hot to check various properties
+        of ActivityTypes in a database for validity. """
+
+    ##########
+    #   Operations
+    def is_valid_name(self, name: str) -> bool:
+       return (isinstance(name, str) and
+               (len(name) == len(name.strip())) and
+               (len(name) > 0) and
+               (len(name) <= 127) and
+               all((ord(c) >= 32 and ord(c) != 127) for c in name))
+
+    def is_valid_description(self, description: str) -> bool:
+       return (isinstance(description, str) and
+               all(((ord(c) >= 32 and ord(c) != 127) or (c == "\n") or (c == "\t")) for c in description))
+
+
 class Validator:
     """ An agent that "knows" how to check various properties
         of database objects for validity. """
@@ -91,6 +109,7 @@ class Validator:
     def __init__(self):
       self.__user = UserValidator()
       self.__account = AccountValidator()
+      self.__activity_type = ActivityTypeValidator()
 
     ##########
     #   Properties
@@ -103,3 +122,8 @@ class Validator:
     def account(self) -> AccountValidator:
        """ The validator for Account properties. """
        return self.__account
+
+    @property  
+    def activity_type(self) -> ActivityTypeValidator:
+       """ The validator for ActivityType properties. """
+       return self.__activity_type

@@ -73,6 +73,20 @@ class SqlDatabase(Database):
         except Exception as ex:
             raise DatabaseError.wrap(ex)
 
+    @property
+    def activity_types(self) -> Set[ActivityType]:
+        self._ensure_open() # may raise DatabaseError
+
+        try:        
+            stat = self.create_statement(" SELECT [pk] FROM [activity_types]")
+            rs = stat.execute()
+            result = set()
+            for r in rs:
+                result.add(self._get_activity_type_proxy(r["pk"]))
+            return result
+        except Exception as ex:
+            raise DatabaseError.wrap(ex)
+
     ##########
     #   Overridables (database engine - specific)
     @property
@@ -334,8 +348,16 @@ class SqlDatabase(Database):
         assert isinstance(email_addresses, list)    #   and all elements are strings
 
         #   Validate parameters (real name is valid, etc.)
-        if not self.database.validator.user.is_valid_user_enabled(new_enabled):
-            raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, "enabled", enabled)    
+        if not self.validator.user.is_valid_enabled(enabled):
+            raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, User.ENABLED_PROPERTY_NAME, enabled)    
+        if not self.validator.user.is_valid_real_name(real_name):
+            raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, User.REAL_NAME_PROPERTY_NAME, real_name)    
+        if not self.validator.user.is_valid_inactivity_timeout(inactivity_timeout):
+            raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, User.INACTIVITY_TIMEOUT_PROPERTY_NAME, inactivity_timeout)    
+        if not self.validator.user.is_valid_ui_locale(ui_locale):
+            raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, User.UI_LOCALE_PROPERTY_NAME, ui_locale)    
+        if not self.validator.user.is_valid_email_addresses(email_addresses):
+            raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, User.EMAIL_ADDRESSES_PROPERTY_NAME, email_addresses)    
 
         #   Make database changes
         try:

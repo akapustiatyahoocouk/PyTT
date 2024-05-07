@@ -136,6 +136,16 @@ class Database(ABC):
         """
         raise NotImplementedError()
             
+    @abstractproperty
+    def activity_types(self) -> Set["ActivityType"]:
+        """
+            The unordered set of all ActivityTypes in this Database.
+            
+            @raise DatabaseError:
+                If an error occurs.
+        """
+        raise NotImplementedError()
+
     ##########
     #   Operations (life cycle)
     @abstractmethod

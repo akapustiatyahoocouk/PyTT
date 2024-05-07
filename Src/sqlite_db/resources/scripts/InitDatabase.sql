@@ -43,3 +43,12 @@ CREATE TABLE [accounts]
     FOREIGN KEY([pk]) REFERENCES [objects]([pk]),
     FOREIGN KEY([fk_user]) REFERENCES [users]([pk])
 );
+
+CREATE TABLE [activity_types]
+(
+    [pk] INTEGER NOT NULL PRIMARY KEY,
+    [name] VARCHAR(128) NOT NULL,
+    [description] TEXT NOT NULL,
+    --- Foreign keys
+    FOREIGN KEY([pk]) REFERENCES [objects]([pk])
+);

@@ -5,6 +5,8 @@ MainFrame.Title=PyTT Time Tracker
 
 FileMenu.Label=File
 FileMenu.Hotkey=F
+ManageMenu.Label=Manage
+ManageMenu.Hotkey=M
 ViewMenu.Label=View
 ViewMenu.Hotkey=V
 ToolsMenu.Label=Tools

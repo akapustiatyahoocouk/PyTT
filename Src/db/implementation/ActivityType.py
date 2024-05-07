@@ -14,11 +14,12 @@ from ..resources.DbResources import DbResources
 
 ##########
 #   Public entities
-class Activity(DatabaseObject):
+class ActivityType(DatabaseObject):
     """ An Activity type in a database. """
 
     ##########
     #   Constants
+    TYPE_NAME = "ActivityType"
     NAME_PROPERTY_NAME = "name"
     DESCRIPTION_PROPERTY_NAME = "description"
 

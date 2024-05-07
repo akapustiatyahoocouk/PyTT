@@ -9,7 +9,6 @@ from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
 from .DatabaseObject import DatabaseObject
-from .Activity import Activity
 from ..resources.DbResources import DbResources
 
 ##########

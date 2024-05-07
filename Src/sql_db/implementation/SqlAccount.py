@@ -14,13 +14,13 @@ from .SqlDataType import SqlDataType
 #   Public entities
 class SqlAccount(SqlDatabaseObject, Account):
     """ An account residing in an SQL database. """
-    
+
     ##########
     #   Construction - internal only
     def __init__(self, db: SqlDatabase, oid: OID):
         SqlDatabaseObject.__init__(self, db, oid)
         Account.__init__(self)
-        
+
         #   Property cache
         self._enabled = None
         self._login = None
@@ -33,18 +33,18 @@ class SqlAccount(SqlDatabaseObject, Account):
     #   DatabaseObject - Operations (life cycle)
     def destroy(self) -> None:
         self._ensure_live()
-        
+
         #   TODO Dis-associate from quick pick items
         #   Destroy the Account
         try:
             user = self.user
             self.database.begin_transaction();
-            
+
             stat1 = self.database.create_statement(
                 """DELETE FROM [accounts] WHERE [pk] = ?""");
             stat1.set_int_parameter(0, self.oid)
             stat1.execute()
-        
+
             stat2 = self.database.create_statement(
                 """DELETE FROM [objects] WHERE [pk] = ?""");
             stat2.set_int_parameter(0, self.oid)
@@ -52,18 +52,18 @@ class SqlAccount(SqlDatabaseObject, Account):
 
             self.database.commit_transaction()
             self._mark_dead()
-            
+
             #   Issue notifications
             self.database.enqueue_notification(
                 DatabaseObjectDestroyedNotification(
-                    self.database, 
+                    self.database,
                     self))
             self.database.enqueue_notification(
                 DatabaseObjectModifiedNotification(
-                    self.database, 
+                    self.database,
                     user,
                     User.ACCOUNTS_ASSOCIATION_NAME))
-            
+
             #   Done
         except Exception as ex:
             self.database.rollback_transaction()
@@ -74,7 +74,7 @@ class SqlAccount(SqlDatabaseObject, Account):
     @property
     def enabled(self) -> bool:
         self._ensure_live()
-        
+
         self._load_property_cache()
         return self._enabled
 
@@ -82,8 +82,13 @@ class SqlAccount(SqlDatabaseObject, Account):
     def enabled(self, new_enabled: bool) -> None:
         self._ensure_live()
         assert isinstance(new_enabled, bool)
-        
-        try:        
+
+        #   Validate parameters TODO everywhere!!!
+        if not self.database.validator.account.is_valid_enabled(new_enabled):
+            raise InvalidDatabaseObjectPropertyError(Account.TYPE_NAME, Account.ENABLED_PROPERTY_NAME, new_enabled)
+
+        #   Make database changes
+        try:
             stat = self.database.create_statement(
                 """UPDATE [accounts] SET [enabled] = ? WHERE [pk] = ?""")
             stat.set_bool_parameter(0, new_enabled)
@@ -95,13 +100,19 @@ class SqlAccount(SqlDatabaseObject, Account):
                 self._mark_dead()
                 raise DatabaseObjectDeadError(User.TYPE_NAME)
             self._enabled = new_enabled
+            #   Issue notifications
+            self.database.enqueue_notification(
+                DatabaseObjectModifiedNotification(
+                    self.database,
+                    self,
+                    Account.ENABLED_PROPERTY_NAME))
         except Exception as ex:
             raise DatabaseError.wrap(ex)
 
     @property
     def login(self) -> str:
         self._ensure_live()
-        
+
         self._load_property_cache()
         return self._login
 
@@ -110,7 +121,12 @@ class SqlAccount(SqlDatabaseObject, Account):
         self._ensure_live()
         assert isinstance(new_login, str)
 
-        try:        
+        #   Validate parameters TODO everywhere!!!
+        if not self.database.validator.account.is_valid_login(new_login):
+            raise InvalidDatabaseObjectPropertyError(Account.TYPE_NAME, Account.LOGIN_PROPERTY_NAME, new_login)
+
+        #   Make database changes
+        try:
             stat = self.database.create_statement(
                 """UPDATE [accounts] SET [login] = ? WHERE [pk] = ?""")
             stat.set_string_parameter(0, new_login)
@@ -122,12 +138,18 @@ class SqlAccount(SqlDatabaseObject, Account):
                 self._mark_dead()
                 raise DatabaseObjectDeadError(User.TYPE_NAME)
             self._login = new_login
+            #   Issue notifications
+            self.database.enqueue_notification(
+                DatabaseObjectModifiedNotification(
+                    self.database,
+                    self,
+                    Account.LOGIN_PROPERTY_NAME))
         except Exception as ex:
             raise DatabaseError.wrap(ex)
 
     @property
     def password(self) -> str:
-        """ Don't use! Needed here because password.setter 
+        """ Don't use! Needed here because password.setter
             logic won;t work otherwise. """
         raise NotImplementedError()
 
@@ -136,11 +158,16 @@ class SqlAccount(SqlDatabaseObject, Account):
         self._ensure_live()
         assert isinstance(new_password, str)
 
+        #   Validate parameters TODO everywhere!!!
+        if not self.database.validator.account.is_valid_password(new_password):
+            raise InvalidDatabaseObjectPropertyError(Account.TYPE_NAME, Account.PASSWORD_PROPERTY_NAME, new_password)
+
+        #   Make database changes
         sha1 = hashlib.sha1()
         sha1.update(new_password.encode("utf-8"))
         password_hash = sha1.hexdigest().upper()
 
-        try:        
+        try:
             stat = self.database.create_statement(
                 """UPDATE [accounts] SET [password_hash] = ? WHERE [pk] = ?""")
             stat.set_string_parameter(0, password_hash)
@@ -152,20 +179,26 @@ class SqlAccount(SqlDatabaseObject, Account):
                 self._mark_dead()
                 raise DatabaseObjectDeadError(User.TYPE_NAME)
             self._password_hash = password_hash
+            #   Issue notifications
+            self.database.enqueue_notification(
+                DatabaseObjectModifiedNotification(
+                    self.database,
+                    self,
+                    Account.PASSWORD_PROPERTY_NAME))
         except Exception as ex:
             raise DatabaseError.wrap(ex)
 
     @property
     def password_hash(self) -> str:
         self._ensure_live()
-        
+
         self._load_property_cache()
         return self._password_hash
 
     @property
     def capabilities(self) -> Capabilities:
         self._ensure_live()
-        
+
         self._load_property_cache()
         return self._capabilities
 
@@ -174,9 +207,14 @@ class SqlAccount(SqlDatabaseObject, Account):
         self._ensure_live()
         assert isinstance(new_capabilities, Capabilities)
 
-        try:        
+        #   Validate parameters TODO everywhere!!!
+        if not self.database.validator.account.is_valid_capabilities(new_capabilities):
+            raise InvalidDatabaseObjectPropertyError(Account.TYPE_NAME, Account.CAPABILITIES_PROPERTY_NAME, new_capabilities)
+
+        #   Make database changes
+        try:
             stat = self.database.create_statement(
-                """UPDATE [accounts] 
+                """UPDATE [accounts]
                       SET [is_administrator] = ?,
                           [can_manage_users] = ?,
                           [can_manage_stock_items] = ?,
@@ -212,13 +250,19 @@ class SqlAccount(SqlDatabaseObject, Account):
                 self._mark_dead()
                 raise DatabaseObjectDeadError(User.TYPE_NAME)
             self._capabilities = new_capabilities
+            #   Issue notifications
+            self.database.enqueue_notification(
+                DatabaseObjectModifiedNotification(
+                    self.database,
+                    self,
+                    Account.CAPABILITIES_PROPERTY_NAME))
         except Exception as ex:
             raise DatabaseError.wrap(ex)
 
     @property
     def email_addresses(self) -> List[str]:
         self._ensure_live()
-        
+
         self._load_property_cache()
         return self._email_addresses
 
@@ -227,8 +271,13 @@ class SqlAccount(SqlDatabaseObject, Account):
         self._ensure_live()
         assert isinstance(new_email_addresses, list)
         assert all(isinstance(a, str) for a in new_email_addresses) #   TODO properly!
-        
-        try:        
+
+        #   Validate parameters TODO everywhere!!!
+        if not self.database.validator.account.is_valid_email_addresses(new_email_addresses):
+            raise InvalidDatabaseObjectPropertyError(Account.TYPE_NAME, Account.EMAIL_ADDRESSES_PROPERTY_NAME, new_email_addresses)
+
+        #   Make database changes
+        try:
             stat = self.database.create_statement(
                 """UPDATE [accounts] SET [email_addresses] = ? WHERE [pk] = ?""")
             stat.set_string_parameter(0, None if len(new_email_addresses) == 0 else "|".join(new_email_addresses))
@@ -240,6 +289,12 @@ class SqlAccount(SqlDatabaseObject, Account):
                 self._mark_dead()
                 raise DatabaseObjectDeadError(User.TYPE_NAME)
             self._email_addresses = new_email_addresses
+            #   Issue notifications
+            self.database.enqueue_notification(
+                DatabaseObjectModifiedNotification(
+                    self.database,
+                    self,
+                    Account.EMAIL_ADDRESSES_PROPERTY_NAME))
         except Exception as ex:
             raise DatabaseError.wrap(ex)
 
@@ -248,7 +303,7 @@ class SqlAccount(SqlDatabaseObject, Account):
     @property
     def user(self) -> User:
         self._ensure_live()
-        
+
         self._load_property_cache()
         return self.database._get_user_proxy(self._fk_user)
 

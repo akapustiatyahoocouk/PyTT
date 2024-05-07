@@ -17,5 +17,4 @@ SELECT [pk], [enabled], [login], [password_hash],
        [can_backup_and_restore],
        [email_addresses],
        [fk_user] FROM [accounts];
-
-
+SELECT [pk], [name], [description] FROM [users];
