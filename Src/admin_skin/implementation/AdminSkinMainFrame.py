@@ -41,6 +41,7 @@ class AdminSkinMainFrame(Frame,
 
         self.__manage_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "ManageMenu")
         self.__manage_menu .items.add(self.__action_set.manage_users)
+        self.__manage_menu .items.add(self.__action_set.manage_activity_types)
 
         self.__view_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "ViewMenu")
 

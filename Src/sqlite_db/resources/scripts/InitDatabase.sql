@@ -47,7 +47,7 @@ CREATE TABLE [accounts]
 CREATE TABLE [activity_types]
 (
     [pk] INTEGER NOT NULL PRIMARY KEY,
-    [name] VARCHAR(128) NOT NULL,
+    [name] VARCHAR(128) NOT NULL UNIQUE,
     [description] TEXT NOT NULL,
     --- Foreign keys
     FOREIGN KEY([pk]) REFERENCES [objects]([pk])

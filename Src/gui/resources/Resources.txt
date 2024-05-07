@@ -38,11 +38,18 @@ Actions.Exit.SmallImage=ImageFile:images/actions/ExitSmall.png
 Actions.Exit.LargeImage=ImageFile:images/actions/ExitLarge.png
 
 Actions.ManageUsers.Name=Users
-Actions.ManageUsers.Hotkey=C
+Actions.ManageUsers.Hotkey=U
 Actions.ManageUsers.Description=Manage available users and accounts
 #Actions.ManageUsers.Shortcut=Ctrl+N
 Actions.ManageUsers.SmallImage=ImageFile:images/objects/UserSmall.png
 Actions.ManageUsers.LargeImage=ImageFile:images/objects/UserLarge.png
+
+Actions.ManageActivityTypes.Name=Activity types
+Actions.ManageActivityTypes.Hotkey=T
+Actions.ManageActivityTypes.Description=Manage available activity types
+#Actions.ManageActivityTypes.Shortcut=Ctrl+N
+Actions.ManageActivityTypes.SmallImage=ImageFile:images/objects/ActivityTypeSmall.png
+Actions.ManageActivityTypes.LargeImage=ImageFile:images/objects/ActivityTypeLarge.png
 
 Actions.Preferences.Name=Preferences
 Actions.Preferences.Hotkey=P
@@ -219,9 +226,28 @@ CreateActivityTypeDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 CreateActivityTypeDialog.CancelButton.Text=Cancel
 CreateActivityTypeDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
 
+ModifyActivityTypeDialog.Title=Modify activity type
+ModifyActivityTypeDialog.NameLabel.Text=Name:
+ModifyActivityTypeDialog.DescriptionLabel.Text=Description:
+ModifyActivityTypeDialog.OkButton.Text=OK
+ModifyActivityTypeDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+ModifyActivityTypeDialog.CancelButton.Text=Cancel
+ModifyActivityTypeDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+
+DestroyActivityTypeDialog.Title=Delete activity type
+DestroyActivityTypeDialog.PrimptLabel.Text=Are you sure you want to permananently\ndelete activity type '{0}''?
+DestroyActivityTypeDialog.OkButton.Text=OK
+DestroyActivityTypeDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+DestroyActivityTypeDialog.CancelButton.Text=Cancel
+DestroyActivityTypeDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+
 ManageUsersDialog.Title=Manage users and accounts
 ManageUsersDialog.OkButton.Text=OK
 ManageUsersDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+
+ManageActivityTypesDialog.Title=Manage activity types
+ManageActivityTypesDialog.OkButton.Text=OK
+ManageActivityTypesDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 
 ##########
 #   View types

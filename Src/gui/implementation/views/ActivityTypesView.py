@@ -1,3 +1,4 @@
+
 #   Python standard library
 import tkinter as tk
 
@@ -12,19 +13,21 @@ from .View import View
 from ..misc.CurrentWorkspace import CurrentWorkspace
 from ..misc.CurrentCredentials import CurrentCredentials
 from ..dialogs.CreateActivityTypeDialog import *
+from ..dialogs.ModifyActivityTypeDialog import *
+from ..dialogs.DestroyActivityTypeDialog import *
 from gui.resources.GuiResources import GuiResources
 
 ##########
 #   Public entities
 class ActivityTypesView(View):
-    
+
     ##########
     #   Construction
     def __init__(self, parent: tk.BaseWidget) -> None:
         View.__init__(self, parent)
 
         #   Create controls
-        
+
         self.__activity_types_tree_view = TreeView(self)
         self.__actions_panel = Panel(self)
 
@@ -40,7 +43,7 @@ class ActivityTypesView(View):
             self.__actions_panel,
             text=GuiResources.string("ActivityTypesView.DestroyActivityTypeButton.Text"),
             image=GuiResources.image("ActivityTypesView.DestroyActivityTypeButton.Image"))
-        
+
         #   Adjust controls
         self.__activity_types_tree_view = TreeView(self, show="tree", selectmode=tk.BROWSE)
         #   TODO scrollbars
@@ -48,7 +51,7 @@ class ActivityTypesView(View):
         #   Set up control structure
         self.__actions_panel.pack(side=tk.RIGHT, padx=0, pady=0, fill=tk.Y)
         self.__activity_types_tree_view.pack(padx=2, pady=2, fill=tk.BOTH, expand=True)
-        
+
         self.__create_activity_type_button.grid(row=0, column=0, padx=0, pady=2, sticky="WE")
         self.__modify_activity_type_button.grid(row=1, column=0, padx=0, pady=2, sticky="WE")
         self.__destroy_activity_type_button.grid(row=2, column=0, padx=0, pady=2, sticky="WE")
@@ -195,21 +198,21 @@ class ActivityTypesView(View):
 
     def __on_modify_activity_type_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)
-        #try:
-        #    activity_type = self.selected_activity_type
-        #    with ModifyActivityTypeDialog(self.winfo_toplevel(), activity_type) as dlg:
-        #        dlg.do_modal()
-        #    self.selected_activity_type = activity_type
-        #    self.__activity_types_tree_view.focus_set()
-        #    self.request_refresh()
-        #except Exception as ex: #   error in ModifyActivityTypeDialog constructor
-        #    ErrorDialog.show(None, ex)
+        try:
+            activity_type = self.selected_activity_type
+            with ModifyActivityTypeDialog(self.winfo_toplevel(), activity_type) as dlg:
+                dlg.do_modal()
+            self.selected_activity_type = activity_type
+            self.__activity_types_tree_view.focus_set()
+            self.request_refresh()
+        except Exception as ex: #   error in ModifyActivityTypeDialog constructor
+            ErrorDialog.show(None, ex)
 
     def __on_destroy_activity_type_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)
-        #try:
-        #    with DestroyActivityTypeDialog(self.winfo_toplevel(), self.selected_activity_type) as dlg:
-        #        dlg.do_modal()
-        #    self.request_refresh()
-        #except Exception as ex: #   error in DestroyActivityTypeDialog constructor
-        #    ErrorDialog.show(None, ex)
+        try:
+            with DestroyActivityTypeDialog(self.winfo_toplevel(), self.selected_activity_type) as dlg:
+                dlg.do_modal()
+            self.request_refresh()
+        except Exception as ex: #   error in DestroyActivityTypeDialog constructor
+            ErrorDialog.show(None, ex)

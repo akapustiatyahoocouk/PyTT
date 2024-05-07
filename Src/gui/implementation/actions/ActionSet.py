@@ -10,6 +10,7 @@ from .CloseWorkspaceAction import CloseWorkspaceAction
 from .DestroyWorkspaceAction import DestroyWorkspaceAction
 from .ExitAction import ExitAction
 from .ManageUsersAction import ManageUsersAction
+from .ManageActivityTypesAction import ManageActivityTypesAction
 from .PreferencesAction import PreferencesAction
 from .AboutAction import AboutAction
 from gui.implementation.views.ViewType import ViewType
@@ -29,6 +30,7 @@ class ActionSet:
         self.__destroy_workspace = DestroyWorkspaceAction()
         self.__exit = ExitAction()
         self.__manage_users = ManageUsersAction()
+        self.__manage_activity_types = ManageActivityTypesAction()
         self.__preferences = PreferencesAction()
         self.__about = AboutAction()
 
@@ -63,6 +65,11 @@ class ActionSet:
     def manage_users(self) -> ManageUsersAction:
         """ The "Manage users" action. """
         return self.__manage_users
+
+    @property
+    def manage_activity_types(self) -> ManageActivityTypesAction:
+        """ The "Manage activity types" action. """
+        return self.__manage_activity_types
 
     @property
     def preferences(self) -> PreferencesAction:
