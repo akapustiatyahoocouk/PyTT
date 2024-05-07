@@ -32,6 +32,22 @@ class ActivityType(DatabaseObject):
         except Exception as ex:
             return str(ex)
 
+    @property
+    def type_name(self) -> str:
+        return ActivityType.TYPE_NAME
+
+    @property
+    def type_display_name(self) -> str:
+        return DbResources.string("ActivityType.TypeDisplayName")
+
+    @property
+    def small_image(self) -> tk.PhotoImage:
+        return DbResources.image("ActivityType.SmallImage")
+
+    @property
+    def large_image(self) -> tk.PhotoImage:
+        return DbResources.image("ActivityType.LargeImage")
+
     ##########
     #   Properties
     @abstractproperty

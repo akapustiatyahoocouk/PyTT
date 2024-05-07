@@ -2,8 +2,6 @@
 
 ##########
 #   Public entities
-from gui.implementation.GuiSubsystems import *
-
 from gui.implementation.actions.AboutAction import *
 from gui.implementation.actions.ActionBase import *
 from gui.implementation.actions.ActionSet import *

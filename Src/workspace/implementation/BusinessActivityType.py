@@ -49,7 +49,7 @@ class BusinessActivityType(BusinessObject):
 
     ##########
     #   Operations (properties)
-    def get__name(self, credentials: Credentials) -> str:
+    def get_name(self, credentials: Credentials) -> str:
         """
             Returns the "name" of this BusinessActivityType.
 

@@ -47,6 +47,8 @@
   <ItemGroup>
     <Content Include="resources\images\objects\AccountLarge.png" />
     <Content Include="resources\images\objects\AccountSmall.png" />
+    <Content Include="resources\images\objects\ActivityTypeLarge.png" />
+    <Content Include="resources\images\objects\ActivityTypeSmall.png" />
     <Content Include="resources\images\objects\UserLarge.png" />
     <Content Include="resources\images\objects\UserSmall.png" />
     <Content Include="resources\Resources.txt" />

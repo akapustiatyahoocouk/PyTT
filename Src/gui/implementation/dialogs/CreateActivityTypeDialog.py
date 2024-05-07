@@ -128,8 +128,9 @@ class CreateActivityTypeDialog(Dialog):
     ##########
     #   Refreshable
     def refresh(self) -> None:
-        #TODO self.__ok_button.enabled = self.__validator.user.is_valid_real_name(self.__real_name_text_field.text)
-        pass
+        self.__ok_button.enabled = (
+            self.__validator.activity_type.is_valid_name(self.__name_text_field.text) and
+            self.__validator.activity_type.is_valid_description(self.__description_text_area.text))
 
     ##########
     #   Properties
@@ -155,14 +156,11 @@ class CreateActivityTypeDialog(Dialog):
         description = self.__description_text_area.text.rstrip()
         
         try:
-            #self.__created_user = self.__workspace.create_user(
-            #        credentials=self.__credentials,
-            #        enabled=enabled,
-            #        real_name=real_name,
-            #        inactivity_timeout=None if inactivity_timeout == 0 else inactivity_timeout,
-            #        ui_locale=ui_locale,
-            #        email_addresses=email_addresses)
-            self.__result = CreateActivityTypeDialogResult.CANCEL
+            self.__created_activity_type = self.__workspace.create_activity_type(
+                    credentials=self.__credentials,
+                    name=name,
+                    description=description)
+            self.__result = CreateActivityTypeDialogResult.OK
             self.end_modal()
         except Exception as ex:
             ErrorDialog.show(self, ex)

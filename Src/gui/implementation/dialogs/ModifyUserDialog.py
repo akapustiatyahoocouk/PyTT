@@ -240,6 +240,8 @@ class ModifyUserDialog(Dialog):
         ui_locale = self.__ui_locale_combo_box.selected_item.tag
         inactivity_timeout = (self.__inactivity_timeout_value_combo_box.selected_item.tag *
                               self.__inactivity_timeout_unit_combo_box.selected_item.tag)
+        if inactivity_timeout == 0:
+            inactivity_timeout = None
         email_addresses = self.__email_address_list_editor.email_addresses
 
         try:

@@ -242,7 +242,7 @@ class SqlUser(SqlDatabaseObject, User):
         try:
             stat = self.database.create_statement(
                 """UPDATE [users] SET [email_addresses] = ? WHERE [pk] = ?""")
-            stat.set_string_parameter(0, None if len(new_email_addresses) == 0 else "|".join(new_email_addresses))
+            stat.set_string_parameter(0, None if len(new_email_addresses) == 0 else "\n".join(new_email_addresses))
             stat.set_int_parameter(1, self.oid)
             row_count = stat.execute()
             assert row_count <= 1
@@ -406,7 +406,7 @@ class SqlUser(SqlDatabaseObject, User):
             if email_addresses is None:
                 self._email_addresses = []
             else:
-                self._email_addresses = email_addresses.split("|")
+                self._email_addresses = email_addresses.split("\n")
         except Exception as ex:
             raise DatabaseError.wrap(ex)
 

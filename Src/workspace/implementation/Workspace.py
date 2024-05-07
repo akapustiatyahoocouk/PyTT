@@ -295,6 +295,38 @@ class Workspace:
         except Exception as ex:
             raise WorkspaceError.wrap(ex)
 
+    def create_activity_type(self,
+                             credentials: Credentials,
+                             name: str = None,
+                             description: str = None) -> BusinessActivityType:
+        """
+            Creates a new BusinessActivityType.
+
+            @param credentials:
+                The credentials of the service caller.
+            @param name:
+                The "name" for the new ActivityType.
+            @param description:
+                The "description" for the new ActivityType.
+            @return:
+                The newly created ActivityType.
+            @raise WorkspaceError:
+                If an error occurs.
+        """
+        assert isinstance(credentials, Credentials)
+        assert isinstance(name, str)
+        assert isinstance(description, str)
+
+        try:
+            if not self.can_manage_stock_items(credentials):
+                raise WorkspaceAccessDeniedError()
+            data_activity_type = self.__db.create_activity_type(
+                name=name,
+                description=description);
+            return self._get_business_proxy(data_activity_type)
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
+
     ##########
     #   Operations (notifications)
     def add_notification_listener(self, l: Union[WorkspaceNotificationListener, WorkspaceNotificationHandler]) -> None:

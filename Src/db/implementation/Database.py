@@ -181,6 +181,24 @@ class Database(ABC):
         """
         raise NotImplementedError()
 
+    @abstractmethod
+    def create_activity_type(self,
+                    name: str = None,       #   MUST specify!
+                    description: str = None) -> "ActivityType":
+        """
+            Creates a new ActivityType.
+
+            @param name:
+                The "name" for the new ActivityType.
+            @param description:
+                The "description" for the new ActivityType.
+            @return:
+                The newly created ActivityType.
+            @raise DatabaseError:
+                If an error occurs.
+        """
+        raise NotImplementedError()
+
     ##########
     #   Operations (notifications)
     def add_notification_listener(self, l: Union[DatabaseNotificationListener, DatabaseNotificationHandler]) -> None:

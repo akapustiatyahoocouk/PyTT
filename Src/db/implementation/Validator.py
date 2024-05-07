@@ -45,7 +45,7 @@ class UserValidator:
     def is_valid_email_addresses(self, email_addresses: List[str]) -> bool:
         return (isinstance(email_addresses, list) and
                 all(isinstance(ea, str) for ea in email_addresses) and
-                all(_is_valid_email_address(ea) for ea in email_addresses))
+                all(self.is_valid_email_address(ea) for ea in email_addresses))
 
 
 class AccountValidator:
@@ -79,7 +79,7 @@ class AccountValidator:
     def is_valid_email_addresses(self, email_addresses: List[str]) -> bool:
         return (isinstance(email_addresses, list) and
                 all(isinstance(ea, str) for ea in email_addresses) and
-                all(_is_valid_email_address(ea) for ea in email_addresses))
+                all(self.is_valid_email_address(ea) for ea in email_addresses))
 
 
 class ActivityTypeValidator:

@@ -19,7 +19,7 @@ class SqlDatabase(Database):
     #   Construction
     def __init__(self):
         Database.__init__(self)
-        
+
         self.__objects = WeakValueDictionary()  #   OID -> SqlDatabaseObject
 
     ##########
@@ -36,7 +36,7 @@ class SqlDatabase(Database):
         self._ensure_open() # may raise DatabaseError
         assert isinstance(login, str)
         assert isinstance(password, str)
-        
+
         sha1 = hashlib.sha1()
         sha1.update(password.encode("utf-8"))
         password_hash = sha1.hexdigest().upper()
@@ -63,7 +63,7 @@ class SqlDatabase(Database):
     def users(self) -> Set[User]:
         self._ensure_open() # may raise DatabaseError
 
-        try:        
+        try:
             stat = self.create_statement(" SELECT [pk] FROM [users]")
             rs = stat.execute()
             result = set()
@@ -77,7 +77,7 @@ class SqlDatabase(Database):
     def activity_types(self) -> Set[ActivityType]:
         self._ensure_open() # may raise DatabaseError
 
-        try:        
+        try:
             stat = self.create_statement(" SELECT [pk] FROM [activity_types]")
             rs = stat.execute()
             result = set()
@@ -118,7 +118,7 @@ class SqlDatabase(Database):
             else:   #   UNICODE, special characters
                 chunks.append(self.string_opening_quote + chunk + self.string_closing_quote)
                 chunk = ""
-                chunks.append("CHAR(" + str(c) + ")")
+                chunks.append("CHAR(" + str(ord(c)) + ")")
                 scan += 1
         #   Record the last chunk
         chunks.append(self.string_opening_quote + chunk + self.string_closing_quote)
@@ -339,7 +339,7 @@ class SqlDatabase(Database):
                     real_name: str = None,  #   MUST specify!
                     inactivity_timeout: Optional[int] = None,
                     ui_locale: Optional[Locale] = None,
-                    email_addresses: List[str] = []) -> "User":
+                    email_addresses: List[str] = []) -> User:
         self._ensure_open() # may raise DatabaseError
         assert isinstance(enabled, bool)
         assert isinstance(real_name, str)
@@ -349,15 +349,15 @@ class SqlDatabase(Database):
 
         #   Validate parameters (real name is valid, etc.)
         if not self.validator.user.is_valid_enabled(enabled):
-            raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, User.ENABLED_PROPERTY_NAME, enabled)    
+            raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, User.ENABLED_PROPERTY_NAME, enabled)
         if not self.validator.user.is_valid_real_name(real_name):
-            raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, User.REAL_NAME_PROPERTY_NAME, real_name)    
+            raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, User.REAL_NAME_PROPERTY_NAME, real_name)
         if not self.validator.user.is_valid_inactivity_timeout(inactivity_timeout):
-            raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, User.INACTIVITY_TIMEOUT_PROPERTY_NAME, inactivity_timeout)    
+            raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, User.INACTIVITY_TIMEOUT_PROPERTY_NAME, inactivity_timeout)
         if not self.validator.user.is_valid_ui_locale(ui_locale):
-            raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, User.UI_LOCALE_PROPERTY_NAME, ui_locale)    
+            raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, User.UI_LOCALE_PROPERTY_NAME, ui_locale)
         if not self.validator.user.is_valid_email_addresses(email_addresses):
-            raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, User.EMAIL_ADDRESSES_PROPERTY_NAME, email_addresses)    
+            raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, User.EMAIL_ADDRESSES_PROPERTY_NAME, email_addresses)
 
         #   Make database changes
         try:
@@ -384,15 +384,63 @@ class SqlDatabase(Database):
 
             self.commit_transaction()
             user = self._get_user_proxy(user_oid)
-            
+
             #   Issue notifications
             self.enqueue_notification(
                 DatabaseObjectCreatedNotification(
-                    self, 
+                    self,
                     user))
 
             #   Done
             return user
+        except Exception as ex:
+            self.rollback_transaction()
+            raise DatabaseError.wrap(ex)
+
+    def create_activity_type(self,
+                    name: str = None,
+                    description: str = None) -> ActivityType:
+        self._ensure_open() # may raise DatabaseError
+        assert isinstance(name, str)
+        assert isinstance(description, str)
+
+        #   Validate parameters
+        if not self.validator.activity_type.is_valid_name(name):
+            raise InvalidDatabaseObjectPropertyError(ActivityType.TYPE_NAME, ActivityType.NAME_PROPERTY_NAME, name)
+        if not self.validator.activity_type.is_valid_description(description):
+            raise InvalidDatabaseObjectPropertyError(ActivityType.TYPE_NAME, ActivityType.DESCRIPTION_PROPERTY_NAME, description)
+
+        #   Make database changes
+        try:
+            self.begin_transaction();
+
+            stat1 = self.create_statement(
+                """INSERT INTO objects
+                          (object_type_name)
+                          VALUES (?)""");
+            stat1.set_string_parameter(0, ActivityType.TYPE_NAME)
+            activity_type_oid = stat1.execute()
+
+            stat2 = self.create_statement(
+                """INSERT INTO [activity_types]
+                          ([pk],[name],[description])
+                          VALUES (?,?,?)""");
+            stat2.set_int_parameter(0, activity_type_oid)
+            stat2.set_string_parameter(1, name)
+            stat2.set_string_parameter(2, description)
+            stat2.execute()
+
+            self.commit_transaction()
+            activity_type = self._get_activity_type_proxy(activity_type_oid)
+
+            #   Issue notifications
+            self.enqueue_notification(
+                DatabaseObjectCreatedNotification(
+                    self,
+                    activity_type))
+
+            #   Done
+            return activity_type
         except Exception as ex:
             self.rollback_transaction()
             raise DatabaseError.wrap(ex)
@@ -416,3 +464,10 @@ class SqlDatabase(Database):
         if isinstance(obj, SqlAccount):
             return obj
         return SqlAccount(self, oid)
+
+    def _get_activity_type_proxy(self, oid: OID) -> User:
+        from .SqlActivityType import SqlActivityType
+        obj = self.__objects.get(oid, None)
+        if isinstance(obj, SqlActivityType):
+            return obj
+        return SqlActivityType(self, oid)
