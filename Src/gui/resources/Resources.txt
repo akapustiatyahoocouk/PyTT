@@ -211,6 +211,14 @@ DestroyAccountDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 DestroyAccountDialog.CancelButton.Text=Cancel
 DestroyAccountDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
 
+CreateActivityTypeDialog.Title=Create activity type
+CreateActivityTypeDialog.NameLabel.Text=Name:
+CreateActivityTypeDialog.DescriptionLabel.Text=Description:
+CreateActivityTypeDialog.OkButton.Text=OK
+CreateActivityTypeDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+CreateActivityTypeDialog.CancelButton.Text=Cancel
+CreateActivityTypeDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+
 ManageUsersDialog.Title=Manage users and accounts
 ManageUsersDialog.OkButton.Text=OK
 ManageUsersDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png

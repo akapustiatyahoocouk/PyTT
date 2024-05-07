@@ -48,6 +48,7 @@
     <Compile Include="implementation\actions\ExitAction.py" />
     <Compile Include="implementation\controls\EmailAddressListEditor.py" />
     <Compile Include="implementation\dialogs\CreateAccountDialog.py" />
+    <Compile Include="implementation\dialogs\CreateActivityTypeDialog.py" />
     <Compile Include="implementation\dialogs\DestroyAccountDialog.py" />
     <Compile Include="implementation\dialogs\DestroyUserDialog.py" />
     <Compile Include="implementation\dialogs\ManageUsersDialog.py" />

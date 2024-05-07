@@ -40,9 +40,9 @@ class TextArea(tk.Text,
         self.insert('end', text)
 
         self.__readonly = False
-        #self.__variable = tk.StringVar(master=self, value=text)
-        #self.configure(textvariable=self.__variable)
-
+        self.__accept_return = True
+        self.__accept_tab = True
+        
         #   Set up event handlers
         #self.__variable.trace_add("write", self.__on_tk_text_changed)
         self.redirector = rd.WidgetRedirector(self)
@@ -88,3 +88,36 @@ class TextArea(tk.Text,
             else:
                 self.redirector.unregister("insert")
                 self.redirector.unregister("delete")
+
+    @property
+    def accept_return(self) -> bool:
+        """ True if this TextArea accepts "Return" as an input key, else
+            False (matters when TextArea is within a dialog - when it doesn't
+            accept "Return" as input, the dialog will close because its
+            default button will simulate a click. """
+        return self.__accept_return
+
+    @property
+    def accept_tab(self) -> bool:
+        """ True if this TextArea accepts "Tab" as an input, False if "Tab"
+            is used to cycle through the input focus. """
+        return self.__accept_tab
+
+    @accept_tab.setter
+    def accept_tab(self, new_accept_tab: bool) -> None:
+        """ Instructs this TextArea to treat "Tab" as an input (True) or to
+            treat it as a focus cycling key (False). """
+        assert isinstance(new_accept_tab, bool)
+        
+        if new_accept_tab != self.__accept_tab:
+            if new_accept_tab:
+                self.unbind("<Tab>")
+            else:
+                self.bind("<Tab>", self.__focus_next_widget)
+            self.__accept_tab = new_accept_tab
+
+    ##########
+    #   Implementation helpers
+    def __focus_next_widget(self, event):
+        event.widget.tk_focusNext().focus()
+        return("break")            

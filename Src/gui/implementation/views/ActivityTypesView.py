@@ -11,6 +11,7 @@ from .ActivityTypesViewType import ActivityTypesViewType
 from .View import View
 from ..misc.CurrentWorkspace import CurrentWorkspace
 from ..misc.CurrentCredentials import CurrentCredentials
+from ..dialogs.CreateActivityTypeDialog import *
 from gui.resources.GuiResources import GuiResources
 
 ##########
@@ -54,6 +55,10 @@ class ActivityTypesView(View):
 
         #   Set up event handlers
         self.__activity_types_tree_view.add_item_listener(self.__activity_types_tree_view_listener)
+
+        self.__create_activity_type_button.add_action_listener(self.__on_create_activity_type_button_clicked)
+        self.__modify_activity_type_button.add_action_listener(self.__on_modify_activity_type_button_clicked)
+        self.__destroy_activity_type_button.add_action_listener(self.__on_destroy_activity_type_button_clicked)
 
         CurrentWorkspace.add_property_change_listener(self.__on_workspace_changed)
         Locale.add_property_change_listener(self.__on_locale_changed)
@@ -126,7 +131,7 @@ class ActivityTypesView(View):
         workspace = CurrentWorkspace.get()
         credentials = CurrentCredentials.get()
         if (workspace is None) or (credentials is None):
-            self.__users_tree_view.root_nodes.clear()
+            self.__activity_types_tree_view.root_nodes.clear()
             return
         selected_object = self.selected_object
 
@@ -173,4 +178,38 @@ class ActivityTypesView(View):
     def __activity_types_tree_view_listener(self, evt: ItemEvent) -> None:
         assert isinstance(evt, ItemEvent)
         self.request_refresh()
-    
+
+    def __on_create_activity_type_button_clicked(self, evt: ActionEvent) -> None:
+        assert isinstance(evt, ActionEvent)
+        try:
+            with CreateActivityTypeDialog(self.winfo_toplevel()) as dlg:
+                dlg.do_modal()
+                if dlg.result is CreateActivityTypeDialogResult.CANCEL:
+                    return
+                created_activity_type = dlg.created_activity_type
+                self.selected_object = created_activity_type
+                self.__activity_types_tree_view.focus_set()
+            self.request_refresh()
+        except Exception as ex: #   error in CreateActivityTypeDialog constructor
+            ErrorDialog.show(None, ex)
+
+    def __on_modify_activity_type_button_clicked(self, evt: ActionEvent) -> None:
+        assert isinstance(evt, ActionEvent)
+        #try:
+        #    activity_type = self.selected_activity_type
+        #    with ModifyActivityTypeDialog(self.winfo_toplevel(), activity_type) as dlg:
+        #        dlg.do_modal()
+        #    self.selected_activity_type = activity_type
+        #    self.__activity_types_tree_view.focus_set()
+        #    self.request_refresh()
+        #except Exception as ex: #   error in ModifyActivityTypeDialog constructor
+        #    ErrorDialog.show(None, ex)
+
+    def __on_destroy_activity_type_button_clicked(self, evt: ActionEvent) -> None:
+        assert isinstance(evt, ActionEvent)
+        #try:
+        #    with DestroyActivityTypeDialog(self.winfo_toplevel(), self.selected_activity_type) as dlg:
+        #        dlg.do_modal()
+        #    self.request_refresh()
+        #except Exception as ex: #   error in DestroyActivityTypeDialog constructor
+        #    ErrorDialog.show(None, ex)

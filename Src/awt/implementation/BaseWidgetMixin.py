@@ -135,6 +135,7 @@ class BaseWidgetMixin(KeyEventProcessorMixin,
             #   TODO Try to keep the dialog within screen boundaries
             self.geometry("%dx%d+%d+%d" % (w, h, x, y))
 
+
     def center_in_screen(self) -> None:
         """ Centers this widget relative to the window where it appears. """
         w = self.winfo_width()
@@ -154,6 +155,7 @@ class BaseWidgetMixin(KeyEventProcessorMixin,
     ##########
     #   Tk event handlers
     def __on_tk_keydown(self, tk_evt: tk.Event):
+        from .TextArea import TextArea
         #TODO kill off print(tk_evt)
         ke = KeyEvent(self, KeyEventType.KEY_DOWN, tk_evt)
         self.process_key_event(ke)

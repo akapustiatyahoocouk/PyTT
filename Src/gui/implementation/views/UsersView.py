@@ -291,7 +291,7 @@ class UsersView(View):
                 self.selected_object = created_user
                 self.__users_tree_view.focus_set()
             self.request_refresh()
-        except Exception as ex: #   error in ModifyUserDialog constructor
+        except Exception as ex: #   error in CreateUserDialog constructor
             ErrorDialog.show(None, ex)
 
     def __on_modify_user_button_clicked(self, evt: ActionEvent) -> None:
@@ -312,7 +312,7 @@ class UsersView(View):
             with DestroyUserDialog(self.winfo_toplevel(), self.selected_user) as dlg:
                 dlg.do_modal()
             self.request_refresh()
-        except Exception as ex: #   error in ModifyUserDialog constructor
+        except Exception as ex: #   error in DestroyUserDialog constructor
             ErrorDialog.show(None, ex)
 
     def __on_create_account_button_clicked(self, evt: ActionEvent) -> None:
@@ -327,7 +327,7 @@ class UsersView(View):
                 self.selected_object = created_account
                 self.__users_tree_view.focus_set()
             self.request_refresh()
-        except Exception as ex: #   error in ModifyUserDialog constructor
+        except Exception as ex: #   error in CreateAccountDialog constructor
             ErrorDialog.show(None, ex)
 
     def __on_modify_account_button_clicked(self, evt: ActionEvent) -> None:
@@ -339,7 +339,7 @@ class UsersView(View):
             self.selected_account = account
             self.__users_tree_view.focus_set()
             self.request_refresh()
-        except Exception as ex: #   error in ModifyUserDialog constructor
+        except Exception as ex: #   error in ModifyAccountDialog constructor
             ErrorDialog.show(None, ex)
 
     def __on_destroy_account_button_clicked(self, evt: ActionEvent) -> None:
@@ -348,5 +348,5 @@ class UsersView(View):
             with DestroyAccountDialog(self.winfo_toplevel(), self.selected_account) as dlg:
                 dlg.do_modal()
             self.request_refresh()
-        except Exception as ex: #   error in ModifyUserDialog constructor
+        except Exception as ex: #   error in DestroyAccountDialog constructor
             ErrorDialog.show(None, ex)

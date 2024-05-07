@@ -3,6 +3,8 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 
+from .TextArea import TextArea
+
 #   Internal dependencies on modules within the same component
 from .GuiRoot import GuiRoot
 from .Button import Button
@@ -160,7 +162,9 @@ class Dialog(Window):
             self.__cancel_button.invoke()
         return "break"
 
-    def __on_tk_return(self, *_):
+    def __on_tk_return(self, *args):
+        if isinstance(args[0].widget, TextArea) and args[0].widget.accept_return:
+            return "break"
         if ((self.__ok_button is not None) and self.__ok_button.winfo_exists() and
              self.__ok_button.showing and self.__ok_button.enabled):
             self.__ok_button.invoke()
