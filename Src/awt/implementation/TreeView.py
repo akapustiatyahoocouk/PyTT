@@ -197,14 +197,15 @@ class TreeView(ttk.Treeview,
         self.__root_nodes = TreeNodeCollection(self)
 
         self.frame = Panel(parent)
-        self.vbar = Scrollbar(self.frame)
-        self.vbar.pack(side=tk.RIGHT, fill=tk.Y)
 
-        kwargs.update({"yscrollcommand": self.vbar.set})
         ttk.Treeview.__init__(self, self.frame, **kwargs)
         BaseWidgetMixin.__init__(self)
         ItemEventProcessorMixin.__init__(self)
         
+        self.vbar = Scrollbar(self.frame)
+        kwargs.update({"yscrollcommand": self.vbar.set})
+
+        self.vbar.pack(side=tk.RIGHT, fill=tk.Y)
         self.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         self.vbar['command'] = self.yview
 

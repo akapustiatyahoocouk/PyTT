@@ -9,6 +9,7 @@ from .OpenWorkspaceAction import OpenWorkspaceAction
 from .CloseWorkspaceAction import CloseWorkspaceAction
 from .DestroyWorkspaceAction import DestroyWorkspaceAction
 from .ExitAction import ExitAction
+from .ManageUsersAction import ManageUsersAction
 from .PreferencesAction import PreferencesAction
 from .AboutAction import AboutAction
 from gui.implementation.views.ViewType import ViewType
@@ -27,6 +28,7 @@ class ActionSet:
         self.__close_workspace = CloseWorkspaceAction()
         self.__destroy_workspace = DestroyWorkspaceAction()
         self.__exit = ExitAction()
+        self.__manage_users = ManageUsersAction()
         self.__preferences = PreferencesAction()
         self.__about = AboutAction()
 
@@ -56,6 +58,11 @@ class ActionSet:
     def exit(self) -> ExitAction:
         """ The "Exit PyTT" action. """
         return self.__exit
+
+    @property
+    def manage_users(self) -> ManageUsersAction:
+        """ The "Manage users" action. """
+        return self.__manage_users
 
     @property
     def preferences(self) -> PreferencesAction:

@@ -89,6 +89,8 @@ class UsersView(View):
         CurrentWorkspace.add_property_change_listener(self.__on_workspace_changed)
         Locale.add_property_change_listener(self.__on_locale_changed)
         #   TODO current credentials change
+        if CurrentWorkspace.get():
+            CurrentWorkspace.get().add_notification_listener(self.__on_current_workspace_modified)
 
     ##########
     #   Refreshable
@@ -261,11 +263,17 @@ class UsersView(View):
     #   Event listeners
     def __on_workspace_changed(self, evt) -> None:
         assert isinstance(evt, PropertyChangeEvent)
+        if CurrentWorkspace.get() is not None:
+            CurrentWorkspace.get().add_notification_listener(self.__on_current_workspace_modified)
         self.request_refresh()
 
     def __on_locale_changed(self, evt) -> None:
         assert isinstance(evt, PropertyChangeEvent)
         self.__apply_default_locale()
+        self.request_refresh()
+
+    def __on_current_workspace_modified(self, evt: WorkspaceNotification) -> None:
+        assert isinstance(evt, WorkspaceNotification)
         self.request_refresh()
 
     def __users_tree_view_listener(self, evt: ItemEvent) -> None:

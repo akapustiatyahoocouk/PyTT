@@ -11,6 +11,7 @@ from gui.implementation.actions.CloseWorkspaceAction import *
 from gui.implementation.actions.CreateWorkspaceAction import *
 from gui.implementation.actions.DestroyWorkspaceAction import *
 from gui.implementation.actions.ExitAction import *
+from gui.implementation.actions.ManageUsersAction import *
 from gui.implementation.actions.OpenWorkspaceAction import *
 
 from gui.implementation.dialogs.AboutDialog import *
@@ -22,6 +23,7 @@ from gui.implementation.dialogs.DestroyUserDialog import *
 from gui.implementation.dialogs.LanguagesDialog import *
 from gui.implementation.dialogs.LicenseDialog import *
 from gui.implementation.dialogs.LoginDialog import *
+from gui.implementation.dialogs.ManageUsersDialog import *
 from gui.implementation.dialogs.ModifyAccountDialog import *
 from gui.implementation.dialogs.ModifyUserDialog import *
 from gui.implementation.dialogs.OpenWorkspaceDialog import *

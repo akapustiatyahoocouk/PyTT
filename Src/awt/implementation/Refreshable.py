@@ -63,6 +63,8 @@ class Refreshable:
 
     @staticmethod
     def __do_refresh(refresh_root) -> Any:
+        if not refresh_root.winfo_exists():
+            return  #   TODO call after_cancel(...) to clean up after_idle handlers for dead windows
         if isinstance(refresh_root, Refreshable):
             if not refresh_root._Refreshable__refresh_underway:
                 refresh_root._Refreshable__refresh_underway = True

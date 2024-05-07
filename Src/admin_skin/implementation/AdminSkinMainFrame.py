@@ -40,6 +40,7 @@ class AdminSkinMainFrame(Frame,
         self.__file_menu.items.add(self.__action_set.exit)
 
         self.__manage_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "ManageMenu")
+        self.__manage_menu .items.add(self.__action_set.manage_users)
 
         self.__view_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "ViewMenu")
 
@@ -87,10 +88,12 @@ class AdminSkinMainFrame(Frame,
         self.add_widget_listener(self)
 
         self.__views_tabbed_pane.add_property_change_listener(self.__views_tabbed_pane_selection_changed)
-        
+
         CurrentWorkspace.add_property_change_listener(self.__on_workspace_changed)
         Locale.add_property_change_listener(self.__on_locale_changed)
         #   TODO current credentials change
+        if CurrentWorkspace.get():
+            CurrentWorkspace.get().add_notification_listener(self.__on_current_workspace_modified)
 
         #   Done
         self.request_refresh()
@@ -158,7 +161,7 @@ class AdminSkinMainFrame(Frame,
 
     ##########
     #   Properties
-    @property    
+    @property
     def current_view(self) -> View:
         """ The View currently selected in this frame, or
             None if no view is currently selected. """
@@ -324,7 +327,7 @@ class AdminSkinMainFrame(Frame,
     def __views_tabbed_pane_selection_changed(self, evt: PropertyChangeEvent) -> None:
         assert isinstance(evt, PropertyChangeEvent)
         self.__save_active_views()
-        
+
     def __on_workspace_changed(self, evt) -> None:
         assert isinstance(evt, PropertyChangeEvent)
         self.__regenerate_dynamic_menus()
@@ -336,6 +339,7 @@ class AdminSkinMainFrame(Frame,
         else:
             #   Reopen all views
             self.__load_active_views()
+            CurrentWorkspace.get().add_notification_listener(self.__on_current_workspace_modified)
             pass
         self.request_refresh()
 
@@ -345,4 +349,8 @@ class AdminSkinMainFrame(Frame,
         #   TODO tab names of the self.__views_tabbed_pane must be
         #   localized, because they are actually display names of view types
         #   e.g. self.__views_tabbed_pane.tab(tabWidget, text = 'myNewText')
+        self.request_refresh()
+
+    def __on_current_workspace_modified(self, evt: WorkspaceNotification) -> None:
+        assert isinstance(evt, WorkspaceNotification)
         self.request_refresh()

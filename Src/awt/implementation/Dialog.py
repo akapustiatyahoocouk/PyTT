@@ -113,7 +113,8 @@ class Dialog(Window):
         self.center_in_parent()
         self.grab_set()
         self.transient(self.__parent)
-
+        self.focus()
+        
         self.__running_modal = True
         self.initial_focus.focus_force()
 
@@ -144,6 +145,7 @@ class Dialog(Window):
     def __find_first_focusable_widget(parent: tk.BaseWidget)  -> tk.BaseWidget:
         if parent.visible and parent.enabled and parent.focusable:
             return parent
+        #TODO kill off print("Children of " + str(parent) + " are " + str(parent.winfo_children()))
         for child in parent.winfo_children():
             ff = Dialog.__find_first_focusable_widget(child)
             if ff is not None:

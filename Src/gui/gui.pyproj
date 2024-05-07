@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="implementation\actions\CloseWorkspaceAction.py" />
     <Compile Include="implementation\actions\DestroyWorkspaceAction.py" />
+    <Compile Include="implementation\actions\ManageUsersAction.py" />
     <Compile Include="implementation\actions\PreferencesAction.py" />
     <Compile Include="implementation\actions\OpenWorkspaceAction.py" />
     <Compile Include="implementation\actions\CreateWorkspaceAction.py" />
@@ -49,6 +50,7 @@
     <Compile Include="implementation\dialogs\CreateAccountDialog.py" />
     <Compile Include="implementation\dialogs\DestroyAccountDialog.py" />
     <Compile Include="implementation\dialogs\DestroyUserDialog.py" />
+    <Compile Include="implementation\dialogs\ManageUsersDialog.py" />
     <Compile Include="implementation\dialogs\ModifyAccountDialog.py" />
     <Compile Include="implementation\dialogs\ModifyUserDialog.py" />
     <Compile Include="implementation\GuiSubsystems.py" />

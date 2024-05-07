@@ -19,3 +19,5 @@ class Scrollbar(ttk.Scrollbar, BaseWidgetMixin):
         ttk.Scrollbar.__init__(self, parent, **kwargs)
         BaseWidgetMixin.__init__(self)
 
+        self.focusable = False
+
