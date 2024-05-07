@@ -125,7 +125,8 @@ class ErrorDialog(Dialog):
         assert isinstance(evt, ItemEvent)
         self.__tabbed_pane.select(self.__list_box.selected_index)
 
-    def __on_save(self, evt = None) -> None:
+    def __on_save(self, evt: ActionEvent) -> None:
+        assert isinstance(evt, ActionEvent)
         MessageBox.show(self, "Save", "Not yet implemented", MessageBoxIcon.INFORMATION)
 
     def __on_ok(self, evt: ActionEvent) -> None:

@@ -117,7 +117,7 @@ class AdminSkinMainFrame(Frame,
 
         #   Action availability - dynamically created actions
         for open_view_action in self.__open_view_actions:
-            open_view_action.enabled = (workspace is not None)
+            open_view_action.enabled = workspace is not None
         selected_view_tab_name = self.__views_tabbed_pane.select()
         self.__close_current_view_action.enabled = ((workspace is not None) and
                                                     (selected_view_tab_name != ""))
@@ -186,6 +186,18 @@ class AdminSkinMainFrame(Frame,
         self.window_state = WindowState.WITHDRAWN
 
     def open_view(self, view_type: ViewType, save_active_views: bool) -> View:
+        """
+            Opens a view of the specified type in this main frame and
+            makes it a "current" view. If the view of the specified type
+            already exists, just makes it a "current" view,
+
+            @param view_type:
+                The required view type.
+            @param save_active_views:
+                True to save the new "active views" info, False to not save.
+            @return:
+                The opened/reused view of the specified type.
+        """
         assert isinstance(view_type, ViewType)
         assert isinstance(save_active_views, bool)
 
@@ -198,7 +210,11 @@ class AdminSkinMainFrame(Frame,
         #   ...otherwise create a new view...
         view = view_type.create_view(self.__views_tabbed_pane)
         self.__views.append(view)
-        self.__views_tabbed_pane.add(view, state="normal", text=view.type.display_name, image=view_type.small_image, compound=tk.LEFT)
+        self.__views_tabbed_pane.add(
+            view,
+            state="normal",
+            text=view.type.display_name,
+            image=view_type.small_image, compound=tk.LEFT)
         #   ...select it as "current"...
         self.__views_tabbed_pane.select(len(self.__views) - 1)
         #   ...save the new "list of active views"...
@@ -208,16 +224,18 @@ class AdminSkinMainFrame(Frame,
         return view
 
     def close_current_view(self) -> None:
+        """ Closes the "current" view in this frame (if there IS one,
+            otherwise has no effect). """
         selected_view_tab_name = self.__views_tabbed_pane.select()
         if selected_view_tab_name != "":
             selected_view_index = self.__views_tabbed_pane.index(selected_view_tab_name)
             item = self.__views[selected_view_index]
-            del(item)
+            del item
             self.__views.pop(selected_view_index)
             self.__views_tabbed_pane.forget(selected_view_index)
-        pass
 
     def close_all_views(self) -> None:
+        """ Closes all views currently open in this frame. """
         self.__close_all_active_views()
         self.__save_active_views()
         self.request_refresh()
@@ -273,7 +291,7 @@ class AdminSkinMainFrame(Frame,
     def __close_all_active_views(self) -> None:
         while len(self.__views) > 0:
             item = self.__views[0]
-            del(item)
+            del item
             self.__views.pop()
             self.__views_tabbed_pane.forget(0)
 
@@ -281,6 +299,7 @@ class AdminSkinMainFrame(Frame,
         self.__view_menu.items.clear()
 
         class ViewOpener(Action):
+            """ An agent that can open a view of a required type. """
             def __init__(self, main_frame, view_type):
                 Action.__init__(self,
                                 name=AdminSkinResources.string("Actions.OpenView.Name")
@@ -293,6 +312,7 @@ class AdminSkinMainFrame(Frame,
                 self.__main_frame.open_view(self.__view_type, save_active_views=True)
 
         class CloseCurrentViewAction(ResourceAwareAction):
+            """ An agent that can close the current view. """
             def __init__(self, main_frame):
                 ResourceAwareAction.__init__(self, AdminSkinResources.factory, "Actions.CloseCurrentView")
                 self.__main_frame = main_frame
@@ -300,6 +320,7 @@ class AdminSkinMainFrame(Frame,
                 self.__main_frame.close_current_view()
 
         class CloseAllViewsAction(ResourceAwareAction):
+            """ An agent that can close all views. """
             def __init__(self, main_frame):
                 ResourceAwareAction.__init__(self, AdminSkinResources.factory, "Actions.CloseAllViews")
                 self.__main_frame = main_frame
@@ -335,12 +356,10 @@ class AdminSkinMainFrame(Frame,
             #   TODO save active views info and close all views
             self.__save_active_views()
             self.__close_all_active_views()
-            pass
         else:
             #   Reopen all views
             self.__load_active_views()
             CurrentWorkspace.get().add_notification_listener(self.__on_current_workspace_modified)
-            pass
         self.request_refresh()
 
     def __on_locale_changed(self, evt) -> None:

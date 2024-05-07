@@ -34,14 +34,17 @@ class ComboBoxItem:
     #   Properties
     @property
     def text(self) -> str:
+        """ The text of this combo box item. """
         return self.__text
 
     @property
     def tag(self) -> Any:
+        """ The tag of this combo box item. """
         return self.__tag
 
     @property
     def combo_box(self) -> "ComboBox":
+        """ The combo box to which this item is bound;None if free. """
         return self.__combo_box
 
 class ComboBoxItems:
@@ -88,8 +91,6 @@ class ComboBoxItems:
             new_item._ComboBoxItem__combo_box = self.__combo_box
             self.__combo_box["values"] = (*self.__combo_box["values"], item)
             return new_item
-            #   Done assing a new ComboBoxItem
-            return node
         elif isinstance(item, ComboBoxItem):
             #   The item must NOT already be bound
             assert item.combo_box is None
@@ -116,6 +117,7 @@ class ComboBox(ttk.Combobox,
 
         #   Set up event handlers
         self.bind("<<ComboboxSelected>>", self.__on_tk_combobox_selected)
+
     ##########
     #   Properties
     @property
@@ -163,7 +165,7 @@ class ComboBox(ttk.Combobox,
                     self.process_item_event(ItemEvent(self, ItemEventType.ITEM_UNSELECTED))
                 if new_index is not None:
                     self.process_item_event(ItemEvent(self, ItemEventType.ITEM_SELECTED))
-        except:
+        except Exception:
             pass    #   Index out of range
 
     @property

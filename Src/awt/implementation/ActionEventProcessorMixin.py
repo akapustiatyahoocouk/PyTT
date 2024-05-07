@@ -71,7 +71,7 @@ class ActionEventProcessorMixin:
                     l.on_action(event)
                 else:
                     l(event)
-            except Exception as ex:
+            except Exception:
                 #   TODO log the exception
                 print(traceback.format_exc())
         return event.processed

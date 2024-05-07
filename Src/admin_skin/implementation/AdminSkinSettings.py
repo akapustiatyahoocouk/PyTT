@@ -75,9 +75,10 @@ class AdminSkinSettingsMeta(type):
         """ Set to True if the main frame is maximized, else to False. """
         assert isinstance(new_maximized, bool)
         cls.__impl.put_bool("main_frame_maximized", new_maximized)
-        
+
     @property
     def active_views(cls) -> List[ViewType]:
+        """ The ordered list of all "active" views. """
         result = []
         chunks = cls.__impl.get("active_views", "").split(",")
         for chunk in chunks:
@@ -85,7 +86,7 @@ class AdminSkinSettingsMeta(type):
             if view_type:
                 result.append(view_type)
         return result
-        
+
     @active_views.setter
     def active_views(cls, viev_types: List[ViewType]) -> None:
         assert isinstance(viev_types, list)
@@ -93,13 +94,13 @@ class AdminSkinSettingsMeta(type):
 
         ll = list(map(lambda vt: vt.mnemonic, viev_types))
         cls.__impl.put("active_views", ",".join(ll))
-        pass
 
     @property
     def current_view(cls) -> Optional[ViewType]:
+        """ The type of the "current" View, None if there is no "current" View. """
         mnemonic = cls.__impl.get("current_view", "")
         return ViewType.find(mnemonic)
-        
+
     @current_view.setter
     def current_view(cls, viev_type: ViewType) -> None:
         assert (viev_type is None) or isinstance(viev_type, ViewType)

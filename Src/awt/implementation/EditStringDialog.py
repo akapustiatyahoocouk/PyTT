@@ -103,7 +103,7 @@ class EditStringDialog(Dialog):
         if self.__validator is None:
             self.__ok_button.enabled = True
         else:
-            self.__ok_button.enabled = self.__validator(self.__value_text_field.text) == True
+            self.__ok_button.enabled = self.__validator(self.__value_text_field.text) is True
 
     ##########
     #   Properties
@@ -123,6 +123,7 @@ class EditStringDialog(Dialog):
     ##########
     #   Event listeners
     def __text_field_change_listener(self, evt: PropertyChangeEvent) -> None:
+        assert isinstance(evt, PropertyChangeEvent)
         self.request_refresh()
 
     def __on_ok(self, evt: ActionEvent) -> None:

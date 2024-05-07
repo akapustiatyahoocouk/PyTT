@@ -79,6 +79,6 @@ class ItemEventProcessorMixin:
                             l.on_item_state_changed(event)
                 else:
                     l(event)
-            except Exception as ex:
+            except Exception:
                 pass    #   TODO log the exception
         return event.processed

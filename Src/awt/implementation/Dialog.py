@@ -114,7 +114,7 @@ class Dialog(Window):
         self.grab_set()
         self.transient(self.__parent)
         self.focus()
-        
+
         self.__running_modal = True
         self.initial_focus.focus_force()
 

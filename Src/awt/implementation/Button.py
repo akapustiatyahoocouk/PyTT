@@ -56,7 +56,7 @@ class Button(ttk.Button,
             tk_text = action.name
             try:
                 tk_underline = action.name.lower().index(action.hotkey.lower())
-            except:
+            except Exception:
                 tk_underline = None
             tk_image = kwargs["image"] if "image" in kwargs else action.small_image
 
@@ -84,8 +84,9 @@ class Button(ttk.Button,
     #   Properties
     @property
     def text(self) -> str:
+        """ The dext the Busson displays. """
         return self.configure()["text"]
-    
+
     @text.setter
     def text(self, new_text: str) -> str:
         assert isinstance(new_text, str)
