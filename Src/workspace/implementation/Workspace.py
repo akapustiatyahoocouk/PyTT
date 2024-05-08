@@ -257,6 +257,19 @@ class Workspace:
         except Exception as ex:
             raise WorkspaceError.wrap(ex)
 
+    def get_public_activities(self, credentials: Credentials) -> Set[BusinessActivityType]:
+        assert isinstance(credentials, Credentials)
+
+        try:
+            result = set()
+            if self.get_capabilities(credentials) is not None:
+                #   The caller can see all public activities
+                for public_activity in self.__db.public_activities:
+                    result.add(self._get_business_proxy(public_activity))
+            return result
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
+
     ##########
     #   Operations (life cycle)
     def create_user(self,

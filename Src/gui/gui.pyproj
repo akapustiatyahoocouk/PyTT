@@ -68,6 +68,7 @@
     <Compile Include="implementation\misc\CurrentCredentials.py" />
     <Compile Include="implementation\misc\GuiSettings.py" />
     <Compile Include="implementation\views\ActivityTypesView.py" />
+    <Compile Include="implementation\views\PublicActivitiesView.py" />
     <Compile Include="implementation\views\PublicActivitiesViewType.py" />
     <Compile Include="implementation\views\UsersView.py" />
     <Compile Include="implementation\views\ActivityTypesViewType.py" />
@@ -98,6 +99,8 @@
     <Content Include="resources\images\actions\CreateAccountSmall.png" />
     <Content Include="resources\images\actions\CreateActivityTypeLarge.png" />
     <Content Include="resources\images\actions\CreateActivityTypeSmall.png" />
+    <Content Include="resources\images\actions\CreatePublicActivityLarge.png" />
+    <Content Include="resources\images\actions\CreatePublicActivitySmall.png" />
     <Content Include="resources\images\actions\CreateUserLarge.png" />
     <Content Include="resources\images\actions\CreateUserSmall.png" />
     <Content Include="resources\images\actions\CreateWorkspaceLarge.png" />
@@ -106,6 +109,8 @@
     <Content Include="resources\images\actions\DestroyAccountSmall.png" />
     <Content Include="resources\images\actions\DestroyActivityTypeLarge.png" />
     <Content Include="resources\images\actions\DestroyActivityTypeSmall.png" />
+    <Content Include="resources\images\actions\DestroyPublicActivityLarge.png" />
+    <Content Include="resources\images\actions\DestroyPublicActivitySmall.png" />
     <Content Include="resources\images\actions\DestroyUserLarge.png" />
     <Content Include="resources\images\actions\DestroyUserSmall.png" />
     <Content Include="resources\images\actions\DestroyWorkspaceLarge.png" />
@@ -118,6 +123,8 @@
     <Content Include="resources\images\actions\ModifyActivityTypeSmall.png" />
     <Content Include="resources\images\actions\ModifyEmailAddressLarge.png" />
     <Content Include="resources\images\actions\ModifyEmailAddressSmall.png" />
+    <Content Include="resources\images\actions\ModifyPublicActivityLarge.png" />
+    <Content Include="resources\images\actions\ModifyPublicActivitySmall.png" />
     <Content Include="resources\images\actions\ModifyUserLarge.png" />
     <Content Include="resources\images\actions\ModifyUserSmall.png" />
     <Content Include="resources\images\actions\OkLarge.png" />

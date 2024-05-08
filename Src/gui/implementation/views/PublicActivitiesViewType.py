@@ -22,7 +22,7 @@ class PublicActivitiesViewType(ViewType):
     __instance : ViewType = None
 
     def __init__(self):
-        assert PublicActivitsViewType.__instance_acquisition_in_progress, "Use PublicActivitsViewType.instance() instead"
+        assert PublicActivitiesViewType.__instance_acquisition_in_progress, "Use PublicActivitiesViewType.instance() instead"
         ViewType.__init__(self)
 
     @staticproperty
@@ -34,11 +34,11 @@ class PublicActivitiesViewType(ViewType):
             @return:
                 The one and only instance of this class.
         """
-        if PublicActivitsViewType.__instance is None:
-            PublicActivitsViewType.__instance_acquisition_in_progress = True
-            PublicActivitsViewType.__instance = PublicActivitsViewType()
-            PublicActivitsViewType.__instance_acquisition_in_progress = False
-        return PublicActivitsViewType.__instance
+        if PublicActivitiesViewType.__instance is None:
+            PublicActivitiesViewType.__instance_acquisition_in_progress = True
+            PublicActivitiesViewType.__instance = PublicActivitiesViewType()
+            PublicActivitiesViewType.__instance_acquisition_in_progress = False
+        return PublicActivitiesViewType.__instance
 
     ##########
     #   ViewType - Properties
@@ -48,15 +48,15 @@ class PublicActivitiesViewType(ViewType):
 
     @property
     def display_name(self) -> str:
-        return GuiResources.string("PublicActivitsViewType.DisplayName")
+        return GuiResources.string("PublicActivitiesViewType.DisplayName")
 
     @property
     def small_image(self) -> tk.PhotoImage:
-        return GuiResources.image("PublicActivitsViewType.SmallImage")
+        return GuiResources.image("PublicActivitiesViewType.SmallImage")
 
     @property
     def large_image(self) -> tk.PhotoImage:
-        return GuiResources.image("PublicActivitsViewType.LargeImage")
+        return GuiResources.image("PublicActivitiesViewType.LargeImage")
 
     ##########
     #   Operations

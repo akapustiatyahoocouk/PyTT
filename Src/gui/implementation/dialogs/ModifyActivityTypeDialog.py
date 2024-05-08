@@ -50,6 +50,8 @@ class ModifyActivityTypeDialog(Dialog):
             @param credentials:
                 The credentials to use for workspace access; None == use
                 the CurrentCredentials.
+            @raise WorkspaceError:
+                If a workspace access error occurs.
         """
         Dialog.__init__(self,
                         parent,
