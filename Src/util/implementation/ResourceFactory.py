@@ -29,7 +29,7 @@ class ResourceFactory(ABC):
     ##########
     #   Operations
     @abstractmethod
-    def get_resource_type(self, key: str, locale: Locale = Locale.default) -> ResourceType:
+    def get_resource_type(self, key: str, locale: Optional[Locale] = None) -> ResourceType:
         """
             Returns the type of the specified resource.
             It this cannot be done, attempts to do the same for the parent

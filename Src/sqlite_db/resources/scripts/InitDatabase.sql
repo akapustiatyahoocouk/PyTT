@@ -52,3 +52,34 @@ CREATE TABLE [activity_types]
     --- Foreign keys
     FOREIGN KEY([pk]) REFERENCES [objects]([pk])
 );
+
+CREATE TABLE [activities]
+(
+    [pk] INTEGER NOT NULL PRIMARY KEY,
+    [name] VARCHAR(128) NOT NULL UNIQUE,
+    [description] TEXT NOT NULL,
+    [timeout]  INTEGER,                             --  in minutes; NULL == none
+    [require_comment_on_start] CHAR(1) NOT NULL,    --  "Y" or "N"
+    [require_comment_on_finish] CHAR(1) NOT NULL,   --  "Y" or "N"
+    [full_screen_reminder] CHAR(1) NOT NULL,        --  "Y" or "N"
+    [fk_activity_type] INTEGER,                     --  NULL == no link
+    --- Foreign keys
+    FOREIGN KEY([pk]) REFERENCES [objects]([pk]),
+    FOREIGN KEY([fk_activity_type]) REFERENCES [activity_types]([pk])
+);
+
+CREATE TABLE [public_activities]
+(
+    [pk] INTEGER NOT NULL PRIMARY KEY,
+    --- Foreign keys
+    FOREIGN KEY([pk]) REFERENCES [activities]([pk])
+);
+
+CREATE TABLE [private_activities]
+(
+    [pk] INTEGER NOT NULL PRIMARY KEY,
+    [fk_owner] INTEGER,
+    --- Foreign keys
+    FOREIGN KEY([pk]) REFERENCES [activities]([pk]),
+    FOREIGN KEY([fk_owner]) REFERENCES [users]([pk])
+);

@@ -21,9 +21,11 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="implementation\BusinessActivity.py" />
     <Compile Include="implementation\BusinessObject.py" />
     <Compile Include="implementation\BusinessAccount.py" />
     <Compile Include="implementation\BusinessActivityType.py" />
+    <Compile Include="implementation\BusinessPublicActivity.py" />
     <Compile Include="implementation\Validator.py" />
     <Compile Include="implementation\Capabilities.py" />
     <Compile Include="implementation\BusinessUser.py" />
@@ -35,11 +37,17 @@
     <Compile Include="implementation\WorkspaceType.py" />
     <Compile Include="interface\api.py" />
     <Compile Include="implementation\Credentials.py" />
+    <Compile Include="resources\WorkspaceResources.py" />
     <Compile Include="__init__.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="interface\" />
     <Folder Include="implementation\" />
+    <Folder Include="resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="resources\Resources_ru.txt" />
+    <Content Include="resources\Resources.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

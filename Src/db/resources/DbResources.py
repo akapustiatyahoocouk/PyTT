@@ -33,9 +33,9 @@ class DbResources(ClassWithConstants):
     ##########
     #   Operations
     @staticmethod
-    def string(key: str, locale: Locale = Locale.default) -> str:
+    def string(key: str, locale: Optional[Locale] = None) -> str:
         return DbResources.__impl.get_string(key, locale)
 
     @staticmethod
-    def image(key: str, locale: Locale = Locale.default) -> tk.PhotoImage:
+    def image(key: str, locale: Optional[Locale] = None) -> tk.PhotoImage:
         return DbResources.__impl.get_image(key, locale)

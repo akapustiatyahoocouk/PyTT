@@ -66,10 +66,12 @@ class FileResourceFactory(ResourceFactory):
 
     ##########
     #   ResourceFactory - Operations
-    def get_resource_type(self, key: str, locale: Locale = Locale.default) -> ResourceType:
+    def get_resource_type(self, key: str, locale: Optional[Locale] = None) -> ResourceType:
         assert isinstance(key, str)
-        assert isinstance(locale, Locale)
+        assert (locale is None) or isinstance(locale, Locale)
 
+        if locale is None:
+            locale = Locale.default
         while True:
             resource_bundle = self.__resource_bundles.get(locale, None)
             if resource_bundle is not None:
@@ -82,7 +84,7 @@ class FileResourceFactory(ResourceFactory):
                 return ResourceType.NONE
             locale = locale.parent
 
-    def get_resource(self, key: str, locale: Optional[Locale]) -> Any:
+    def get_resource(self, key: str, locale: Optional[Locale] = None) -> Any:
         assert isinstance(key, str)
         assert (locale is None) or isinstance(locale, Locale)
 

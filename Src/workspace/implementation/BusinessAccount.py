@@ -30,6 +30,7 @@ class BusinessAccount(BusinessObject):
     ##########
     #   Construction (internal only)
     def __init__(self, workspace: Workspace, data_object: dbapi.Account):
+        assert isinstance(data_object, dbapi.Account)
         BusinessObject.__init__(self, workspace, data_object)
     
     ##########
@@ -66,7 +67,7 @@ class BusinessAccount(BusinessObject):
             Checks whether this BusinessAccount is enabled or disabled.
             
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @return:
                 True if this BusinessAccount is enabled, False if disabled
             @raise WorkspaceError:
@@ -87,7 +88,7 @@ class BusinessAccount(BusinessObject):
             Enables of disables this BusinessAccount.
 
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @param new_enabled:
                 True to enable this BusinessAccount, False to disable.
             @raise WorkspaceError:
@@ -136,7 +137,7 @@ class BusinessAccount(BusinessObject):
             Returns the login of this BusinessAccount.
             
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @return:
                 The login of this BusinessAccount.
             @raise WorkspaceError:
@@ -157,7 +158,7 @@ class BusinessAccount(BusinessObject):
             Sets the login of this BusinessAccount.
 
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @param new_login:
                 The new login for this BusinessAccount.
             @raise WorkspaceError:
@@ -184,7 +185,7 @@ class BusinessAccount(BusinessObject):
             The returned value is a 40-character uppercase hex string.
 
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @return:
                 The SHA-1 hash of this BusinessAccount's password.
             @raise WorkspaceError:
@@ -205,7 +206,7 @@ class BusinessAccount(BusinessObject):
             Sets the password of this BusinessAccount.
 
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @param new_password:
                 The new password for this BusinessAccount.
             @raise WorkspaceError:
@@ -227,7 +228,7 @@ class BusinessAccount(BusinessObject):
             Returns the set of capabilities of this Account.
 
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @return:
                 The set of capabilities of this Account.
             @raise WorkspaceError:
@@ -248,7 +249,7 @@ class BusinessAccount(BusinessObject):
             Sets the capabilities of this BusinessAccount.
 
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @param new_capabilities:
                 The new set of capabilities for this BusinessAccount.
             @raise WorkspaceError:
@@ -274,7 +275,7 @@ class BusinessAccount(BusinessObject):
             Returns the list of e-mail addresses of this BusinessAccount.
             
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @return:
                 The list of e-mail addresses of this BusinessAccount;
                 never None or contains Nones, but can be empty.
@@ -296,7 +297,7 @@ class BusinessAccount(BusinessObject):
             Sets the e-mail addresses of this BusinessAccount.
 
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @param new_email_addresses:
                 The new list of e-mail addresses for this BusinessAccount;
                 cannot be None or contain Nones, but can be empty.
@@ -322,7 +323,7 @@ class BusinessAccount(BusinessObject):
             Returns the BusinessUser to which this BusinessAccounts belongs.
             
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @return:
                 The BusinessUser to which this BusinessAccounts belongs.
             @raise WorkspaceError:

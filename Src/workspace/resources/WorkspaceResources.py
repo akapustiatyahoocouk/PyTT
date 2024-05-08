@@ -1,4 +1,4 @@
-""" Resource definitions for "client" component. """
+""" Resource definitions for "workspace" component. """
 #   Python standard library
 from typing import final, Optional
 import os
@@ -11,14 +11,12 @@ from util.interface.api import *
 ##########
 #   Public entities
 @final
-class ClientResources(ClassWithConstants):
-    """ Resources provided by the "client" component. """
+class WorkspaceResources(ClassWithConstants):
+    """ Resources provided by the "db" component. """
 
     ##########
     #   Implementation
     __impl = FileResourceFactory(os.path.join(os.path.dirname(__file__), "Resources.txt"))
-
-    __icon_cache: dict[str, tk.PhotoImage] = {}
 
     ##########
     #   Construction - disable (this is an utility class)
@@ -30,14 +28,14 @@ class ClientResources(ClassWithConstants):
     @staticproperty
     def factory() -> ResourceFactory:
         """ The resource factory that provides the actual resources. """
-        return ClientResources.__impl
+        return WorkspaceResources.__impl
 
     ##########
     #   Operations
     @staticmethod
     def string(key: str, locale: Optional[Locale] = None) -> str:
-        return ClientResources.__impl.get_string(key, locale)
+        return WorkspaceResources.__impl.get_string(key, locale)
 
     @staticmethod
     def image(key: str, locale: Optional[Locale] = None) -> tk.PhotoImage:
-        return ClientResources.__impl.get_image(key, locale)
+        return WorkspaceResources.__impl.get_image(key, locale)

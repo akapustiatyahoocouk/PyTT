@@ -1,10 +1,14 @@
 ========== IMMEDIATE PIPELINE ======================================
+*   When an attempt is made to e.g. create two Accounts with the 
+    same login, or two ActivityTypes with the same name, the DB 
+    engine raises a very technical error message. For improved
+    usability use DatabaseObjectAlreadyExistsError and add
+    WorkspaceObjectAlreadyExistsError for the same situation.
+*   Need to localize messages of db/workspace exceptions (Errors)
+    using resources.
 *   When opening a database that was recently (or is now) in use,
     an error is reported (which is proper), but the Admin Skin
     Main Frame starts off with views (should start without views).
-*   locale: Locale = Locale.default doesn't work as a default value
-    for a function parameter!!! It must be resolved at function
-    run time!!!
 *   Try to avoid string-style type hints. For example, consider
     SqliteDatabaseType.instance -> "SqliteDatabaseType" as opposed
     to UsersViewType.instance -> ViewType.
@@ -16,28 +20,24 @@
 *   Merge LocalizableSubsystem into Subsystem, essentially making
     all Subsystems localizable.
 *   Make sure class constructors __init__(self,...) have proper
-    docstrings (for public constructors only!)
+    docstrings (for public/protected constructors only!) or a 
+    docstring "DO NOT USE DIRECTLY" for private constructors.
 *   Clicking on a TextField doesn't give it the keyboard focus.
     Fix this. TextArea does not seem to have this problem.
 *   Add readonly: bool property to TextField and TextArea, to be
     handled via the rd.WidgetRedirector()
 *   AWT shall handle FocusEvents and MouseEvents.
-*   Disabled widgets seem to still be focusable.
-    Do something about it.
 *   Change AdminSkinSettings to use a single property 
     main_frame_bounds: Rectangle instead of 4 deparate properties
     main_frame_x, main_frame_y, main_frame_width and 
     main_frame_height.
-*   Retire LocaleProvider + make Locale.default an observable
-    property (that generates a PropertyChangeEvent).
-    DONE, but needs testing. Requires the "Options/Language"
-    admin skin main frame item.
 *   For SqlDatabase handle the exceptions raised by 
     rollback_transaction properly - chaining, not replacing, the
     exceptions that caused rollback attempts in their handlers.
 *   Add context (right click) menu to awt TextField and other text
     entry fields, with Copy, Cut, Parse, etc. For disabled text
-    entry widgets only Copy shall work.
+    entry widgets only Copy shall work. For password entry fields
+    Copy/Cut must be disabled or absent.
 *   In FileResourceBundle the '\' at the end of the line shoube 
     be treated as a continuation line.
 *   In many places in code there is "pass". Check on these - usually
@@ -45,9 +45,6 @@
     exceptions as a red flag for debug runs, and log them too for
     post-mortem analysis.
 *   Change MenuItem's "label" property to "text".
-*   Create a new ActionMenuItem(MenuItem) class, for Action-based
-    MenuItems. They should REJECT attempts to set their propertes 
-    directly.
 *   Define class awt.GroupBox(tk.LabelFrame).
 
 ========== NEED TO DO EVENTUALLY ===================================
@@ -70,3 +67,6 @@
     etc.) should define classes for their contained items (e.g.
     ListBoxItem for ListBox, TreeNode for TreeView, TabPage for
     TabbedPane, etc.) and use them.
+*   Create a new ActionMenuItem(MenuItem) class, for Action-based
+    MenuItems. They should REJECT attempts to set their propertes 
+    directly.

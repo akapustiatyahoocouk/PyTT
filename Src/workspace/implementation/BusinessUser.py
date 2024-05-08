@@ -29,6 +29,7 @@ class BusinessUser(BusinessObject):
     ##########
     #   Construction (internal only)
     def __init__(self, workspace: "Workspace", data_object: dbapi.User):
+        assert isinstance(data_object, dbapi.User)
         BusinessObject.__init__(self, workspace, data_object)
 
     ##########
@@ -97,7 +98,7 @@ class BusinessUser(BusinessObject):
             Checks whether this BusinessUser is enabled or disabled.
 
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @return:
                 True if this BusinessUser is enabled, False if disabled
             @raise WorkspaceError:
@@ -118,7 +119,7 @@ class BusinessUser(BusinessObject):
             Enables of disables this BusinessUser.
 
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @param new_enabled:
                 True to enable this BusinessUser, False to disable.
             @raise WorkspaceError:
@@ -164,7 +165,7 @@ class BusinessUser(BusinessObject):
             Returns the "real name" of this BusinessUser.
 
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @return:
                 The "real name" of this BusinessUser.
             @raise WorkspaceError:
@@ -185,7 +186,7 @@ class BusinessUser(BusinessObject):
             Sets the "real name" of this BusinessUser.
 
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @param new_real_name:
                 The new "real name" for this BusinessUser.
             @raise WorkspaceError:
@@ -211,7 +212,7 @@ class BusinessUser(BusinessObject):
             that period of time, the Activity ends automatically.
 
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @return:
                 The inactivity timeout of this BusinessUser, expressed
                 in minutes, or None if this user has no inactivity
@@ -238,7 +239,7 @@ class BusinessUser(BusinessObject):
             that period of time, the Activity ends automatically.
 
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @param new_inactivity_timeout:
                 The new "inactivity timeout" for this BusinessUser,
                 expressed in minutes, or None to remove the
@@ -262,7 +263,7 @@ class BusinessUser(BusinessObject):
             Returns the preferred UI locale of this BusinessUser.
 
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @return:
                 The preferred UI locale of this BusinessUser, or None if
                 this user has no preferred UI locale (and will be
@@ -285,7 +286,7 @@ class BusinessUser(BusinessObject):
             Sets the preferred UI locale of this BusinessUser.
 
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @param new_ui_locale:
                 The new preferred UI locale for this BusinessUser, or
                 None to remove the preferred UI locale from this
@@ -310,7 +311,7 @@ class BusinessUser(BusinessObject):
             Returns the list of e-mail addresses of this BusinessUser.
 
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @return:
                 The list of e-mail addresses of this BusinessUser;
                 never None or contains Nones, but can be empty.
@@ -332,7 +333,7 @@ class BusinessUser(BusinessObject):
             Sets the e-mail addresses of this BusinessUser.
 
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @param new_email_addresses:
                 The new list of e-mail addresses for this BusinessUser;
                 cannot be None or contain Nones, but can be empty.
@@ -358,7 +359,7 @@ class BusinessUser(BusinessObject):
             Returns the set of all BusinessAccounts of this BusinessUser.
 
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @return:
                 The set of all BusinessAccounts of this BusinessUser.
             @raise WorkspaceError:
@@ -399,7 +400,7 @@ class BusinessUser(BusinessObject):
             Creates a new BusinessAccount for this BusinessUser.
 
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @param enabled:
                 True to create an initially enabled BusinessAccount, False
                 to create an initially disabled BusinessAccount.

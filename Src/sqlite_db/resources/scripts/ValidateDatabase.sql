@@ -18,3 +18,8 @@ SELECT [pk], [enabled], [login], [password_hash],
        [email_addresses],
        [fk_user] FROM [accounts];
 SELECT [pk], [name], [description] FROM [users];
+SELECT [pk], [name], [description], [timeout],
+       [require_comment_on_start], [require_comment_on_finish], 
+       [full_screen_reminder], [fk_activity_type] FROM [activities];
+SELECT [pk] FROM [public_activities];
+SELECT [pk], [fk_owner] FROM [private_activities];

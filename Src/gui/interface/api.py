@@ -41,6 +41,8 @@ from gui.implementation.skins.ActiveSkin import *
 
 from gui.implementation.views.ActivityTypesView import *
 from gui.implementation.views.ActivityTypesViewType import *
+from gui.implementation.views.PublicActivitiesView import *
+from gui.implementation.views.PublicActivitiesViewType import *
 from gui.implementation.views.UsersView import *
 from gui.implementation.views.UsersViewType import *
 from gui.implementation.views.View import *

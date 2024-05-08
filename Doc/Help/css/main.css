@@ -1,0 +1,16 @@
+﻿body
+{
+	background-color: black;
+	color: #00FF00;
+	line-height: 100%;
+	font-family: monospace;
+	font-size: 150%;
+	
+	background-image: url("../images/body_background.jpg");
+  	background-repeat: repeat;
+}
+
+p
+{
+}
+

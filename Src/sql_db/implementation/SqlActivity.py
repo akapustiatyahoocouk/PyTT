@@ -12,55 +12,26 @@ from .SqlDataType import SqlDataType
 
 ##########
 #   Public entities
-class SqlActivityType(SqlDatabaseObject, ActivityType):
-    """ An activity type residing in an SQL database. """
+class SqlActivity(SqlDatabaseObject, Activity):
+    """ An activity residing in an SQL database. """
 
     ##########
     #   Construction - internal only
     def __init__(self, db: SqlDatabase, oid: OID):
         SqlDatabaseObject.__init__(self, db, oid)
-        ActivityType.__init__(self)
+        Activity.__init__(self)
 
         #   Property cache
         self._name = None
         self._description = None
+        self._timeout = None
+        self._require_comment_on_start = None
+        self._require_comment_on_finish = None
+        self._full_screen_reminder = None
+        self._fk_activity_type = None
 
     ##########
-    #   DatabaseObject - Operations (life cycle)
-    def destroy(self) -> None:
-        self._ensure_live()
-
-        #   TODO Dis-associate from Activities, making these typeless
-        #   Destroy the ActivityType
-        try:
-            self.database.begin_transaction();
-
-            stat1 = self.database.create_statement(
-                """DELETE FROM [activity_types] WHERE [pk] = ?""");
-            stat1.set_int_parameter(0, self.oid)
-            stat1.execute()
-
-            stat2 = self.database.create_statement(
-                """DELETE FROM [objects] WHERE [pk] = ?""");
-            stat2.set_int_parameter(0, self.oid)
-            stat2.execute()
-
-            self.database.commit_transaction()
-            self._mark_dead()
-
-            #   Issue notifications
-            self.database.enqueue_notification(
-                DatabaseObjectDestroyedNotification(
-                    self.database,
-                    self))
-
-            #   Done
-        except Exception as ex:
-            self.database.rollback_transaction()
-            raise DatabaseError.wrap(ex)
-
-    ##########
-    #   ActivityType - Properties
+    #   Activity - Properties
     @property
     def name(self) -> str:
         self._ensure_live()
@@ -74,13 +45,13 @@ class SqlActivityType(SqlDatabaseObject, ActivityType):
         assert isinstance(new_name, str)
 
         #   Validate parameters TODO everywhere!!!
-        if not self.database.validator.activity_type.is_valid_name(new_name):
-            raise InvalidDatabaseObjectPropertyError(ActivityType.TYPE_NAME, ActivityType.NAME_PROPERTY_NAME, new_name)
+        if not self.database.validator.activity.is_valid_name(new_name):
+            raise InvalidDatabaseObjectPropertyError(Activity.TYPE_NAME, Activity.NAME_PROPERTY_NAME, new_name)
 
         #   Make database changes
         try:
             stat = self.database.create_statement(
-                """UPDATE [activity_types] SET [name] = ? WHERE [pk] = ?""")
+                """UPDATE [activities] SET [name] = ? WHERE [pk] = ?""")
             stat.set_string_parameter(0, new_name)
             stat.set_int_parameter(1, self.oid)
             row_count = stat.execute()
@@ -88,14 +59,14 @@ class SqlActivityType(SqlDatabaseObject, ActivityType):
             if row_count == 0:
                 #   OOPS! The database row does not exist!
                 self._mark_dead()
-                raise DatabaseObjectDeadError(ActivityType.TYPE_NAME)
+                raise DatabaseObjectDeadError(Activity.TYPE_NAME)
             self._name = new_name
             #   Issue notifications
             self.database.enqueue_notification(
                 DatabaseObjectModifiedNotification(
                     self.database,
                     self,
-                    ActivityType.NAME_PROPERTY_NAME))
+                    Activity.NAME_PROPERTY_NAME))
         except Exception as ex:
             raise DatabaseError.wrap(ex)
 
@@ -112,13 +83,13 @@ class SqlActivityType(SqlDatabaseObject, ActivityType):
         assert isinstance(new_description, str)
 
         #   Validate parameters TODO everywhere!!!
-        if not self.database.validator.activity_type.is_valid_description(new_description):
-            raise InvalidDatabaseObjectPropertyError(ActivityType.TYPE_NAME, ActivityType.DESCRIPTION_PROPERTY_NAME, new_description)
+        if not self.database.validator.activity.is_valid_description(new_description):
+            raise InvalidDatabaseObjectPropertyError(Activity.TYPE_NAME, Activity.DESCRIPTION_PROPERTY_NAME, new_description)
 
         #   Make database changes
         try:
             stat = self.database.create_statement(
-                """UPDATE [activity_types] SET [description] = ? WHERE [pk] = ?""")
+                """UPDATE [activities] SET [description] = ? WHERE [pk] = ?""")
             stat.set_string_parameter(0, new_description)
             stat.set_int_parameter(1, self.oid)
             row_count = stat.execute()
@@ -126,21 +97,21 @@ class SqlActivityType(SqlDatabaseObject, ActivityType):
             if row_count == 0:
                 #   OOPS! The database row does not exist!
                 self._mark_dead()
-                raise DatabaseObjectDeadError(ActivityType.TYPE_NAME)
+                raise DatabaseObjectDeadError(Activity.TYPE_NAME)
             self._description = new_description
             #   Issue notifications
             self.database.enqueue_notification(
                 DatabaseObjectModifiedNotification(
                     self.database,
                     self,
-                    ActivityType.DESCRIPTION_PROPERTY_NAME))
+                    Activity.DESCRIPTION_PROPERTY_NAME))
         except Exception as ex:
             raise DatabaseError.wrap(ex)
 
     ##########
-    #   ActivityType - Associations
+    #   Activity - Associations
     @property
-    def activities(self) -> Set[Activity]:
+    def activity_type(self) -> Optional[ActivityType]:
         self._ensure_live()
 
         try:
@@ -158,20 +129,3 @@ class SqlActivityType(SqlDatabaseObject, ActivityType):
 
     ##########
     #   Property cache support
-    def _reload_property_cache(self) -> None:
-        try:
-            stat = self.database.create_statement(
-                """SELECT * FROM [activity_types] WHERE [pk] = ?""");
-            stat.set_int_parameter(0, self.oid)
-            rs = stat.execute()
-            assert len(rs) <= 1
-            if len(rs) == 0:
-                #   OOPS! The record is not in the database!
-                self._mark_dead()
-                raise DatabaseObjectDeadError(User.TYPE_NAME)
-            r = rs[0]
-            self._name = r["name", SqlDataType.STRING]
-            self._description = r["description", SqlDataType.STRING]
-        except Exception as ex:
-            raise DatabaseError.wrap(ex)
-

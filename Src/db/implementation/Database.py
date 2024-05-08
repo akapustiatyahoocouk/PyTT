@@ -130,17 +130,28 @@ class Database(ABC):
     def users(self) -> Set["User"]:
         """
             The unordered set of all Users in this Database.
-            
+
             @raise DatabaseError:
                 If an error occurs.
         """
         raise NotImplementedError()
-            
+
     @abstractproperty
     def activity_types(self) -> Set["ActivityType"]:
         """
             The unordered set of all ActivityTypes in this Database.
-            
+
+            @raise DatabaseError:
+                If an error occurs.
+        """
+        raise NotImplementedError()
+
+    @abstractproperty
+    def public_activities(self) -> Set["PublicActivity"]:
+        """
+            The unordered set of all PublicActivities in this Database
+            which are not also PublicTasks (i.e. no inheritance).
+
             @raise DatabaseError:
                 If an error occurs.
         """
@@ -272,11 +283,11 @@ class Database(ABC):
 
     def enqueue_notification(self, n: DatabaseNotification) -> None:
         """
-            Enqueues a DatabaseNotification to be processed as 
+            Enqueues a DatabaseNotification to be processed as
             soon as practicable by the hidden notification thread.
 
             IMPORTANT: This method is thread-safe.
-            
+
             @param n:
                 The notification to enqueue.
         """

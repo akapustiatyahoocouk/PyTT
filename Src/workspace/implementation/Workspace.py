@@ -146,6 +146,24 @@ class Workspace:
             return False
         return capabilities.contains_any(Capabilities.ADMINISTRATOR, Capabilities.MANAGE_STOCK_ITEMS)
 
+    def can_manage_public_activities(self, credentials: Credentials) -> bool:
+        self._ensure_open() # may raise WorkspaceError
+        assert isinstance(credentials, Credentials)
+
+        capabilities = self.get_capabilities(credentials)   # may raise WorkspaceError
+        if capabilities is None:
+            return False
+        return capabilities.contains_any(Capabilities.ADMINISTRATOR, Capabilities.MANAGE_PUBLIC_ACTIVITIES)
+
+    def can_manage_private_activities(self, credentials: Credentials) -> bool:
+        self._ensure_open() # may raise WorkspaceError
+        assert isinstance(credentials, Credentials)
+
+        capabilities = self.get_capabilities(credentials)   # may raise WorkspaceError
+        if capabilities is None:
+            return False
+        return capabilities.contains_any(Capabilities.ADMINISTRATOR, Capabilities.MANAGE_PRIVATE_ACTIVITIES)
+
     ##########
     #   Operations (associations)
     def try_login(self, login: Optional[str], password: Optional[str],
@@ -419,6 +437,10 @@ class Workspace:
                 business_object = BusinessAccount(self, data_object)
             elif isinstance(data_object, dbapi.ActivityType):
                 business_object = BusinessActivityType(self, data_object)
+            #   TODO PublicTask, PrivateTask IN THIS PLACE
+            elif isinstance(data_object, dbapi.PublicActivity):
+                business_object = BusinessPublicActivity(self, data_object)
+            #   TODO PrivateActivity IN THIS PLACE
             else:
                 raise NotImplementedError()
             self.__map_data_objects_to_business_objects[data_object] = business_object

@@ -33,9 +33,9 @@ class AdminSkinResources(ClassWithConstants):
     ##########
     #   Operations
     @staticmethod
-    def string(key: str, locale: Locale = Locale.default) -> str:
+    def string(key: str, locale: Optional[Locale] = None) -> str:
         """
-            Retyurns a string resource from the underlying resource factory.
+            Returns a string resource from the underlying resource factory.
             
             @param key:
                 The resource key.
@@ -51,7 +51,7 @@ class AdminSkinResources(ClassWithConstants):
         return AdminSkinResources.__impl.get_string(key, locale)
 
     @staticmethod
-    def image(key: str, locale: Locale = Locale.default) -> tk.PhotoImage:
+    def image(key: str, locale: Optional[Locale] = None) -> tk.PhotoImage:
         """
             Retyurns an image resource from the underlying resource factory.
             

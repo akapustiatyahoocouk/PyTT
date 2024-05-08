@@ -25,6 +25,7 @@ class BusinessActivityType(BusinessObject):
     ##########
     #   Construction (internal only)
     def __init__(self, workspace: "Workspace", data_object: dbapi.ActivityType):
+        assert isinstance(data_object, dbapi.ActivityType)
         BusinessObject.__init__(self, workspace, data_object)
 
     ##########
@@ -54,7 +55,7 @@ class BusinessActivityType(BusinessObject):
             Returns the "name" of this BusinessActivityType.
 
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @return:
                 The "name" of this BusinessActivityType.
             @raise WorkspaceError:
@@ -75,7 +76,7 @@ class BusinessActivityType(BusinessObject):
             Sets the "name" of this BusinessActivityType.
 
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @param new_name:
                 The new "name" for this BusinessActivityType.
             @raise WorkspaceError:
@@ -97,7 +98,7 @@ class BusinessActivityType(BusinessObject):
             Returns the "description" of this BusinessActivityType.
 
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @return:
                 The "description" of this BusinessActivityType.
             @raise WorkspaceError:
@@ -118,7 +119,7 @@ class BusinessActivityType(BusinessObject):
             Sets the "description" of this BusinessActivityType.
 
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @param new_description:
                 The new "description" for this BusinessActivityType.
             @raise WorkspaceError:
@@ -142,7 +143,7 @@ class BusinessActivityType(BusinessObject):
             Returns the set of all BusinessActivities assigned this BusinessActivityType.
 
             @param credentials:
-                The credentials of the servie caller.
+                The credentials of the service caller.
             @return:
                 The set of all BusinessActivities assigned this BusinessActivityType.
             @raise WorkspaceError:

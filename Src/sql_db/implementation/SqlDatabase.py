@@ -87,6 +87,35 @@ class SqlDatabase(Database):
         except Exception as ex:
             raise DatabaseError.wrap(ex)
 
+    @property
+    def public_activities(self) -> Set[PublicActivity]:
+        self._ensure_open() # may raise DatabaseError
+
+        try:
+            stat = self.create_statement(" SELECT [pk] FROM [objects] WHERE [object_type_name] = ?")
+            stat.set_string_parameter(0, Activity.TYPE_NAME)
+            rs = stat.execute()
+            result = set()
+            for r in rs:
+                result.add(self._get_public_activity_proxy(r["pk"]))
+            return result
+        except Exception as ex:
+            raise DatabaseError.wrap(ex)
+
+    @property
+    def public_activities(self) -> Set[PublicActivity]:
+        self._ensure_open() # may raise DatabaseError
+
+        try:
+            stat = self.create_statement(" SELECT [pk] FROM [public_activities]")
+            rs = stat.execute()
+            result = set()
+            for r in rs:
+                result.add(self._get_public_activity_proxy(r["pk"]))
+            return result
+        except Exception as ex:
+            raise DatabaseError.wrap(ex)
+
     ##########
     #   Overridables (database engine - specific)
     @property
@@ -471,3 +500,10 @@ class SqlDatabase(Database):
         if isinstance(obj, SqlActivityType):
             return obj
         return SqlActivityType(self, oid)
+
+    def _get_public_activity_proxy(self, oid: OID) -> User:
+        from .SqlPublicActivity import SqlPublicActivity
+        obj = self.__objects.get(oid, None)
+        if isinstance(obj, SqlPublicActivity):
+            return obj
+        return SqlPublicActivity(self, oid)

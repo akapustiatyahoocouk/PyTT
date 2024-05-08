@@ -11,6 +11,9 @@
 *.pyi    text diff=python
 
 *.txt    text diff=python
+*.html   text diff=python
+*.css    text diff=python
+*.js     text diff=python
 
 # Binary files
 # ============

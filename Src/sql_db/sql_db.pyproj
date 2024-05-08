@@ -21,6 +21,8 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="implementation\SqlActivity.py" />
+    <Compile Include="implementation\SqlPublicActivity.py" />
     <Compile Include="implementation\SqlDatabase.py" />
     <Compile Include="implementation\SqlAccount.py" />
     <Compile Include="implementation\SqlRecord.py" />

@@ -34,7 +34,7 @@ class AwtResources(ClassWithConstants):
     ##########
     #   Operations
     @staticmethod
-    def string(key: str, locale: Locale = Locale.default) -> str:
+    def string(key: str, locale: Optional[Locale] = None) -> str:
         """
             Retrieves the specified string resource for the specified locale.
             It this cannot be done, attempts to do the same for the parent
@@ -54,7 +54,7 @@ class AwtResources(ClassWithConstants):
         return AwtResources.__impl.get_string(key, locale)
 
     @staticmethod
-    def image(key: str, locale: Locale = Locale.default) -> tk.PhotoImage:
+    def image(key: str, locale: Optional[Locale] = None) -> tk.PhotoImage:
         """
             Retrieves the specified image resource for the specified locale.
             It this cannot be done, attempts to do the same for the parent
