@@ -58,6 +58,7 @@
     <Compile Include="implementation\dialogs\DestroyUserDialog.py" />
     <Compile Include="implementation\dialogs\ManageUsersDialog.py" />
     <Compile Include="implementation\dialogs\ModifyAccountDialog.py" />
+    <Compile Include="implementation\dialogs\ModifyPublicActivityDialog.py" />
     <Compile Include="implementation\dialogs\ModifyUserDialog.py" />
     <Compile Include="implementation\dialogs\LanguagesDialog.py" />
     <Compile Include="implementation\dialogs\LicenseDialog.py" />

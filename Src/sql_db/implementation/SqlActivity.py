@@ -110,7 +110,10 @@ class SqlActivity(SqlDatabaseObject, Activity):
 
     @property
     def timeout(self) -> Optional[int]:
-        raise NotImplementedError()
+        self._ensure_live()
+
+        self._load_property_cache()
+        return self._timeout
 
     @timeout.setter
     def timeout(self, new_timeout: Optional[int]) -> None:
@@ -118,7 +121,10 @@ class SqlActivity(SqlDatabaseObject, Activity):
 
     @property
     def require_comment_on_start(self) -> bool:
-        raise NotImplementedError()
+        self._ensure_live()
+
+        self._load_property_cache()
+        return self._require_comment_on_start
 
     @require_comment_on_start.setter
     def require_comment_on_start(self, new_require_comment_on_start: bool) -> None:
@@ -126,7 +132,10 @@ class SqlActivity(SqlDatabaseObject, Activity):
 
     @property
     def require_comment_on_finish(self) -> bool:
-        raise NotImplementedError()
+        self._ensure_live()
+
+        self._load_property_cache()
+        return self._require_comment_on_finish
 
     @require_comment_on_finish.setter
     def require_comment_on_finish(self, new_require_comment_on_finish: bool) -> None:
@@ -134,7 +143,10 @@ class SqlActivity(SqlDatabaseObject, Activity):
 
     @property
     def full_screen_reminder(self) -> bool:
-        raise NotImplementedError()
+        self._ensure_live()
+
+        self._load_property_cache()
+        return self._full_screen_reminder
 
     @full_screen_reminder.setter
     def full_screen_reminder(self, new_full_screen_reminder: bool) -> None:
@@ -146,18 +158,10 @@ class SqlActivity(SqlDatabaseObject, Activity):
     def activity_type(self) -> Optional[ActivityType]:
         self._ensure_live()
 
-        try:
-            #stat = self.database.create_statement(
-            #    """SELECT [pk] FROM [accounts] WHERE [fk_user] = ?""")
-            #stat.set_int_parameter(0, self.oid)
-            #rs = stat.execute()
-            result = set()
-            #for r in rs:
-            #    result.add(self.database._get_account_proxy(r["pk"]))
-            raise NotImplementedError()
-            return result
-        except Exception as ex:
-            raise DatabaseError.wrap(ex)
+        self._load_property_cache()
+        if self._fk_activity_type is None:
+            return None
+        return self.database._get_activity_type_proxy(self._fk_activity_type)
 
     ##########
     #   Property cache support

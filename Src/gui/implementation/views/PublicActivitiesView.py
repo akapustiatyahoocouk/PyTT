@@ -13,6 +13,7 @@ from .View import View
 from ..misc.CurrentWorkspace import CurrentWorkspace
 from ..misc.CurrentCredentials import CurrentCredentials
 from ..dialogs.CreatePublicActivityDialog import *
+from ..dialogs.ModifyPublicActivityDialog import *
 from gui.resources.GuiResources import GuiResources
 
 ##########
@@ -196,15 +197,15 @@ class PublicActivitiesView(View):
 
     def __on_modify_public_activity_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)
-        #try:
-        #    public_activity = self.selected_public_activity
-        #    with ModifyActivityTypeDialog(self.winfo_toplevel(), public_activity) as dlg:
-        #        dlg.do_modal()
-        #    self.selected_public_activity = public_activity
-        #    self.__public_activities_tree_view.focus_set()
-        #    self.request_refresh()
-        #except Exception as ex: #   error in ModifyActivityTypeDialog constructor
-        #    ErrorDialog.show(None, ex)
+        try:
+            public_activity = self.selected_public_activity
+            with ModifyPublicActivityDialog(self.winfo_toplevel(), public_activity) as dlg:
+                dlg.do_modal()
+            self.selected_public_activity = public_activity
+            self.__public_activities_tree_view.focus_set()
+            self.request_refresh()
+        except Exception as ex: #   error in ModifyActivityTypeDialog constructor
+            ErrorDialog.show(None, ex)
 
     def __on_destroy_public_activity_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)

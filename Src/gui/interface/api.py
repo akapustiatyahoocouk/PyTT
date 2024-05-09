@@ -29,6 +29,7 @@ from gui.implementation.dialogs.ManageActivityTypesDialog import *
 from gui.implementation.dialogs.ManageUsersDialog import *
 from gui.implementation.dialogs.ModifyAccountDialog import *
 from gui.implementation.dialogs.ModifyActivityTypeDialog import *
+from gui.implementation.dialogs.ModifyPublicActivityDialog import *
 from gui.implementation.dialogs.ModifyUserDialog import *
 from gui.implementation.dialogs.OpenWorkspaceDialog import *
 

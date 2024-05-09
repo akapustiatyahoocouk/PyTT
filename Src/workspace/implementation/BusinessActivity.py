@@ -350,7 +350,9 @@ class BusinessActivity(BusinessObject):
             result = None
             if self.workspace.get_capabilities(credentials) is not None:
                 #   The caller can see all activity types
-                result = self.workspace._get_business_proxy(self._data_object)
+                if self._data_object.activity_type is None:
+                    return None
+                result = self.workspace._get_business_proxy(self._data_object.activity_type)
             return result
         except Exception as ex:
             raise WorkspaceError.wrap(ex)
