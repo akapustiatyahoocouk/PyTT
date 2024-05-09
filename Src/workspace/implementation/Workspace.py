@@ -165,6 +165,24 @@ class Workspace:
             return False
         return capabilities.contains_any(Capabilities.ADMINISTRATOR, Capabilities.MANAGE_PRIVATE_ACTIVITIES)
 
+    def can_manage_public_tasks(self, credentials: Credentials) -> bool:
+        self._ensure_open() # may raise WorkspaceError
+        assert isinstance(credentials, Credentials)
+
+        capabilities = self.get_capabilities(credentials)   # may raise WorkspaceError
+        if capabilities is None:
+            return False
+        return capabilities.contains_any(Capabilities.ADMINISTRATOR, Capabilities.MANAGE_PUBLIC_TASKS)
+
+    def can_manage_private_tasks(self, credentials: Credentials) -> bool:
+        self._ensure_open() # may raise WorkspaceError
+        assert isinstance(credentials, Credentials)
+
+        capabilities = self.get_capabilities(credentials)   # may raise WorkspaceError
+        if capabilities is None:
+            return False
+        return capabilities.contains_any(Capabilities.ADMINISTRATOR, Capabilities.MANAGE_PRIVATE_TASKS)
+
     ##########
     #   Operations (associations)
     def try_login(self, login: Optional[str], password: Optional[str],
@@ -233,8 +251,14 @@ class Workspace:
             if self.get_capabilities(credentials) is None:
                 #   The caller has no access to the database OR account/user is disabled
                 pass
-            elif self.can_manage_users(credentials):
-                #   The caller can see all users
+            elif (self.can_manage_users(credentials) or 
+                  self.can_manage_private_activities(credentials) or
+                  self.can_manage_private_tasks(credentials)):
+                #   The caller can see all users.
+                #   Note that when the "credentials" allow managing private
+                #   activities or tasks of anmy user, the caller must be able
+                #   to SEE these other users so as to manage their private
+                #   activities and/or tasks
                 for data_user in self.__db.users:
                     result.add(self._get_business_proxy(data_user))
             else:

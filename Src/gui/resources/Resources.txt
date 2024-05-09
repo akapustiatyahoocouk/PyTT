@@ -51,6 +51,13 @@ Actions.ManageActivityTypes.Description=Manage available activity types
 Actions.ManageActivityTypes.SmallImage=ImageFile:images/objects/ActivityTypeSmall.png
 Actions.ManageActivityTypes.LargeImage=ImageFile:images/objects/ActivityTypeLarge.png
 
+Actions.ManagePublicActivities.Name=Public activities
+Actions.ManagePublicActivities.Hotkey=P
+Actions.ManagePublicActivities.Description=Manage available public activities
+#Actions.ManagePublicActivities.Shortcut=Ctrl+N
+Actions.ManagePublicActivities.SmallImage=ImageFile:images/objects/PublicActivitySmall.png
+Actions.ManagePublicActivities.LargeImage=ImageFile:images/objects/PublicActivityLarge.png
+
 Actions.Preferences.Name=Preferences
 Actions.Preferences.Hotkey=P
 Actions.Preferences.Description=Sets up PyTT preferences
@@ -273,6 +280,13 @@ ModifyPublicActivityDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 ModifyPublicActivityDialog.CancelButton.Text=Cancel
 ModifyPublicActivityDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
 
+DestroyPublicActivityDialog.Title=Delete public activity
+DestroyPublicActivityDialog.PrimptLabel.Text=Are you sure you want to permananently\ndelete public activity '{0}''?
+DestroyPublicActivityDialog.OkButton.Text=OK
+DestroyPublicActivityDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+DestroyPublicActivityDialog.CancelButton.Text=Cancel
+DestroyPublicActivityDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+
 ManageUsersDialog.Title=Manage users and accounts
 ManageUsersDialog.OkButton.Text=OK
 ManageUsersDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
@@ -280,6 +294,10 @@ ManageUsersDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 ManageActivityTypesDialog.Title=Manage activity types
 ManageActivityTypesDialog.OkButton.Text=OK
 ManageActivityTypesDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+
+ManagePublicActivitiesDialog.Title=Manage public activities
+ManagePublicActivitiesDialog.OkButton.Text=OK
+ManagePublicActivitiesDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 
 ##########
 #   View types

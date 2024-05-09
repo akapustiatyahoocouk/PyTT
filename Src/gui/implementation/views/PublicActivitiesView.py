@@ -14,6 +14,7 @@ from ..misc.CurrentWorkspace import CurrentWorkspace
 from ..misc.CurrentCredentials import CurrentCredentials
 from ..dialogs.CreatePublicActivityDialog import *
 from ..dialogs.ModifyPublicActivityDialog import *
+from ..dialogs.DestroyPublicActivityDialog import *
 from gui.resources.GuiResources import GuiResources
 
 ##########
@@ -209,10 +210,10 @@ class PublicActivitiesView(View):
 
     def __on_destroy_public_activity_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)
-        #try:
-        #    with DestroyActivityTypeDialog(self.winfo_toplevel(), self.selected_public_activity) as dlg:
-        #        dlg.do_modal()
-        #    self.request_refresh()
-        #except Exception as ex: #   error in DestroyActivityTypeDialog constructor
-        #    ErrorDialog.show(None, ex)
+        try:
+            with DestroyPublicActivityDialog(self.winfo_toplevel(), self.selected_public_activity) as dlg:
+                dlg.do_modal()
+            self.request_refresh()
+        except Exception as ex: #   error in DestroyPublicActivityDialog constructor
+            ErrorDialog.show(None, ex)
 

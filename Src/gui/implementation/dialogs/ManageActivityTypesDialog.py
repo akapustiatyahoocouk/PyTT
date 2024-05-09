@@ -30,7 +30,7 @@ class ManageActivityTypesDialog(Dialog):
     #   Construction
     def __init__(self, parent: tk.BaseWidget):
         """
-            Constructs the "Manage activity types" "dialog.
+            Constructs the "Manage activity types" dialog.
 
             @param parent:
                 The parent widget for the dialog (actually the closest

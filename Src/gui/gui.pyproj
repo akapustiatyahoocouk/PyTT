@@ -39,6 +39,7 @@
     <Compile Include="implementation\actions\CloseWorkspaceAction.py" />
     <Compile Include="implementation\actions\DestroyWorkspaceAction.py" />
     <Compile Include="implementation\actions\ManageActivityTypesAction.py" />
+    <Compile Include="implementation\actions\ManagePublicActivitiesAction.py" />
     <Compile Include="implementation\actions\ManageUsersAction.py" />
     <Compile Include="implementation\actions\PreferencesAction.py" />
     <Compile Include="implementation\actions\OpenWorkspaceAction.py" />
@@ -50,7 +51,9 @@
     <Compile Include="implementation\controls\EmailAddressListEditor.py" />
     <Compile Include="implementation\dialogs\CreateAccountDialog.py" />
     <Compile Include="implementation\dialogs\CreatePublicActivityDialog.py" />
+    <Compile Include="implementation\dialogs\DestroyPublicActivityDialog.py" />
     <Compile Include="implementation\dialogs\ManageActivityTypesDialog.py" />
+    <Compile Include="implementation\dialogs\ManagePublicActivitiesDialog.py" />
     <Compile Include="implementation\dialogs\ModifyActivityTypeDialog.py" />
     <Compile Include="implementation\dialogs\CreateActivityTypeDialog.py" />
     <Compile Include="implementation\dialogs\DestroyAccountDialog.py" />

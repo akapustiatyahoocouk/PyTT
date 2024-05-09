@@ -1,4 +1,4 @@
-""" Implements the "Destroy activity type" modal dialog. """
+""" Implements the "Destroy public activity" modal dialog. """
 
 #   Python standard library
 from typing import final, Optional, Callable
@@ -18,23 +18,23 @@ from ..controls.EmailAddressListEditor import EmailAddressListEditor
 ##########
 #   Public entities
 @final
-class DestroyActivityTypeDialogResult(Enum):
-    """ The result of modal invocation of the DestroyActivityTypeDialog. """
+class DestroyPublicActivityDialogResult(Enum):
+    """ The result of modal invocation of the DestroyPublicActivityDialog. """
 
     OK = 1
-    """ A BusinessActivityType has been destroyed. """
+    """ A BusinessPublicActivity has been destroyed. """
 
     CANCEL = 2
     """ Dialog cancelled by user. """
 
 @final
-class DestroyActivityTypeDialog(Dialog):
-    """ The modal "Destroy activity type" dialog. """
+class DestroyPublicActivityDialog(Dialog):
+    """ The modal "Destroy public activity" dialog. """
 
     ##########
     #   Construction
     def __init__(self, parent: tk.BaseWidget,
-                 activity_type: BusinessActivityType = None,
+                 activity_type: BusinessPublicActivity = None,
                  credentials: Optional[Credentials] = None):
         """
             Constructs the "Destroy activity type" dialog.
@@ -44,7 +44,7 @@ class DestroyActivityTypeDialog(Dialog):
                 enclosing top-level widget or frame is used),
                 None == no parent.
             @param activity_type:
-                The BusinessActivityType to destroy.
+                The BusinessPublicActivity to destroy.
             @param credentials:
                 The credentials to use for workspace access; None == use
                 the CurrentCredentials.
@@ -53,11 +53,11 @@ class DestroyActivityTypeDialog(Dialog):
         """
         Dialog.__init__(self,
                         parent,
-                        GuiResources.string("DestroyActivityTypeDialog.Title"))
+                        GuiResources.string("DestroyPublicActivityDialog.Title"))
 
-        assert isinstance(activity_type, BusinessActivityType)
+        assert isinstance(activity_type, BusinessPublicActivity)
         self.__activity_type = activity_type
-        self.__result = DestroyActivityTypeDialogResult.CANCEL
+        self.__result = DestroyPublicActivityDialogResult.CANCEL
 
         #   Resolve credentials
         assert (credentials is None) or isinstance(credentials, Credentials)
@@ -69,17 +69,17 @@ class DestroyActivityTypeDialog(Dialog):
 
         self.__prompt_label = Label(
             self.__controls_panel,
-            text=GuiResources.string("DestroyActivityTypeDialog.PrimptLabel.Text").format(activity_type.display_name),
+            text=GuiResources.string("DestroyPublicActivityDialog.PrimptLabel.Text").format(activity_type.display_name),
             justify=tk.CENTER)
 
         self.__separator = Separator(self, orient="horizontal")
 
         self.__ok_button = Button(self,
-            text=GuiResources.string("DestroyActivityTypeDialog.OkButton.Text"),
-            image=GuiResources.image("DestroyActivityTypeDialog.OkButton.Icon"))
+            text=GuiResources.string("DestroyPublicActivityDialog.OkButton.Text"),
+            image=GuiResources.image("DestroyPublicActivityDialog.OkButton.Icon"))
         self.__cancel_button = Button(self,
-            text=GuiResources.string("DestroyActivityTypeDialog.CancelButton.Text"),
-            image=GuiResources.image("DestroyActivityTypeDialog.CancelButton.Icon"))
+            text=GuiResources.string("DestroyPublicActivityDialog.CancelButton.Text"),
+            image=GuiResources.image("DestroyPublicActivityDialog.CancelButton.Icon"))
 
         #   Adjust controls
 
@@ -107,7 +107,7 @@ class DestroyActivityTypeDialog(Dialog):
     ##########
     #   Properties
     @property
-    def result(self) -> DestroyActivityTypeDialogResult:
+    def result(self) -> DestroyPublicActivityDialogResult:
         """ The dialog result after a modal invocation. """
         return self.__result
 
@@ -116,11 +116,12 @@ class DestroyActivityTypeDialog(Dialog):
     def __on_ok(self, evt = None) -> None:
         try:
             self.__activity_type.destroy(self.__credentials)
-            self.__result = DestroyActivityTypeDialogResult.OK
+            self.__result = DestroyPublicActivityDialogResult.OK
             self.end_modal()
         except Exception as ex:
             ErrorDialog.show(self, ex)
 
     def __on_cancel(self, evt = None) -> None:
-        self.__result = DestroyActivityTypeDialogResult.CANCEL
+        self.__result = DestroyPublicActivityDialogResult.CANCEL
         self.end_modal()
+
