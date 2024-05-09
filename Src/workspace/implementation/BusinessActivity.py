@@ -9,6 +9,7 @@ from util.interface.api import *
 from .Credentials import Credentials
 from .Capabilities import Capabilities
 from .BusinessObject import BusinessObject
+from .BusinessActivityType import BusinessActivityType
 from .Exceptions import *
 
 ##########
@@ -330,7 +331,7 @@ class BusinessActivity(BusinessObject):
 
     ##########
     #   Operations (associations)
-    def get_activity_type(self, credentials: Credentials) -> Optional["BusinessActivity"]:
+    def get_activity_type(self, credentials: Credentials) -> Optional["BusinessActivityType"]:
         """
             Returns the BusinessActivityType assigned to this BusinessActivity, 
             None if this BusinessActivity is not assigned an BusinessActivityType.
@@ -354,6 +355,35 @@ class BusinessActivity(BusinessObject):
                     return None
                 result = self.workspace._get_business_proxy(self._data_object.activity_type)
             return result
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
+
+    def set_activity_type(self, credentials: Credentials, new_activity_type: Optional["BusinessActivityType"]) -> None:
+        """
+            Sets the BusinessActivityType assigned to this BusinessActivity.
+
+            @param credentials:
+                The credentials of the service caller.
+            @param new_activity_type:
+                The new BusinessActivityType to assign to this BusinessActivity,
+                None to set the BusinessActivity with no assigned BusinessActivityType.
+            @return:
+                The BusinessActivityType assigned to this BusinessActivity, None 
+                if this BusinessActivity is not assigned an BusinessActivityType.
+            @raise WorkspaceError:
+                If an error occurs.
+        """
+        self._ensure_live() # may raise WorkspaceError
+        assert isinstance(credentials, Credentials)
+        assert (new_activity_type is None) or (isinstance(new_activity_type, BusinessActivityType) and
+                                               (new_activity_type.workspace == self.workspace) and
+                                               new_activity_type.live)
+        
+        if not self.can_modify(credentials):
+            raise WorkspaceAccessDeniedError()
+        try:
+            result = None
+            self._data_object.activity_type = None if new_activity_type is None else new_activity_type._data_object
         except Exception as ex:
             raise WorkspaceError.wrap(ex)
 

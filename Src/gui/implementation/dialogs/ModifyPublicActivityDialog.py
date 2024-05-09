@@ -261,15 +261,21 @@ class ModifyPublicActivityDialog(Dialog):
         full_screen_reminder = self.full_screen_reminder_check_box.checked
 
         try:
-            #self.__created_public_activity = self.__workspace.create_public_activity(
-            #        credentials=self.__credentials,
-            #        name=name,
-            #        description=description,
-            #        activity_type=activity_type,
-            #        timeout=timeout,
-            #        require_comment_on_start=require_comment_on_start,
-            #        require_comment_on_finish=require_comment_on_finish,
-            #        full_screen_reminder=full_screen_reminder)
+            #   TODO only if there are changes!!!
+            if name != self.__public_activity_name:
+                self.__public_activity.set_name(self.__credentials, name)
+            if description != self.__public_activity_description:
+                self.__public_activity.set_description(self.__credentials,description)
+            if activity_type != self.__public_activity_activity_type:
+                self.__public_activity.set_activity_type(self.__credentials, activity_type)
+            if timeout != self.__public_activity_timeout:
+                self.__public_activity.set_timeout(self.__credentials, timeout)
+            if require_comment_on_start != self.__public_activity_require_comment_on_start:
+                self.__public_activity.set_require_comment_on_start(self.__credentials, require_comment_on_start)
+            if require_comment_on_finish != self.__public_activity_require_comment_on_finish:
+                self.__public_activity.set_require_comment_on_finish(self.__credentials, require_comment_on_finish)
+            if full_screen_reminder != self.__public_activity_full_screen_reminder:
+                self.__public_activity.set_full_screen_reminder(self.__credentials, full_screen_reminder)
             self.__result = ModifyPublicActivityDialogResult.OK
             self.end_modal()
         except Exception as ex:
@@ -278,4 +284,3 @@ class ModifyPublicActivityDialog(Dialog):
     def __on_cancel(self, evt = None) -> None:
         self.__result = ModifyPublicActivityDialogResult.CANCEL
         self.end_modal()
-
