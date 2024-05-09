@@ -474,6 +474,97 @@ class SqlDatabase(Database):
             self.rollback_transaction()
             raise DatabaseError.wrap(ex)
 
+    def create_public_activity(self,
+                    name: str = None,           #   MUST specify!
+                    description: str = None,    #   MUST specify!
+                    activity_type: Optional[ActivityType] = None,
+                    timeout: Optional[int] = None,
+                    require_comment_on_start: bool = False,
+                    require_comment_on_finish: bool = False,
+                    full_screen_reminder: bool = False) -> PublicActivity:
+        from .SqlActivityType import SqlActivityType
+
+        self._ensure_open() # may raise DatabaseError
+        assert isinstance(name, str)
+        assert isinstance(description, str)
+        assert (activity_type is None) or isinstance(activity_type, SqlActivityType)
+        assert (timeout is None) or isinstance(timeout, int)
+        assert isinstance(require_comment_on_start, bool)
+        assert isinstance(require_comment_on_finish, bool)
+        assert isinstance(full_screen_reminder, bool)
+
+        #   Validate parameters
+        if not self.validator.activity.is_valid_name(name):
+            raise InvalidDatabaseObjectPropertyError(PublicActivity.TYPE_NAME, PublicActivity.NAME_PROPERTY_NAME, name)
+        if not self.validator.activity.is_valid_description(description):
+            raise InvalidDatabaseObjectPropertyError(PublicActivity.TYPE_NAME, PublicActivity.DESCRIPTION_PROPERTY_NAME, description)
+        if not self.validator.activity.is_valid_timeout(timeout):
+            raise InvalidDatabaseObjectPropertyError(PublicActivity.TYPE_NAME, PublicActivity.TIMEOUT_PROPERTY_NAME, description)
+        if not self.validator.activity.is_valid_require_comment_on_start(require_comment_on_start):
+            raise InvalidDatabaseObjectPropertyError(PublicActivity.TYPE_NAME, PublicActivity.TIMEOUT_PROPERTY_NAME, description)
+        if not self.validator.activity.is_valid_require_comment_on_finish(require_comment_on_finish):
+            raise InvalidDatabaseObjectPropertyError(PublicActivity.TYPE_NAME, PublicActivity.TIMEOUT_PROPERTY_NAME, description)
+        if not self.validator.activity.is_valid_full_screen_reminder(full_screen_reminder):
+            raise InvalidDatabaseObjectPropertyError(PublicActivity.TYPE_NAME, PublicActivity.TIMEOUT_PROPERTY_NAME, description)
+        if activity_type is not None:
+            activity_type._ensure_live()
+            if activity_type.database is not self:
+                raise IncompatibleDatabaseObjectError(activity_type.type_name)
+
+        #   Make database changes
+        try:
+            self.begin_transaction();
+
+            stat1 = self.create_statement(
+                """INSERT INTO [objects]
+                          ([object_type_name])
+                          VALUES (?)""");
+            stat1.set_string_parameter(0, PublicActivity.TYPE_NAME)
+            public_activity_oid = stat1.execute()
+
+            stat2 = self.create_statement(
+                """INSERT INTO [activities]
+                          ([pk],[name],[description],[timeout],
+                           [require_comment_on_start],[require_comment_on_finish],
+                           [full_screen_reminder],[fk_activity_type])
+                          VALUES (?,?,?,?,?,?,?,?)""");
+            stat2.set_int_parameter(0, public_activity_oid)
+            stat2.set_string_parameter(1, name)
+            stat2.set_string_parameter(2, description)
+            stat2.set_int_parameter(3, timeout)
+            stat2.set_bool_parameter(4, require_comment_on_start)
+            stat2.set_bool_parameter(5, require_comment_on_finish)
+            stat2.set_bool_parameter(6, full_screen_reminder)
+            stat2.set_int_parameter(7, None if activity_type is None else activity_type.oid)
+            stat2.execute()
+
+            stat3 = self.create_statement(
+                """INSERT INTO [public_activities]
+                          ([pk])
+                          VALUES (?)""");
+            stat3.set_int_parameter(0, public_activity_oid)
+            stat3.execute()
+
+            self.commit_transaction()
+            public_activity = self._get_public_activity_proxy(public_activity_oid)
+
+            #   Issue notifications
+            self.enqueue_notification(
+                DatabaseObjectCreatedNotification(
+                    self,
+                    public_activity))
+            if activity_type is not None:
+                DatabaseObjectModifiedNotification(
+                    self,
+                    activity_type,
+                    ActivityType.ACTIVITIES_ASSOCIATION_NAME)
+
+            #   Done
+            return public_activity
+        except Exception as ex:
+            self.rollback_transaction()
+            raise DatabaseError.wrap(ex)
+
     ##########
     #   Implementation helpers (internal use only)
     def _ensure_open(self) -> None:

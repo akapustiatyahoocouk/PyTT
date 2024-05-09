@@ -22,6 +22,7 @@ class ActivityType(DatabaseObject):
     TYPE_NAME = "ActivityType"
     NAME_PROPERTY_NAME = "name"
     DESCRIPTION_PROPERTY_NAME = "description"
+    ACTIVITIES_ASSOCIATION_NAME = "activities"
 
     ##########
     #   UI traits

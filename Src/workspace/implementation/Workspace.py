@@ -20,6 +20,7 @@ from .Capabilities import Capabilities
 from .BusinessObject import BusinessObject
 from .BusinessUser import BusinessUser
 from .BusinessActivityType import BusinessActivityType
+from .BusinessPublicActivity import BusinessPublicActivity
 from .Notifications import *
 from .Validator import *
 
@@ -358,6 +359,40 @@ class Workspace:
         except Exception as ex:
             raise WorkspaceError.wrap(ex)
 
+    def create_public_activity(self,
+                               credentials: Credentials,
+                               name: str = None,           #   MUST specify!
+                               description: str = None,    #   MUST specify!
+                               activity_type: Optional[BusinessActivityType] = None,
+                               timeout: Optional[int] = None,
+                               require_comment_on_start: bool = False,
+                               require_comment_on_finish: bool = False,
+                               full_screen_reminder: bool = False) -> BusinessPublicActivity:
+        self._ensure_open() # may raise DatabaseError
+        assert isinstance(name, str)
+        assert isinstance(description, str)
+        assert (activity_type is None) or (isinstance(activity_type, BusinessActivityType) and
+                                           (activity_type.workspace == self) and
+                                           activity_type.live)
+        assert (timeout is None) or isinstance(timeout, int)
+        assert isinstance(require_comment_on_start, bool)
+        assert isinstance(require_comment_on_finish, bool)
+        assert isinstance(full_screen_reminder, bool)
+
+        try:
+            if not self.can_manage_public_activities(credentials):
+                raise WorkspaceAccessDeniedError()
+            data_public_activity = self.__db.create_public_activity(
+                name=name,
+                description=description,
+                activity_type=None if activity_type is None else activity_type._data_object,
+                timeout=timeout,
+                require_comment_on_start=require_comment_on_start,
+                require_comment_on_finish=require_comment_on_finish,
+                full_screen_reminder=full_screen_reminder);
+            return self._get_business_proxy(data_public_activity)
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
     ##########
     #   Operations (notifications)
     def add_notification_listener(self, l: Union[WorkspaceNotificationListener, WorkspaceNotificationHandler]) -> None:

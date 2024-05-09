@@ -1,4 +1,6 @@
 ========== IMMEDIATE PIPELINE ======================================
+*   Retire WorkspaceError and derived exceptions - make them
+    Workspace - layer TypeAliases to DatabaseErrors.
 *   When an attempt is made to e.g. create two Accounts with the 
     same login, or two ActivityTypes with the same name, the DB 
     engine raises a very technical error message. For improved

@@ -108,6 +108,38 @@ class SqlActivity(SqlDatabaseObject, Activity):
         except Exception as ex:
             raise DatabaseError.wrap(ex)
 
+    @property
+    def timeout(self) -> Optional[int]:
+        raise NotImplementedError()
+
+    @timeout.setter
+    def timeout(self, new_timeout: Optional[int]) -> None:
+        raise NotImplementedError()
+
+    @property
+    def require_comment_on_start(self) -> bool:
+        raise NotImplementedError()
+
+    @require_comment_on_start.setter
+    def require_comment_on_start(self, new_require_comment_on_start: bool) -> None:
+        raise NotImplementedError()
+
+    @property
+    def require_comment_on_finish(self) -> bool:
+        raise NotImplementedError()
+
+    @require_comment_on_finish.setter
+    def require_comment_on_finish(self, new_require_comment_on_finish: bool) -> None:
+        raise NotImplementedError()
+
+    @property
+    def full_screen_reminder(self) -> bool:
+        raise NotImplementedError()
+
+    @full_screen_reminder.setter
+    def full_screen_reminder(self, new_full_screen_reminder: bool) -> None:
+        raise NotImplementedError()
+
     ##########
     #   Activity - Associations
     @property

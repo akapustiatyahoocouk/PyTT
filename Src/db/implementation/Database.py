@@ -210,6 +210,42 @@ class Database(ABC):
         """
         raise NotImplementedError()
 
+    @abstractmethod
+    def create_public_activity(self,
+                    name: str = None,           #   MUST specify!
+                    description: str = None,    #   MUST specify!
+                    activity_type: Optional["ActivityType"] = None,
+                    timeout: Optional[int] = None,
+                    require_comment_on_start: bool = False,
+                    require_comment_on_finish: bool = False,
+                    full_screen_reminder: bool = False) -> "PublicActivity":
+        """
+            Creates a new PublicActivity.
+
+            @param name:
+                The "name" for the new PublicActivity.
+            @param description:
+                The "description" for the new PublicActivity.
+            @param activity_type:
+                The activity type to assign to this PublicActivity or None.
+            @param timeout:
+                The timeout of this PublicActivity, expressed in minutes, or None.
+            @param require_comment_on_start:
+                True if user shall be required to enter a comment when starting
+                this PublicActivity, else False.
+            @param require_comment_on_finish:
+                True if user shall be required to enter a comment when finishing
+                this PublicActivity, else False.
+            @param full_screen_reminder:
+                True if user shall be shown a full-screen reminder while this 
+                PublicActivity is underway, else False.
+            @return:
+                The newly created PublicActivity.
+            @raise DatabaseError:
+                If an error occurs.
+        """
+        raise NotImplementedError()
+
     ##########
     #   Operations (notifications)
     def add_notification_listener(self, l: Union[DatabaseNotificationListener, DatabaseNotificationHandler]) -> None:

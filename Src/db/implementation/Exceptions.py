@@ -93,3 +93,13 @@ class DatabaseObjectDeadError(DatabaseError):
     #   Construction
     def __init__(self, object_type_name: str):
         super().__init__("The " + object_type_name + " is dead")
+
+class IncompatibleDatabaseObjectError(DatabaseError):
+    """ Thrown when an attempt is made to use an "incompatible" 
+        object when calling a database service (e.g. a database
+        object that belongs to another Database). """
+
+    ##########
+    #   Construction
+    def __init__(self, object_type_name: str):
+        super().__init__("Incompatible " + object_type_name)

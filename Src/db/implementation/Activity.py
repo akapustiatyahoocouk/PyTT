@@ -24,6 +24,7 @@ class Activity(DatabaseObject):
     REQUIRE_COMMENT_ON_START_PROPERTY_NAME = "requireCommentOnStart"
     REQUIRE_COMMENT_ON_FINISH_PROPERTY_NAME = "requireCommentOnFinish"
     FULL_SCREEN_REMINDER_PROPERTY_NAME = "fullScreenReminder"
+    ACTIVITY_TYPE_ASSOCIATION_NAME = "activityTYpe"
 
     ##########
     #   UI traits

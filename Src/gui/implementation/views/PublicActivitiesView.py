@@ -12,6 +12,7 @@ from .PublicActivitiesViewType import PublicActivitiesViewType
 from .View import View
 from ..misc.CurrentWorkspace import CurrentWorkspace
 from ..misc.CurrentCredentials import CurrentCredentials
+from ..dialogs.CreatePublicActivityDialog import *
 from gui.resources.GuiResources import GuiResources
 
 ##########
@@ -145,10 +146,10 @@ class PublicActivitiesView(View):
         #   Make sure the self.__public_activities_tree_view contains a proper number
         #   of root nodes...
         while len(self.__public_activities_tree_view.root_nodes) > len(public_activities):
-            #   Too many root nodes in the activity types tree
+            #   Too many root nodes in the public activities tree
             self.__public_activities_tree_view.root_nodes.remove_at(len(self.__public_activities_tree_view.root_nodes) - 1)
         while len(self.__public_activities_tree_view.root_nodes) < len(public_activities):
-            #   Too few root nodes in the activity types tree
+            #   Too few root nodes in the public activities tree
             public_activity = public_activities[len(self.__public_activities_tree_view.root_nodes)]
             self.__public_activities_tree_view.root_nodes.add(
                 public_activity.display_name,
@@ -181,17 +182,17 @@ class PublicActivitiesView(View):
 
     def __on_create_public_activity_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)
-        #try:
-        #    with CreateActivityTypeDialog(self.winfo_toplevel()) as dlg:
-        #        dlg.do_modal()
-        #        if dlg.result is CreateActivityTypeDialogResult.CANCEL:
-        #            return
-        #        created_public_activity = dlg.created_public_activity
-        #        self.selected_object = created_public_activity
-        #        self.__public_activities_tree_view.focus_set()
-        #    self.request_refresh()
-        #except Exception as ex: #   error in CreateActivityTypeDialog constructor
-        #    ErrorDialog.show(None, ex)
+        try:
+            with CreatePublicActivityDialog(self.winfo_toplevel()) as dlg:
+                dlg.do_modal()
+                if dlg.result is CreatePublicActivityDialogResult.CANCEL:
+                    return
+                created_public_activity = dlg.created_public_activity
+                self.selected_object = created_public_activity
+                self.__public_activities_tree_view.focus_set()
+            self.request_refresh()
+        except Exception as ex: #   error in CreatePublicActivityDialog constructor
+            ErrorDialog.show(None, ex)
 
     def __on_modify_public_activity_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)

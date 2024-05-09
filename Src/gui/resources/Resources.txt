@@ -241,6 +241,22 @@ DestroyActivityTypeDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 DestroyActivityTypeDialog.CancelButton.Text=Cancel
 DestroyActivityTypeDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
 
+CreatePublicActivityDialog.Title=Create public activity
+CreatePublicActivityDialog.NameLabel.Text=Name:
+CreatePublicActivityDialog.DescriptionLabel.Text=Description:
+CreatePublicActivityDialog.ActivityTypeLabel.Text=Activity type:
+CreatePublicActivityDialog.TimeoutLabel.Text=Timeout:
+CreatePublicActivityDialog.TimeoutNone=none
+CreatePublicActivityDialog.TimeoutHours=hour(s)
+CreatePublicActivityDialog.TimeoutMinutes=minute(s)
+CreatePublicActivityDialog.RequireCommentOnStartCheckBox.Text=Require comment when activity is started
+CreatePublicActivityDialog.RequireCommentOnFinishCheckBox.Text=Require comment when activity is finished
+CreatePublicActivityDialog.FullScreenReminderCheckBox.Text=Full screen reminder when activity is underway
+CreatePublicActivityDialog.OkButton.Text=OK
+CreatePublicActivityDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+CreatePublicActivityDialog.CancelButton.Text=Cancel
+CreatePublicActivityDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+
 ManageUsersDialog.Title=Manage users and accounts
 ManageUsersDialog.OkButton.Text=OK
 ManageUsersDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png

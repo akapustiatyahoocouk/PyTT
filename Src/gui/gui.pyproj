@@ -49,6 +49,7 @@
     <Compile Include="implementation\actions\ExitAction.py" />
     <Compile Include="implementation\controls\EmailAddressListEditor.py" />
     <Compile Include="implementation\dialogs\CreateAccountDialog.py" />
+    <Compile Include="implementation\dialogs\CreatePublicActivityDialog.py" />
     <Compile Include="implementation\dialogs\ManageActivityTypesDialog.py" />
     <Compile Include="implementation\dialogs\ModifyActivityTypeDialog.py" />
     <Compile Include="implementation\dialogs\CreateActivityTypeDialog.py" />

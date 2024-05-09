@@ -74,7 +74,7 @@ class SqlPublicActivity(SqlActivity, PublicActivity):
     def _reload_property_cache(self) -> None:
         try:
             stat = self.database.create_statement(
-                """SELECT * 
+                """SELECT *
                      FROM [public_activities], [activities]
                     WHERE [public_activities].[pk] = ?
                       AND [public_activities].[pk] == [activities].[pk]""");
@@ -95,4 +95,3 @@ class SqlPublicActivity(SqlActivity, PublicActivity):
             self._fk_activity_type = r["fk_activity_type", SqlDataType.INTEGER]
         except Exception as ex:
             raise DatabaseError.wrap(ex)
-
