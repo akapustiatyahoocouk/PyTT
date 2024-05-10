@@ -61,3 +61,15 @@ class PrivateActivity(Activity):
                 If an error occurs.
         """
         raise NotImplementedError()
+
+    @owner.setter
+    def owner(self, new_owner: User) -> None:
+        """
+            Changes the User to which this PrivateActivity belongs.
+
+            @param new_owner:
+                The new User to which this PrivateActivity belongs.
+            @raise DatabaseError:
+                If an error occurs.
+        """
+        raise NotImplementedError()

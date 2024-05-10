@@ -277,7 +277,11 @@ class SqlActivity(SqlDatabaseObject, Activity):
         self._ensure_live()
         assert (new_activity_type is None) or isinstance(new_activity_type, SqlActivityType)
 
-        #   Validate parameters TODO everywhere!!!
+        #   Validate parameters
+        if new_activity_type is not None:
+            new_activity_type._ensure_live()
+            if new_activity_type.database is not self.database:
+                raise IncompatibleDatabaseObjectError(new_activity_type.type_name)
 
         #   Make database changes
         try:

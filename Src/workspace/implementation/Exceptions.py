@@ -1,5 +1,8 @@
 """ Defines exceptions thrown by the high-level (business storage) workspace API. """
 
+#   Python standard library
+from typing import TypeAlias
+
 #   Dependencies on other PyTT components
 import db.interface.api as dbapi
 
@@ -66,3 +69,5 @@ class WorkspaceAccessWouldBeLostError(WorkspaceError):
     #   Construction
     def __init__(self):
         super().__init__("Workspace access would be lost")
+
+IncompatibleWorkspaceObjectError: TypeAlias = dbapi.IncompatibleDatabaseObjectError

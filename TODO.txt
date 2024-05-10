@@ -1,4 +1,7 @@
 ========== IMMEDIATE PIPELINE ======================================
+*   Workspace now implements __enter__() and __exit__(). Ensure
+    access synchronization by wrapping the bodies of all workspace
+    API methods within a "with <workspace>:" block.
 *   Retire WorkspaceError and derived exceptions - make them
     Workspace - layer TypeAliases to DatabaseErrors.
 *   When an attempt is made to e.g. create two Accounts with the 

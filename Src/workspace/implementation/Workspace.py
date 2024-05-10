@@ -53,6 +53,15 @@ class Workspace:
         db.add_notification_listener(self.__on_database_notification)
 
     ##########
+    #   object (entry/exit protocol needed for Dialog.do_modal
+    def __enter__(self) -> None:
+        self.__lock.acquire()
+        return self
+
+    def __exit__(self, exception_type, exception_value, traceback) -> None:
+        self.__lock.release()
+
+    ##########
     #   Properties
     @property
     def type(self) -> WorkspaceType:
@@ -113,75 +122,82 @@ class Workspace:
             @raise WorkspaceError:
                 If a data access error occurs.
         """
-        self._ensure_open() # may raise WorkspaceError
-        assert isinstance(credentials, Credentials)
+        with self:
+            self._ensure_open() # may raise WorkspaceError
+            assert isinstance(credentials, Credentials)
 
-        capabilities = self.__access_rights.get(credentials, None)
-        if capabilities is None:
-            try:
-                data_account = self.__db.try_login(credentials.login, credentials._Credentials__password)
-                if (data_account is not None) and data_account.enabled and data_account.user.enabled:
-                    capabilities = data_account.capabilities
-                else:
-                    capabilities = Capabilities.NONE
-                self.__access_rights[credentials] = capabilities
-            except Exception as ex:
-                raise WorkspaceError.wrap(ex)
-        return capabilities
+            capabilities = self.__access_rights.get(credentials, None)
+            if capabilities is None:
+                try:
+                    data_account = self.__db.try_login(credentials.login, credentials._Credentials__password)
+                    if (data_account is not None) and data_account.enabled and data_account.user.enabled:
+                        capabilities = data_account.capabilities
+                    else:
+                        capabilities = Capabilities.NONE
+                    self.__access_rights[credentials] = capabilities
+                except Exception as ex:
+                    raise WorkspaceError.wrap(ex)
+            return capabilities
 
     def can_manage_users(self, credentials: Credentials) -> bool:
-        self._ensure_open() # may raise WorkspaceError
-        assert isinstance(credentials, Credentials)
+        with self:
+            self._ensure_open() # may raise WorkspaceError
+            assert isinstance(credentials, Credentials)
 
-        capabilities = self.get_capabilities(credentials)   # may raise WorkspaceError
-        if capabilities is None:
-            return False
-        return capabilities.contains_any(Capabilities.ADMINISTRATOR, Capabilities.MANAGE_USERS)
+            capabilities = self.get_capabilities(credentials)   # may raise WorkspaceError
+            if capabilities is None:
+                return False
+            return capabilities.contains_any(Capabilities.ADMINISTRATOR, Capabilities.MANAGE_USERS)
 
     def can_manage_stock_items(self, credentials: Credentials) -> bool:
-        self._ensure_open() # may raise WorkspaceError
-        assert isinstance(credentials, Credentials)
+        with self:
+            self._ensure_open() # may raise WorkspaceError
+            assert isinstance(credentials, Credentials)
 
-        capabilities = self.get_capabilities(credentials)   # may raise WorkspaceError
-        if capabilities is None:
-            return False
-        return capabilities.contains_any(Capabilities.ADMINISTRATOR, Capabilities.MANAGE_STOCK_ITEMS)
+            capabilities = self.get_capabilities(credentials)   # may raise WorkspaceError
+            if capabilities is None:
+                return False
+            return capabilities.contains_any(Capabilities.ADMINISTRATOR, Capabilities.MANAGE_STOCK_ITEMS)
 
     def can_manage_public_activities(self, credentials: Credentials) -> bool:
-        self._ensure_open() # may raise WorkspaceError
-        assert isinstance(credentials, Credentials)
+        with self:
+            self._ensure_open() # may raise WorkspaceError
+            assert isinstance(credentials, Credentials)
 
-        capabilities = self.get_capabilities(credentials)   # may raise WorkspaceError
-        if capabilities is None:
-            return False
-        return capabilities.contains_any(Capabilities.ADMINISTRATOR, Capabilities.MANAGE_PUBLIC_ACTIVITIES)
+            capabilities = self.get_capabilities(credentials)   # may raise WorkspaceError
+            if capabilities is None:
+                return False
+            return capabilities.contains_any(Capabilities.ADMINISTRATOR, Capabilities.MANAGE_PUBLIC_ACTIVITIES)
 
     def can_manage_private_activities(self, credentials: Credentials) -> bool:
-        self._ensure_open() # may raise WorkspaceError
-        assert isinstance(credentials, Credentials)
+        with self:
+            self._ensure_open() # may raise WorkspaceError
+            assert isinstance(credentials, Credentials)
 
-        capabilities = self.get_capabilities(credentials)   # may raise WorkspaceError
-        if capabilities is None:
-            return False
-        return capabilities.contains_any(Capabilities.ADMINISTRATOR, Capabilities.MANAGE_PRIVATE_ACTIVITIES)
+            capabilities = self.get_capabilities(credentials)   # may raise WorkspaceError
+            if capabilities is None:
+                return False
+            return capabilities.contains_any(Capabilities.ADMINISTRATOR, Capabilities.MANAGE_PRIVATE_ACTIVITIES)
 
     def can_manage_public_tasks(self, credentials: Credentials) -> bool:
-        self._ensure_open() # may raise WorkspaceError
-        assert isinstance(credentials, Credentials)
+        with self:
+            self._ensure_open() # may raise WorkspaceError
+            assert isinstance(credentials, Credentials)
 
-        capabilities = self.get_capabilities(credentials)   # may raise WorkspaceError
-        if capabilities is None:
-            return False
-        return capabilities.contains_any(Capabilities.ADMINISTRATOR, Capabilities.MANAGE_PUBLIC_TASKS)
+            capabilities = self.get_capabilities(credentials)   # may raise WorkspaceError
+            if capabilities is None:
+                return False
+            return capabilities.contains_any(Capabilities.ADMINISTRATOR, Capabilities.MANAGE_PUBLIC_TASKS)
 
     def can_manage_private_tasks(self, credentials: Credentials) -> bool:
-        self._ensure_open() # may raise WorkspaceError
-        assert isinstance(credentials, Credentials)
+        with self:
+            self._ensure_open() # may raise WorkspaceError
+            assert isinstance(credentials, Credentials)
 
-        capabilities = self.get_capabilities(credentials)   # may raise WorkspaceError
-        if capabilities is None:
-            return False
-        return capabilities.contains_any(Capabilities.ADMINISTRATOR, Capabilities.MANAGE_PRIVATE_TASKS)
+            capabilities = self.get_capabilities(credentials)   # may raise WorkspaceError
+            if capabilities is None:
+                return False
+            return capabilities.contains_any(Capabilities.ADMINISTRATOR, Capabilities.MANAGE_PRIVATE_TASKS)
 
     ##########
     #   Operations (associations)
@@ -200,17 +216,18 @@ class Workspace:
             @raise DatabaseError:
                 If an error occurs.
         """
-        try:
-            args = locals()
-            if isinstance(login, str) and isinstance(password, str):
-                data_account = self.__db.try_login(login, password)
-            elif isinstance(credentials, Credentials):
-                data_account = self.__db.try_login(credentials.login, credentials._Credentials__password)
-            else:
-                raise WorkspaceError("Invalod login parameters " + str(args))
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
-        return self._get_business_proxy(data_account)
+        with self:
+            try:
+                args = locals()
+                if isinstance(login, str) and isinstance(password, str):
+                    data_account = self.__db.try_login(login, password)
+                elif isinstance(credentials, Credentials):
+                    data_account = self.__db.try_login(credentials.login, credentials._Credentials__password)
+                else:
+                    raise WorkspaceError("Invalod login parameters " + str(args))
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
+            return self._get_business_proxy(data_account)
 
     def login(self, login: Optional[str] = None, password: Optional[str] = None,
               credentials: Optional[Credentials] = None) -> Optional["BusinessAccount"]:
@@ -231,69 +248,73 @@ class Workspace:
             @raise DatabaseError:
                 If an error occurs.
         """
-        try:
-            args = locals()
-            if isinstance(login, str) and isinstance(password, str):
-                data_account = self.__db.login(login, password)
-            elif isinstance(credentials, Credentials):
-                data_account = self.__db.login(credentials.login, credentials._Credentials__password)
-            else:
-                raise WorkspaceError("Invalod login parameters " + str(args))
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
-        return self._get_business_proxy(data_account)
+        with self:
+            try:
+                args = locals()
+                if isinstance(login, str) and isinstance(password, str):
+                    data_account = self.__db.login(login, password)
+                elif isinstance(credentials, Credentials):
+                    data_account = self.__db.login(credentials.login, credentials._Credentials__password)
+                else:
+                    raise WorkspaceError("Invalod login parameters " + str(args))
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
+            return self._get_business_proxy(data_account)
 
     def get_users(self, credentials: Credentials) -> Set[BusinessUser]:
         assert isinstance(credentials, Credentials)
 
-        try:
-            result = set()
-            if self.get_capabilities(credentials) is None:
-                #   The caller has no access to the database OR account/user is disabled
-                pass
-            elif (self.can_manage_users(credentials) or 
-                  self.can_manage_private_activities(credentials) or
-                  self.can_manage_private_tasks(credentials)):
-                #   The caller can see all users.
-                #   Note that when the "credentials" allow managing private
-                #   activities or tasks of anmy user, the caller must be able
-                #   to SEE these other users so as to manage their private
-                #   activities and/or tasks
-                for data_user in self.__db.users:
-                    result.add(self._get_business_proxy(data_user))
-            else:
-                #   The caller can only see their own user
-                data_account = self.__db.login(credentials.login, credentials._Credentials__password)
-                result.add(self._get_business_proxy(data_account.user))
-            return result
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self:
+            try:
+                result = set()
+                if self.get_capabilities(credentials) is None:
+                    #   The caller has no access to the database OR account/user is disabled
+                    pass
+                elif (self.can_manage_users(credentials) or 
+                      self.can_manage_private_activities(credentials) or
+                      self.can_manage_private_tasks(credentials)):
+                    #   The caller can see all users.
+                    #   Note that when the "credentials" allow managing private
+                    #   activities or tasks of anmy user, the caller must be able
+                    #   to SEE these other users so as to manage their private
+                    #   activities and/or tasks
+                    for data_user in self.__db.users:
+                        result.add(self._get_business_proxy(data_user))
+                else:
+                    #   The caller can only see their own user
+                    data_account = self.__db.login(credentials.login, credentials._Credentials__password)
+                    result.add(self._get_business_proxy(data_account.user))
+                return result
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def get_activity_types(self, credentials: Credentials) -> Set[BusinessActivityType]:
         assert isinstance(credentials, Credentials)
 
-        try:
-            result = set()
-            if self.get_capabilities(credentials) is not None:
-                #   The caller can see all activity types
-                for data_activity_type in self.__db.activity_types:
-                    result.add(self._get_business_proxy(data_activity_type))
-            return result
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self:
+            try:
+                result = set()
+                if self.get_capabilities(credentials) is not None:
+                    #   The caller can see all activity types
+                    for data_activity_type in self.__db.activity_types:
+                        result.add(self._get_business_proxy(data_activity_type))
+                return result
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def get_public_activities(self, credentials: Credentials) -> Set[BusinessActivityType]:
         assert isinstance(credentials, Credentials)
 
-        try:
-            result = set()
-            if self.get_capabilities(credentials) is not None:
-                #   The caller can see all public activities
-                for public_activity in self.__db.public_activities:
-                    result.add(self._get_business_proxy(public_activity))
-            return result
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self:
+            try:
+                result = set()
+                if self.get_capabilities(credentials) is not None:
+                    #   The caller can see all public activities
+                    for public_activity in self.__db.public_activities:
+                        result.add(self._get_business_proxy(public_activity))
+                return result
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     ##########
     #   Operations (life cycle)
@@ -338,18 +359,19 @@ class Workspace:
         assert isinstance(email_addresses, list)
         assert all(isinstance(a, str) for a in email_addresses)
 
-        try:
-            if not self.can_manage_users(credentials):
-                raise WorkspaceAccessDeniedError()
-            data_user = self.__db.create_user(
-                enabled=enabled,
-                real_name=real_name,
-                inactivity_timeout=inactivity_timeout,
-                ui_locale=ui_locale,
-                email_addresses=email_addresses);
-            return self._get_business_proxy(data_user)
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self:
+            try:
+                if not self.can_manage_users(credentials):
+                    raise WorkspaceAccessDeniedError()
+                data_user = self.__db.create_user(
+                    enabled=enabled,
+                    real_name=real_name,
+                    inactivity_timeout=inactivity_timeout,
+                    ui_locale=ui_locale,
+                    email_addresses=email_addresses);
+                return self._get_business_proxy(data_user)
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def create_activity_type(self,
                              credentials: Credentials,
@@ -373,15 +395,16 @@ class Workspace:
         assert isinstance(name, str)
         assert isinstance(description, str)
 
-        try:
-            if not self.can_manage_stock_items(credentials):
-                raise WorkspaceAccessDeniedError()
-            data_activity_type = self.__db.create_activity_type(
-                name=name,
-                description=description);
-            return self._get_business_proxy(data_activity_type)
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self:
+            try:
+                if not self.can_manage_stock_items(credentials):
+                    raise WorkspaceAccessDeniedError()
+                data_activity_type = self.__db.create_activity_type(
+                    name=name,
+                    description=description);
+                return self._get_business_proxy(data_activity_type)
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def create_public_activity(self,
                                credentials: Credentials,
@@ -395,28 +418,35 @@ class Workspace:
         self._ensure_open() # may raise DatabaseError
         assert isinstance(name, str)
         assert isinstance(description, str)
-        assert (activity_type is None) or (isinstance(activity_type, BusinessActivityType) and
-                                           (activity_type.workspace == self) and
-                                           activity_type.live)
+        assert (activity_type is None) or isinstance(activity_type, BusinessActivityType)
         assert (timeout is None) or isinstance(timeout, int)
         assert isinstance(require_comment_on_start, bool)
         assert isinstance(require_comment_on_finish, bool)
         assert isinstance(full_screen_reminder, bool)
 
-        try:
-            if not self.can_manage_public_activities(credentials):
-                raise WorkspaceAccessDeniedError()
-            data_public_activity = self.__db.create_public_activity(
-                name=name,
-                description=description,
-                activity_type=None if activity_type is None else activity_type._data_object,
-                timeout=timeout,
-                require_comment_on_start=require_comment_on_start,
-                require_comment_on_finish=require_comment_on_finish,
-                full_screen_reminder=full_screen_reminder);
-            return self._get_business_proxy(data_public_activity)
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self:
+            try:
+                #   Validate parameters
+                if activity_type is not None:
+                    activity_type._ensure_live()
+                    if activity_type.workspace is not self:
+                        raise IncompatibleWorkspaceObjectError(activity_type.type_name)
+                #   Validate access rights
+                if not self.can_manage_public_activities(credentials):
+                    raise WorkspaceAccessDeniedError()
+                #   The rest of the work is up to the DB
+                data_public_activity = self.__db.create_public_activity(
+                    name=name,
+                    description=description,
+                    activity_type=None if activity_type is None else activity_type._data_object,
+                    timeout=timeout,
+                    require_comment_on_start=require_comment_on_start,
+                    require_comment_on_finish=require_comment_on_finish,
+                    full_screen_reminder=full_screen_reminder);
+                return self._get_business_proxy(data_public_activity)
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
+
     ##########
     #   Operations (notifications)
     def add_notification_listener(self, l: Union[WorkspaceNotificationListener, WorkspaceNotificationHandler]) -> None:
@@ -429,6 +459,7 @@ class Workspace:
             IMPORTANT: This method is thread-safe."""
         assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
                 isinstance(l, WorkspaceNotificationHandler))
+
         with self.__notification_listeners_guard:
             if l not in self.__notification_listeners:
                 self.__notification_listeners.append(l)
@@ -444,6 +475,7 @@ class Workspace:
             IMPORTANT: This method is thread-safe."""
         assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
                 isinstance(l, WorkspaceNotificationHandler))
+
         with self.__notification_listeners_guard:
             if l in self.__notification_listeners:
                 self.__notification_listeners.remove(l)
@@ -471,6 +503,7 @@ class Workspace:
                 The notification to process.
         """
         assert isinstance(n, WorkspaceNotification)
+
         for l in self.notification_listeners:
             try:
                 if isinstance(l, WorkspaceNotificationHandler):

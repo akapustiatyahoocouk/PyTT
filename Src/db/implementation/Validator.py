@@ -31,7 +31,7 @@ class UserValidator:
             return True
         return (isinstance(inactivity_timeout, int) and
                 (inactivity_timeout > 0) and
-                (inactivity_timeout < 60 * 60)) #   GUI limitation!
+                (inactivity_timeout <= 60 * 60)) #   GUI limitation!
 
     def is_valid_ui_locale(self, ui_locale: Locale) -> bool:
         return (ui_locale is None) or isinstance(ui_locale, Locale)
@@ -122,7 +122,7 @@ class ActivityValidator:
             return True
         return (isinstance(timeout, int) and
                 (timeout > 0) and
-                (timeout < 60 * 60)) #   GUI limitation!
+                (timeout <= 60 * 60)) #   GUI limitation!
 
     def is_valid_require_comment_on_start(self, require_comment_on_start: bool) -> bool:
         return isinstance(require_comment_on_start, bool)

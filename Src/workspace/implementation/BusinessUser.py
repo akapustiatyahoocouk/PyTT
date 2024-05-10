@@ -35,61 +35,67 @@ class BusinessUser(BusinessObject):
     ##########
     #   BusinessObject - Operations (access control)
     def can_modify(self, credentials: Credentials) -> bool:
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        try:
-            #   A user can modify their own details, plus anyone
-            #   who can manage users can modify details of any user
-            if self.workspace.can_manage_users(credentials):
-                return True
-            data_account = self._data_object.database.login(credentials.login, credentials._Credentials__password)
-            if data_account.user == self._data_object:
-                return True
-            return False
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            try:
+                #   A user can modify their own details, plus anyone
+                #   who can manage users can modify details of any user
+                if self.workspace.can_manage_users(credentials):
+                    return True
+                data_account = self._data_object.database.login(credentials.login, credentials._Credentials__password)
+                if data_account.user == self._data_object:
+                    return True
+                return False
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def can_destroy(self, credentials: Credentials) -> bool:
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        try:
-            return self.workspace.can_manage_users(credentials)
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            try:
+                return self.workspace.can_manage_users(credentials)
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     ##########
     #   BusinessObjectOperations (life cycle)
     def destroy(self, credentials: Credentials) -> None:
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        try:
-            if self._data_object.enabled:
-                #   We're destroying an "enabled" user - at least
-                #   one other "enabled" user must exist, with at
-                #   least one "enabled" account that has ADMINISTRATOR
-                #   capabilities
-                access_would_be_lost = True
-                db = self.workspace._Workspace__db
-                for data_user in db.users:
-                    if ((data_user == self._data_object) or
-                        (not data_user.enabled) or
-                        (not access_would_be_lost)):
-                        continue    #   data_user cannot be a possible "admin user" OR access would not be lost
-                    for data_account in data_user.accounts:
-                        if ((not data_account.enabled) or
-                            (not data_account.capabilities.contains_all(dbapi.Capabilities.ADMINISTRATOR)) or
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            try:
+                if self._data_object.enabled:
+                    #   We're destroying an "enabled" user - at least
+                    #   one other "enabled" user must exist, with at
+                    #   least one "enabled" account that has ADMINISTRATOR
+                    #   capabilities
+                    access_would_be_lost = True
+                    db = self.workspace._Workspace__db
+                    for data_user in db.users:
+                        if ((data_user == self._data_object) or
+                            (not data_user.enabled) or
                             (not access_would_be_lost)):
-                            continue    #   data_account cannot be a possible "admin account" OR access would not be lost
-                        access_would_be_lost = False
-                if access_would_be_lost:
-                    raise WorkspaceAccessWouldBeLostError()
-            #   ...and the rest is up to the base implementation
-            BusinessObject.destroy(self, credentials)
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+                            continue    #   data_user cannot be a possible "admin user" OR access would not be lost
+                        for data_account in data_user.accounts:
+                            if ((not data_account.enabled) or
+                                (not data_account.capabilities.contains_all(dbapi.Capabilities.ADMINISTRATOR)) or
+                                (not access_would_be_lost)):
+                                continue    #   data_account cannot be a possible "admin account" OR access would not be lost
+                            access_would_be_lost = False
+                    if access_would_be_lost:
+                        raise WorkspaceAccessWouldBeLostError()
+                #   ...and the rest is up to the base implementation
+                BusinessObject.destroy(self, credentials)
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     ##########
     #   Operations (properties)
@@ -104,15 +110,17 @@ class BusinessUser(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        if self.workspace.get_capabilities(credentials) == None:
-            raise WorkspaceAccessDeniedError()
-        try:
-            return self._data_object.enabled
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if self.workspace.get_capabilities(credentials) == None:
+                raise WorkspaceAccessDeniedError()
+            try:
+                return self._data_object.enabled
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def set_enabled(self, credentials: Credentials, new_enabled: bool) -> None:
         """
@@ -125,40 +133,42 @@ class BusinessUser(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert isinstance(new_enabled, bool)
 
-        try:
-            if self._data_object.enabled and not new_enabled:
-                #   We're disabling an "enabled" user - at least
-                #   one other "enabled" user must exist, with at
-                #   least one "enabled" account that has ADMINISTRATOR
-                #   capabilities
-                access_would_be_lost = True
-                db = self.workspace._Workspace__db
-                for data_user in db.users:
-                    if ((data_user == self._data_object) or
-                        (not data_user.enabled) or
-                        (not access_would_be_lost)):
-                        continue    #   data_user cannot be a possible "admin user" OR access would not be lost
-                    for data_account in data_user.accounts:
-                        if ((not data_account.enabled) or
-                            (not data_account.capabilities.contains_all(dbapi.Capabilities.ADMINISTRATOR)) or
-                            (not access_would_be_lost)):
-                            continue    #   data_account cannot be a possible "admin account" OR access would not be lost
-                        access_would_be_lost = False
-                if access_would_be_lost:
-                    raise WorkspaceAccessWouldBeLostError()
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
 
-        if not self.can_modify(credentials):
-            raise WorkspaceAccessDeniedError()
-        try:
-            self._data_object.enabled = new_enabled
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+            try:
+                if self._data_object.enabled and not new_enabled:
+                    #   We're disabling an "enabled" user - at least
+                    #   one other "enabled" user must exist, with at
+                    #   least one "enabled" account that has ADMINISTRATOR
+                    #   capabilities
+                    access_would_be_lost = True
+                    db = self.workspace._Workspace__db
+                    for data_user in db.users:
+                        if ((data_user == self._data_object) or
+                            (not data_user.enabled) or
+                            (not access_would_be_lost)):
+                            continue    #   data_user cannot be a possible "admin user" OR access would not be lost
+                        for data_account in data_user.accounts:
+                            if ((not data_account.enabled) or
+                                (not data_account.capabilities.contains_all(dbapi.Capabilities.ADMINISTRATOR)) or
+                                (not access_would_be_lost)):
+                                continue    #   data_account cannot be a possible "admin account" OR access would not be lost
+                            access_would_be_lost = False
+                    if access_would_be_lost:
+                        raise WorkspaceAccessWouldBeLostError()
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
+
+            if not self.can_modify(credentials):
+                raise WorkspaceAccessDeniedError()
+            try:
+                self._data_object.enabled = new_enabled
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def get_real_name(self, credentials: Credentials) -> str:
         """
@@ -171,15 +181,17 @@ class BusinessUser(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        if self.workspace.get_capabilities(credentials) == None:
-            raise WorkspaceAccessDeniedError()
-        try:
-            return self._data_object.real_name
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if self.workspace.get_capabilities(credentials) == None:
+                raise WorkspaceAccessDeniedError()
+            try:
+                return self._data_object.real_name
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def set_real_name(self, credentials: Credentials, new_real_name: str) -> None:
         """
@@ -192,16 +204,18 @@ class BusinessUser(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert isinstance(new_real_name, str)
 
-        if not self.can_modify(credentials):
-            raise WorkspaceAccessDeniedError()
-        try:
-            self._data_object.real_name = new_real_name
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if not self.can_modify(credentials):
+                raise WorkspaceAccessDeniedError()
+            try:
+                self._data_object.real_name = new_real_name
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def get_inactivity_timeout(self, credentials: Credentials) -> Optional[int]:
         """
@@ -220,15 +234,17 @@ class BusinessUser(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        if self.workspace.get_capabilities(credentials) == None:
-            raise WorkspaceAccessDeniedError()
-        try:
-            return self._data_object.inactivity_timeout
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if self.workspace.get_capabilities(credentials) == None:
+                raise WorkspaceAccessDeniedError()
+            try:
+                return self._data_object.inactivity_timeout
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def set_inactivity_timeout(self, credentials: Credentials, new_inactivity_timeout: Optional[int]) -> None:
         """
@@ -247,16 +263,18 @@ class BusinessUser(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert (new_inactivity_timeout is None) or isinstance(new_inactivity_timeout, int)
 
-        if not self.can_modify(credentials):
-            raise WorkspaceAccessDeniedError()
-        try:
-            self._data_object.inactivity_timeout = new_inactivity_timeout
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if not self.can_modify(credentials):
+                raise WorkspaceAccessDeniedError()
+            try:
+                self._data_object.inactivity_timeout = new_inactivity_timeout
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def get_ui_locale(self, credentials: Credentials) -> Optional[Locale]:
         """
@@ -271,15 +289,17 @@ class BusinessUser(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        if self.workspace.get_capabilities(credentials) == None:
-            raise WorkspaceAccessDeniedError()
-        try:
-            return self._data_object.ui_locale
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if self.workspace.get_capabilities(credentials) == None:
+                raise WorkspaceAccessDeniedError()
+            try:
+                return self._data_object.ui_locale
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def set_ui_locale(self, credentials: Credentials, new_ui_locale: Optional[Locale]) -> None:
         """
@@ -295,16 +315,18 @@ class BusinessUser(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert (new_ui_locale is None) or isinstance(new_ui_locale, Locale)
 
-        if not self.can_modify(credentials):
-            raise WorkspaceAccessDeniedError()
-        try:
-            self._data_object.ui_locale = new_ui_locale
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if not self.can_modify(credentials):
+                raise WorkspaceAccessDeniedError()
+            try:
+                self._data_object.ui_locale = new_ui_locale
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def get_email_addresses(self, credentials: Credentials) -> List[str]:
         """
@@ -318,15 +340,17 @@ class BusinessUser(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        if self.workspace.get_capabilities(credentials) == None:
-            raise WorkspaceAccessDeniedError()
-        try:
-            return self._data_object.email_addresses
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if self.workspace.get_capabilities(credentials) == None:
+                raise WorkspaceAccessDeniedError()
+            try:
+                return self._data_object.email_addresses
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def set_email_addresses(self, credentials: Credentials, new_email_addresses: List[str]) -> None:
         """
@@ -340,17 +364,19 @@ class BusinessUser(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert isinstance(new_email_addresses, list)
         assert all(isinstance(a, str) for a in new_email_addresses) #   TODO properly!
 
-        if not self.can_modify(credentials):
-            raise WorkspaceAccessDeniedError()
-        try:
-            self._data_object.email_addresses = new_email_addresses
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if not self.can_modify(credentials):
+                raise WorkspaceAccessDeniedError()
+            try:
+                self._data_object.email_addresses = new_email_addresses
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     ##########
     #   Operations (associations)
@@ -365,27 +391,29 @@ class BusinessUser(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        try:
-            result = set()
-            if self.workspace.get_capabilities(credentials) is None:
-                #   The caller has no access to the database OR account/user is disabled
-                pass
-            elif self.workspace.can_manage_users(credentials):
-                #   The caller can see all accounts
-                for data_account in self._data_object.accounts:
-                    result.add(self.workspace._get_business_proxy(data_account))
-            else:
-                #   The caller can only see their own user's accounts
-                data_user = self.workspace._Workspace__db.login(credentials.login, credentials._Credentials__password).user
-                if self._data_object == data_user:
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            try:
+                result = set()
+                if self.workspace.get_capabilities(credentials) is None:
+                    #   The caller has no access to the database OR account/user is disabled
+                    pass
+                elif self.workspace.can_manage_users(credentials):
+                    #   The caller can see all accounts
                     for data_account in self._data_object.accounts:
                         result.add(self.workspace._get_business_proxy(data_account))
-            return result
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+                else:
+                    #   The caller can only see their own user's accounts
+                    data_user = self.workspace._Workspace__db.login(credentials.login, credentials._Credentials__password).user
+                    if self._data_object == data_user:
+                        for data_account in self._data_object.accounts:
+                            result.add(self.workspace._get_business_proxy(data_account))
+                return result
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     ##########
     #   Operations (life cycle)
@@ -418,7 +446,6 @@ class BusinessUser(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert isinstance(enabled, bool)
         assert isinstance(login, str)
@@ -427,15 +454,17 @@ class BusinessUser(BusinessObject):
         assert isinstance(email_addresses, list)
         assert all(isinstance(a, str) for a in email_addresses)
 
-        try:
-            if not self.workspace.can_manage_users(credentials):
-                raise WorkspaceAccessDeniedError()
-            data_account = self._data_object.create_account(
-                enabled=enabled,
-                login=login,
-                password=password,
-                capabilities=capabilities,
-                email_addresses=email_addresses);
-            return self.workspace._get_business_proxy(data_account)
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+            try:
+                if not self.workspace.can_manage_users(credentials):
+                    raise WorkspaceAccessDeniedError()
+                data_account = self._data_object.create_account(
+                    enabled=enabled,
+                    login=login,
+                    password=password,
+                    capabilities=capabilities,
+                    email_addresses=email_addresses);
+                return self.workspace._get_business_proxy(data_account)
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)

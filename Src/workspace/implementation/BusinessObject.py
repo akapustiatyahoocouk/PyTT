@@ -39,29 +39,34 @@ class BusinessObject(ABCWithConstants):
     @property
     def display_name(self) -> str:
         """ The user-readable display name of this business object. """
-        return self._data_object.display_name
+        with self.workspace:
+            return self._data_object.display_name
 
     @property
     def type_name(self) -> str:
         """ The internal name of this business object's type (e.g. "User",
             "PublicTask", etc.) """
-        return self._data_object.type_name
+        with self.workspace:
+            return self._data_object.type_name
 
     @property
     def type_display_name(self) -> str:
         """ The user-readable display name of this business object's type
             (e.g. "user", "public task", etc.) """
-        return self._data_object.type_display_name
+        with self.workspace:
+            return self._data_object.type_display_name
 
     @property
     def small_image(self) -> tk.PhotoImage:
         """ The small (16x16) image representing this datbase object. """
-        return self._data_object.small_image
+        with self.workspace:
+            return self._data_object.small_image
 
     @property
     def large_image(self) -> tk.PhotoImage:
         """ The large (32x32) image representing this datbase object. """
-        return self._data_object.large_image
+        with self.workspace:
+            return self._data_object.large_image
 
     ##########
     #   Properties
@@ -74,13 +79,15 @@ class BusinessObject(ABCWithConstants):
     @property
     def live(self) -> bool:
         """ True of this workspace object [proxy] is live, false if dead. """
-        return self._data_object.live
+        with self.workspace:
+            return self._data_object.live
 
     @property
     def oid(self) -> OID:
         """ The OID of this object (if live) or the OID this object
             used to have (if dead). """
-        return self._data_object.oid
+        with self.workspace:
+            return self._data_object.oid
 
     ##########
     #   Operations (access control)
@@ -128,15 +135,17 @@ class BusinessObject(ABCWithConstants):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
+
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
         
-        if not self.can_destroy(credentials):
-            raise DatabaseAccessDeniedError()
-        try:
-            self._data_object.destroy()
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+            if not self.can_destroy(credentials):
+                raise DatabaseAccessDeniedError()
+            try:
+                self._data_object.destroy()
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
     
     ##########
     #   Implementation helpers

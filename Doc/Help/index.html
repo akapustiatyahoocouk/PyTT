@@ -10,14 +10,38 @@
   <!-- Navigation Bar -->
   <nav>
     <div id="home">
-      <!-- To be filled dynamically when the page loads. -->
-      <!-- This is to facilitate ccontent & layout reuse on multriple pages. -->
+      <div class="Logo">
+        <div class="LogoImage">
+          <image class="LogoImage" src="images/PyTT.png"/>
+        </div>
+        PyTT Time Tracker
+      </div>
+      <div class="TopDiv">
+          <a class="TopMenu" href="index.html?language=en">en</a>
+          <a class="TopMenu" href="index.html?language=ru">ru</a>
+      </div>
     </div>
   </nav>
-  <p>111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 111111111 </p>
-  <p>2</p>
-  <p>3</p>
 
+  <table style="width: 100%">
+    <tr>
+      <td style="width: 30%; vertical-align:top">
+        <div id="navigator">
+          <iframe id="navigatorframe" width="100%" style="border: none; margin: 0; padding: 0" src=""></iframe>
+        </div>
+      </td>
+  
+      <td style="width: 65%; vertical-align:top">
+        <div id="content">
+          <iframe id="contentframe" width="100%" style="border: none; margin: 0; padding: 0" src=""></iframe>
+        </div>
+      </td>
+    </tr>
+  </table>
+  
+  <div id="footer">
+    <p class="toc" align="center">Copyright (C) 2024, Andrey Kapustin</p>
+  </div>
 <script type="text/javascript" src="scripts/common.js"></script>
 </body>
 </html>

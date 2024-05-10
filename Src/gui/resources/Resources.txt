@@ -65,6 +65,13 @@ Actions.Preferences.Shortcut=Ctrl+P
 Actions.Preferences.SmallImage=ImageFile:images/actions/PreferencesSmall.png
 Actions.Preferences.LargeImage=ImageFile:images/actions/PreferencesLarge.png
 
+Actions.HelpContents.Name=Contents
+Actions.HelpContents.Hotkey=C
+Actions.HelpContents.Description=Shows PyTT help contents
+Actions.HelpContents.Shortcut=F1
+Actions.HelpContents.SmallImage=ImageFile:images/actions/HelpContentsSmall.png
+Actions.HelpContents.LargeImage=ImageFile:images/actions/HelpContentsLarge.png
+
 Actions.About.Name=About
 Actions.About.Hotkey=b
 Actions.About.Description=Shows PyTT version and copyright information
@@ -194,7 +201,7 @@ DestroyUserDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 DestroyUserDialog.CancelButton.Text=Cancel
 DestroyUserDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
 
-CreateAccountDialog.Title=Create account
+CreateAccountDialog.Title=Create account for {0}
 CreateAccountDialog.LoginLabel.Text=Login:
 CreateAccountDialog.Password1Label.Text=Password:
 CreateAccountDialog.Password2Label.Text=Retype password:

@@ -1,23 +1,33 @@
-﻿//////////
-//  Reusable web page fragments - don't duplicate in every page
-var navDivHtml =
-    `<div class="Logo">
-        <image class="LogoImage" src="images/PyTT.png"/>
-        TravelBoom
-    </div>
-    <div class="TopDiv">
-        <a class="TopMenu" href="travel_recommendation.html#top">Home</a>
-        <a class="TopMenu" href="about_us.html#top">About us</a>
-        <a class="TopMenu" href="contact_us.html#top">Contact us</a>
-    </div>
-    <div class="SearchBar">`;
-    if (typeof(includeSearchBarInNavBar) != 'undefined' && includeSearchBarInNavBar) {
-        navDivHtml += 
-            `<form class="SearchForm">
-                <input type="search" id="SearchInput" onkeyup="trackSearchButtonState()">
-                <button id="SubmitSearchButton" type="submit" onclick="search()">Search</button>
-                <button id="ResetSearchButton" onclick="resetSearchResults()">Reset</button>
-            </form>`;
-    }
-    navDivHtml += `</div>`;
-document.querySelector( '#home' ).innerHTML = navDivHtml;
+﻿function getParameterByName(name, url = window.location.href) {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+function resize_iframes() {
+  let ih = window.innerHeight;
+  //console.log(ih);
+  document.querySelector('#navigatorframe').height = ih - 164;
+  document.querySelector('#contentframe').height = ih - 164;
+}
+
+window.addEventListener("resize", (event) => {
+  resize_iframes();
+});
+resize_iframes();
+
+const languageParam = getParameterByName('language');
+//console.log(languageParam);
+const language = (languageParam == null) ? "en" : languageParam;
+console.log(language);
+
+const tocUrl = language + "/toc.html";
+const indexUrl = language + "/index.html";
+console.log(tocUrl);
+console.log(indexUrl);
+
+document.querySelector('#navigatorframe').src = tocUrl;
+document.querySelector('#contentframe').src = indexUrl ;

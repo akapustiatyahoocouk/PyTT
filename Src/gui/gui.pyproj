@@ -122,6 +122,8 @@
     <Content Include="resources\images\actions\DestroyWorkspaceSmall.png" />
     <Content Include="resources\images\actions\ExitLarge.png" />
     <Content Include="resources\images\actions\ExitSmall.png" />
+    <Content Include="resources\images\actions\HelpContentsLarge.png" />
+    <Content Include="resources\images\actions\HelpContentsSmall.png" />
     <Content Include="resources\images\actions\ModifyAccountLarge.png" />
     <Content Include="resources\images\actions\ModifyAccountSmall.png" />
     <Content Include="resources\images\actions\ModifyActivityTypeLarge.png" />

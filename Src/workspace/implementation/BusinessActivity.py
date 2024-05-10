@@ -375,14 +375,18 @@ class BusinessActivity(BusinessObject):
         """
         self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
-        assert (new_activity_type is None) or (isinstance(new_activity_type, BusinessActivityType) and
-                                               (new_activity_type.workspace == self.workspace) and
-                                               new_activity_type.live)
+        assert (new_activity_type is None) or isinstance(new_activity_type, BusinessActivityType)
         
-        if not self.can_modify(credentials):
-            raise WorkspaceAccessDeniedError()
         try:
-            result = None
+            #   Validate parameters
+            if new_activity_type is not None:
+                new_activity_type._ensure_live()
+                if new_activity_type.workspace is not self:
+                    raise IncompatibleWorkspaceObjectError(new_activity_type.type_name)
+            #   Validate access rights
+            if not self.can_modify(credentials):
+                raise WorkspaceAccessDeniedError()
+            #   The rest of the work is up to the DB
             self._data_object.activity_type = None if new_activity_type is None else new_activity_type._data_object
         except Exception as ex:
             raise WorkspaceError.wrap(ex)
