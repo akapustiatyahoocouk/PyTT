@@ -65,12 +65,12 @@ Actions.Preferences.Shortcut=Ctrl+P
 Actions.Preferences.SmallImage=ImageFile:images/actions/PreferencesSmall.png
 Actions.Preferences.LargeImage=ImageFile:images/actions/PreferencesLarge.png
 
-Actions.HelpContents.Name=Contents
-Actions.HelpContents.Hotkey=C
-Actions.HelpContents.Description=Shows PyTT help contents
-Actions.HelpContents.Shortcut=F1
-Actions.HelpContents.SmallImage=ImageFile:images/actions/HelpContentsSmall.png
-Actions.HelpContents.LargeImage=ImageFile:images/actions/HelpContentsLarge.png
+Actions.HelpContent.Name=Content
+Actions.HelpContent.Hotkey=C
+Actions.HelpContent.Description=Shows PyTT help content
+Actions.HelpContent.Shortcut=F1
+Actions.HelpContent.SmallImage=ImageFile:images/actions/HelpContentSmall.png
+Actions.HelpContent.LargeImage=ImageFile:images/actions/HelpContentLarge.png
 
 Actions.About.Name=About
 Actions.About.Hotkey=b

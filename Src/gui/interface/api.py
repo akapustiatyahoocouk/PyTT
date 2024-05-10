@@ -9,6 +9,7 @@ from gui.implementation.actions.CloseWorkspaceAction import *
 from gui.implementation.actions.CreateWorkspaceAction import *
 from gui.implementation.actions.DestroyWorkspaceAction import *
 from gui.implementation.actions.ExitAction import *
+from gui.implementation.actions.HelpContentAction import *
 from gui.implementation.actions.ManageActivityTypesAction import *
 from gui.implementation.actions.ManagePublicActivitiesAction import *
 from gui.implementation.actions.ManageUsersAction import *

@@ -13,6 +13,7 @@ from .ManageUsersAction import ManageUsersAction
 from .ManageActivityTypesAction import ManageActivityTypesAction
 from .ManagePublicActivitiesAction import ManagePublicActivitiesAction
 from .PreferencesAction import PreferencesAction
+from .HelpContentAction import HelpContentAction
 from .AboutAction import AboutAction
 from gui.implementation.views.ViewType import ViewType
 
@@ -34,6 +35,7 @@ class ActionSet:
         self.__manage_activity_types = ManageActivityTypesAction()
         self.__manage_public_activities = ManagePublicActivitiesAction()
         self.__preferences = PreferencesAction()
+        self.__help_content = HelpContentAction()
         self.__about = AboutAction()
 
     ##########
@@ -82,6 +84,11 @@ class ActionSet:
     def preferences(self) -> PreferencesAction:
         """ The "PyTT preferences" action. """
         return self.__preferences
+
+    @property
+    def help_content(self) -> HelpContentAction:
+        """ The "PyTT Help Content" action. """
+        return self.__help_content
 
     @property
     def about(self) -> AboutAction:
