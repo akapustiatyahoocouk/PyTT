@@ -29,5 +29,5 @@ class HelpContentAction(ActionBase):
         help_directory = os.path.abspath(os.path.join(pytt_directory, "Doc/Help"))
         print("Loading help from", help_directory)
         op = help_directory.replace("\\", "/") + "/index.html"
-        webbrowser.open('file://' + op)
+        webbrowser.open('file://' + op, new=2)
 

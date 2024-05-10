@@ -29,6 +29,7 @@ const language = ((languageParam == null) || (languageParam == "")) ? "en" : lan
 //  ...and build the language selection menu
 const languages = {
   "en": "en.png",
+  "de": "de.png",
   "ru": "ru.png"
 };
 var langmenu = "";
@@ -62,5 +63,7 @@ else if (window.attachEvent) {
 
 function onMessage(event) {
     //alert(event.data.topic);
-    document.querySelector('#contentframe').src = event.data.topic;
+    if (event.data.type == "topicNav") {
+      document.querySelector('#contentframe').src = event.data.topic;
+    }
 }

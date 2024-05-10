@@ -4,6 +4,7 @@
     this.level = level;
     this.href = href;
     this.children = [];
+    this.expanded = false;
   }
 }
 
@@ -11,13 +12,13 @@ const rootTopic = new Topic("", 0, "index.html");
 const topics = [rootTopic];
 console.log(rootTopic);
 
-const toc = new RegExp("^toc([1-9])$");
+const tocRe = new RegExp("^toc([1-6])$");
 for (const a of document.getElementsByTagName("a")) {
-  const matches = toc.exec(a.className);
+  const matches = tocRe.exec(a.className);
   //console.log(matches[1] + ": " + a.innerText + " -> " + a.href);
   a.onclick = function() { 
       window.parent.postMessage({
-        "func": "parentFunc",
+        "type": "topicNav",
         "topic": a.href
     }, "*");
     return false;

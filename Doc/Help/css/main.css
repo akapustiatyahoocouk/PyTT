@@ -143,6 +143,10 @@ p {
   padding-left: 32px;
 }
 
+ul {
+  padding-left: 64px;
+}
+
 p.seealso {
   padding-left: 0;
 	font-size: 75%;
