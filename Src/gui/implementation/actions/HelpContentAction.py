@@ -1,6 +1,8 @@
 """ Defines the "PyTT Help Content" action. """
 #   Python standard library
 from typing import final
+import os.path
+import webbrowser
 
 #   Dependencies on other PyTT components
 from awt.interface.api import *
@@ -23,6 +25,9 @@ class HelpContentAction(ActionBase):
     ##########
     #   Action - Operations
     def execute(self, evt: ActionEvent) -> None:
-        with AboutDialog(self.dialog_parent) as dlg:
-            dlg.do_modal()
+        pytt_directory = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
+        help_directory = os.path.abspath(os.path.join(pytt_directory, "Doc/Help"))
+        print("Loading help from", help_directory)
+        op = help_directory.replace("\\", "/") + "/index.html"
+        webbrowser.open('file://' + op)
 

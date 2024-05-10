@@ -1,9 +1,14 @@
-﻿body
+﻿@font-face {
+    font-family: 'MyFontName'; /*a name to be used later*/
+    src: url('../fonts/PxPlus_IBM_EGA_8x14.ttf'); /*URL to font*/
+}
+
+body
 {
 	background-color: black;
   color: #00FF00;
 	line-height: 100%;
-	font-family: monospace;
+	font-family: MyFontName, monospace;
 	font-size: 150%;
 	
 	background-image: url("../images/body_background.jpg");
