@@ -22,13 +22,8 @@ body.toc
   color: #FFFFFF;
 }
 
-p.toc {
-    margin: 0;
-    padding: 0;
-}
-
 #home {
-  background-color:  #002000;
+  background-color:  #006000;
   padding-top: 0.5cm;
   overflow-x: auto;
   border-radius: 7px;
@@ -51,7 +46,7 @@ p.toc {
   padding-bottom: 0cm;
   height: 2rem;
   line-height: 2rem;
-  width: 75%;
+  width: 70%;
   text-align: center;
 }
 
@@ -71,18 +66,14 @@ p.toc {
 }
 
 .TopMenu {
-    color: lightgray;
-    float: left;
-    margin: 10px;
-    padding: 10px;
-    padding-top: 0cm;
-    font-size: 20px;
-    text-decoration:underline;
-    vertical-align: middle;
+  padding:5px;
+  vertical-align: middle;
 }
 
-.TopMenu:hover {
-    color: white;
+.TopMenuCurrent {
+  padding: 5px;
+  vertical-align: middle;
+  border: 1px #00A000 solid;
 }
 
 #workarea {
@@ -105,16 +96,16 @@ p.toc {
 }
 
 #content {
-  border-radius: 7px;
+  /*border-radius: 7px;
   border-color: #00A000;
   border-width: 1;
-  border-style:solid;
+  border-style:solid;*/
   padding: 5px;
   height: 1000;
 }
 
 #footer {
-  background-color:  #002000;
+  background-color:  #001000;
   border-radius: 7px;
   border-color: #00A000;
   border-width: 1;
@@ -127,16 +118,71 @@ h1
 {
   color: #FFFFFF;
 	font-size: 250%;
+	margin: 0;
 }
 
 h2
 {
   color: #FFFFFF;
 	font-size: 200%;
+	margin: 0;
 }
 
 h3
 {
   color: #FFFFFF;
 	font-size: 150%;
+	margin: 0;
+}
+
+hr {
+  border-color: #008000;
+}
+
+p {
+  padding-left: 32px;
+}
+
+p.seealso {
+  padding-left: 0;
+	font-size: 75%;
+  color: #008000;
+}
+
+a {
+  color: #00FF00;
+}
+
+a.seealso {
+  color: #008000;
+}
+
+p.footer {
+  margin: 0;
+  padding: 0;
+  color: #00FF00;
+}
+
+a.toc1 {
+  margin: 0;
+  padding: 0;
+  display: block;
+  color: #FFFFFF;
+	font-size: 100%;
+}
+
+a.toc2 {
+  margin: 0;
+  padding: 0 0 0 20px;
+  display: block;
+  color: #FFFFFF;
+	font-size: 80%;
+}
+
+a.toc3 {
+  margin: 0;
+  padding: 0 0 0 40px;
+  display: block;
+  color: #FFFFFF;
+	font-size: 60%;
 }
