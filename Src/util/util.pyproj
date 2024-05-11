@@ -32,6 +32,7 @@
     <Content Include="resources\documents\gpl-3.0-ru.txt" />
     <Content Include="resources\images\PyTTLarge.png" />
     <Content Include="resources\images\PyTTSmall.png" />
+    <Content Include="resources\Resources_de.txt" />
     <Content Include="resources\Resources.txt" />
     <Content Include="resources\Resources_ru.txt" />
   </ItemGroup>

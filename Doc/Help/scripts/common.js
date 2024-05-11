@@ -46,8 +46,8 @@ document.querySelector('#langmenu').innerHTML = langmenu;
 
 //////////
 //  Determine the pages to display in "toc" and "content" iframes...
-const tocUrl = language + "/toc.html";
-const contentUrl = language + "/welcome.html";
+const tocUrl = "content/" + language + "/toc.html";
+const contentUrl = "content/" + language + "/welcome.html";
 console.log(tocUrl);
 console.log(contentUrl);
 //  ...and load them

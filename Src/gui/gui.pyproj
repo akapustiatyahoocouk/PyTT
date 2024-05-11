@@ -74,6 +74,8 @@
     <Compile Include="implementation\misc\CurrentCredentials.py" />
     <Compile Include="implementation\misc\GuiSettings.py" />
     <Compile Include="implementation\views\ActivityTypesView.py" />
+    <Compile Include="implementation\views\PrivateActivitiesView.py" />
+    <Compile Include="implementation\views\PrivateActivitiesViewType.py" />
     <Compile Include="implementation\views\PublicActivitiesView.py" />
     <Compile Include="implementation\views\PublicActivitiesViewType.py" />
     <Compile Include="implementation\views\UsersView.py" />

@@ -11,6 +11,7 @@ Locale.Invariant=Инвариант
 
 Language.en=Английский
 Language.ru=Русский
+Language.de=Немецкий
 
 Country.GB=Великобритания
 

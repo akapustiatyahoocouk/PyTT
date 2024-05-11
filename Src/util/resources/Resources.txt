@@ -13,6 +13,7 @@ Locale.Invariant=Invariant
 
 Language.en=English
 Language.ru=Russian
+Language.de=German
 
 Country.GB=United Kingdom
 

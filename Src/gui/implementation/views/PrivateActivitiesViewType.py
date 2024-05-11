@@ -14,7 +14,7 @@ from gui.resources.GuiResources import GuiResources
 ##########
 #   Public entities
 @final
-class PublicActivitiesViewType(ViewType):
+class PrivateActivitiesViewType(ViewType):
 
     ##########
     #   Singleton
@@ -22,7 +22,7 @@ class PublicActivitiesViewType(ViewType):
     __instance : ViewType = None
 
     def __init__(self):
-        assert PublicActivitiesViewType.__instance_acquisition_in_progress, "Use PublicActivitiesViewType.instance() instead"
+        assert PrivateActivitiesViewType.__instance_acquisition_in_progress, "Use PrivateActivitiesViewType.instance() instead"
         ViewType.__init__(self)
 
     @staticproperty
@@ -34,39 +34,40 @@ class PublicActivitiesViewType(ViewType):
             @return:
                 The one and only instance of this class.
         """
-        if PublicActivitiesViewType.__instance is None:
-            PublicActivitiesViewType.__instance_acquisition_in_progress = True
-            PublicActivitiesViewType.__instance = PublicActivitiesViewType()
-            PublicActivitiesViewType.__instance_acquisition_in_progress = False
-        return PublicActivitiesViewType.__instance
+        if PrivateActivitiesViewType.__instance is None:
+            PrivateActivitiesViewType.__instance_acquisition_in_progress = True
+            PrivateActivitiesViewType.__instance = PrivateActivitiesViewType()
+            PrivateActivitiesViewType.__instance_acquisition_in_progress = False
+        return PrivateActivitiesViewType.__instance
 
     ##########
     #   ViewType - Properties
     @property
     def mnemonic(self) -> str:
-        return "PublicActivities"
+        return "PrivateActivities"
 
     @property
     def display_name(self) -> str:
-        return GuiResources.string("PublicActivitiesViewType.DisplayName")
+        return GuiResources.string("PrivateActivitiesViewType.DisplayName")
 
     @property
     def small_image(self) -> tk.PhotoImage:
-        return GuiResources.image("PublicActivitiesViewType.SmallImage")
+        return GuiResources.image("PrivateActivitiesViewType.SmallImage")
 
     @property
     def large_image(self) -> tk.PhotoImage:
-        return GuiResources.image("PublicActivitiesViewType.LargeImage")
+        return GuiResources.image("PrivateActivitiesViewType.LargeImage")
 
     ##########
     #   Operations
     def create_view(self, parent: tk.BaseWidget) -> View:
         assert isinstance(parent, tk.BaseWidget)
 
-        from .PublicActivitiesView import PublicActivitiesView
-        return PublicActivitiesView(parent)
+        from .PrivateActivitiesView import PrivateActivitiesView
+        return PrivateActivitiesView(parent)
 
 ##########
 #   Register stock items
-ViewType.register(PublicActivitiesViewType.instance)
+ViewType.register(PrivateActivitiesViewType.instance)
+
 

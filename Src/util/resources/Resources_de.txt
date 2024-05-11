@@ -1,0 +1,23 @@
+﻿PyTT.ProductName=PyTT Time Tracker
+PyTT.ProductVersion=Ausführung 1.0.0 (build 20240430)
+PyTT.ProductCopyright=Copyright (C) 2024, Andrey Kapustin
+PyTT.License=TextFile:documents/gpl-3.0-en.txt
+
+Preferences.General=Allgemein
+
+##########
+#   Locale support
+Locale.Invariant=Invariant
+
+Language.en=Englisch
+Language.ru=Russisch
+Language.de=Deutsch
+
+Country.GB=Vereinigtes Königreich
+
+##########
+#   Subsystems
+RootSubsystem.DisplayName=PyTT
+UiSubsystem.DisplayName=Benutzeroberfläche
+StorageSubsystem.DisplayName=Speicher
+UtilitiesSubsystem.DisplayName=Dienstprogramme
