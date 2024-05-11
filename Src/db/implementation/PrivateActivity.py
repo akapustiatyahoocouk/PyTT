@@ -9,7 +9,6 @@ from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
 from .Activity import Activity
-from .User import User
 from ..resources.DbResources import DbResources
 
 ##########
@@ -53,7 +52,7 @@ class PrivateActivity(Activity):
     ##########
     #   Associations
     @abstractproperty
-    def owner(self) -> User:
+    def owner(self) -> "User":
         """
             The User to which this PrivateActivity belongs.
 
@@ -63,7 +62,7 @@ class PrivateActivity(Activity):
         raise NotImplementedError()
 
     @owner.setter
-    def owner(self, new_owner: User) -> None:
+    def owner(self, new_owner: "User") -> None:
         """
             Changes the User to which this PrivateActivity belongs.
 

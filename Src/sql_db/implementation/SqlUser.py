@@ -278,6 +278,22 @@ class SqlUser(SqlDatabaseObject, User):
         except Exception as ex:
             raise DatabaseError.wrap(ex)
 
+    @property
+    def private_activities(self) -> Set[PrivateActivity]:
+        self._ensure_live()
+
+        try:
+            stat = self.database.create_statement(
+                """SELECT [pk] FROM [private_activities] WHERE [fk_owner] = ?""")
+            stat.set_int_parameter(0, self.oid)
+            rs = stat.execute()
+            result = set()
+            for r in rs:
+                result.add(self.database._get_private_activity_proxy(r["pk"]))
+            return result
+        except Exception as ex:
+            raise DatabaseError.wrap(ex)
+
     ##########
     #   User - Operations (life cycle)
     def create_account(self,

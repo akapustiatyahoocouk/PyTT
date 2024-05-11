@@ -6,6 +6,7 @@ from sql_db.implementation.SqlActivityType import *
 from sql_db.implementation.SqlDatabase import *
 from sql_db.implementation.SqlDatabaseObject import *
 from sql_db.implementation.SqlDataType import *
+from sql_db.implementation.SqlDeleteStatement import *
 from sql_db.implementation.SqlInsertStatement import *
 from sql_db.implementation.SqlPrivateActivity import *
 from sql_db.implementation.SqlPublicActivity import *

@@ -316,13 +316,16 @@ class SqlDatabase(Database):
         from .SqlInsertStatement import SqlInsertStatement
         from .SqlSelectStatement import SqlSelectStatement
         from .SqlUpdateStatement import SqlUpdateStatement
-
+        from .SqlDeleteStatement import SqlDeleteStatement
+        
         if sql_template.upper().startswith("INSERT"):
             sql_statement = SqlInsertStatement(self, sql_template)  #   may raise DatabaseError
         elif sql_template.upper().startswith("SELECT"):
             sql_statement = SqlSelectStatement(self, sql_template)  #   may raise DatabaseError
         elif sql_template.upper().startswith("UPDATE"):
             sql_statement = SqlUpdateStatement(self, sql_template)  #   may raise DatabaseError
+        elif sql_template.upper().startswith("DELETE"):
+            sql_statement = SqlDeleteStatement(self, sql_template)  #   may raise DatabaseError
         else:
             sql_statement = SqlStatement(self, sql_template)    #   may raise DatabaseError
 
@@ -598,3 +601,10 @@ class SqlDatabase(Database):
         if isinstance(obj, SqlPublicActivity):
             return obj
         return SqlPublicActivity(self, oid)
+
+    def _get_private_activity_proxy(self, oid: OID) -> User:
+        from .SqlPrivateActivity import SqlPrivateActivity
+        obj = self.__objects.get(oid, None)
+        if isinstance(obj, SqlPrivateActivity):
+            return obj
+        return SqlPrivateActivity(self, oid)

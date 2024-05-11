@@ -22,6 +22,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="implementation\SqlActivity.py" />
+    <Compile Include="implementation\SqlDeleteStatement.py" />
     <Compile Include="implementation\SqlPrivateActivity.py" />
     <Compile Include="implementation\SqlPublicActivity.py" />
     <Compile Include="implementation\SqlDatabase.py" />

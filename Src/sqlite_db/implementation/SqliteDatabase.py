@@ -160,6 +160,12 @@ class SqliteDatabase(SqlDatabase):
                 rowcount = cur.rowcount
                 cur.close()
                 return rowcount
+            elif sql.strip().upper().startswith("DELETE"):
+                cur = self.__connection.cursor()
+                cur.execute(sql)
+                rowcount = cur.rowcount
+                cur.close()
+                return rowcount
             else:
                 self.__connection.execute(sql)
         except Exception as ex:

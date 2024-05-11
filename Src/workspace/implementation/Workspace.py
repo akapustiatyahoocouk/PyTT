@@ -21,6 +21,7 @@ from .BusinessObject import BusinessObject
 from .BusinessUser import BusinessUser
 from .BusinessActivityType import BusinessActivityType
 from .BusinessPublicActivity import BusinessPublicActivity
+from .BusinessPrivateActivity import BusinessPrivateActivity
 from .Notifications import *
 from .Validator import *
 
@@ -545,7 +546,8 @@ class Workspace:
             #   TODO PublicTask, PrivateTask IN THIS PLACE
             elif isinstance(data_object, dbapi.PublicActivity):
                 business_object = BusinessPublicActivity(self, data_object)
-            #   TODO PrivateActivity IN THIS PLACE
+            elif isinstance(data_object, dbapi.PrivateActivity):
+                business_object = BusinessPrivateActivity(self, data_object)
             else:
                 raise NotImplementedError()
             self.__map_data_objects_to_business_objects[data_object] = business_object

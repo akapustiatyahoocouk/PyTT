@@ -415,6 +415,41 @@ class BusinessUser(BusinessObject):
             except Exception as ex:
                 raise WorkspaceError.wrap(ex)
 
+    def get_private_activities(self, credentials: Credentials) -> Set["BusinessPrivateActivity"]:
+        """
+            Returns the set of all BusinessPrivateActivity of this BusinessUser.
+
+            @param credentials:
+                The credentials of the service caller.
+            @return:
+                The set of all BusinessPrivateActivity of this BusinessUser.
+            @raise WorkspaceError:
+                If an error occurs.
+        """
+        assert isinstance(credentials, Credentials)
+
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            try:
+                result = set()
+                if self.workspace.get_capabilities(credentials) is None:
+                    #   The caller has no access to the database
+                    pass
+                elif self.workspace.can_manage_private_activities(credentials):
+                    #   The caller can see all private activities of any user
+                    for data_account in self._data_object.private_activities:
+                        result.add(self.workspace._get_business_proxy(data_account))
+                else:
+                    #   The caller can only see their own user's private activities
+                    data_user = self.workspace._Workspace__db.login(credentials.login, credentials._Credentials__password).user
+                    if self._data_object == data_user:
+                        for data_private_activity in self._data_object.private_activities:
+                            result.add(self.workspace._get_business_proxy(data_private_activity))
+                return result
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
+
     ##########
     #   Operations (life cycle)
     def create_account(self,

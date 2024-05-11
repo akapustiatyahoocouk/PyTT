@@ -88,14 +88,19 @@ class PrivateActivitiesView(View):
         selected_private_activity = self.selected_private_activity
         try:
             can_manage_private_activities = workspace.can_manage_private_activities(credentials)
-            #   A user should be able to modify their own private activities
-            ma = False if selected_private_activity is None else selected_private_activity.can_modify(credentials)
+            #   A user should be able to create, modify and destroy their own private activities
+            if not can_manage_private_activities:
+                cpa = (False if selected_user is None 
+                       else workspace.login(credentials=credentials).get_user(credentials) == selected_user)
+                mpa = (False if selected_private_activity is None 
+                       else selected_private_activity.can_modify(credentials))
+                dpa = mpa
         except Exception:
-            can_manage_private_activities = False
+            (can_manage_private_activities, cpa, mpa, dpa) = False, False, False, False
 
-        self.__create_private_activity_button.enabled = can_manage_private_activities and (selected_user is not None)
-        self.__modify_private_activity_button.enabled = (can_manage_private_activities or ma) and (selected_private_activity is not None)
-        self.__destroy_private_activity_button.enabled = can_manage_private_activities and (selected_private_activity is not None)
+        self.__create_private_activity_button.enabled = (can_manage_private_activities or cpa) and (selected_user is not None)
+        self.__modify_private_activity_button.enabled = (can_manage_private_activities or mpa) and (selected_private_activity is not None)
+        self.__destroy_private_activity_button.enabled = (can_manage_private_activities or dpa) and (selected_private_activity is not None)
 
     ##########
     #   Properties
@@ -186,43 +191,39 @@ class PrivateActivitiesView(View):
             user_node.text = users[i].display_name + user_disabled_suffix
             user_node.tag = users[i]
             #   ...and having proper account nodes underneath
-            self.__refresh_account_nodes(user_node, users[i])
+            self.__refresh_private_activity_nodes(user_node, users[i])
 
         #   Try to keep the selection
         if self.selected_object != selected_object:
             self.selected_object = selected_object
 
-    def __refresh_account_nodes(self, user_node: TreeNode, user: BusinessUser) -> None:
+    def __refresh_private_activity_nodes(self, user_node: TreeNode, user: BusinessUser) -> None:
         credentials = CurrentCredentials.get()
         assert (user_node is not None) and (user is not None) and (credentials is not None)
 
-        #   Prepare the list of accessible BusinessAccounts sorted by login
-        accounts = list(user.get_accounts(credentials))
+        #   Prepare the list of accessible BusinessPrivateActivities sorted by login
+        private_activities = list(user.get_private_activities(credentials))
         try:
-            accounts.sort(key=lambda a: a.get_login(credentials))
+            private_activities.sort(key=lambda a: a.display_name)
         except Exception as ex:
             ErrorDialog.show(self, ex)
             pass    #   TODO log the exception
         #   Make sure the self.__private_activities_tree_view contains a proper number
         #   of root nodes...
-        while len(user_node.child_nodes) > len(accounts):
+        while len(user_node.child_nodes) > len(private_activities):
             #   Too many leaf nodes under the user node
             user_node.child_nodes.remove_at(len(user_node.child_nodes) - 1)
-        while len(user_node.child_nodes) < len(accounts):
+        while len(user_node.child_nodes) < len(private_activities):
             #   Too gew leaf nodes under the user node
-            account = accounts[len(user_node.child_nodes)]
-            user_node.child_nodes.add(account.display_name,
-                                      image=account.small_image,
-                                      tag=account)
-        #   ...each representing a proper BusinessAccount
-        for i in range(len(accounts)):
-            try:
-                account_disabled_suffix = "" if accounts[i].is_enabled(credentials) else ' [disabled]'
-            except Exception as ex:
-                account_disabled_suffix = ""
-            account_node = user_node.child_nodes[i]
-            account_node.text = accounts[i].display_name + account_disabled_suffix
-            account_node.tag = accounts[i]
+            private_activity = private_activities[len(user_node.child_nodes)]
+            user_node.child_nodes.add(private_activity.display_name,
+                                      image=private_activity.small_image,
+                                      tag=private_activity)
+        #   ...each representing a proper BusinessPrivateActivity
+        for i in range(len(private_activities)):
+            private_activity_node = user_node.child_nodes[i]
+            private_activity_node.text = private_activities[i].display_name
+            private_activity_node.tag = private_activities[i]
 
     ##########
     #   Event listeners

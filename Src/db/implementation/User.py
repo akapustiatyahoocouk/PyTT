@@ -10,6 +10,7 @@ from util.interface.api import *
 #   Internal dependencies on modules within the same component
 from .DatabaseObject import DatabaseObject
 from .Account import Account
+from .PrivateActivity import PrivateActivity
 from ..resources.DbResources import DbResources
 
 ##########
@@ -189,6 +190,16 @@ class User(DatabaseObject):
     def accounts(self) -> Set[Account]:
         """
             The set of all Accounts of this User.
+
+            @raise DatabaseError:
+                If an error occurs.
+        """
+        raise NotImplementedError()
+
+    @abstractproperty
+    def private_activities(self) -> Set[PrivateActivity]:
+        """
+            The set of all PrivateActivities (but not PrivateTasks!) of this User.
 
             @raise DatabaseError:
                 If an error occurs.
