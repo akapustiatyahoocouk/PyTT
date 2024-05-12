@@ -144,7 +144,8 @@ class EmailAddressListEditor(Panel):
         email_address = si.text
         if MessageBox.show(self.winfo_toplevel(),
                 title=GuiResources.string("EmailAddressListEditor.RemoveEmailAddressDialog.Title"),
-                message=GuiResources.string("EmailAddressListEditor.RemoveEmailAddressDialog.Prompt").format(email_address),
+                message=GuiResources.string("EmailAddressListEditor.RemoveEmailAddressDialog.Prompt",
+                                            args=(email_address,)),
                 icon=MessageBoxIcon.QUESTION,
                 buttons=MessageBoxButtons.YES_NO) == MessageBoxResult.YES:
             self.__email_addresses.remove(email_address)

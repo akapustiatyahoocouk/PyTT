@@ -69,8 +69,9 @@ class DestroyAccountDialog(Dialog):
 
         self.__prompt_label = Label(
             self.__controls_panel,
-            text=GuiResources.string("DestroyAccountDialog.PrimptLabel.Text").format(account.display_name,
-                                                                                     account.get_user(self.__credentials).display_name),
+            text=GuiResources.string("DestroyAccountDialog.PromptLabel.Text",
+                                     args=(account.display_name,
+                                           account.get_user(self.__credentials).display_name)),
             justify=tk.CENTER)
 
         self.__separator = Separator(self, orient="horizontal")

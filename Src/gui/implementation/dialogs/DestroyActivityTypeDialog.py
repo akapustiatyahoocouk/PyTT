@@ -69,7 +69,8 @@ class DestroyActivityTypeDialog(Dialog):
 
         self.__prompt_label = Label(
             self.__controls_panel,
-            text=GuiResources.string("DestroyActivityTypeDialog.PrimptLabel.Text").format(activity_type.display_name),
+            text=GuiResources.string("DestroyActivityTypeDialog.PromptLabel.Text",
+                                     args=(activity_type.display_name,)),
             justify=tk.CENTER)
 
         self.__separator = Separator(self, orient="horizontal")

@@ -15,7 +15,7 @@ from ..misc.CurrentWorkspace import CurrentWorkspace
 from ..misc.CurrentCredentials import CurrentCredentials
 from ..dialogs.CreatePrivateActivityDialog import *
 #from ..dialogs.ModifyPrivateActivityDialog import *
-#from ..dialogs.DestroyPrivateActivityDialog import *
+from ..dialogs.DestroyPrivateActivityDialog import *
 from gui.resources.GuiResources import GuiResources
 
 ##########
@@ -281,9 +281,9 @@ class PrivateActivitiesView(View):
 
     def __on_destroy_private_activity_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)
-        #try:
-        #    with DestroyAccountDialog(self.winfo_toplevel(), self.selected_account) as dlg:
-        #        dlg.do_modal()
-        #    self.request_refresh()
-        #except Exception as ex: #   error in DestroyAccountDialog constructor
-        #    ErrorDialog.show(None, ex)
+        try:
+            with DestroyPrivateActivityDialog(self.winfo_toplevel(), self.selected_private_activity) as dlg:
+                dlg.do_modal()
+            self.request_refresh()
+        except Exception as ex: #   error in DestroyPrivateActivityDialog constructor
+            ErrorDialog.show(None, ex)

@@ -69,7 +69,8 @@ class DestroyUserDialog(Dialog):
 
         self.__prompt_label = Label(
             self.__controls_panel,
-            text=GuiResources.string("DestroyUserDialog.PrimptLabel.Text").format(user.display_name),
+            text=GuiResources.string("DestroyUserDialog.PromptLabel.Text",
+                                     args=(user.display_name,)),
             justify=tk.CENTER)
 
         self.__separator = Separator(self, orient="horizontal")

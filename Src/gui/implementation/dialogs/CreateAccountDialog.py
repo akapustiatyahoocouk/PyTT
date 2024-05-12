@@ -53,7 +53,8 @@ class CreateAccountDialog(Dialog):
         """
         Dialog.__init__(self,
                         parent,
-                        GuiResources.string("CreateAccountDialog.Title").format(user.display_name))
+                        GuiResources.string("CreateAccountDialog.Title",
+                                            args=(user.display_name,)))
 
         assert isinstance(user, BusinessUser)
         self.__user = user

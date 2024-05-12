@@ -1,5 +1,6 @@
 """ Resource definitions for "gui" component. """
 #   Python standard library
+from ast import Tuple
 from typing import final, Optional
 import os
 import tkinter as tk
@@ -35,8 +36,11 @@ class GuiResources(ClassWithConstants):
     ##########
     #   Operations
     @staticmethod
-    def string(key: str, locale: Optional[Locale] = None) -> str:
-        return GuiResources.__impl.get_string(key, locale)
+    def string(key: str, locale: Optional[Locale] = None, args: Tuple = None) -> str:
+        result = GuiResources.__impl.get_string(key, locale)
+        if (args is not None) and (len(args) > 0):
+            result = result.format(*args)
+        return result
 
     @staticmethod
     def image(key: str, locale: Optional[Locale] = None) -> tk.PhotoImage:

@@ -1,4 +1,8 @@
 ========== IMMEDIATE PIPELINE ======================================
+*   Extend the staticmethod .string() of ...ResourceFactory so that
+    will accept optional *args and perform format() call internally.
+    Currently works for GuiResources; use for all other 
+    ...Resources.
 *   Workspace now implements __enter__() and __exit__(). Ensure
     access synchronization by wrapping the bodies of all workspace
     API methods within a "with <workspace>:" block.
@@ -53,6 +57,11 @@
 *   Define class awt.GroupBox(tk.LabelFrame).
 
 ========== NEED TO DO EVENTUALLY ===================================
+*   When several users access the same Workspace, it can be that
+    one of them - an administrator - destroys or disables the 
+    account under which the other user is logged in. In this case
+    that "other" user must be notified and their PyTT instance
+    must close its "current" workspace.
 *   When importing a class/feature from a module in the same 
     package, use the "from .<module> import <feature>" form instead
     of the longer "from <fq module name> import <feature>" form.
@@ -75,3 +84,4 @@
 *   Create a new ActionMenuItem(MenuItem) class, for Action-based
     MenuItems. They should REJECT attempts to set their propertes 
     directly.
+*   Database schema versioning and automatic schema upgrade.

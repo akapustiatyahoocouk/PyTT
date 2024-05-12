@@ -202,7 +202,7 @@ ModifyUserDialog.CancelButton.Text=Cancel
 ModifyUserDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
 
 DestroyUserDialog.Title=Delete user
-DestroyUserDialog.PrimptLabel.Text=Are you sure you want to permananently\ndelete user '{0}' and all associated accounts?
+DestroyUserDialog.PromptLabel.Text=Are you sure you want to permananently\ndelete user '{0}' and all associated accounts?
 DestroyUserDialog.OkButton.Text=OK
 DestroyUserDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 DestroyUserDialog.CancelButton.Text=Cancel
@@ -233,7 +233,7 @@ ModifyAccountDialog.CancelButton.Text=Cancel
 ModifyAccountDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
 
 DestroyAccountDialog.Title=Delete account
-DestroyAccountDialog.PrimptLabel.Text=Are you sure you want to permananently\ndelete account '{0}' of user '{1}'?
+DestroyAccountDialog.PromptLabel.Text=Are you sure you want to permananently\ndelete account '{0}' of user '{1}'?
 DestroyAccountDialog.OkButton.Text=OK
 DestroyAccountDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 DestroyAccountDialog.CancelButton.Text=Cancel
@@ -256,7 +256,7 @@ ModifyActivityTypeDialog.CancelButton.Text=Cancel
 ModifyActivityTypeDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
 
 DestroyActivityTypeDialog.Title=Delete activity type
-DestroyActivityTypeDialog.PrimptLabel.Text=Are you sure you want to permananently\ndelete activity type '{0}''?
+DestroyActivityTypeDialog.PromptLabel.Text=Are you sure you want to permananently\ndelete activity type '{0}'?
 DestroyActivityTypeDialog.OkButton.Text=OK
 DestroyActivityTypeDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 DestroyActivityTypeDialog.CancelButton.Text=Cancel
@@ -295,7 +295,7 @@ ModifyPublicActivityDialog.CancelButton.Text=Cancel
 ModifyPublicActivityDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
 
 DestroyPublicActivityDialog.Title=Delete public activity
-DestroyPublicActivityDialog.PrimptLabel.Text=Are you sure you want to permananently\ndelete public activity '{0}''?
+DestroyPublicActivityDialog.PromptLabel.Text=Are you sure you want to permananently\ndelete public activity '{0}'?
 DestroyPublicActivityDialog.OkButton.Text=OK
 DestroyPublicActivityDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 DestroyPublicActivityDialog.CancelButton.Text=Cancel
@@ -317,6 +317,13 @@ CreatePrivateActivityDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 CreatePrivateActivityDialog.CancelButton.Text=Cancel
 CreatePrivateActivityDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
 
+DestroyPrivateActivityDialog.Title=Delete private activity
+DestroyPrivateActivityDialog.PromptLabel.Text=Are you sure you want to permananently\ndelete private activity '{0}' of user '{1}'?
+DestroyPrivateActivityDialog.OkButton.Text=OK
+DestroyPrivateActivityDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+DestroyPrivateActivityDialog.CancelButton.Text=Cancel
+DestroyPrivateActivityDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+
 ManageUsersDialog.Title=Manage users and accounts
 ManageUsersDialog.OkButton.Text=OK
 ManageUsersDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
@@ -328,6 +335,9 @@ ManageActivityTypesDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 ManagePublicActivitiesDialog.Title=Manage public activities
 ManagePublicActivitiesDialog.OkButton.Text=OK
 ManagePublicActivitiesDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+
+ReloginFailedDialog.Title=Login failed
+ReloginFailedDialog.Prompt=The credentials you have specified do not allow accessing\n{0}.\nWould you like to try again?
 
 ##########
 #   View types

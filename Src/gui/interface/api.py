@@ -18,11 +18,13 @@ from gui.implementation.actions.OpenWorkspaceAction import *
 from gui.implementation.dialogs.AboutDialog import *
 from gui.implementation.dialogs.CreateAccountDialog import *
 from gui.implementation.dialogs.CreateActivityTypeDialog import *
+from gui.implementation.dialogs.CreatePrivateActivityDialog import *
 from gui.implementation.dialogs.CreatePublicActivityDialog import *
 from gui.implementation.dialogs.CreateUserDialog import *
 from gui.implementation.dialogs.CreateWorkspaceDialog import *
 from gui.implementation.dialogs.DestroyAccountDialog import *
 from gui.implementation.dialogs.DestroyActivityTypeDialog import *
+from gui.implementation.dialogs.DestroyPrivateActivityDialog import *
 from gui.implementation.dialogs.DestroyPublicActivityDialog import *
 from gui.implementation.dialogs.DestroyUserDialog import *
 from gui.implementation.dialogs.LanguagesDialog import *
