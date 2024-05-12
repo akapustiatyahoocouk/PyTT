@@ -56,9 +56,9 @@ CREATE TABLE [activity_types]
 CREATE TABLE [activities]
 (
     [pk] INTEGER NOT NULL PRIMARY KEY,
-    [name] VARCHAR(128) NOT NULL UNIQUE,
+    [name] VARCHAR(128) NOT NULL,
     [description] TEXT NOT NULL,
-    [timeout]  INTEGER,                             --  in minutes; NULL == none
+    [timeout] INTEGER,                             --  in minutes; NULL == none
     [require_comment_on_start] CHAR(1) NOT NULL,    --  "Y" or "N"
     [require_comment_on_finish] CHAR(1) NOT NULL,   --  "Y" or "N"
     [full_screen_reminder] CHAR(1) NOT NULL,        --  "Y" or "N"

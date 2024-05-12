@@ -35,18 +35,19 @@ class SqlActivity(SqlDatabaseObject, Activity):
     #   Activity - Properties
     @property
     def name(self) -> str:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
 
         self._load_property_cache()
         return self._name
 
     @name.setter
     def name(self, new_name: str) -> None:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
         assert isinstance(new_name, str)
 
-        #   Validate parameters TODO everywhere!!!
-        if not self.database.validator.activity.is_valid_name(new_name):
+        #   Validate parameters
+        validator = self.database.validator
+        if not validator.activity.is_valid_name(new_name):
             raise InvalidDatabaseObjectPropertyError(Activity.TYPE_NAME, Activity.NAME_PROPERTY_NAME, new_name)
 
         #   Make database changes
@@ -73,18 +74,19 @@ class SqlActivity(SqlDatabaseObject, Activity):
 
     @property
     def description(self) -> str:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
 
         self._load_property_cache()
         return self._description
 
     @description.setter
     def description(self, new_description: str) -> None:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
         assert isinstance(new_description, str)
 
-        #   Validate parameters TODO everywhere!!!
-        if not self.database.validator.activity.is_valid_description(new_description):
+        #   Validate parameters
+        validator = self.database.validator
+        if not validator.activity.is_valid_description(new_description):
             raise InvalidDatabaseObjectPropertyError(Activity.TYPE_NAME, Activity.DESCRIPTION_PROPERTY_NAME, new_description)
 
         #   Make database changes
@@ -111,18 +113,19 @@ class SqlActivity(SqlDatabaseObject, Activity):
 
     @property
     def timeout(self) -> Optional[int]:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
 
         self._load_property_cache()
         return self._timeout
 
     @timeout.setter
     def timeout(self, new_timeout: Optional[int]) -> None:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
         assert (new_timeout is None) or isinstance(new_timeout, int)
 
-        #   Validate parameters TODO everywhere!!!
-        if not self.database.validator.activity.is_valid_timeout(new_timeout):
+        #   Validate parameters
+        validator = self.database.validator
+        if not validator.activity.is_valid_timeout(new_timeout):
             raise InvalidDatabaseObjectPropertyError(Activity.TYPE_NAME, Activity.TIMEOUT_PROPERTY_NAME, new_timeout)
 
         #   Make database changes
@@ -149,18 +152,19 @@ class SqlActivity(SqlDatabaseObject, Activity):
 
     @property
     def require_comment_on_start(self) -> bool:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
 
         self._load_property_cache()
         return self._require_comment_on_start
 
     @require_comment_on_start.setter
     def require_comment_on_start(self, new_require_comment_on_start: bool) -> None:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
         assert isinstance(new_require_comment_on_start, bool)
 
-        #   Validate parameters TODO everywhere!!!
-        if not self.database.validator.activity.is_valid_require_comment_on_start(new_require_comment_on_start):
+        #   Validate parameters
+        validator = self.database.validator
+        if not validator.activity.is_valid_require_comment_on_start(new_require_comment_on_start):
             raise InvalidDatabaseObjectPropertyError(Activity.TYPE_NAME, Activity.REQUIRE_COMMENT_ON_START_PROPERTY_NAME, new_timeout)
 
         #   Make database changes
@@ -187,18 +191,19 @@ class SqlActivity(SqlDatabaseObject, Activity):
 
     @property
     def require_comment_on_finish(self) -> bool:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
 
         self._load_property_cache()
         return self._require_comment_on_finish
 
     @require_comment_on_finish.setter
     def require_comment_on_finish(self, new_require_comment_on_finish: bool) -> None:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
         assert isinstance(new_require_comment_on_finish, bool)
 
-        #   Validate parameters TODO everywhere!!!
-        if not self.database.validator.activity.is_valid_require_comment_on_finish(new_require_comment_on_finish):
+        #   Validate parameters
+        validator = self.database.validator
+        if not validator.activity.is_valid_require_comment_on_finish(new_require_comment_on_finish):
             raise InvalidDatabaseObjectPropertyError(Activity.TYPE_NAME, Activity.REQUIRE_COMMENT_ON_FINISH_PROPERTY_NAME, new_timeout)
 
         #   Make database changes
@@ -225,18 +230,19 @@ class SqlActivity(SqlDatabaseObject, Activity):
 
     @property
     def full_screen_reminder(self) -> bool:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
 
         self._load_property_cache()
         return self._full_screen_reminder
 
     @full_screen_reminder.setter
     def full_screen_reminder(self, new_full_screen_reminder: bool) -> None:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
         assert isinstance(new_full_screen_reminder, bool)
 
-        #   Validate parameters TODO everywhere!!!
-        if not self.database.validator.activity.is_valid_full_screen_reminder(new_full_screen_reminder):
+        #   Validate parameters
+        validator = self.database.validator
+        if not validator.activity.is_valid_full_screen_reminder(new_full_screen_reminder):
             raise InvalidDatabaseObjectPropertyError(Activity.TYPE_NAME, Activity.FULL_SCREEN_REMINDER_PROPERTY_NAME, new_timeout)
 
         #   Make database changes
@@ -265,7 +271,7 @@ class SqlActivity(SqlDatabaseObject, Activity):
     #   Activity - Associations
     @property
     def activity_type(self) -> Optional[ActivityType]:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
 
         self._load_property_cache()
         if self._fk_activity_type is None:
@@ -274,7 +280,7 @@ class SqlActivity(SqlDatabaseObject, Activity):
 
     @activity_type.setter
     def activity_type(self, new_activity_type: Optional[ActivityType]) -> None:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
         assert (new_activity_type is None) or isinstance(new_activity_type, SqlActivityType)
 
         #   Validate parameters

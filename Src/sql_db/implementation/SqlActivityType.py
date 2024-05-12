@@ -28,7 +28,7 @@ class SqlActivityType(SqlDatabaseObject, ActivityType):
     ##########
     #   DatabaseObject - Operations (life cycle)
     def destroy(self) -> None:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
 
         #   TODO Dis-associate from Activities, making these typeless
         #   Destroy the ActivityType
@@ -63,18 +63,19 @@ class SqlActivityType(SqlDatabaseObject, ActivityType):
     #   ActivityType - Properties
     @property
     def name(self) -> str:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
 
         self._load_property_cache()
         return self._name
 
     @name.setter
     def name(self, new_name: str) -> None:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
         assert isinstance(new_name, str)
 
-        #   Validate parameters TODO everywhere!!!
-        if not self.database.validator.activity_type.is_valid_name(new_name):
+        #   Validate parameters
+        validator = self.database.validator
+        if not validator.activity_type.is_valid_name(new_name):
             raise InvalidDatabaseObjectPropertyError(ActivityType.TYPE_NAME, ActivityType.NAME_PROPERTY_NAME, new_name)
 
         #   Make database changes
@@ -101,18 +102,19 @@ class SqlActivityType(SqlDatabaseObject, ActivityType):
 
     @property
     def description(self) -> str:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
 
         self._load_property_cache()
         return self._description
 
     @description.setter
     def description(self, new_description: str) -> None:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
         assert isinstance(new_description, str)
 
-        #   Validate parameters TODO everywhere!!!
-        if not self.database.validator.activity_type.is_valid_description(new_description):
+        #   Validate parameters
+        validator = self.database.validator
+        if not validator.activity_type.is_valid_description(new_description):
             raise InvalidDatabaseObjectPropertyError(ActivityType.TYPE_NAME, ActivityType.DESCRIPTION_PROPERTY_NAME, new_description)
 
         #   Make database changes
@@ -141,7 +143,7 @@ class SqlActivityType(SqlDatabaseObject, ActivityType):
     #   ActivityType - Associations
     @property
     def activities(self) -> Set[Activity]:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
 
         try:
             #stat = self.database.create_statement(

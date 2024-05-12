@@ -7,6 +7,7 @@ from typing import final, Optional
 
 #   Dependencies on other PyTT components
 from workspace.interface.api import *
+from util.interface.api import *
 
 ##########
 #   Public entities
@@ -15,8 +16,14 @@ class CurrentCredentials:
     """ The "current" credentials. """
 
     ##########
+    #   Constants (observable property names)
+    CURRENT_CREDENTIALS_PROPERTY_NAME = "current"
+    """ The name of the "current: Credentials" static property of a CurrentCredentials. """
+
+    ##########
     #   Implementation
     __current_credentials = None
+    __property_change_listeners = []
 
     ##########
     #   Construction - disable (this is an utility class)
@@ -37,4 +44,59 @@ class CurrentCredentials:
 
         if cc is not CurrentCredentials.__current_credentials:
             CurrentCredentials.__current_credentials = cc
-            #   TODO notify listeners of the "current" credentials change
+            #   Notify listeners of the "current" Workspace change
+            evt = PropertyChangeEvent(CurrentCredentials, CurrentCredentials, CurrentCredentials.CURRENT_CREDENTIALS_PROPERTY_NAME)
+            CurrentCredentials.process_property_change_event(evt)
+
+    ##########
+    #   Operations (static property change handling)
+    @staticmethod
+    def add_property_change_listener(l: Union[PropertyChangeEventListener, PropertyChangeEventHandler]) -> None:
+        """ Registers the specified listener or handler to be
+            notified when a static property change event is
+            processed.
+            A given listener can be registered at most once;
+            subsequent attempts to register the same listener
+            again will have no effect. """
+        assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
+                isinstance(l, PropertyChangeEventHandler))
+        if l not in CurrentCredentials.__property_change_listeners:
+            CurrentCredentials.__property_change_listeners.append(l)
+
+    @staticmethod
+    def remove_property_change_listener(l: Union[PropertyChangeEventListener, PropertyChangeEventHandler]) -> None:
+        """ Un-registers the specified listener or handler to no
+            longer be notified when a static property change
+            event is processed.
+            A given listener can be un-registered at most once;
+            subsequent attempts to un-register the same listener
+            again will have no effect. """
+        assert ((isinstance(l, Callable) and len(signature(l).parameters) == 1) or
+                isinstance(l, PropertyChangeEventHandler))
+        if l in CurrentCredentials.__property_change_listeners:
+            CurrentCredentials.__property_change_listeners.remove(l)
+
+    @staticproperty
+    def property_change_listeners() -> list[Union[PropertyChangeEventListener, PropertyChangeEventHandler]]:
+        """ The list of all static property change listeners registered so far. """
+        return CurrentCredentials.__property_change_listeners.copy()
+
+    @staticmethod
+    def process_property_change_event(event : PropertyChangeEvent) -> bool:
+        """
+            Called to process an PropertyChangeEvent for a
+            change made to a static property.
+
+            @param event:
+                The property change event to process.
+        """
+        assert isinstance(event, PropertyChangeEvent)
+        for l in CurrentCredentials.property_change_listeners:
+            try:
+                if isinstance(l, PropertyChangeEventHandler):
+                    l.on_property_change(event)
+                else:
+                    l(event)
+            except Exception as ex:
+                pass    #   TODO log the exception
+        return event.processed

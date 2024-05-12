@@ -39,6 +39,7 @@
     <Compile Include="implementation\actions\CloseWorkspaceAction.py" />
     <Compile Include="implementation\actions\DestroyWorkspaceAction.py" />
     <Compile Include="implementation\actions\HelpContentAction.py" />
+    <Compile Include="implementation\actions\LoginAsDifferentUserAction.py" />
     <Compile Include="implementation\actions\ManageActivityTypesAction.py" />
     <Compile Include="implementation\actions\ManagePublicActivitiesAction.py" />
     <Compile Include="implementation\actions\ManageUsersAction.py" />
@@ -51,6 +52,7 @@
     <Compile Include="implementation\actions\ExitAction.py" />
     <Compile Include="implementation\controls\EmailAddressListEditor.py" />
     <Compile Include="implementation\dialogs\CreateAccountDialog.py" />
+    <Compile Include="implementation\dialogs\CreatePrivateActivityDialog.py" />
     <Compile Include="implementation\dialogs\CreatePublicActivityDialog.py" />
     <Compile Include="implementation\dialogs\DestroyPublicActivityDialog.py" />
     <Compile Include="implementation\dialogs\ManageActivityTypesDialog.py" />
@@ -107,6 +109,8 @@
     <Content Include="resources\images\actions\CreateAccountSmall.png" />
     <Content Include="resources\images\actions\CreateActivityTypeLarge.png" />
     <Content Include="resources\images\actions\CreateActivityTypeSmall.png" />
+    <Content Include="resources\images\actions\CreatePrivateActivityLarge.png" />
+    <Content Include="resources\images\actions\CreatePrivateActivitySmall.png" />
     <Content Include="resources\images\actions\CreatePublicActivityLarge.png" />
     <Content Include="resources\images\actions\CreatePublicActivitySmall.png" />
     <Content Include="resources\images\actions\CreateUserLarge.png" />
@@ -117,6 +121,8 @@
     <Content Include="resources\images\actions\DestroyAccountSmall.png" />
     <Content Include="resources\images\actions\DestroyActivityTypeLarge.png" />
     <Content Include="resources\images\actions\DestroyActivityTypeSmall.png" />
+    <Content Include="resources\images\actions\DestroyPrivateActivityLarge.png" />
+    <Content Include="resources\images\actions\DestroyPrivateActivitySmall.png" />
     <Content Include="resources\images\actions\DestroyPublicActivityLarge.png" />
     <Content Include="resources\images\actions\DestroyPublicActivitySmall.png" />
     <Content Include="resources\images\actions\DestroyUserLarge.png" />
@@ -127,12 +133,16 @@
     <Content Include="resources\images\actions\ExitSmall.png" />
     <Content Include="resources\images\actions\HelpContentLarge.png" />
     <Content Include="resources\images\actions\HelpContentSmall.png" />
+    <Content Include="resources\images\actions\LoginLarge.png" />
+    <Content Include="resources\images\actions\LoginSmall.png" />
     <Content Include="resources\images\actions\ModifyAccountLarge.png" />
     <Content Include="resources\images\actions\ModifyAccountSmall.png" />
     <Content Include="resources\images\actions\ModifyActivityTypeLarge.png" />
     <Content Include="resources\images\actions\ModifyActivityTypeSmall.png" />
     <Content Include="resources\images\actions\ModifyEmailAddressLarge.png" />
     <Content Include="resources\images\actions\ModifyEmailAddressSmall.png" />
+    <Content Include="resources\images\actions\ModifyPrivateActivityLarge.png" />
+    <Content Include="resources\images\actions\ModifyPrivateActivitySmall.png" />
     <Content Include="resources\images\actions\ModifyPublicActivityLarge.png" />
     <Content Include="resources\images\actions\ModifyPublicActivitySmall.png" />
     <Content Include="resources\images\actions\ModifyUserLarge.png" />

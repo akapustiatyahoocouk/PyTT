@@ -27,6 +27,7 @@ class User(DatabaseObject):
     UI_LOCALE_PROPERTY_NAME = "uiLocale"
     EMAIL_ADDRESSES_PROPERTY_NAME = "emailAddresses"
     ACCOUNTS_ASSOCIATION_NAME = "accounts"
+    PRIVATE_ACTIVITIES_ASSOCIATION_NAME = "privateActivities"
 
     ##########
     #   UI traits
@@ -231,6 +232,42 @@ class User(DatabaseObject):
                 cannot be None or contain Nones, but can be empty.
             @return:
                 The newly created Account.
+            @raise DatabaseError:
+                If an error occurs.
+        """
+        raise NotImplementedError()
+
+    @abstractmethod
+    def create_private_activity(self,
+                    name: str = None,           #   MUST specify!
+                    description: str = None,    #   MUST specify!
+                    activity_type: Optional["ActivityType"] = None,
+                    timeout: Optional[int] = None,
+                    require_comment_on_start: bool = False,
+                    require_comment_on_finish: bool = False,
+                    full_screen_reminder: bool = False) -> "PrivateActivity":
+        """
+            Creates a new PrivateActivity.
+
+            @param name:
+                The "name" for the new PrivateActivity.
+            @param description:
+                The "description" for the new PrivateActivity.
+            @param activity_type:
+                The activity type to assign to this PrivateActivity or None.
+            @param timeout:
+                The timeout of this PrivateActivity, expressed in minutes, or None.
+            @param require_comment_on_start:
+                True if user shall be required to enter a comment when starting
+                this PrivateActivity, else False.
+            @param require_comment_on_finish:
+                True if user shall be required to enter a comment when finishing
+                this PrivateActivity, else False.
+            @param full_screen_reminder:
+                True if user shall be shown a full-screen reminder while this 
+                PrivateActivity is underway, else False.
+            @return:
+                The newly created PrivateActivity.
             @raise DatabaseError:
                 If an error occurs.
         """

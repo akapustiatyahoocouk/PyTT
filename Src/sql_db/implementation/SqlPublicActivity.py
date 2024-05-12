@@ -27,7 +27,7 @@ class SqlPublicActivity(SqlActivity, PublicActivity):
     ##########
     #   DatabaseObject - Operations (life cycle)
     def destroy(self) -> None:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
 
         #   TODO Dis-associate from Accounts (as quick pick items)
         #   TODO Dis-associate from Events

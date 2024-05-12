@@ -58,6 +58,13 @@ Actions.ManagePublicActivities.Description=Manage available public activities
 Actions.ManagePublicActivities.SmallImage=ImageFile:images/objects/PublicActivitySmall.png
 Actions.ManagePublicActivities.LargeImage=ImageFile:images/objects/PublicActivityLarge.png
 
+Actions.LoginAsDifferentUser.Name=Login as a different user
+Actions.LoginAsDifferentUser.Hotkey=L
+Actions.LoginAsDifferentUser.Description=Prompts for new credentials and logs in as a different user
+Actions.LoginAsDifferentUser.Shortcut=Ctrl+P
+Actions.LoginAsDifferentUser.SmallImage=ImageFile:images/actions/LoginSmall.png
+Actions.LoginAsDifferentUser.LargeImage=ImageFile:images/actions/LoginLarge.png
+
 Actions.Preferences.Name=Preferences
 Actions.Preferences.Hotkey=P
 Actions.Preferences.Description=Sets up PyTT preferences
@@ -293,6 +300,22 @@ DestroyPublicActivityDialog.OkButton.Text=OK
 DestroyPublicActivityDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 DestroyPublicActivityDialog.CancelButton.Text=Cancel
 DestroyPublicActivityDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+
+CreatePrivateActivityDialog.Title=Create private activity
+CreatePrivateActivityDialog.NameLabel.Text=Name:
+CreatePrivateActivityDialog.DescriptionLabel.Text=Description:
+CreatePrivateActivityDialog.ActivityTypeLabel.Text=Activity type:
+CreatePrivateActivityDialog.TimeoutLabel.Text=Timeout:
+CreatePrivateActivityDialog.TimeoutNone=none
+CreatePrivateActivityDialog.TimeoutHours=hour(s)
+CreatePrivateActivityDialog.TimeoutMinutes=minute(s)
+CreatePrivateActivityDialog.RequireCommentOnStartCheckBox.Text=Require comment when activity is started
+CreatePrivateActivityDialog.RequireCommentOnFinishCheckBox.Text=Require comment when activity is finished
+CreatePrivateActivityDialog.FullScreenReminderCheckBox.Text=Full screen reminder when activity is underway
+CreatePrivateActivityDialog.OkButton.Text=OK
+CreatePrivateActivityDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+CreatePrivateActivityDialog.CancelButton.Text=Cancel
+CreatePrivateActivityDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
 
 ManageUsersDialog.Title=Manage users and accounts
 ManageUsersDialog.OkButton.Text=OK

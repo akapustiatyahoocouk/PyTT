@@ -13,7 +13,7 @@ from .PrivateActivitiesViewType import PrivateActivitiesViewType
 from .View import View
 from ..misc.CurrentWorkspace import CurrentWorkspace
 from ..misc.CurrentCredentials import CurrentCredentials
-#from ..dialogs.CreatePrivateActivityDialog import *
+from ..dialogs.CreatePrivateActivityDialog import *
 #from ..dialogs.ModifyPrivateActivityDialog import *
 #from ..dialogs.DestroyPrivateActivityDialog import *
 from gui.resources.GuiResources import GuiResources
@@ -90,15 +90,19 @@ class PrivateActivitiesView(View):
             can_manage_private_activities = workspace.can_manage_private_activities(credentials)
             #   A user should be able to create, modify and destroy their own private activities
             if not can_manage_private_activities:
-                cpa = (False if selected_user is None 
-                       else workspace.login(credentials=credentials).get_user(credentials) == selected_user)
+                if selected_user is not None:
+                    cpa = workspace.login(credentials=credentials).get_user(credentials) == selected_user
+                elif selected_private_activity is not None:
+                    cpa = workspace.login(credentials=credentials).get_user(credentials) == selected_private_activity.get_owner(credentials)
+                else:
+                    cpa = False
                 mpa = (False if selected_private_activity is None 
                        else selected_private_activity.can_modify(credentials))
                 dpa = mpa
         except Exception:
             (can_manage_private_activities, cpa, mpa, dpa) = False, False, False, False
 
-        self.__create_private_activity_button.enabled = (can_manage_private_activities or cpa) and (selected_user is not None)
+        self.__create_private_activity_button.enabled = (can_manage_private_activities or cpa) and ((selected_user is not None) or (selected_private_activity is not None))
         self.__modify_private_activity_button.enabled = (can_manage_private_activities or mpa) and (selected_private_activity is not None)
         self.__destroy_private_activity_button.enabled = (can_manage_private_activities or dpa) and (selected_private_activity is not None)
 
@@ -248,18 +252,20 @@ class PrivateActivitiesView(View):
 
     def __on_create_private_activity_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)
-        user = self.selected_user
-        #try:
-        #    with CreateAccountDialog(self.winfo_toplevel(), user) as dlg:
-        #        dlg.do_modal()
-        #        if dlg.result is CreateAccountDialogResult.CANCEL:
-        #            return
-        #        created_account = dlg.created_account
-        #        self.selected_object = created_account
-        #        self.__private_activities_tree_view.focus_set()
-        #    self.request_refresh()
-        #except Exception as ex: #   error in CreateAccountDialog constructor
-        #    ErrorDialog.show(None, ex)
+        try:
+            user = self.selected_user
+            if user is None:
+                user = self.selected_private_activity.get_owner(CurrentCredentials.get())
+            with CreatePrivateActivityDialog(self.winfo_toplevel(), user) as dlg:
+                dlg.do_modal()
+                if dlg.result is CreatePrivateActivityDialogResult.CANCEL:
+                    return
+                created_private_activity = dlg.created_private_activity
+                self.selected_object = created_private_activity
+                self.__private_activities_tree_view.focus_set()
+            self.request_refresh()
+        except Exception as ex: #   error in CreatePrivateActivityDialog constructor
+            ErrorDialog.show(None, ex)
 
     def __on_modify_private_activity_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)

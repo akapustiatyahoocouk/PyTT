@@ -380,15 +380,16 @@ class SqlDatabase(Database):
         assert isinstance(email_addresses, list)    #   and all elements are strings
 
         #   Validate parameters (real name is valid, etc.)
-        if not self.validator.user.is_valid_enabled(enabled):
+        validator = self.validator
+        if not validator.user.is_valid_enabled(enabled):
             raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, User.ENABLED_PROPERTY_NAME, enabled)
-        if not self.validator.user.is_valid_real_name(real_name):
+        if not validator.user.is_valid_real_name(real_name):
             raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, User.REAL_NAME_PROPERTY_NAME, real_name)
-        if not self.validator.user.is_valid_inactivity_timeout(inactivity_timeout):
+        if not validator.user.is_valid_inactivity_timeout(inactivity_timeout):
             raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, User.INACTIVITY_TIMEOUT_PROPERTY_NAME, inactivity_timeout)
-        if not self.validator.user.is_valid_ui_locale(ui_locale):
+        if not validator.user.is_valid_ui_locale(ui_locale):
             raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, User.UI_LOCALE_PROPERTY_NAME, ui_locale)
-        if not self.validator.user.is_valid_email_addresses(email_addresses):
+        if not validator.user.is_valid_email_addresses(email_addresses):
             raise InvalidDatabaseObjectPropertyError(User.TYPE_NAME, User.EMAIL_ADDRESSES_PROPERTY_NAME, email_addresses)
 
         #   Make database changes
@@ -437,9 +438,10 @@ class SqlDatabase(Database):
         assert isinstance(description, str)
 
         #   Validate parameters
-        if not self.validator.activity_type.is_valid_name(name):
+        validator = self.validator
+        if not validator.activity_type.is_valid_name(name):
             raise InvalidDatabaseObjectPropertyError(ActivityType.TYPE_NAME, ActivityType.NAME_PROPERTY_NAME, name)
-        if not self.validator.activity_type.is_valid_description(description):
+        if not validator.activity_type.is_valid_description(description):
             raise InvalidDatabaseObjectPropertyError(ActivityType.TYPE_NAME, ActivityType.DESCRIPTION_PROPERTY_NAME, description)
 
         #   Make database changes
@@ -497,17 +499,18 @@ class SqlDatabase(Database):
         assert isinstance(full_screen_reminder, bool)
 
         #   Validate parameters
-        if not self.validator.activity.is_valid_name(name):
+        validator = self.validator
+        if not validator.activity.is_valid_name(name):
             raise InvalidDatabaseObjectPropertyError(PublicActivity.TYPE_NAME, PublicActivity.NAME_PROPERTY_NAME, name)
-        if not self.validator.activity.is_valid_description(description):
+        if not validator.activity.is_valid_description(description):
             raise InvalidDatabaseObjectPropertyError(PublicActivity.TYPE_NAME, PublicActivity.DESCRIPTION_PROPERTY_NAME, description)
-        if not self.validator.activity.is_valid_timeout(timeout):
+        if not validator.activity.is_valid_timeout(timeout):
             raise InvalidDatabaseObjectPropertyError(PublicActivity.TYPE_NAME, PublicActivity.TIMEOUT_PROPERTY_NAME, description)
-        if not self.validator.activity.is_valid_require_comment_on_start(require_comment_on_start):
+        if not validator.activity.is_valid_require_comment_on_start(require_comment_on_start):
             raise InvalidDatabaseObjectPropertyError(PublicActivity.TYPE_NAME, PublicActivity.TIMEOUT_PROPERTY_NAME, description)
-        if not self.validator.activity.is_valid_require_comment_on_finish(require_comment_on_finish):
+        if not validator.activity.is_valid_require_comment_on_finish(require_comment_on_finish):
             raise InvalidDatabaseObjectPropertyError(PublicActivity.TYPE_NAME, PublicActivity.TIMEOUT_PROPERTY_NAME, description)
-        if not self.validator.activity.is_valid_full_screen_reminder(full_screen_reminder):
+        if not validator.activity.is_valid_full_screen_reminder(full_screen_reminder):
             raise InvalidDatabaseObjectPropertyError(PublicActivity.TYPE_NAME, PublicActivity.TIMEOUT_PROPERTY_NAME, description)
         if activity_type is not None:
             activity_type._ensure_live()
@@ -557,10 +560,11 @@ class SqlDatabase(Database):
                     self,
                     public_activity))
             if activity_type is not None:
-                DatabaseObjectModifiedNotification(
-                    self,
-                    activity_type,
-                    ActivityType.ACTIVITIES_ASSOCIATION_NAME)
+                self.enqueue_notification(
+                    DatabaseObjectModifiedNotification(
+                        self,
+                        activity_type,
+                        ActivityType.ACTIVITIES_ASSOCIATION_NAME))
 
             #   Done
             return public_activity

@@ -87,11 +87,6 @@ class Workspace:
         """ The Validator used by this Workspace. """
         return self.__db.validator
 
-    @property
-    def lock(self) -> threading.RLock:
-        """ The RLock object to use for all threaded access synchronization. """
-        return self.__lock
-
     ##########
     #   Operations (general)
     def close(self) -> None:
@@ -361,6 +356,7 @@ class Workspace:
         assert all(isinstance(a, str) for a in email_addresses)
 
         with self:
+            self._ensure_open()
             try:
                 if not self.can_manage_users(credentials):
                     raise WorkspaceAccessDeniedError()
@@ -397,6 +393,7 @@ class Workspace:
         assert isinstance(description, str)
 
         with self:
+            self._ensure_open()
             try:
                 if not self.can_manage_stock_items(credentials):
                     raise WorkspaceAccessDeniedError()
@@ -416,7 +413,6 @@ class Workspace:
                                require_comment_on_start: bool = False,
                                require_comment_on_finish: bool = False,
                                full_screen_reminder: bool = False) -> BusinessPublicActivity:
-        self._ensure_open() # may raise DatabaseError
         assert isinstance(name, str)
         assert isinstance(description, str)
         assert (activity_type is None) or isinstance(activity_type, BusinessActivityType)
@@ -426,6 +422,7 @@ class Workspace:
         assert isinstance(full_screen_reminder, bool)
 
         with self:
+            self._ensure_open() # may raise DatabaseError
             try:
                 #   Validate parameters
                 if activity_type is not None:

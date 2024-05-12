@@ -32,7 +32,7 @@ class SqlAccount(SqlDatabaseObject, Account):
     ##########
     #   DatabaseObject - Operations (life cycle)
     def destroy(self) -> None:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
 
         #   TODO Dis-associate from quick pick items
         #   Destroy the Account
@@ -73,18 +73,19 @@ class SqlAccount(SqlDatabaseObject, Account):
     #   Account - Properties
     @property
     def enabled(self) -> bool:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
 
         self._load_property_cache()
         return self._enabled
 
     @enabled.setter
     def enabled(self, new_enabled: bool) -> None:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
         assert isinstance(new_enabled, bool)
 
-        #   Validate parameters TODO everywhere!!!
-        if not self.database.validator.account.is_valid_enabled(new_enabled):
+        #   Validate parameters
+        validator = self.database.validator
+        if not validator.account.is_valid_enabled(new_enabled):
             raise InvalidDatabaseObjectPropertyError(Account.TYPE_NAME, Account.ENABLED_PROPERTY_NAME, new_enabled)
 
         #   Make database changes
@@ -111,18 +112,19 @@ class SqlAccount(SqlDatabaseObject, Account):
 
     @property
     def login(self) -> str:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
 
         self._load_property_cache()
         return self._login
 
     @login.setter
     def login(self, new_login: str) -> None:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
         assert isinstance(new_login, str)
 
-        #   Validate parameters TODO everywhere!!!
-        if not self.database.validator.account.is_valid_login(new_login):
+        #   Validate parameters
+        validator = self.database.validator
+        if not validator.account.is_valid_login(new_login):
             raise InvalidDatabaseObjectPropertyError(Account.TYPE_NAME, Account.LOGIN_PROPERTY_NAME, new_login)
 
         #   Make database changes
@@ -155,11 +157,12 @@ class SqlAccount(SqlDatabaseObject, Account):
 
     @password.setter
     def password(self, new_password: str) -> None:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
         assert isinstance(new_password, str)
 
         #   Validate parameters TODO everywhere!!!
-        if not self.database.validator.account.is_valid_password(new_password):
+        validator = self.database.validator
+        if not validator.account.is_valid_password(new_password):
             raise InvalidDatabaseObjectPropertyError(Account.TYPE_NAME, Account.PASSWORD_PROPERTY_NAME, new_password)
 
         #   Make database changes
@@ -190,25 +193,26 @@ class SqlAccount(SqlDatabaseObject, Account):
 
     @property
     def password_hash(self) -> str:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
 
         self._load_property_cache()
         return self._password_hash
 
     @property
     def capabilities(self) -> Capabilities:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
 
         self._load_property_cache()
         return self._capabilities
 
     @capabilities.setter
     def capabilities(self, new_capabilities: Capabilities) -> None:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
         assert isinstance(new_capabilities, Capabilities)
 
-        #   Validate parameters TODO everywhere!!!
-        if not self.database.validator.account.is_valid_capabilities(new_capabilities):
+        #   Validate parameters
+        validator = self.database.validator
+        if not validator.account.is_valid_capabilities(new_capabilities):
             raise InvalidDatabaseObjectPropertyError(Account.TYPE_NAME, Account.CAPABILITIES_PROPERTY_NAME, new_capabilities)
 
         #   Make database changes
@@ -261,19 +265,20 @@ class SqlAccount(SqlDatabaseObject, Account):
 
     @property
     def email_addresses(self) -> List[str]:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
 
         self._load_property_cache()
         return self._email_addresses
 
     @email_addresses.setter
     def email_addresses(self, new_email_addresses: List[str]) -> None:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
         assert isinstance(new_email_addresses, list)
         assert all(isinstance(a, str) for a in new_email_addresses) #   TODO properly!
 
-        #   Validate parameters TODO everywhere!!!
-        if not self.database.validator.account.is_valid_email_addresses(new_email_addresses):
+        #   Validate parameters
+        validator = self.database.validator
+        if not validator.account.is_valid_email_addresses(new_email_addresses):
             raise InvalidDatabaseObjectPropertyError(Account.TYPE_NAME, Account.EMAIL_ADDRESSES_PROPERTY_NAME, new_email_addresses)
 
         #   Make database changes
@@ -302,7 +307,7 @@ class SqlAccount(SqlDatabaseObject, Account):
     #   Account - Associations
     @property
     def user(self) -> User:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
 
         self._load_property_cache()
         return self.database._get_user_proxy(self._fk_user)

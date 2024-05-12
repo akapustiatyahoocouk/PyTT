@@ -33,11 +33,11 @@ class AdminSkinMainFrame(Frame,
         self.__file_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "FileMenu")
         self.__file_menu.items.add(self.__action_set.create_workspace)
         self.__file_menu.items.add(self.__action_set.open_workspace)
-        self.__file_menu.items.add_seperator()
+        self.__file_menu.items.add_separator()
         self.__file_menu.items.add(self.__action_set.close_workspace)
-        self.__file_menu.items.add_seperator()
+        self.__file_menu.items.add_separator()
         self.__file_menu.items.add(self.__action_set.destroy_workspace)
-        self.__file_menu.items.add_seperator()
+        self.__file_menu.items.add_separator()
         self.__file_menu.items.add(self.__action_set.exit)
 
         self.__manage_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "ManageMenu")
@@ -48,13 +48,15 @@ class AdminSkinMainFrame(Frame,
         self.__view_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "ViewMenu")
 
         self.__tools_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "ToolsMenu")
+        self.__tools_menu.items.add(self.__action_set.login_as_different_user)
+        self.__tools_menu.items.add_separator()
         self.__tools_menu.items.add(self.__action_set.preferences)
 
         self.__help_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "HelpMenu")
         self.__help_menu.items.add(self.__action_set.help_content)
         self.__help_menu.items.add('Search', hotkey="S").enabled = False
         self.__help_menu.items.add('Index', hotkey="I").enabled = False
-        self.__help_menu.items.add_seperator()
+        self.__help_menu.items.add_separator()
         self.__help_menu.items.add(self.__action_set.about)
 
         self.__menu_bar = MenuBar()
@@ -94,7 +96,8 @@ class AdminSkinMainFrame(Frame,
 
         CurrentWorkspace.add_property_change_listener(self.__on_workspace_changed)
         Locale.add_property_change_listener(self.__on_locale_changed)
-        #   TODO current credentials change
+        CurrentCredentials.add_property_change_listener(self.__on_credentials_changed)
+
         if CurrentWorkspace.get():
             CurrentWorkspace.get().add_notification_listener(self.__on_current_workspace_modified)
 
@@ -338,7 +341,7 @@ class AdminSkinMainFrame(Frame,
             self.__open_view_actions.append(action)
             self.__view_menu.items.add(action)
 
-        self.__view_menu.items.add_seperator()
+        self.__view_menu.items.add_separator()
 
         self.__close_current_view_action = CloseCurrentViewAction(self)
         self.__view_menu.items.add(self.__close_current_view_action)
@@ -363,6 +366,20 @@ class AdminSkinMainFrame(Frame,
             #   Reopen all views
             self.__load_active_views()
             CurrentWorkspace.get().add_notification_listener(self.__on_current_workspace_modified)
+        self.request_refresh()
+
+    def __on_credentials_changed(self, evt) -> None:
+        assert isinstance(evt, PropertyChangeEvent)
+        #TODO what?
+        #self.__regenerate_dynamic_menus()
+        #if CurrentWorkspace.get() is None:
+        #    #   TODO save active views info and close all views
+        #    self.__save_active_views()
+        #    self.__close_all_active_views()
+        #else:
+        #    #   Reopen all views
+        #    self.__load_active_views()
+        #    CurrentWorkspace.get().add_notification_listener(self.__on_current_workspace_modified)
         self.request_refresh()
 
     def __on_locale_changed(self, evt) -> None:

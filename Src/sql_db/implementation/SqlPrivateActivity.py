@@ -28,7 +28,7 @@ class SqlPrivateActivity(SqlActivity, PrivateActivity):
     ##########
     #   DatabaseObject - Operations (life cycle)
     def destroy(self) -> None:
-        self._ensure_live()
+        self._ensure_live() #   may raise DatabaseException
 
         #   TODO Dis-associate from Accounts (as quick pick items)
         #   TODO Dis-associate from Events
@@ -66,6 +66,19 @@ class SqlPrivateActivity(SqlActivity, PrivateActivity):
         except Exception as ex:
             self.database.rollback_transaction()
             raise DatabaseError.wrap(ex)
+
+    ##########
+    #   PrivateActivity - Associations    
+    @property
+    def owner(self) -> User:
+        self._ensure_live() #   may raise DatabaseException
+
+        self._load_property_cache()
+        return self.database._get_user_proxy(self._fk_owner)
+
+    @owner.setter
+    def owner(self, new_owner: User) -> None:
+        raise NotImplementedError()
 
     ##########
     #   Activity - Properties

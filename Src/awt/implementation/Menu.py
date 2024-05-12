@@ -30,7 +30,7 @@ class MenuItems:
 
     ##########`
     #   Operations
-    def add_seperator(self) -> MenuSeparator:
+    def add_separator(self) -> MenuSeparator:
         """
             Adds a menu separator to the end of the containing menu.
 

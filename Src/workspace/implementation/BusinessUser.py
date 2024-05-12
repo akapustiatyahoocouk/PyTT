@@ -9,6 +9,7 @@ from util.interface.api import *
 from .Credentials import Credentials
 from .Capabilities import Capabilities
 from .BusinessObject import BusinessObject
+from .BusinessActivityType import BusinessActivityType
 from .Exceptions import *
 
 ##########
@@ -25,6 +26,7 @@ class BusinessUser(BusinessObject):
     UI_LOCALE_PROPERTY_NAME = dbapi.User.UI_LOCALE_PROPERTY_NAME
     EMAIL_ADDRESSES_PROPERTY_NAME = dbapi.User.EMAIL_ADDRESSES_PROPERTY_NAME
     ACCOUNTS_ASSOCIATION_NAME = dbapi.User.ACCOUNTS_ASSOCIATION_NAME
+    PRIVATE_ACTIVITIES_ASSOCIATION_NAME = dbapi.User.PRIVATE_ACTIVITIES_ASSOCIATION_NAME
 
     ##########
     #   Construction (internal only)
@@ -501,5 +503,48 @@ class BusinessUser(BusinessObject):
                     capabilities=capabilities,
                     email_addresses=email_addresses);
                 return self.workspace._get_business_proxy(data_account)
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
+
+    def create_private_activity(self,
+                               credentials: Credentials,
+                               name: str = None,           #   MUST specify!
+                               description: str = None,    #   MUST specify!
+                               activity_type: Optional[BusinessActivityType] = None,
+                               timeout: Optional[int] = None,
+                               require_comment_on_start: bool = False,
+                               require_comment_on_finish: bool = False,
+                               full_screen_reminder: bool = False) -> "BusinessPrivateActivity":
+        assert isinstance(name, str)
+        assert isinstance(description, str)
+        assert (activity_type is None) or isinstance(activity_type, BusinessActivityType)
+        assert (timeout is None) or isinstance(timeout, int)
+        assert isinstance(require_comment_on_start, bool)
+        assert isinstance(require_comment_on_finish, bool)
+        assert isinstance(full_screen_reminder, bool)
+
+        with self.workspace:
+            self._ensure_live() # may raise DatabaseError
+            try:
+                #   Validate parameters
+                if activity_type is not None:
+                    activity_type._ensure_live()
+                    if activity_type.workspace is not self:
+                        raise IncompatibleWorkspaceObjectError(activity_type.type_name)
+                #   Validate access rights
+                if not self.workspace.can_manage_private_activities(credentials):
+                    #   ...but the User can always manage their own private activities
+                    if self._data_object.database.login(credentials.login, credentials._Credentials__password).user != self._data_object:
+                        raise WorkspaceAccessDeniedError()
+                #   The rest of the work is up to the DB
+                data_private_activity = self._data_object.create_private_activity(
+                    name=name,
+                    description=description,
+                    activity_type=None if activity_type is None else activity_type._data_object,
+                    timeout=timeout,
+                    require_comment_on_start=require_comment_on_start,
+                    require_comment_on_finish=require_comment_on_finish,
+                    full_screen_reminder=full_screen_reminder);
+                return self.workspace._get_business_proxy(data_private_activity)
             except Exception as ex:
                 raise WorkspaceError.wrap(ex)
