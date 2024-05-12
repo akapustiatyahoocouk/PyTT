@@ -381,7 +381,7 @@ class BusinessActivity(BusinessObject):
             #   Validate parameters
             if new_activity_type is not None:
                 new_activity_type._ensure_live()
-                if new_activity_type.workspace is not self:
+                if new_activity_type.workspace is not self.workspace:
                     raise IncompatibleWorkspaceObjectError(new_activity_type.type_name)
             #   Validate access rights
             if not self.can_modify(credentials):

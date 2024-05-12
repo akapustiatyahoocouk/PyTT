@@ -66,7 +66,7 @@ class ModifyPublicActivityDialog(Dialog):
         self.__credentials = credentials if credentials is not None else CurrentCredentials.get()
         assert self.__credentials is not None
 
-        #   Save current user properties
+        #   Save current public activity properties
         self.__public_activity_name = public_activity.get_name(self.__credentials)
         self.__public_activity_description = public_activity.get_description(self.__credentials)
         self.__public_activity_activity_type = public_activity.get_activity_type(self.__credentials)

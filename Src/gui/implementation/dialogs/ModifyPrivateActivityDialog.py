@@ -68,7 +68,15 @@ class ModifyPrivateActivityDialog(Dialog):
         self.__credentials = credentials if credentials is not None else CurrentCredentials.get()
         assert self.__credentials is not None
 
-        self.__validator = self.__private_activity.workspace.validator
+        #   Save current private activity properties
+        self.__private_activity_name = private_activity.get_name(self.__credentials)
+        self.__private_activity_description = private_activity.get_description(self.__credentials)
+        self.__private_activity_activity_type = private_activity.get_activity_type(self.__credentials)
+        self.__private_activity_timeout = private_activity.get_timeout(self.__credentials)
+        self.__private_activity_require_comment_on_start = private_activity.get_require_comment_on_start(self.__credentials)
+        self.__private_activity_require_comment_on_finish = private_activity.get_require_comment_on_finish(self.__credentials)
+        self.__private_activity_full_screen_reminder = private_activity.get_full_screen_reminder(self.__credentials)
+        self.__validator = private_activity.workspace.validator
 
         #   Create controls
         self.__controls_panel = Panel(self)
@@ -119,7 +127,10 @@ class ModifyPrivateActivityDialog(Dialog):
             image=GuiResources.image("ModifyPrivateActivityDialog.CancelButton.Icon"))
 
         #   Adjust controls
+        self.__name_text_field.text = self.__private_activity_name
+
         self.__description_text_area.accept_tab = False
+        self.__description_text_area.text = self.__private_activity_description
 
         for i in range(60):
             if i == 0:
@@ -138,8 +149,21 @@ class ModifyPrivateActivityDialog(Dialog):
             tag=60)
         self.__timeout_unit_combo_box.editable = False
 
-        self.__timeout_unit_combo_box.selected_index = 1
-        self.__timeout_value_combo_box.selected_index = 1
+        if self.__private_activity_timeout is None:
+            self.__timeout_value_combo_box.selected_index = 0
+            self.__timeout_unit_combo_box.selected_index = 1
+        elif (self.__private_activity_timeout > 0 and
+              self.__private_activity_timeout < 60):
+            self.__timeout_value_combo_box.selected_index = self.__private_activity_timeout
+            self.__timeout_unit_combo_box.selected_index = 0
+        elif (self.__private_activity_timeout % 60 == 0 and
+              self.__private_activity_timeout // 60 > 0 and
+              self.__private_activity_timeout // 60 <= 60):
+            self.__timeout_value_combo_box.selected_index = self.__private_activity_timeout // 60
+            self.__timeout_unit_combo_box.selected_index = 1
+        else:
+            self.__timeout_value_combo_box.selected_index = 1
+            self.__timeout_unit_combo_box.selected_index = 1
 
         self.__activity_type_combo_box.editable = False
         self.__activity_type_combo_box.items.add("-", tag=None)
@@ -147,7 +171,13 @@ class ModifyPrivateActivityDialog(Dialog):
         activity_types.sort(key=lambda u: u.get_name(self.__credentials))
         for activity_type in activity_types:
             self.__activity_type_combo_box.items.add(activity_type.display_name, tag=activity_type)
-        self.__activity_type_combo_box.selected_index = 0
+        self.__activity_type_combo_box.selected_index = (
+            0 if self.__private_activity_activity_type is None
+            else activity_types.index(self.__private_activity_activity_type) + 1)
+
+        self.require_comment_on_start_check_box.checked = self.__private_activity_require_comment_on_start
+        self.require_comment_on_finish_check_box.checked = self.__private_activity_require_comment_on_finish
+        self.full_screen_reminder_check_box.checked = self.__private_activity_full_screen_reminder
 
         #   Set up control structure
         self.__controls_panel.pack(fill=tk.X, padx=0, pady=0)
@@ -233,15 +263,21 @@ class ModifyPrivateActivityDialog(Dialog):
         full_screen_reminder = self.full_screen_reminder_check_box.checked
 
         try:
-            #self.__created_private_activity = self.__user.create_private_activity(
-            #        credentials=self.__credentials,
-            #        name=name,
-            #        description=description,
-            #        activity_type=activity_type,
-            #        timeout=timeout,
-            #        require_comment_on_start=require_comment_on_start,
-            #        require_comment_on_finish=require_comment_on_finish,
-            #        full_screen_reminder=full_screen_reminder)
+            #   TODO only if there are changes!!!
+            if name != self.__private_activity_name:
+                self.__private_activity.set_name(self.__credentials, name)
+            if description != self.__private_activity_description:
+                self.__private_activity.set_description(self.__credentials,description)
+            if activity_type != self.__private_activity_activity_type:
+                self.__private_activity.set_activity_type(self.__credentials, activity_type)
+            if timeout != self.__private_activity_timeout:
+                self.__private_activity.set_timeout(self.__credentials, timeout)
+            if require_comment_on_start != self.__private_activity_require_comment_on_start:
+                self.__private_activity.set_require_comment_on_start(self.__credentials, require_comment_on_start)
+            if require_comment_on_finish != self.__private_activity_require_comment_on_finish:
+                self.__private_activity.set_require_comment_on_finish(self.__credentials, require_comment_on_finish)
+            if full_screen_reminder != self.__private_activity_full_screen_reminder:
+                self.__private_activity.set_full_screen_reminder(self.__credentials, full_screen_reminder)
             self.__result = ModifyPrivateActivityDialogResult.OK
             self.end_modal()
         except Exception as ex:

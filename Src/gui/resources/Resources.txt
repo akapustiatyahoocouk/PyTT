@@ -324,7 +324,7 @@ CreatePrivateActivityDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 CreatePrivateActivityDialog.CancelButton.Text=Cancel
 CreatePrivateActivityDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
 
-ModifyPrivateActivityDialog.Title=Modify private activity '{0}' os user '{1}'
+ModifyPrivateActivityDialog.Title=Modify private activity '{0}' of user '{1}'
 ModifyPrivateActivityDialog.NameLabel.Text=Name:
 ModifyPrivateActivityDialog.DescriptionLabel.Text=Description:
 ModifyPrivateActivityDialog.ActivityTypeLabel.Text=Activity type:
