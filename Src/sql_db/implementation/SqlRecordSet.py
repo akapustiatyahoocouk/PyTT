@@ -1,6 +1,7 @@
 """ A set of SQL records (rows) retrieved by a SELECT. """
 
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import Optional
 from enum import Enum
 
@@ -29,7 +30,7 @@ class SqlRecordSet:
         assert isinstance(index, int)
         return SqlRecord(self, index, self.__rows[index])
 
-    def __iter__(self) -> "SqlRecordSet":
+    def __iter__(self) -> SqlRecordSet:
         class Iterator:
             def __init__(self, rs):
                 self.__rs = rs

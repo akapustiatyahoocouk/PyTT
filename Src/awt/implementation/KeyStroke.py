@@ -1,5 +1,7 @@
 """ Specifies the key stroke that can be performed by the user, """
+
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import final
 
 #   Internal dependencies on modules within the same component
@@ -63,7 +65,7 @@ class KeyStroke:
     ##########
     #  Operations
     @staticmethod
-    def parse(s: str) -> "KeyStroke":
+    def parse(s: str) -> KeyStroke:
         """
             Parses a string representation of a KeyStroke (in the
             form Ctrl+Shift+Alt+N, etc.)

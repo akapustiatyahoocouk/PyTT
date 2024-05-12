@@ -1,4 +1,5 @@
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import Optional
 from abc import ABC, abstractmethod, abstractproperty
 import tkinter as tk
@@ -36,7 +37,7 @@ class ViewType(ABC):
     ##########
     #   Operations
     @abstractmethod
-    def create_view(self, parent: tk.BaseWidget) -> "View":
+    def create_view(self, parent: tk.BaseWidget) -> View:
         """
             Creates a new View of this type.
 

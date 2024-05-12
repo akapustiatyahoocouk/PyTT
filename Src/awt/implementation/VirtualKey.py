@@ -1,6 +1,7 @@
 """ Defines abstract IDs for keyboard keys. """
 
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import final
 from enum import Enum
 
@@ -139,7 +140,7 @@ class VirtualKey(Enum):
     ##########
     #   Operations
     @staticmethod
-    def from_tk_string(key_string: str) -> "VirtualKey":
+    def from_tk_string(key_string: str) -> VirtualKey:
         """ Parses a Tk - style key name, returning the corresponging virtual key. """
         if key_string in _key_map:
             return _key_map[key_string]

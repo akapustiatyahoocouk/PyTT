@@ -1,6 +1,7 @@
 """ Defines the Action API. """
 
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import Optional
 from abc import abstractmethod
 import tkinter as tk

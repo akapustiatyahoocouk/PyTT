@@ -186,7 +186,7 @@ def open_last_used_workspace():
         except WorkspaceAccessDeniedError as ex:
             title = GuiResources.string("CannotAccessLastWorkspaceDialog.Title")
             message = GuiResources.string("CannotAccessLastWorkspaceDialog.Message",
-                                          args=(workspace_address.display_form,))
+                                          workspace_address.display_form)
             if MessageBox.show(None, 
                                title,
                                message,
@@ -202,7 +202,7 @@ def open_last_used_workspace():
             ErrorDialog.show(None, ex)
             title = GuiResources.string("CannotReopenLastWorkspaceDialog.Title")
             message = GuiResources.string("CannotReopenLastWorkspaceDialog.Message",
-                                          args=(workspace_address.display_form,))
+                                          workspace_address.display_form)
             if MessageBox.show(None, 
                                title,
                                message,

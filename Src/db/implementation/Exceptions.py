@@ -1,4 +1,7 @@
 """ Defines exceptions thrown by the low-level (data storage) database API. """
+
+#   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import Any
 
 ##########
@@ -18,7 +21,7 @@ class DatabaseError(Exception):
     
     ##########
     #   Operations
-    def wrap(ex: Exception) -> "DatabaseError":
+    def wrap(ex: Exception) -> DatabaseError5:
         assert isinstance(ex, Exception)
 
         if isinstance(ex, DatabaseError):

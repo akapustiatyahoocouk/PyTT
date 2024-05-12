@@ -1,6 +1,7 @@
 """ Workspace notifications. """
 
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import Any, TypeAlias, Callable
 from threading import Thread
 
@@ -19,7 +20,7 @@ class WorkspaceNotification:
     ##########
     #   Properties
     @property
-    def workspace(self) -> "Workspace":
+    def workspace(self) -> Workspace:
         """ The Workspace where the change has occurred. """
         return self.__workspace
 
@@ -40,7 +41,7 @@ class BusinessObjectCreatedNotification(WorkspaceNotification):
     ##########
     #   Properties
     @property
-    def object(self) -> "BusinessObject":
+    def object(self) -> BusinessObject:
         """ The newly created object. """
         return self.__object
 
@@ -61,7 +62,7 @@ class BusinessObjectDestroyedNotification(WorkspaceNotification):
     ##########
     #   Properties
     @property
-    def object(self) -> "BusinessObject":
+    def object(self) -> BusinessObject:
         """ The destroyed object (already "dead" by the time
             this notification reaches interested parties!. """
         return self.__object
@@ -85,7 +86,7 @@ class BusinessObjectModifiedNotification(WorkspaceNotification):
     ##########
     #   Properties
     @property
-    def object(self) -> "BusinessObject":
+    def object(self) -> BusinessObject:
         """ The modified object. """
         return self.__object
 

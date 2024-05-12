@@ -33,37 +33,38 @@ class AdminSkinResources(ClassWithConstants):
     ##########
     #   Operations
     @staticmethod
-    def string(key: str, locale: Optional[Locale] = None) -> str:
+    def string(key: str, *args) -> str:
         """
-            Returns a string resource from the underlying resource factory.
+            Returns a string resource from the underlying resource factory
+            for the current default locale.
             
             @param key:
                 The resource key.
-            @param locale:
-                The locale to retrieve the resource for; uses
-                system default locale if not specified.
+            @param args:
+                The parameters to replace placeholders {0}, {1}, etc.
             @return
                 The retrieved string resource.
             @raise KeyError:
                 If the specified key does not exist in the underlying resource
                 factory OR the resource identified by the key is not a string.
         """
-        return AdminSkinResources.__impl.get_string(key, locale)
+        result = AdminSkinResources.__impl.get_string(key)
+        if len(args) > 0:
+            result = result.format(*args)
+        return result
 
     @staticmethod
-    def image(key: str, locale: Optional[Locale] = None) -> tk.PhotoImage:
+    def image(key: str) -> tk.PhotoImage:
         """
-            Retyurns an image resource from the underlying resource factory.
+            Returns an image resource from the underlying resource factory
+            for the current default locale.
             
             @param key:
                 The resource key.
-            @param locale:
-                The locale to retrieve the resource for; uses
-                system default locale if not specified.
             @return
                 The retrieved image resource.
             @raise KeyError:
                 If the specified key does not exist in the underlying resource
                 factory OR the resource identified by the key is not an image.
         """
-        return AdminSkinResources.__impl.get_image(key, locale)
+        return AdminSkinResources.__impl.get_image(key)

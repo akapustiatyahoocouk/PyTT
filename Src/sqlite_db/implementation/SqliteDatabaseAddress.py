@@ -1,4 +1,5 @@
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 
 #   Dependencies on other PyTT components
 from db.interface.api import *
@@ -37,7 +38,7 @@ class SqliteDatabaseAddress(DatabaseAddress):
     ##########
     #   DatabaseAddress - Properties
     @property
-    def database_type(self) -> "SqliteDatabaseType":
+    def database_type(self) -> SqliteDatabaseType:
         """ The database type to which this database address belongs. """
         from .SqliteDatabaseType import SqliteDatabaseType
         return SqliteDatabaseType.instance

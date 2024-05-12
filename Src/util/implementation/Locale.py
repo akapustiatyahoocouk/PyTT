@@ -1,6 +1,8 @@
 """ Defines a Locale - a specification of a culture/language
     to which aspects of the system can be localized. """
+
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import final, Optional, Union, Callable
 from inspect import signature
 
@@ -58,7 +60,7 @@ class Locale(metaclass=LocaleMeta):
     ##########
     #   Constants
     @staticproperty
-    def ROOT() -> "Locale":
+    def ROOT() -> Locale:
         """ The root (invariant) locale. """
         if Locale.__root_locale is None:
             Locale.__root_locale = Locale()
@@ -181,7 +183,7 @@ class Locale(metaclass=LocaleMeta):
         return self.__variant
 
     @property
-    def parent(self) -> "Locale":
+    def parent(self) -> Locale:
         """ The immediate parent locale of this Locale.
             The parent of a "root" locale it the "root" locale tself. """
         if self.__language is None:
@@ -194,7 +196,7 @@ class Locale(metaclass=LocaleMeta):
             return Locale(self.__language, self.__country)
 
     @staticmethod
-    def parse(locale_string: str) -> "Locale":
+    def parse(locale_string: str) -> Locale:
         """
             Attempts to parse a string representation of a locale
             (that uses the same format as repr(Locale).

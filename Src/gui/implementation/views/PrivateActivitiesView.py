@@ -14,7 +14,7 @@ from .View import View
 from ..misc.CurrentWorkspace import CurrentWorkspace
 from ..misc.CurrentCredentials import CurrentCredentials
 from ..dialogs.CreatePrivateActivityDialog import *
-#from ..dialogs.ModifyPrivateActivityDialog import *
+from ..dialogs.ModifyPrivateActivityDialog import *
 from ..dialogs.DestroyPrivateActivityDialog import *
 from gui.resources.GuiResources import GuiResources
 
@@ -269,15 +269,15 @@ class PrivateActivitiesView(View):
 
     def __on_modify_private_activity_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)
-        #try:
-        #    account = self.selected_account
-        #    with ModifyAccountDialog(self.winfo_toplevel(), account) as dlg:
-        #        dlg.do_modal()
-        #    self.selected_account = account
-        #    self.__private_activities_tree_view.focus_set()
-        #    self.request_refresh()
-        #except Exception as ex: #   error in ModifyAccountDialog constructor
-        #    ErrorDialog.show(None, ex)
+        try:
+            private_activity = self.selected_private_activity
+            with ModifyPrivateActivityDialog(self.winfo_toplevel(), private_activity) as dlg:
+                dlg.do_modal()
+            self.selected_private_activity = private_activity
+            self.__private_activities_tree_view.focus_set()
+            self.request_refresh()
+        except Exception as ex: #   error in ModifyPrivateActivityDialog constructor
+            ErrorDialog.show(None, ex)
 
     def __on_destroy_private_activity_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)

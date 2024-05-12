@@ -1,6 +1,7 @@
 """ Defines exceptions thrown by the high-level (business storage) workspace API. """
 
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import TypeAlias
 
 #   Dependencies on other PyTT components
@@ -24,7 +25,7 @@ class WorkspaceError(Exception):
     ##########
     #   Operations
     @staticmethod
-    def wrap(ex: Exception) -> "WorkspaceError":
+    def wrap(ex: Exception) -> WorkspaceError:
         if isinstance(ex, WorkspaceError):
             return ex
         elif isinstance(ex, dbapi.InvalidDatabaseAddressError):

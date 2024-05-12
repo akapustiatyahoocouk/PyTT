@@ -58,6 +58,13 @@ Actions.ManagePublicActivities.Description=Manage available public activities
 Actions.ManagePublicActivities.SmallImage=ImageFile:images/objects/PublicActivitySmall.png
 Actions.ManagePublicActivities.LargeImage=ImageFile:images/objects/PublicActivityLarge.png
 
+Actions.ManagePrivateActivities.Name=Private activities
+Actions.ManagePrivateActivities.Hotkey=R
+Actions.ManagePrivateActivities.Description=Manage available private activities
+#Actions.ManagePrivateActivities.Shortcut=Ctrl+N
+Actions.ManagePrivateActivities.SmallImage=ImageFile:images/objects/PrivateActivitySmall.png
+Actions.ManagePrivateActivities.LargeImage=ImageFile:images/objects/PrivateActivityLarge.png
+
 Actions.LoginAsDifferentUser.Name=Login as a different user
 Actions.LoginAsDifferentUser.Hotkey=L
 Actions.LoginAsDifferentUser.Description=Prompts for new credentials and logs in as a different user
@@ -301,7 +308,7 @@ DestroyPublicActivityDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 DestroyPublicActivityDialog.CancelButton.Text=Cancel
 DestroyPublicActivityDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
 
-CreatePrivateActivityDialog.Title=Create private activity
+CreatePrivateActivityDialog.Title=Create private activity for user '{0}'
 CreatePrivateActivityDialog.NameLabel.Text=Name:
 CreatePrivateActivityDialog.DescriptionLabel.Text=Description:
 CreatePrivateActivityDialog.ActivityTypeLabel.Text=Activity type:
@@ -316,6 +323,22 @@ CreatePrivateActivityDialog.OkButton.Text=OK
 CreatePrivateActivityDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 CreatePrivateActivityDialog.CancelButton.Text=Cancel
 CreatePrivateActivityDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
+
+ModifyPrivateActivityDialog.Title=Modify private activity '{0}' os user '{1}'
+ModifyPrivateActivityDialog.NameLabel.Text=Name:
+ModifyPrivateActivityDialog.DescriptionLabel.Text=Description:
+ModifyPrivateActivityDialog.ActivityTypeLabel.Text=Activity type:
+ModifyPrivateActivityDialog.TimeoutLabel.Text=Timeout:
+ModifyPrivateActivityDialog.TimeoutNone=none
+ModifyPrivateActivityDialog.TimeoutHours=hour(s)
+ModifyPrivateActivityDialog.TimeoutMinutes=minute(s)
+ModifyPrivateActivityDialog.RequireCommentOnStartCheckBox.Text=Require comment when activity is started
+ModifyPrivateActivityDialog.RequireCommentOnFinishCheckBox.Text=Require comment when activity is finished
+ModifyPrivateActivityDialog.FullScreenReminderCheckBox.Text=Full screen reminder when activity is underway
+ModifyPrivateActivityDialog.OkButton.Text=OK
+ModifyPrivateActivityDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+ModifyPrivateActivityDialog.CancelButton.Text=Cancel
+ModifyPrivateActivityDialog.CancelButton.Icon=ImageFile:images/actions/CancelSmall.png
 
 DestroyPrivateActivityDialog.Title=Delete private activity
 DestroyPrivateActivityDialog.PromptLabel.Text=Are you sure you want to permananently\ndelete private activity '{0}' of user '{1}'?
@@ -335,6 +358,10 @@ ManageActivityTypesDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 ManagePublicActivitiesDialog.Title=Manage public activities
 ManagePublicActivitiesDialog.OkButton.Text=OK
 ManagePublicActivitiesDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+
+ManagePrivateActivitiesDialog.Title=Manage private activities
+ManagePrivateActivitiesDialog.OkButton.Text=OK
+ManagePrivateActivitiesDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 
 ReloginFailedDialog.Title=Login failed
 ReloginFailedDialog.Prompt=The credentials you have specified do not allow accessing\n{0}.\nWould you like to try again?

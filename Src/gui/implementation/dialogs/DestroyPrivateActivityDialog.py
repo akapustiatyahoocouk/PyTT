@@ -70,8 +70,8 @@ class DestroyPrivateActivityDialog(Dialog):
         self.__prompt_label = Label(
             self.__controls_panel,
             text=GuiResources.string("DestroyPrivateActivityDialog.PromptLabel.Text",
-                                     args=(private_activity.display_name, 
-                                           private_activity.get_owner(self.__credentials).display_name)),
+                                     private_activity.display_name, 
+                                     private_activity.get_owner(self.__credentials).display_name),
             justify=tk.CENTER)
 
         self.__separator = Separator(self, orient="horizontal")

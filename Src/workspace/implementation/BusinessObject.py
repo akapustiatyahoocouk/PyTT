@@ -1,5 +1,7 @@
 """ A common base class for all objects residing in a workspace. """
+
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from abc import abstractmethod
 from typing import TypeAlias
 
@@ -71,7 +73,7 @@ class BusinessObject(ABCWithConstants):
     ##########
     #   Properties
     @property
-    def workspace(self) -> "Workspace":
+    def workspace(self) -> Workspace:
         """ The workspace to which this object belongs if live) or 
             used to belong (if dead). """
         return self.__workspace

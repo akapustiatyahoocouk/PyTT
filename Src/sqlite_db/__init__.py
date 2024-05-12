@@ -1,3 +1,4 @@
+from __future__ import annotations  #   MUST be 1st in a module!
 print('Loading package', __file__)
 
 #   Python standard library
@@ -21,7 +22,7 @@ class SqliteDbPlugin(Plugin):
         Plugin.__init__(self)
     
     @staticproperty
-    def instance() -> "SqliteDbPlugin":
+    def instance() -> SqliteDbPlugin:
         """
             Returns one and only instance of this class, creating
             it on the first call.

@@ -41,6 +41,7 @@
     <Compile Include="implementation\actions\HelpContentAction.py" />
     <Compile Include="implementation\actions\LoginAsDifferentUserAction.py" />
     <Compile Include="implementation\actions\ManageActivityTypesAction.py" />
+    <Compile Include="implementation\actions\ManagePrivateActivitiesAction.py" />
     <Compile Include="implementation\actions\ManagePublicActivitiesAction.py" />
     <Compile Include="implementation\actions\ManageUsersAction.py" />
     <Compile Include="implementation\actions\PreferencesAction.py" />
@@ -57,6 +58,7 @@
     <Compile Include="implementation\dialogs\DestroyPrivateActivityDialog.py" />
     <Compile Include="implementation\dialogs\DestroyPublicActivityDialog.py" />
     <Compile Include="implementation\dialogs\ManageActivityTypesDialog.py" />
+    <Compile Include="implementation\dialogs\ManagePrivateActivitiesDialog.py" />
     <Compile Include="implementation\dialogs\ManagePublicActivitiesDialog.py" />
     <Compile Include="implementation\dialogs\ModifyActivityTypeDialog.py" />
     <Compile Include="implementation\dialogs\CreateActivityTypeDialog.py" />
@@ -65,6 +67,7 @@
     <Compile Include="implementation\dialogs\DestroyUserDialog.py" />
     <Compile Include="implementation\dialogs\ManageUsersDialog.py" />
     <Compile Include="implementation\dialogs\ModifyAccountDialog.py" />
+    <Compile Include="implementation\dialogs\ModifyPrivateActivityDialog.py" />
     <Compile Include="implementation\dialogs\ModifyPublicActivityDialog.py" />
     <Compile Include="implementation\dialogs\ModifyUserDialog.py" />
     <Compile Include="implementation\dialogs\LanguagesDialog.py" />

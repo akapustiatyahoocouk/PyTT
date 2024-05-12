@@ -1,4 +1,5 @@
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import Optional, List
 
 #   Dependencies on other PyTT components
@@ -460,7 +461,7 @@ class BusinessUser(BusinessObject):
                        login: str = None,  #   MUST specify!
                        password: str = "",
                        capabilities: Capabilities = Capabilities.NONE,
-                       email_addresses: List[str] = []) -> "BusinessAccount":
+                       email_addresses: List[str] = []) -> BusinessAccount:
         """
             Creates a new BusinessAccount for this BusinessUser.
 
@@ -514,7 +515,7 @@ class BusinessUser(BusinessObject):
                                timeout: Optional[int] = None,
                                require_comment_on_start: bool = False,
                                require_comment_on_finish: bool = False,
-                               full_screen_reminder: bool = False) -> "BusinessPrivateActivity":
+                               full_screen_reminder: bool = False) -> BusinessPrivateActivity:
         assert isinstance(name, str)
         assert isinstance(description, str)
         assert (activity_type is None) or isinstance(activity_type, BusinessActivityType)

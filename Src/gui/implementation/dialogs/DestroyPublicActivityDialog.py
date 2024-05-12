@@ -70,7 +70,7 @@ class DestroyPublicActivityDialog(Dialog):
         self.__prompt_label = Label(
             self.__controls_panel,
             text=GuiResources.string("DestroyPublicActivityDialog.PromptLabel.Text",
-                                     args=(public_activity.display_name,)),
+                                     public_activity.display_name),
             justify=tk.CENTER)
 
         self.__separator = Separator(self, orient="horizontal")

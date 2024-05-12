@@ -34,9 +34,12 @@ class SqlDbResources(ClassWithConstants):
     ##########
     #   Operations
     @staticmethod
-    def string(key: str, locale: Optional[Locale] = None) -> str:
-        return SqlDbResources.__impl.get_string(key, locale)
+    def string(key: str, *args) -> str:
+        result = SqlDbResources.__impl.get_string(key)
+        if len(args) > 0:
+            result = result.format(*args)
+        return result
 
     @staticmethod
-    def image(key: str, locale: Optional[Locale] = None) -> tk.PhotoImage:
-        return SqlDbResources.__impl.get_image(key, locale)
+    def image(key: str) -> tk.PhotoImage:
+        return SqlDbResources.__impl.get_image(key)

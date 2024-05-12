@@ -1,5 +1,7 @@
 """ A generic "Menu" is an ordered collection of MenuItems. """
+
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from email.mime import image
 from typing import final, Any
 from abc import ABC
@@ -24,7 +26,7 @@ class MenuItems:
     ##########
     #   Properties
     @property
-    def menu(self) -> "Menu":
+    def menu(self) -> Menu:
         """ The menu to which this list-of-menu-items belongs; never None. """
         return self.__menu
 

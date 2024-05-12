@@ -39,7 +39,7 @@ class OpenWorkspaceAction(ActionBase):
         except WorkspaceAccessDeniedError as ex:
             title = GuiResources.string("CannotAccessWorkspaceDialog.Title")
             message = GuiResources.string("CannotAccessWorkspaceDialog.Message",
-                                          args=(new_workspace.address.display_form,))
+                                          new_workspace.address.display_form)
             if MessageBox.show(self.dialog_parent, 
                                title,
                                message,

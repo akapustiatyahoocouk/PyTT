@@ -1,4 +1,5 @@
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.filedialog as filedialog
@@ -35,7 +36,7 @@ class SqliteDatabaseType(DatabaseType):
         DatabaseType.__init__(self)
 
     @staticproperty
-    def instance() -> "SqliteDatabaseType":
+    def instance() -> SqliteDatabaseType:
         """
             Returns one and only instance of this class, creating
             it on the first call.

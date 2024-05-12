@@ -34,41 +34,42 @@ class AwtResources(ClassWithConstants):
     ##########
     #   Operations
     @staticmethod
-    def string(key: str, locale: Optional[Locale] = None) -> str:
+    def string(key: str, *args) -> str:
         """
-            Retrieves the specified string resource for the specified locale.
+            Retrieves the specified string resource for the current default locale.
             It this cannot be done, attempts to do the same for the parent
             locale of the "locale", then for the grand-parent, etc. before
             giving up.
 
             @param key:
                 The resource key.
-            @param locale:
-                The required resource locale.
+            @param args:
+                The parameters to replace placeholders {0}, {1}, etc.
             @return:
                 The string resource for the specified key.
             @raise KeyError:
                 If the specified key does not exist in this resource
                 factory OR the resource identified by the key is not a string.
         """
-        return AwtResources.__impl.get_string(key, locale)
+        result = AwtResources.__impl.get_string(key)
+        if len(args) > 0:
+            result = result.format(*args)
+        return result
 
     @staticmethod
-    def image(key: str, locale: Optional[Locale] = None) -> tk.PhotoImage:
+    def image(key: str) -> tk.PhotoImage:
         """
-            Retrieves the specified image resource for the specified locale.
+            Retrieves the specified image resource for the current default locale.
             It this cannot be done, attempts to do the same for the parent
             locale of the "locale", then for the grand-parent, etc. before
             giving up.
 
             @param key:
                 The resource key.
-            @param locale:
-                The required resource locale.
             @return:
                 The image resource for the specified key.
             @raise KeyError:
                 If the specified key does not exist in this resource
                 factory OR the resource identified by the key is not a string.
         """
-        return AwtResources.__impl.get_image(key, locale)
+        return AwtResources.__impl.get_image(key)

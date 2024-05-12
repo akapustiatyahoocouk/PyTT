@@ -1,4 +1,5 @@
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import Optional
 from abc import ABC, abstractmethod
 
@@ -97,7 +98,7 @@ class SqlStatement:
     ##########
     #   Properties
     @property
-    def database(self) -> "SqlDatabase":
+    def database(self) -> SqlDatabase:
         """ The SqlDatabase to which this SqlStatement belongs. """
         return self.__db
 

@@ -1,4 +1,5 @@
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import Optional, List, Set
 from abc import abstractproperty
 import tkinter as tk
@@ -241,11 +242,11 @@ class User(DatabaseObject):
     def create_private_activity(self,
                     name: str = None,           #   MUST specify!
                     description: str = None,    #   MUST specify!
-                    activity_type: Optional["ActivityType"] = None,
+                    activity_type: Optional[ActivityType] = None,
                     timeout: Optional[int] = None,
                     require_comment_on_start: bool = False,
                     require_comment_on_finish: bool = False,
-                    full_screen_reminder: bool = False) -> "PrivateActivity":
+                    full_screen_reminder: bool = False) -> PrivateActivity:
         """
             Creates a new PrivateActivity.
 

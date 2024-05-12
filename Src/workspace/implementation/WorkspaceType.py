@@ -1,5 +1,7 @@
 """ Defines the "Workspace type" ADT. """
+
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import final, Set
 
 #   Dependencies on other PyTT components
@@ -59,7 +61,7 @@ class WorkspaceType:
 
     ##########
     #   Workspace address handling
-    def parse_workspace_address(self, external_form: str) -> "WorkspaceAddress":
+    def parse_workspace_address(self, external_form: str) -> WorkspaceAddress:
         """
             Parses an external (re-parsable) form of a workspace address
             of this type.
@@ -81,13 +83,13 @@ class WorkspaceType:
             raise WorkspaceError.wrap(ex) from ex
 
     @property
-    def default_workspace_address(self) -> "WorkspaceAddress":
+    def default_workspace_address(self) -> WorkspaceAddress:
         """ The address of the "default" workspace of this type;
             None if this workspace type has no concept of and
             "default" workspace. """
         raise NotImplementedError()
 
-    def enter_new_workspace_address(self, parent: tk.BaseWidget) -> "WorkspaceAddress":
+    def enter_new_workspace_address(self, parent: tk.BaseWidget) -> WorkspaceAddress:
         """
             Prompts the user to interactively specify an address
             for a new workspace of this type.
@@ -108,7 +110,7 @@ class WorkspaceType:
         except Exception as ex:
             raise WorkspaceError.wrap(ex)
 
-    def enter_existing_workspace_address(self, parent: tk.BaseWidget) -> "WorkspaceAddress":
+    def enter_existing_workspace_address(self, parent: tk.BaseWidget) -> WorkspaceAddress:
         """
             Prompts the user to interactively specify an address
             of an existing workspace of this type.
@@ -132,10 +134,10 @@ class WorkspaceType:
     ##########
     #   Workspace handling
     def create_workspace(self,
-                         address: "WorkspaceAddress",
+                         address: WorkspaceAddress,
                          admin_user: str,
                          admin_login: str,
-                         admin_password: str) -> "Workspace":
+                         admin_password: str) -> Workspace:
         """
             Creates a new workspace at the specified address.
             The workspace is initially empty, except for a single
@@ -202,7 +204,7 @@ class WorkspaceType:
         return Workspace(address, db)
 
     def open_workspace(self,
-                       address: "WorkspaceAddress") -> "Workspace":
+                       address: WorkspaceAddress) -> Workspace:
         """
             Opens an existingworkspace at the specified address.
             The workspace is always opened successfully if the
@@ -240,7 +242,7 @@ class WorkspaceType:
         return None
 
     @staticmethod
-    def resolve(db_type: dbapi.DatabaseType) -> "WorkspaceType":
+    def resolve(db_type: dbapi.DatabaseType) -> WorkspaceType:
         """
             Returns the WorkspaceType that corresponds to the
             specified DatabaseType.

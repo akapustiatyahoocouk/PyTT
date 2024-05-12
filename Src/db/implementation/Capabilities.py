@@ -1,4 +1,5 @@
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import final
 from enum import Enum
 
@@ -76,7 +77,7 @@ class Capabilities(ClassWithConstants):
     #   Constants (individual capabilities)
     __administrator_impl = None
     @staticproperty
-    def ADMINISTRATOR() -> "Capabilities":
+    def ADMINISTRATOR() -> Capabilities:
         """ The set containing a single ADMINISTRATOR capability. """
         if Capabilities.__administrator_impl is None:
             Capabilities.__administrator_impl = Capabilities(Capability.ADMINISTRATOR.value)
@@ -84,7 +85,7 @@ class Capabilities(ClassWithConstants):
 
     __manage_users_impl = None
     @staticproperty
-    def MANAGE_USERS() -> "Capabilities":
+    def MANAGE_USERS() -> Capabilities:
         """ The set containing a single MANAGE_USERS capability. """
         if Capabilities.__manage_users_impl is None:
             Capabilities.__manage_users_impl = Capabilities(Capability.MANAGE_USERS.value)
@@ -92,7 +93,7 @@ class Capabilities(ClassWithConstants):
 
     __manage_stock_items_impl = None
     @staticproperty
-    def MANAGE_STOCK_ITEMS() -> "Capabilities":
+    def MANAGE_STOCK_ITEMS() -> Capabilities:
         """ The set containing a single MANAGE_STOCK_ITEMS capability. """
         if Capabilities.__manage_stock_items_impl is None:
             Capabilities.__manage_stock_items_impl = Capabilities(Capability.MANAGE_STOCK_ITEMS.value)
@@ -100,7 +101,7 @@ class Capabilities(ClassWithConstants):
 
     __manage_beneficiaries_impl = None
     @staticproperty
-    def MANAGE_BENEFICIARIES() -> "Capabilities":
+    def MANAGE_BENEFICIARIES() -> Capabilities:
         """ The set containing a single MANAGE_BENEFICIARIES capability. """
         if Capabilities.__manage_beneficiaries_impl is None:
             Capabilities.__manage_beneficiaries_impl = Capabilities(Capability.MANAGE_BENEFICIARIES.value)
@@ -108,7 +109,7 @@ class Capabilities(ClassWithConstants):
 
     __manage_workloads_impl = None
     @staticproperty
-    def MANAGE_WORKLOADS() -> "Capabilities":
+    def MANAGE_WORKLOADS() -> Capabilities:
         """ The set containing a single MANAGE_WORKLOADS capability. """
         if Capabilities.__manage_workloads_impl is None:
             Capabilities.__manage_workloads_impl = Capabilities(Capability.MANAGE_WORKLOADS.value)
@@ -116,7 +117,7 @@ class Capabilities(ClassWithConstants):
 
     __manage_public_activities_impl = None
     @staticproperty
-    def MANAGE_PUBLIC_ACTIVITIES() -> "Capabilities":
+    def MANAGE_PUBLIC_ACTIVITIES() -> Capabilities:
         """ The set containing a single MANAGE_PUBLIC_ACTIVITIES capability. """
         if Capabilities.__manage_public_activities_impl is None:
             Capabilities.__manage_public_activities_impl = Capabilities(Capability.MANAGE_PUBLIC_ACTIVITIES.value)
@@ -124,7 +125,7 @@ class Capabilities(ClassWithConstants):
 
     __manage_public_tasks_impl = None
     @staticproperty
-    def MANAGE_PUBLIC_TASKS() -> "Capabilities":
+    def MANAGE_PUBLIC_TASKS() -> Capabilities:
         """ The set containing a single MANAGE_PUBLIC_TASKS capability. """
         if Capabilities.__manage_public_tasks_impl is None:
             Capabilities.__manage_public_tasks_impl = Capabilities(Capability.MANAGE_PUBLIC_TASKS.value)
@@ -132,7 +133,7 @@ class Capabilities(ClassWithConstants):
 
     __manage_private_activities_impl = None
     @staticproperty
-    def MANAGE_PRIVATE_ACTIVITIES() -> "Capabilities":
+    def MANAGE_PRIVATE_ACTIVITIES() -> Capabilities:
         """ The set containing a single MANAGE_PRIVATE_ACTIVITIES capability. """
         if Capabilities.__manage_private_activities_impl is None:
             Capabilities.__manage_private_activities_impl = Capabilities(Capability.MANAGE_PRIVATE_ACTIVITIES.value)
@@ -140,7 +141,7 @@ class Capabilities(ClassWithConstants):
 
     __manage_private_tasks_impl = None
     @staticproperty
-    def MANAGE_PRIVATE_TASKS() -> "Capabilities":
+    def MANAGE_PRIVATE_TASKS() -> Capabilities:
         """ The set containing a single MANAGE_PRIVATE_TASKS capability. """
         if Capabilities.__manage_private_tasks_impl is None:
             Capabilities.__manage_private_tasks_impl = Capabilities(Capability.MANAGE_PRIVATE_TASKS.value)
@@ -148,7 +149,7 @@ class Capabilities(ClassWithConstants):
 
     __log_work_impl = None
     @staticproperty
-    def LOG_WORK() -> "Capabilities":
+    def LOG_WORK() -> Capabilities:
         """ The set containing a single LOG_WORK capability. """
         if Capabilities.__log_work_impl is None:
             Capabilities.__log_work_impl = Capabilities(Capability.LOG_WORK.value)
@@ -156,7 +157,7 @@ class Capabilities(ClassWithConstants):
 
     __log_events_impl = None
     @staticproperty
-    def LOG_EVENTS() -> "Capabilities":
+    def LOG_EVENTS() -> Capabilities:
         """ The set containing a single LOG_EVENTS capability. """
         if Capabilities.__log_events_impl is None:
             Capabilities.__log_events_impl = Capabilities(Capability.LOG_EVENTS.value)
@@ -164,7 +165,7 @@ class Capabilities(ClassWithConstants):
 
     __generate_reports_impl = None
     @staticproperty
-    def GENERATE_REPORTS() -> "Capabilities":
+    def GENERATE_REPORTS() -> Capabilities:
         """ The set containing a single GENERATE_REPORTS capability. """
         if Capabilities.__generate_reports_impl is None:
             Capabilities.__generate_reports_impl = Capabilities(Capability.GENERATE_REPORTS.value)
@@ -172,7 +173,7 @@ class Capabilities(ClassWithConstants):
 
     __backup_and_restore_impl = None
     @staticproperty
-    def BACKUP_AND_RESTORE() -> "Capabilities":
+    def BACKUP_AND_RESTORE() -> Capabilities:
         """ The set containing a single BACKUP_AND_RESTORE capability. """
         if Capabilities.__backup_and_restore_impl is None:
             Capabilities.__backup_and_restore_impl = Capabilities(Capability.BACKUP_AND_RESTORE.value)
@@ -182,7 +183,7 @@ class Capabilities(ClassWithConstants):
     #   Constants (capability sets)
     __none_impl = None
     @staticproperty
-    def NONE() -> "Capabilities":
+    def NONE() -> Capabilities:
         """ The empty set containing none of the capabilities. """
         if Capabilities.__none_impl is None:
             Capabilities.__none_impl = Capabilities(0x0000)
@@ -190,7 +191,7 @@ class Capabilities(ClassWithConstants):
 
     __all_impl = None
     @staticproperty
-    def ALL() -> "Capabilities":
+    def ALL() -> Capabilities:
         """ The set of all permitted capabilities. """
         if Capabilities.__all_impl is None:
             Capabilities.__all_impl = Capabilities(0x1FFF)
@@ -214,7 +215,7 @@ class Capabilities(ClassWithConstants):
             return False
         return self.__bit_mask != op2.__bit_mask
 
-    def __or__(self, op2) -> "Capabilities":
+    def __or__(self, op2) -> Capabilities:
         if isinstance(op2, Capabilities):
             return Capabilities(self.__bit_mask | op2.__bit_mask)
         else:

@@ -1,5 +1,7 @@
 """ Defines a combo box (drop-down list, potentially editable) UI widget. """
+
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import Optional, Any
 import tkinter as tk
 import tkinter.ttk as ttk
@@ -43,7 +45,7 @@ class ComboBoxItem:
         return self.__tag
 
     @property
-    def combo_box(self) -> "ComboBox":
+    def combo_box(self) -> ComboBox:
         """ The combo box to which this item is bound;None if free. """
         return self.__combo_box
 

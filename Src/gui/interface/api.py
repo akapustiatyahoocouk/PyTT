@@ -11,6 +11,7 @@ from gui.implementation.actions.DestroyWorkspaceAction import *
 from gui.implementation.actions.ExitAction import *
 from gui.implementation.actions.HelpContentAction import *
 from gui.implementation.actions.ManageActivityTypesAction import *
+from gui.implementation.actions.ManagePrivateActivitiesAction import *
 from gui.implementation.actions.ManagePublicActivitiesAction import *
 from gui.implementation.actions.ManageUsersAction import *
 from gui.implementation.actions.OpenWorkspaceAction import *
@@ -31,10 +32,12 @@ from gui.implementation.dialogs.LanguagesDialog import *
 from gui.implementation.dialogs.LicenseDialog import *
 from gui.implementation.dialogs.LoginDialog import *
 from gui.implementation.dialogs.ManageActivityTypesDialog import *
+from gui.implementation.dialogs.ManagePrivateActivitiesDialog import *
 from gui.implementation.dialogs.ManagePublicActivitiesDialog import *
 from gui.implementation.dialogs.ManageUsersDialog import *
 from gui.implementation.dialogs.ModifyAccountDialog import *
 from gui.implementation.dialogs.ModifyActivityTypeDialog import *
+from gui.implementation.dialogs.ModifyPrivateActivityDialog import *
 from gui.implementation.dialogs.ModifyPublicActivityDialog import *
 from gui.implementation.dialogs.ModifyUserDialog import *
 from gui.implementation.dialogs.OpenWorkspaceDialog import *

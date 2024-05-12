@@ -1,5 +1,7 @@
 """ Defines a list box UI widget. """
+
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import Optional, Any
 import tkinter as tk
 import tkinter.ttk as ttk
@@ -57,7 +59,7 @@ class ListBoxItem:
         self.__tag = tag
     
     @property
-    def list_box(self) -> "ListBox":
+    def list_box(self) -> ListBox:
         return self.__list_box
 
 class ListBoxItems:

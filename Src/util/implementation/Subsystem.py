@@ -1,5 +1,7 @@
 """ Defines a Subsystem ADT. """
+
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import Optional, Set
 from abc import ABC, abstractproperty
 
@@ -18,7 +20,7 @@ class Subsystem(ABCWithConstants):
     ##########
     #   Constants
     @staticproperty
-    def ROOT() -> "Subsystem":
+    def ROOT() -> Subsystem:
         """ The root of the Subsystems tree. """
         from .UtilSubsystems import RootSubsystem
         return RootSubsystem.instance

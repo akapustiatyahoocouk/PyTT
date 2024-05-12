@@ -1,4 +1,5 @@
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import Optional
 from abc import ABC, abstractproperty, abstractmethod
 import tkinter as tk
@@ -32,7 +33,7 @@ class DatabaseType(ABCWithConstants):
     ##########
     #   Database address handling
     @abstractmethod
-    def parse_database_address(self, external_form: str) -> "DatabaseAddress":
+    def parse_database_address(self, external_form: str) -> DatabaseAddress:
         """
             Parses an external (re-parsable) form of a database address
             of this type.
@@ -48,14 +49,14 @@ class DatabaseType(ABCWithConstants):
         raise NotImplementedError()
 
     @abstractproperty
-    def default_database_address(self) -> "DatabaseAddress":
+    def default_database_address(self) -> DatabaseAddress:
         """ The address of the "default" database of this type;
             None if this database type has no concept of and
             "default" database. """
         raise NotImplementedError()
 
     @abstractmethod
-    def enter_new_database_address(self, parent: tk.BaseWidget) -> "DatabaseAddress":
+    def enter_new_database_address(self, parent: tk.BaseWidget) -> DatabaseAddress:
         """
             Prompts the user to interactively specify an address
             for a new database of this type.
@@ -73,7 +74,7 @@ class DatabaseType(ABCWithConstants):
 
     ##########
     #   Database handling
-    def create_database(self, address: "DatabaseAddress") -> "Database":
+    def create_database(self, address: DatabaseAddress) -> Database:
         """
             Creates a new, initially empty, database at the
             specified address.
@@ -87,7 +88,7 @@ class DatabaseType(ABCWithConstants):
         """
         raise NotImplementedError()
 
-    def open_database(self, address: "DatabaseAddress") -> "Database":
+    def open_database(self, address: DatabaseAddress) -> Database:
         """
             Opens an existing database at the specified address.
 

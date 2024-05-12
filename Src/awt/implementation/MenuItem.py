@@ -1,5 +1,7 @@
 """ A generic "menu item" represents a single item within a menu. """
+
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from abc import ABC, abstractproperty, abstractmethod
 import tkinter as tk
 
@@ -23,7 +25,7 @@ class MenuItem(ABC, ActionEventProcessorMixin):
     ##########
     #   Properties
     @property
-    def menu(self) -> "Menu":
+    def menu(self) -> Menu:
         """ The Menu to which this MenuItem belongs; None is this
             is a standalone menu item (i.e. not part of any menu. """
         return self.__menu

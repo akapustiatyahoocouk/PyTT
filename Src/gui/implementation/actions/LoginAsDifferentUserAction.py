@@ -38,7 +38,7 @@ class LoginAsDifferentUserAction(ActionBase):
                             if MessageBox.show(self.dialog_parent, 
                                                GuiResources.string("ReloginFailedDialog.Title"),
                                                GuiResources.string("ReloginFailedDialog.Prompt",
-                                                                   args=(CurrentWorkspace.get().address.display_form,)),
+                                                                   CurrentWorkspace.get().address.display_form),
                                                MessageBoxIcon.QUESTION,
                                                MessageBoxButtons.YES_NO) == MessageBoxResult.YES:
                                 continue

@@ -1,6 +1,7 @@
 """ A ttk.Treeview with AWT extensions. """
 
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import Any, Optional, List
 import tkinter as tk
 import tkinter.ttk as ttk
@@ -69,11 +70,11 @@ class TreeNode:
         return self.__parent_node
 
     @property
-    def child_nodes(self) -> "TreeNodeCollection":
+    def child_nodes(self) -> TreeNodeCollection:
         return self.__child_nodes
 
     @property
-    def tree_view(self) -> "TreeView":
+    def tree_view(self) -> TreeView:
         return self.__tree_view
 
 class TreeNodeCollection:
@@ -94,17 +95,8 @@ class TreeNodeCollection:
         assert isinstance(index, int)
         return self.__members[index]
 
-    def __iter__(self) -> "SqlRecordSet":
+    def __iter__(self) -> "TODO":
         return self.__members.copy().__iter__()
-
-    #TODO kill off
-    #def __next__(self) -> SqlRecord:
-    #    if self.__current_row < len(self.__rows):
-    #        row = self.__rows[self.__current_row]
-    #        self.__current_row += 1
-    #        return SqlRecord(self, row)
-    #    else:
-    #        raise StopIteration
 
     ##########
     #   Operations
@@ -202,13 +194,13 @@ class TreeView(ttk.Treeview,
         BaseWidgetMixin.__init__(self)
         ItemEventProcessorMixin.__init__(self)
         
-        self.vbar = Scrollbar(self.frame)
-        kwargs.update({"yscrollcommand": self.vbar.set})
+        self.__vbar = Scrollbar(self.frame)
+        self.__vbar['command'] = self.yview
+        self.configure(yscrollcommand=self.__vbar.set)
 
-        self.vbar.pack(side=tk.RIGHT, fill=tk.Y)
+        self.__vbar.pack(side=tk.RIGHT, fill=tk.Y)
         self.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        self.vbar['command'] = self.yview
-
+        
         # Copy geometry methods of self.frame without overriding Treeview
         # methods -- hack!
         tree_view_meths = vars(ttk.Treeview).keys()

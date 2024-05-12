@@ -1,4 +1,5 @@
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import final, Set, Optional
 from abc import abstractmethod, abstractproperty
 import tkinter as tk
@@ -32,7 +33,7 @@ class Preferences(ABCWithConstants):
     ##########
     #   Constants
     @staticproperty
-    def ROOT() -> "Preferences":
+    def ROOT() -> Preferences:
         """ The root of the Preferences tree. """
         from .RootPreferences import RootPreferences
         return RootPreferences.instance
@@ -85,7 +86,7 @@ class Preferences(ABCWithConstants):
             return self.__parent.qualified_display_name + " / " + self.display_name
 
     @property
-    def parent(self) -> "Preferences":
+    def parent(self) -> Preferences:
         """ The immediate parent Preferences is this Preferences.
             The root Preferences of the Preferences tree has no
             parent, so this property there is None. """

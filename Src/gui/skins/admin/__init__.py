@@ -22,7 +22,7 @@ class AdminSkinPlugin(Plugin):
         Plugin.__init__(self)
     
     @staticproperty
-    def instance() -> "AdminSkinPlugin":
+    def instance() -> AdminSkinPlugin:
         """
             Returns one and only instance of this class, creating
             it on the first call.

@@ -1,6 +1,7 @@
 """ Database notifications. """
 
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import Any, TypeAlias, Callable
 from threading import Thread
 
@@ -19,7 +20,7 @@ class DatabaseNotification:
     ##########
     #   Properties
     @property
-    def database(self) -> "Database":
+    def database(self) -> Database:
         """ The Database where the change has occurred. """
         return self.__database
 
@@ -40,7 +41,7 @@ class DatabaseObjectCreatedNotification(DatabaseNotification):
     ##########
     #   Properties
     @property
-    def object(self) -> "DatabaseObject":
+    def object(self) -> DatabaseObject:
         """ The newly created object. """
         return self.__object
 
@@ -61,7 +62,7 @@ class DatabaseObjectDestroyedNotification(DatabaseNotification):
     ##########
     #   Properties
     @property
-    def object(self) -> "DatabaseObject":
+    def object(self) -> DatabaseObject:
         """ The destroyed object (already "dead" by the time
             this notification reaches interested parties!. """
         return self.__object
@@ -85,7 +86,7 @@ class DatabaseObjectModifiedNotification(DatabaseNotification):
     ##########
     #   Properties
     @property
-    def object(self) -> "DatabaseObject":
+    def object(self) -> DatabaseObject:
         """ The modified object. """
         return self.__object
 

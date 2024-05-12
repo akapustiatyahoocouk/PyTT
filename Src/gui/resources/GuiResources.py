@@ -36,12 +36,12 @@ class GuiResources(ClassWithConstants):
     ##########
     #   Operations
     @staticmethod
-    def string(key: str, locale: Optional[Locale] = None, args: Tuple = None) -> str:
-        result = GuiResources.__impl.get_string(key, locale)
-        if (args is not None) and (len(args) > 0):
+    def string(key: str, *args) -> str:
+        result = GuiResources.__impl.get_string(key)
+        if len(args) > 0:
             result = result.format(*args)
         return result
 
     @staticmethod
-    def image(key: str, locale: Optional[Locale] = None) -> tk.PhotoImage:
-        return GuiResources.__impl.get_image(key, locale)
+    def image(key: str) -> tk.PhotoImage:
+        return GuiResources.__impl.get_image(key)

@@ -1,4 +1,5 @@
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import Optional, List, Set
 from abc import abstractproperty
 import tkinter as tk
@@ -182,7 +183,7 @@ class Account(DatabaseObject):
     ##########
     #   Associations
     @abstractproperty
-    def user(self) -> "User":
+    def user(self) -> User:
         """
             The User to which this Account belongs.
 

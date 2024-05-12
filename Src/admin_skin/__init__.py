@@ -1,5 +1,7 @@
 """ Package declarations for admin_skin_impl package. """
+
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import final
 
 #   Dependencies on other PyTT components
@@ -25,7 +27,7 @@ class AdminSkinPlugin(Plugin):
         Plugin.__init__(self)
 
     @staticproperty
-    def instance() -> "AdminSkinPlugin":
+    def instance() -> AdminSkinPlugin:
         """
             Returns one and only instance of this class, creating
             it on the first call.

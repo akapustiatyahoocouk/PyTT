@@ -1,6 +1,7 @@
 """ A persistent container where data is kept. """
 
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import List, Union
 from abc import ABC, abstractmethod, abstractproperty
 from threading import Lock, Semaphore
@@ -165,7 +166,7 @@ class Database(ABC):
                     real_name: str = None,  #   MUST specify!
                     inactivity_timeout: Optional[int] = None,
                     ui_locale: Optional[Locale] = None,
-                    email_addresses: List[str] = []) -> "User":
+                    email_addresses: List[str] = []) -> User:
         """
             Creates a new User.
 
@@ -195,7 +196,7 @@ class Database(ABC):
     @abstractmethod
     def create_activity_type(self,
                     name: str = None,       #   MUST specify!
-                    description: str = None) -> "ActivityType":
+                    description: str = None) -> ActivityType:
         """
             Creates a new ActivityType.
 
@@ -214,11 +215,11 @@ class Database(ABC):
     def create_public_activity(self,
                     name: str = None,           #   MUST specify!
                     description: str = None,    #   MUST specify!
-                    activity_type: Optional["ActivityType"] = None,
+                    activity_type: Optional[ActivityType] = None,
                     timeout: Optional[int] = None,
                     require_comment_on_start: bool = False,
                     require_comment_on_finish: bool = False,
-                    full_screen_reminder: bool = False) -> "PublicActivity":
+                    full_screen_reminder: bool = False) -> PublicActivity:
         """
             Creates a new PublicActivity.
 

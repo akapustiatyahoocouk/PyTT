@@ -33,9 +33,12 @@ class WorkspaceResources(ClassWithConstants):
     ##########
     #   Operations
     @staticmethod
-    def string(key: str, locale: Optional[Locale] = None) -> str:
-        return WorkspaceResources.__impl.get_string(key, locale)
+    def string(key: str, *args) -> str:
+        result = WorkspaceResources.__impl.get_string(key)
+        if len(args) > 0:
+            result = result.format(*args)
+        return result
 
     @staticmethod
-    def image(key: str, locale: Optional[Locale] = None) -> tk.PhotoImage:
-        return WorkspaceResources.__impl.get_image(key, locale)
+    def image(key: str) -> tk.PhotoImage:
+        return WorkspaceResources.__impl.get_image(key)

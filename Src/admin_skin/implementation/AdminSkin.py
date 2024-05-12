@@ -1,5 +1,7 @@
 """ Implements the "Admin: skin. """
+
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 
 #   Dependencies on other PyTT components
 from gui.interface.api import *
@@ -30,7 +32,7 @@ class AdminSkin(Skin):
         self.__main_frame.deactivate()
 
     @staticproperty
-    def instance() -> "AdminSkin":
+    def instance() -> AdminSkin:
         """
             Returns one and only instance of this class, creating
             it on the first call.
