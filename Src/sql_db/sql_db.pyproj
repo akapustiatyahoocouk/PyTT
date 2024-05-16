@@ -29,6 +29,7 @@
     <Compile Include="implementation\SqlAccount.py" />
     <Compile Include="implementation\SqlRecord.py" />
     <Compile Include="implementation\SqlRecordSet.py" />
+    <Compile Include="implementation\SqlTask.py" />
     <Compile Include="implementation\SqlUpdateStatement.py" />
     <Compile Include="implementation\SqlSelectStatement.py" />
     <Compile Include="implementation\SqlActivityType.py" />

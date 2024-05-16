@@ -206,7 +206,7 @@ class SqlActivity(SqlDatabaseObject, Activity):
         #   Validate parameters
         validator = self.database.validator
         if not validator.activity.is_valid_require_comment_on_start(new_require_comment_on_start):
-            raise InvalidDatabaseObjectPropertyError(Activity.TYPE_NAME, Activity.REQUIRE_COMMENT_ON_START_PROPERTY_NAME, new_timeout)
+            raise InvalidDatabaseObjectPropertyError(Activity.TYPE_NAME, Activity.REQUIRE_COMMENT_ON_START_PROPERTY_NAME, new_require_comment_on_start)
 
         #   Make database changes
         try:
@@ -245,7 +245,7 @@ class SqlActivity(SqlDatabaseObject, Activity):
         #   Validate parameters
         validator = self.database.validator
         if not validator.activity.is_valid_require_comment_on_finish(new_require_comment_on_finish):
-            raise InvalidDatabaseObjectPropertyError(Activity.TYPE_NAME, Activity.REQUIRE_COMMENT_ON_FINISH_PROPERTY_NAME, new_timeout)
+            raise InvalidDatabaseObjectPropertyError(Activity.TYPE_NAME, Activity.REQUIRE_COMMENT_ON_FINISH_PROPERTY_NAME, new_require_comment_on_finish)
 
         #   Make database changes
         try:
@@ -284,7 +284,7 @@ class SqlActivity(SqlDatabaseObject, Activity):
         #   Validate parameters
         validator = self.database.validator
         if not validator.activity.is_valid_full_screen_reminder(new_full_screen_reminder):
-            raise InvalidDatabaseObjectPropertyError(Activity.TYPE_NAME, Activity.FULL_SCREEN_REMINDER_PROPERTY_NAME, new_timeout)
+            raise InvalidDatabaseObjectPropertyError(Activity.TYPE_NAME, Activity.FULL_SCREEN_REMINDER_PROPERTY_NAME, new_full_screen_reminder)
 
         #   Make database changes
         try:

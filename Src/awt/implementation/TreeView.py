@@ -90,7 +90,7 @@ class TreeNodeCollection:
 
     def __len__(self) -> int:
         return len(self.__members)
-    
+
     def __getitem__(self, index: int) -> Any:
         assert isinstance(index, int)
         return self.__members[index]
@@ -173,10 +173,10 @@ class TreeNodeCollection:
             assert member_node._TreeNode__tk_node_id is None    #   ...for consistency
         #   ...and adjust the TreeNode to reflect its removal from the tree
         member_node._TreeNode__parent_node = None
-    
+
     def index(self, element):
         return self.__members.index(element)
-        
+
 class TreeView(ttk.Treeview,
                BaseWidgetMixin,
                ItemEventProcessorMixin):
@@ -188,19 +188,36 @@ class TreeView(ttk.Treeview,
         """Construct an awt TreeView widget with the parent master. """
         self.__root_nodes = TreeNodeCollection(self)
 
+        #TODO use on a per-item bases
+        #import tkinter.font as tkFont
+        #style = ttk.Style()
+        #sf = style.lookup('Treeview', 'font')
+        #default_font = tkFont.nametofont("TkDefaultFont")
+        #print(default_font)
+        #print(default_font.configure())
+        #dfc = default_font.configure()
+        #print(dfc["family"])
+        #print(dfc["size"])
+        #dfc["weight"] = "bold"
+        #Desired_font = tkFont.Font(family = dfc["family"],
+        #                           size = dfc["size"],
+        #                           weight = "bold")
+        #style1 = ttk.Style()
+        #style1.configure("awt.Treeview", font=Desired_font)
+
         self.frame = Panel(parent)
 
-        ttk.Treeview.__init__(self, self.frame, **kwargs)
+        ttk.Treeview.__init__(self, self.frame, style="awt.Treeview",**kwargs)
         BaseWidgetMixin.__init__(self)
         ItemEventProcessorMixin.__init__(self)
-        
+
         self.__vbar = Scrollbar(self.frame)
         self.__vbar['command'] = self.yview
         self.configure(yscrollcommand=self.__vbar.set)
 
         self.__vbar.pack(side=tk.RIGHT, fill=tk.Y)
         self.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        
+
         # Copy geometry methods of self.frame without overriding Treeview
         # methods -- hack!
         tree_view_meths = vars(ttk.Treeview).keys()
@@ -230,7 +247,7 @@ class TreeView(ttk.Treeview,
     def current_node(self, node: Optional[TreeNode]) -> None:
         """ Sets the currently highlighted tree node, None for none. """
         assert (node is None) or isinstance(node, TreeNode)
-        
+
         if node is None:
             self.selection_set()
             return
@@ -238,7 +255,7 @@ class TreeView(ttk.Treeview,
             return
         self.selection_set(node._TreeNode__tk_node_id)
         self.see(node._TreeNode__tk_node_id)
-    
+
     ##########
     #   Implementation heipers
     def __find_tree_node_by_tk_id(self, nodes: TreeNodeCollection, tk_node_id: str) -> Optional[TreeNode]:
