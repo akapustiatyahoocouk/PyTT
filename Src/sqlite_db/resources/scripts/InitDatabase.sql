@@ -58,28 +58,16 @@ CREATE TABLE [activities]
     [pk] INTEGER NOT NULL PRIMARY KEY,
     [name] VARCHAR(128) NOT NULL,
     [description] TEXT NOT NULL,
-    [timeout] INTEGER,                             --  in minutes; NULL == none
+    [timeout] INTEGER,                              --  in minutes; NULL == none
     [require_comment_on_start] CHAR(1) NOT NULL,    --  "Y" or "N"
     [require_comment_on_finish] CHAR(1) NOT NULL,   --  "Y" or "N"
     [full_screen_reminder] CHAR(1) NOT NULL,        --  "Y" or "N"
     [fk_activity_type] INTEGER,                     --  NULL == no link
+    [completed] CHAR(1),                            --  "Y" or "N", NULL == activity, not task
+    [fk_owner] INTEGER,                             --  NULL == public, else private
+    UNIQUE([name], [fk_owner]) ON CONFLICT ABORT,
     --- Foreign keys
     FOREIGN KEY([pk]) REFERENCES [objects]([pk]),
-    FOREIGN KEY([fk_activity_type]) REFERENCES [activity_types]([pk])
-);
-
-CREATE TABLE [public_activities]
-(
-    [pk] INTEGER NOT NULL PRIMARY KEY,
-    --- Foreign keys
-    FOREIGN KEY([pk]) REFERENCES [activities]([pk])
-);
-
-CREATE TABLE [private_activities]
-(
-    [pk] INTEGER NOT NULL PRIMARY KEY,
-    [fk_owner] INTEGER,
-    --- Foreign keys
-    FOREIGN KEY([pk]) REFERENCES [activities]([pk]),
+    FOREIGN KEY([fk_activity_type]) REFERENCES [activity_types]([pk]),
     FOREIGN KEY([fk_owner]) REFERENCES [users]([pk])
 );

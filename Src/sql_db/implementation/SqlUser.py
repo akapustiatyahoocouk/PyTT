@@ -289,7 +289,8 @@ class SqlUser(SqlDatabaseObject, User):
 
         try:
             stat = self.database.create_statement(
-                """SELECT [pk] FROM [private_activities] WHERE [fk_owner] = ?""")
+                """SELECT [pk] FROM [activities] 
+                    WHERE [completed] IS NULL AND [fk_owner] = ?""")
             stat.set_int_parameter(0, self.oid)
             rs = stat.execute()
             result = set()
@@ -459,8 +460,9 @@ class SqlUser(SqlDatabaseObject, User):
                 """INSERT INTO [activities]
                           ([pk],[name],[description],[timeout],
                            [require_comment_on_start],[require_comment_on_finish],
-                           [full_screen_reminder],[fk_activity_type])
-                          VALUES (?,?,?,?,?,?,?,?)""");
+                           [full_screen_reminder],[fk_activity_type],
+                           [completed], [fk_owner])
+                          VALUES (?,?,?,?,?,?,?,?,?,?)""");
             stat2.set_int_parameter(0, private_activity_oid)
             stat2.set_string_parameter(1, name)
             stat2.set_string_parameter(2, description)
@@ -469,15 +471,9 @@ class SqlUser(SqlDatabaseObject, User):
             stat2.set_bool_parameter(5, require_comment_on_finish)
             stat2.set_bool_parameter(6, full_screen_reminder)
             stat2.set_int_parameter(7, None if activity_type is None else activity_type.oid)
+            stat2.set_bool_parameter(8, None)
+            stat2.set_int_parameter(9, self.oid)
             stat2.execute()
-
-            stat3 = self.database.create_statement(
-                """INSERT INTO [private_activities]
-                          ([pk], [fk_owner])
-                          VALUES (?,?)""");
-            stat3.set_int_parameter(0, private_activity_oid)
-            stat3.set_int_parameter(1, self.oid)
-            stat3.execute()
 
             self.database.commit_transaction()
             private_activity = self.database._get_private_activity_proxy(private_activity_oid)

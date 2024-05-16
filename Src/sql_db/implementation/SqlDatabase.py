@@ -107,7 +107,9 @@ class SqlDatabase(Database):
         self._ensure_open() # may raise DatabaseError
 
         try:
-            stat = self.create_statement(" SELECT [pk] FROM [public_activities]")
+            stat = self.create_statement(
+                """ SELECT [pk] FROM [activities]
+                    WHERE [completed] IS NULL AND [fk_owner] IS NULL""")
             rs = stat.execute()
             result = set()
             for r in rs:
@@ -532,8 +534,9 @@ class SqlDatabase(Database):
                 """INSERT INTO [activities]
                           ([pk],[name],[description],[timeout],
                            [require_comment_on_start],[require_comment_on_finish],
-                           [full_screen_reminder],[fk_activity_type])
-                          VALUES (?,?,?,?,?,?,?,?)""");
+                           [full_screen_reminder],[fk_activity_type],
+                           [completed], [fk_owner])
+                          VALUES (?,?,?,?,?,?,?,?,?,?)""");
             stat2.set_int_parameter(0, public_activity_oid)
             stat2.set_string_parameter(1, name)
             stat2.set_string_parameter(2, description)
@@ -542,14 +545,9 @@ class SqlDatabase(Database):
             stat2.set_bool_parameter(5, require_comment_on_finish)
             stat2.set_bool_parameter(6, full_screen_reminder)
             stat2.set_int_parameter(7, None if activity_type is None else activity_type.oid)
+            stat2.set_bool_parameter(8, None)
+            stat2.set_int_parameter(9, None)
             stat2.execute()
-
-            stat3 = self.create_statement(
-                """INSERT INTO [public_activities]
-                          ([pk])
-                          VALUES (?)""");
-            stat3.set_int_parameter(0, public_activity_oid)
-            stat3.execute()
 
             self.commit_transaction()
             public_activity = self._get_public_activity_proxy(public_activity_oid)
