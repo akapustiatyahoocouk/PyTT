@@ -69,8 +69,8 @@ INSERT INTO [constraints] SELECT COUNT(*)-1 FROM PRAGMA_TABLE_INFO('activity_typ
 SELECT [pk], [name], [description], [timeout],
        [require_comment_on_start], [require_comment_on_finish], 
        [full_screen_reminder], [fk_activity_type],
-       [completed], [fk_owner] FROM [activities];
-INSERT INTO [constraints] SELECT COUNT(NAME)-10 FROM PRAGMA_TABLE_INFO('activities');
+       [completed], [fk_owner], [fk_parent_task] FROM [activities];
+INSERT INTO [constraints] SELECT COUNT(NAME)-11 FROM PRAGMA_TABLE_INFO('activities');
 INSERT INTO [constraints] SELECT COUNT(*)-1 FROM PRAGMA_TABLE_INFO('activities') WHERE NAME='pk' AND type='INTEGER';
 INSERT INTO [constraints] SELECT COUNT(*)-1 FROM PRAGMA_TABLE_INFO('activities') WHERE NAME='name' AND type='VARCHAR(128)';
 INSERT INTO [constraints] SELECT COUNT(*)-1 FROM PRAGMA_TABLE_INFO('activities') WHERE NAME='description' AND type='TEXT';
@@ -81,6 +81,7 @@ INSERT INTO [constraints] SELECT COUNT(*)-1 FROM PRAGMA_TABLE_INFO('activities')
 INSERT INTO [constraints] SELECT COUNT(*)-1 FROM PRAGMA_TABLE_INFO('activities') WHERE NAME='fk_activity_type' AND type='INTEGER';
 INSERT INTO [constraints] SELECT COUNT(*)-1 FROM PRAGMA_TABLE_INFO('activities') WHERE NAME='completed' AND type='CHAR(1)';
 INSERT INTO [constraints] SELECT COUNT(*)-1 FROM PRAGMA_TABLE_INFO('activities') WHERE NAME='fk_owner' AND type='INTEGER';
+INSERT INTO [constraints] SELECT COUNT(*)-1 FROM PRAGMA_TABLE_INFO('activities') WHERE NAME='fk_parent_task' AND type='INTEGER';
 
 
 DROP TABLE [constraints];

@@ -171,8 +171,12 @@
     <Content Include="resources\images\objects\ActivityTypeSmall.png" />
     <Content Include="resources\images\objects\PrivateActivityLarge.png" />
     <Content Include="resources\images\objects\PrivateActivitySmall.png" />
+    <Content Include="resources\images\objects\PrivateTaskLarge.png" />
+    <Content Include="resources\images\objects\PrivateTaskSmall.png" />
     <Content Include="resources\images\objects\PublicActivityLarge.png" />
     <Content Include="resources\images\objects\PublicActivitySmall.png" />
+    <Content Include="resources\images\objects\PublicTaskLarge.png" />
+    <Content Include="resources\images\objects\PublicTaskSmall.png" />
     <Content Include="resources\images\objects\UserLarge.png" />
     <Content Include="resources\images\objects\UserSmall.png" />
     <Content Include="resources\Resources_ru.txt" />

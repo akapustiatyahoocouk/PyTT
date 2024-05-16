@@ -37,3 +37,11 @@ PublicActivity.LargeImage=ImageFile:images/objects/PublicActivityLarge.png
 PrivateActivity.TypeDisplayName=private activity
 PrivateActivity.SmallImage=ImageFile:images/objects/PrivateActivitySmall.png
 PrivateActivity.LargeImage=ImageFile:images/objects/PrivateActivityLarge.png
+
+PublicTask.TypeDisplayName=public task
+PublicTask.SmallImage=ImageFile:images/objects/PublicTaskSmall.png
+PublicTask.LargeImage=ImageFile:images/objects/PublicTaskLarge.png
+
+PrivateTask.TypeDisplayName=private task
+PrivateTask.SmallImage=ImageFile:images/objects/PrivateTaskSmall.png
+PrivateTask.LargeImage=ImageFile:images/objects/PrivateTaskLarge.png

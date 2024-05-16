@@ -44,4 +44,5 @@ class SqlPrivateActivity(SqlActivity, PrivateActivity):
         SqlActivity._reload_property_cache(self)
         assert self._completed is None
         assert isinstance(self._fk_owner, int)
+        assert self._fk_parent_task is None
         

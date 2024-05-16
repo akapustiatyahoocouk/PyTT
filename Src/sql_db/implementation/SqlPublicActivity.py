@@ -28,3 +28,5 @@ class SqlPublicActivity(SqlActivity, PublicActivity):
         SqlActivity._reload_property_cache(self)
         assert self._completed is None
         assert self._fk_owner is None
+        assert self._fk_parent_task is None
+        

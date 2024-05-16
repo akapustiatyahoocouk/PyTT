@@ -11,7 +11,10 @@ from db.implementation.DatabaseType import *
 from db.implementation.Exceptions import *
 from db.implementation.Notifications import *
 from db.implementation.PrivateActivity import *
+from db.implementation.PrivateTask import *
 from db.implementation.PublicActivity import *
+from db.implementation.PublicTask import *
+from db.implementation.Task import *
 from db.implementation.User import *
 from db.implementation.Validator import *
 

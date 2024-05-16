@@ -610,3 +610,17 @@ class SqlDatabase(Database):
         if isinstance(obj, SqlPrivateActivity):
             return obj
         return SqlPrivateActivity(self, oid)
+
+    def _get_public_task_proxy(self, oid: OID) -> User:
+        from .SqlPublicTask import SqlPublicTask
+        obj = self.__objects.get(oid, None)
+        if isinstance(obj, SqlPublicTask):
+            return obj
+        return SqlPublicTask(self, oid)
+
+    def _get_private_task_proxy(self, oid: OID) -> User:
+        from .SqlPrivateTask import SqlPrivateTask
+        obj = self.__objects.get(oid, None)
+        if isinstance(obj, SqlPrivateTask):
+            return obj
+        return SqlPrivateTask(self, oid)

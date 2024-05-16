@@ -32,6 +32,7 @@ class SqlActivity(SqlDatabaseObject, Activity):
         self._fk_activity_type = None
         self._completed = None
         self._fk_owner = None
+        self._fk_parent_task = None
 
     ##########
     #   DatabaseObject - Operations (life cycle)
@@ -380,5 +381,6 @@ class SqlActivity(SqlDatabaseObject, Activity):
             self._fk_activity_type = r["fk_activity_type", SqlDataType.INTEGER]
             self._completed = r["completed", SqlDataType.BOOLEAN]
             self._fk_owner = r["fk_owner", SqlDataType.INTEGER]
+            self._fk_parent_task = r["fk_parent_task", SqlDataType.INTEGER]
         except Exception as ex:
             raise DatabaseError.wrap(ex)

@@ -30,11 +30,14 @@
   <ItemGroup>
     <Compile Include="implementation\Account.py" />
     <Compile Include="implementation\PrivateActivity.py" />
+    <Compile Include="implementation\PrivateTask.py" />
     <Compile Include="implementation\PublicActivity.py" />
     <Compile Include="implementation\Activity.py" />
     <Compile Include="implementation\Capabilities.py" />
     <Compile Include="implementation\Notifications.py" />
     <Compile Include="implementation\ActivityType.py" />
+    <Compile Include="implementation\PublicTask.py" />
+    <Compile Include="implementation\Task.py" />
     <Compile Include="implementation\User.py" />
     <Compile Include="implementation\DatabaseObject.py" />
     <Compile Include="implementation\Database.py" />
@@ -53,8 +56,12 @@
     <Content Include="resources\images\objects\ActivityTypeSmall.png" />
     <Content Include="resources\images\objects\PrivateActivityLarge.png" />
     <Content Include="resources\images\objects\PrivateActivitySmall.png" />
+    <Content Include="resources\images\objects\PrivateTaskLarge.png" />
+    <Content Include="resources\images\objects\PrivateTaskSmall.png" />
     <Content Include="resources\images\objects\PublicActivityLarge.png" />
     <Content Include="resources\images\objects\PublicActivitySmall.png" />
+    <Content Include="resources\images\objects\PublicTaskLarge.png" />
+    <Content Include="resources\images\objects\PublicTaskSmall.png" />
     <Content Include="resources\images\objects\UserLarge.png" />
     <Content Include="resources\images\objects\UserSmall.png" />
     <Content Include="resources\Resources.txt" />
