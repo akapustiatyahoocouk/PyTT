@@ -24,9 +24,11 @@
     <Compile Include="implementation\SqlActivity.py" />
     <Compile Include="implementation\SqlDeleteStatement.py" />
     <Compile Include="implementation\SqlPrivateActivity.py" />
+    <Compile Include="implementation\SqlPrivateTask.py" />
     <Compile Include="implementation\SqlPublicActivity.py" />
     <Compile Include="implementation\SqlDatabase.py" />
     <Compile Include="implementation\SqlAccount.py" />
+    <Compile Include="implementation\SqlPublicTask.py" />
     <Compile Include="implementation\SqlRecord.py" />
     <Compile Include="implementation\SqlRecordSet.py" />
     <Compile Include="implementation\SqlTask.py" />

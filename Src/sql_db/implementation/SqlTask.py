@@ -64,38 +64,3 @@ class SqlTask(SqlActivity, Task):
                     Task.COMPLETED_PROPERTY_NAME))
         except Exception as ex:
             raise DatabaseError.wrap(ex)
-
-    ##########
-    #   Task - Associations
-    @property
-    def parent(self) -> Optional[Task]:
-        self._ensure_live() #   may raise DatabaseException
-
-        self._load_property_cache()
-        if self._fk_parent_task is None:
-            return None
-        return self.database._get_activity_type_proxy(self._fk_activity_type)
-
-    @property
-    def children(self) -> Set[Task]:
-        self._ensure_live() #   may raise DatabaseException
-
-        try:
-            stat = self.database.create_statement(
-                """SELECT [pk] FROM [activities] WHERE [fk_parent_task] = ?""")
-            stat.set_int_parameter(0, self.oid)
-            rs = stat.execute()
-            result = set()
-            for r in rs:
-                result.add(self.database._get_account_proxy(r["pk"]))
-            return result
-        except Exception as ex:
-            raise DatabaseError.wrap(ex)
-
-    ##########
-    #   Property cache support
-    def _reload_property_cache(self) -> None:
-        SqlActivity._reload_property_cache(self)
-        assert isinstance(self._completed, bool)
-        assert self._fk_owner is None
-        assert self._fk_parent_task is None
