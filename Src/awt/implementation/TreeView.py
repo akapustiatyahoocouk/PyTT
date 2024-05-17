@@ -7,6 +7,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 #   Internal dependencies on modules within the same component
+from .GuiRoot import GuiRoot
 from .BaseWidgetMixin import BaseWidgetMixin
 from .ItemEventType import ItemEventType
 from .ItemEvent import ItemEvent
@@ -192,6 +193,9 @@ class TreeView(ttk.Treeview,
         #import tkinter.font as tkFont
         #style = ttk.Style()
         #sf = style.lookup('Treeview', 'font')
+        #sc1 = GuiRoot.tk.winfo_rgb(style.lookup('Treeview', 'background'))
+        #sc2 = GuiRoot.tk.winfo_rgb(style.lookup('Treeview', 'foreground'))
+        #c = ((sc1[0] + sc2[0]) // 512, (sc1[1] + sc2[1]) // 512, (sc1[2] + sc2[2]) // 512)
         #default_font = tkFont.nametofont("TkDefaultFont")
         #print(default_font)
         #print(default_font.configure())
@@ -203,11 +207,13 @@ class TreeView(ttk.Treeview,
         #                           size = dfc["size"],
         #                           weight = "bold")
         #style1 = ttk.Style()
-        #style1.configure("awt.Treeview", font=Desired_font)
+        #cc = "#%02x%02x%02x" % c
+        #style1.configure("awt.Treeview", font=Desired_font, foreground="grey")
 
         self.frame = Panel(parent)
 
-        ttk.Treeview.__init__(self, self.frame, style="awt.Treeview",**kwargs)
+        #ttk.Treeview.__init__(self, self.frame, style="awt.Treeview", **kwargs)
+        ttk.Treeview.__init__(self, self.frame, **kwargs)
         BaseWidgetMixin.__init__(self)
         ItemEventProcessorMixin.__init__(self)
 
