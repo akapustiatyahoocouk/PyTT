@@ -9,8 +9,8 @@ from workspace.implementation.BusinessObject import *
 from workspace.implementation.BusinessPrivateActivity import *
 #TODO uncomment from workspace.implementation.BusinessPrivateTask import *
 from workspace.implementation.BusinessPublicActivity import *
-#TODO uncomment from workspace.implementation.BusinessPublicTask import *
-#TODO uncomment from workspace.implementation.BusinessTask import *
+from workspace.implementation.BusinessPublicTask import *
+from workspace.implementation.BusinessTask import *
 from workspace.implementation.BusinessUser import *
 from workspace.implementation.Capabilities import *
 from workspace.implementation.Credentials import *

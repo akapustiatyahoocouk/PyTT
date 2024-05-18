@@ -55,6 +55,7 @@
     <Compile Include="implementation\dialogs\CreateAccountDialog.py" />
     <Compile Include="implementation\dialogs\CreatePrivateActivityDialog.py" />
     <Compile Include="implementation\dialogs\CreatePublicActivityDialog.py" />
+    <Compile Include="implementation\dialogs\CreatePublicTaskDialog.py" />
     <Compile Include="implementation\dialogs\DestroyPrivateActivityDialog.py" />
     <Compile Include="implementation\dialogs\DestroyPublicActivityDialog.py" />
     <Compile Include="implementation\dialogs\ManageActivityTypesDialog.py" />

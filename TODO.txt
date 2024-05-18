@@ -1,4 +1,8 @@
 ========== IMMEDIATE PIPELINE ======================================
+*   Add "requires comment when task is is completed" to Task.
+*   Add more buttons to task/activity views to start and stop the
+    task - in fact, for every command that would eventually be on
+    the popup menu of all views.
 *   Extend the staticmethod .string() of ...ResourceFactory so that
     will accept optional *args and perform format() call internally.
     Currently works for GuiResources; use for all other 

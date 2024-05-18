@@ -65,14 +65,14 @@ class PublicTask(PublicActivity, Task):
     #   Operations (life cycle)
     @abstractmethod
     def create_child(self,
-                    name: str = None,           #   MUST specify!
-                    description: str = None,    #   MUST specify!
-                    activity_type: Optional[ActivityType] = None,
-                    timeout: Optional[int] = None,
-                    require_comment_on_start: bool = False,
-                    require_comment_on_finish: bool = False,
-                    full_screen_reminder: bool = False,
-                    completed: bool = False) -> PublicTask:
+                     name: str = None,           #   MUST specify!
+                     description: str = None,    #   MUST specify!
+                     activity_type: Optional[ActivityType] = None,
+                     timeout: Optional[int] = None,
+                     require_comment_on_start: bool = False,
+                     require_comment_on_finish: bool = False,
+                     full_screen_reminder: bool = False,
+                     completed: bool = False) -> PublicTask:
         """
             Creates a new child PublicTask under this PublicTask.
 

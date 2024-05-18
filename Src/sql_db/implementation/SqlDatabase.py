@@ -625,7 +625,7 @@ class SqlDatabase(Database):
             raise InvalidDatabaseObjectPropertyError(PublicTask.TYPE_NAME, PublicTask.REQUIRE_COMMENT_ON_FINISH_PROPERTY_NAME, require_comment_on_finish)
         if not validator.activity.is_valid_full_screen_reminder(full_screen_reminder):
             raise InvalidDatabaseObjectPropertyError(PublicTask.TYPE_NAME, PublicTask.FULL_SCREEN_REMINDER_PROPERTY_NAME, full_screen_reminder)
-        if not validator.activity.is_valid_completed(completed):
+        if not validator.activity.is_valid_task_completed(completed):
             raise InvalidDatabaseObjectPropertyError(PublicTask.TYPE_NAME, PublicTask.COMPLETED_PROPERTY_NAME, completed)
         if activity_type is not None:
             activity_type._ensure_live()
@@ -650,7 +650,7 @@ class SqlDatabase(Database):
                            [full_screen_reminder],[fk_activity_type],
                            [completed], [fk_owner], [fk_parent_task])
                           VALUES (?,?,?,?,?,?,?,?,?,?,?)""");
-            stat2.set_int_parameter(0, public_activity_oid)
+            stat2.set_int_parameter(0, public_task_oid)
             stat2.set_string_parameter(1, name)
             stat2.set_string_parameter(2, description)
             stat2.set_int_parameter(3, timeout)

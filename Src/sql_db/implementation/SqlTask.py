@@ -40,7 +40,7 @@ class SqlTask(SqlActivity, Task):
 
         #   Validate parameters
         validator = self.database.validator
-        if not validator.activity.is_valid_completed(new_completed):
+        if not validator.activity.is_valid_task_completed(new_completed):
             raise InvalidDatabaseObjectPropertyError(Task.TYPE_NAME, Task.COMPLETED, new_completed)
 
         #   Make database changes

@@ -4,7 +4,7 @@ from __future__ import annotations  #   MUST be 1st in a module!
 from typing import Optional, List, Set
 from abc import abstractproperty
 import tkinter as tk
-from .Capabilities import Capabilities
+import traceback
 
 #   Dependencies on other PyTT components
 from util.interface.api import *
@@ -35,6 +35,7 @@ class Activity(DatabaseObject):
         try:
             return self.name
         except Exception as ex:
+            print(traceback.format_exc())
             return str(ex)
 
     ##########

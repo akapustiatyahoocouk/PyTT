@@ -141,7 +141,7 @@ class ActivityTypesView(View):
         #   Prepare the list of accessible BusinessActivityTypes sorted by name
         activity_types = list(workspace.get_activity_types(credentials))
         try:
-            activity_types.sort(key=lambda u: u.get_name(credentials))
+            activity_types.sort(key=lambda u: u.display_name)
         except Exception as ex:
             ErrorDialog.show(self, ex)
             pass    #   TODO log the exception

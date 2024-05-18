@@ -13,7 +13,7 @@ from .PublicTasksViewType import PublicTasksViewType
 from .View import View
 from ..misc.CurrentWorkspace import CurrentWorkspace
 from ..misc.CurrentCredentials import CurrentCredentials
-#TODO uncomment from ..dialogs.CreatePublicTaskDialog import *
+from ..dialogs.CreatePublicTaskDialog import *
 #TODO uncomment from ..dialogs.ModifyPublicTaskDialog import *
 #TODO uncomment from ..dialogs.DestroyPublicTaskDialog import *
 from gui.resources.GuiResources import GuiResources
@@ -80,7 +80,23 @@ class PublicTasksView(View):
             self.__destroy_public_task_button.enabled = False
             return
 
-        self.__refresh_public_task_nodes()
+        workspace = CurrentWorkspace.get()
+        credentials = CurrentCredentials.get()
+        if (workspace is None) or (credentials is None):
+            self.__public_tasks_tree_view.root_nodes.clear()
+        else:
+            selected_object = self.selected_object
+            try:
+                self.__refresh_public_task_nodes(workspace,
+                                                 credentials,
+                                                 self.__public_tasks_tree_view.root_nodes,
+                                                 workspace.get_root_public_tasks(credentials))
+            except Exception:
+                #   In case root tasks acquisition fails TODO log ?
+                pass
+        if self.selected_object != selected_object:
+            #   Try to keep the selection
+            self.selected_object = selected_object
 
         selected_public_task = self.selected_public_task
         try:
@@ -131,42 +147,42 @@ class PublicTasksView(View):
         self.__modify_public_task_button.text = GuiResources.string("PublicTasksViewEditor.ModifyPublicTaskButton.Text")
         self.__destroy_public_task_button.text = GuiResources.string("PublicTasksViewEditor.DestroyPublicTaskButton.Text")
 
-    def __refresh_public_task_nodes(self) -> None:
-        workspace = CurrentWorkspace.get()
-        credentials = CurrentCredentials.get()
-        if (workspace is None) or (credentials is None):
-            self.__public_tasks_tree_view.root_nodes.clear()
-            return
-        selected_object = self.selected_object
-
+    def __refresh_public_task_nodes(self,
+                                    workspace: Workspace,
+                                    credentials: Credentials,
+                                    tree_nodes: TreeNodeCollection,
+                                    public_tasks: Set[BusinessPublicTask]) -> None:
         #   Prepare the list of accessible BusinessPublicTasks sorted by name
-        public_tasks = list(workspace.get_public_tasks(credentials))
+        public_tasks = list(public_tasks)
         try:
-            public_tasks.sort(key=lambda u: u.get_name(credentials))
+            public_tasks.sort(key=lambda u: u.display_name)
         except Exception as ex:
             ErrorDialog.show(self, ex)
             pass    #   TODO log the exception
-        #   Make sure the self.__public_tasks_tree_view contains a proper number
-        #   of root nodes...
-        while len(self.__public_tasks_tree_view.root_nodes) > len(public_tasks):
-            #   Too many root nodes in the public tasks tree
-            self.__public_tasks_tree_view.root_nodes.remove_at(len(self.__public_tasks_tree_view.root_nodes) - 1)
-        while len(self.__public_tasks_tree_view.root_nodes) < len(public_tasks):
-            #   Too few root nodes in the public tasks tree
-            public_task = public_tasks[len(self.__public_tasks_tree_view.root_nodes)]
-            self.__public_tasks_tree_view.root_nodes.add(
-                public_task.display_name,
-                image=public_task.small_image,
-                tag=public_task)
+        #   Make sure the tree_nodes contains a proper number of nodes...
+        while len(tree_nodes) > len(public_tasks):
+            #   Too many nodes in the public tasks list
+            tree_nodes.remove_at(len(tree_nodes) - 1)
+        while len(tree_nodes) < len(public_tasks):
+            #   Too few nodes in the public tasks list
+            public_task = public_tasks[len(tree_nodes)]
+            tree_nodes.add(public_task.display_name,
+                           image=public_task.small_image,
+                           tag=public_task)
         #   ...each representing a proper BusinessPublicTask
         for i in range(len(public_tasks)):
-            public_task_node = self.__public_tasks_tree_view.root_nodes[i]
-            public_task_node.text = public_tasks[i].display_name
+            public_task_node = tree_nodes[i]
+            public_task_node.text = public_tasks[i].display_name    #   TODO + "completed" suffix
             public_task_node.tag = public_tasks[i]
-
-        #   Try to keep the selection
-        if self.selected_object != selected_object:
-            self.selected_object = selected_object
+            #   ...and having proper children
+            try:
+                self.__refresh_public_task_nodes(workspace,
+                                                 credentials,
+                                                 public_task_node.child_nodes,
+                                                 public_tasks[i].get_children(credentials))
+            except Exception:
+                #   In case child tasks acquisition fails TODO log ?
+                pass
 
     ##########
     #   Event handlers
@@ -185,17 +201,18 @@ class PublicTasksView(View):
 
     def __on_create_public_task_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)
-        #try:
-        #    with CreatePublicTaskDialog(self.winfo_toplevel()) as dlg:
-        #        dlg.do_modal()
-        #        if dlg.result is CreatePublicTaskDialogResult.CANCEL:
-        #            return
-        #        created_public_task = dlg.created_public_task
-        #        self.selected_object = created_public_task
-        #        self.__public_tasks_tree_view.focus_set()
-        #    self.request_refresh()
-        #except Exception as ex: #   error in CreatePublicTaskDialog constructor
-        #    ErrorDialog.show(None, ex)
+        try:
+            with CreatePublicTaskDialog(self.winfo_toplevel(),
+                                        parent_task=self.selected_public_task) as dlg:
+                dlg.do_modal()
+                if dlg.result is CreatePublicTaskDialogResult.CANCEL:
+                    return
+                created_public_task = dlg.created_public_task
+                self.selected_object = created_public_task
+                self.__public_tasks_tree_view.focus_set()
+            self.request_refresh()
+        except Exception as ex: #   error in CreatePublicTaskDialog constructor
+            ErrorDialog.show(None, ex)
 
     def __on_modify_public_task_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)

@@ -57,9 +57,22 @@ class SqlPublicTask(SqlTask, PublicTask):
             raise DatabaseError.wrap(ex)
 
     ##########
+    #   PublicTask - Operations (life cycle)
+    def create_child(self,
+                     name: str = None,           #   MUST specify!
+                     description: str = None,    #   MUST specify!
+                     activity_type: Optional[ActivityType] = None,
+                     timeout: Optional[int] = None,
+                     require_comment_on_start: bool = False,
+                     require_comment_on_finish: bool = False,
+                     full_screen_reminder: bool = False,
+                     completed: bool = False) -> PublicTask:
+        raise NotImplementedError()
+
+    ##########
     #   Property cache support
     def _reload_property_cache(self) -> None:
-        SqlActivity._reload_property_cache(self)
+        SqlTask._reload_property_cache(self)
         assert isinstance(self._completed, bool)
         assert self._fk_owner is None
         assert (self._fk_parent_task is None) or isinstance(self._fk_parent_task, int)

@@ -23,6 +23,8 @@ from .BusinessUser import BusinessUser
 from .BusinessActivityType import BusinessActivityType
 from .BusinessPublicActivity import BusinessPublicActivity
 from .BusinessPrivateActivity import BusinessPrivateActivity
+from .BusinessPublicTask import BusinessPublicTask
+#   TODO from .BusinessPrivateTask import BusinessPrivateTask
 from .Notifications import *
 from .Validator import *
 
@@ -565,7 +567,6 @@ class Workspace:
                 return self._get_business_proxy(data_public_task)
             except Exception as ex:
                 raise WorkspaceError.wrap(ex)
-
 
     ##########
     #   Operations (notifications)

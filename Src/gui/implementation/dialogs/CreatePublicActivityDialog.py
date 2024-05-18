@@ -100,13 +100,13 @@ class CreatePublicActivityDialog(Dialog):
         self.__timeout_value_combo_box = ComboBox(self.__timeout_panel)
         self.__timeout_unit_combo_box = ComboBox(self.__timeout_panel)
 
-        self.require_comment_on_start_check_box = CheckBox(
+        self.__require_comment_on_start_check_box = CheckBox(
             self.__controls_panel,
             text=GuiResources.string("CreatePublicActivityDialog.RequireCommentOnStartCheckBox.Text"))
-        self.require_comment_on_finish_check_box = CheckBox(
+        self.__require_comment_on_finish_check_box = CheckBox(
             self.__controls_panel,
             text=GuiResources.string("CreatePublicActivityDialog.RequireCommentOnFinishCheckBox.Text"))
-        self.full_screen_reminder_check_box = CheckBox(
+        self.__full_screen_reminder_check_box = CheckBox(
             self.__controls_panel,
             text=GuiResources.string("CreatePublicActivityDialog.FullScreenReminderCheckBox.Text"))
 
@@ -145,7 +145,7 @@ class CreatePublicActivityDialog(Dialog):
         self.__activity_type_combo_box.editable = False
         self.__activity_type_combo_box.items.add("-", tag=None)
         activity_types = list(self.__workspace.get_activity_types(self.__credentials))
-        activity_types.sort(key=lambda u: u.get_name(self.__credentials))
+        activity_types.sort(key=lambda u: u.display_name)
         for activity_type in activity_types:
             self.__activity_type_combo_box.items.add(activity_type.display_name, tag=activity_type)
         self.__activity_type_combo_box.selected_index = 0
@@ -168,9 +168,9 @@ class CreatePublicActivityDialog(Dialog):
         self.__timeout_value_combo_box.pack(side=tk.LEFT, padx=2, pady=2)
         self.__timeout_unit_combo_box.pack(side=tk.LEFT, padx=2, pady=2)
 
-        self.require_comment_on_start_check_box.grid(row=4, column=1, padx=2, pady=2, sticky="W")
-        self.require_comment_on_finish_check_box.grid(row=5, column=1, padx=2, pady=2, sticky="W")
-        self.full_screen_reminder_check_box.grid(row=6, column=1, padx=2, pady=2, sticky="W")
+        self.__require_comment_on_start_check_box.grid(row=4, column=1, padx=2, pady=2, sticky="W")
+        self.__require_comment_on_finish_check_box.grid(row=5, column=1, padx=2, pady=2, sticky="W")
+        self.__full_screen_reminder_check_box.grid(row=6, column=1, padx=2, pady=2, sticky="W")
 
         self.__separator.pack(fill=tk.X, padx=0, pady=4)
         self.__cancel_button.pack(side=tk.RIGHT, padx=2, pady=2)
@@ -235,9 +235,9 @@ class CreatePublicActivityDialog(Dialog):
                    self.__timeout_unit_combo_box.selected_item.tag)
         if timeout == 0:
             timeout = None
-        require_comment_on_start = self.require_comment_on_start_check_box.checked
-        require_comment_on_finish = self.require_comment_on_finish_check_box.checked
-        full_screen_reminder = self.full_screen_reminder_check_box.checked
+        require_comment_on_start = self.__require_comment_on_start_check_box.checked
+        require_comment_on_finish = self.__require_comment_on_finish_check_box.checked
+        full_screen_reminder = self.__full_screen_reminder_check_box.checked
 
         try:
             self.__created_public_activity = self.__workspace.create_public_activity(

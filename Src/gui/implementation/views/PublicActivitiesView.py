@@ -141,7 +141,7 @@ class PublicActivitiesView(View):
         #   Prepare the list of accessible BusinessPublicActivities sorted by name
         public_activities = list(workspace.get_public_activities(credentials))
         try:
-            public_activities.sort(key=lambda u: u.get_name(credentials))
+            public_activities.sort(key=lambda u: u.display_name)
         except Exception as ex:
             ErrorDialog.show(self, ex)
             pass    #   TODO log the exception

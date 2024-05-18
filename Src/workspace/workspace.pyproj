@@ -27,6 +27,8 @@
     <Compile Include="implementation\BusinessActivityType.py" />
     <Compile Include="implementation\BusinessPrivateActivity.py" />
     <Compile Include="implementation\BusinessPublicActivity.py" />
+    <Compile Include="implementation\BusinessPublicTask.py" />
+    <Compile Include="implementation\BusinessTask.py" />
     <Compile Include="implementation\Validator.py" />
     <Compile Include="implementation\Capabilities.py" />
     <Compile Include="implementation\BusinessUser.py" />

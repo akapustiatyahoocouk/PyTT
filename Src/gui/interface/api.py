@@ -21,6 +21,7 @@ from gui.implementation.dialogs.CreateAccountDialog import *
 from gui.implementation.dialogs.CreateActivityTypeDialog import *
 from gui.implementation.dialogs.CreatePrivateActivityDialog import *
 from gui.implementation.dialogs.CreatePublicActivityDialog import *
+from gui.implementation.dialogs.CreatePublicTaskDialog import *
 from gui.implementation.dialogs.CreateUserDialog import *
 from gui.implementation.dialogs.CreateWorkspaceDialog import *
 from gui.implementation.dialogs.DestroyAccountDialog import *

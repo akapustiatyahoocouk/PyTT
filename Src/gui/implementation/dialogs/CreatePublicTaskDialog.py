@@ -1,4 +1,4 @@
-""" Implements the "Modify Private activity" modal dialog. """
+""" Implements the "Create public task" modal dialog. """
 
 #   Python standard library
 from typing import final, Optional, Callable
@@ -20,88 +20,94 @@ from ..controls.EmailAddressListEditor import EmailAddressListEditor
 ##########
 #   Public entities
 @final
-class ModifyPrivateActivityDialogResult(Enum):
-    """ The result of modal invocation of the ModifyPrivateActivityDialog. """
+class CreatePublicTaskDialogResult(Enum):
+    """ The result of modal invocation of the CreatePublicTaskDialog. """
 
     OK = 1
-    """ A BusinessPrivateActivity has been modified. """
+    """ A new BusinessPublicTask has been created in the specified workspace. """
 
     CANCEL = 2
     """ Dialog cancelled by user. """
 
 @final
-class ModifyPrivateActivityDialog(Dialog):
-    """ The modal "Modify Private activity " dialog. """
+class CreatePublicTaskDialog(Dialog):
+    """ The modal "Create public task " dialog. """
 
     ##########
     #   Construction
     def __init__(self, parent: tk.BaseWidget,
-                 private_activity: BusinessPrivateActivity,
-                 credentials: Optional[Credentials] = None):
+                 workspace: Optional[Workspace] = None,
+                 credentials: Optional[Credentials] = None,
+                 parent_task: Optional[BusinessPublicTask] = None):
         """
-            Constructs the "Modify Private activity" dialog.
+            Constructs the "create public task" dialog.
 
             @param parent:
                 The parent widget for the dialog (actually the closest
                 enclosing top-level widget or frame is used),
                 None == no parent.
-            @param private_activity:
-                The private activity to modify.
+            @param workspace:
+                The workspace to create a new public task in; None == use
+                the CurrentWorkspace.
             @param credentials:
                 The credentials to use for workspace access; None == use
                 the CurrentCredentials.
+            @param parent_task:
+                The parent task for the new public task; None == create a 
+                root public task.
             @raise WorkspaceError:
                 If a workspace access error occurs.
         """
         Dialog.__init__(self,
                         parent,
-                        GuiResources.string("ModifyPrivateActivityDialog.Title",
-                                            private_activity.display_name,
-                                            private_activity.get_owner(credentials if credentials is not None else CurrentCredentials.get()).display_name))
+                        GuiResources.string("CreatePublicTaskDialog.Title"))
 
-        assert isinstance(private_activity, BusinessPrivateActivity)
-        self.__private_activity = private_activity
-        self.__result = ModifyPrivateActivityDialogResult.CANCEL
+        self.__result = CreatePublicTaskDialogResult.CANCEL
+        self.__created_public_task = None
 
-        #   Resolve credentials
+        #   Resolve workspace & credentials
+        assert (workspace is None) or isinstance(workspace, Workspace)
         assert (credentials is None) or isinstance(credentials, Credentials)
+        self.__workspace = workspace if workspace is not None else CurrentWorkspace.get()
         self.__credentials = credentials if credentials is not None else CurrentCredentials.get()
+        assert self.__workspace is not None
         assert self.__credentials is not None
 
-        #   Save current private activity properties
-        self.__private_activity_name = private_activity.get_name(self.__credentials)
-        self.__private_activity_description = private_activity.get_description(self.__credentials)
-        self.__private_activity_activity_type = private_activity.get_activity_type(self.__credentials)
-        self.__private_activity_timeout = private_activity.get_timeout(self.__credentials)
-        self.__private_activity_require_comment_on_start = private_activity.get_require_comment_on_start(self.__credentials)
-        self.__private_activity_require_comment_on_finish = private_activity.get_require_comment_on_finish(self.__credentials)
-        self.__private_activity_full_screen_reminder = private_activity.get_full_screen_reminder(self.__credentials)
-        self.__validator = private_activity.workspace.validator
+        self.__validator = self.__workspace.validator
+
+        assert (parent_task is None) or isinstance(parent_task, BusinessPublicTask)
+        self.__parent_task = parent_task
 
         #   Create controls
         self.__controls_panel = Panel(self)
 
         self.__name_label = Label(
             self.__controls_panel,
-            text=GuiResources.string("ModifyPrivateActivityDialog.NameLabel.Text"),
+            text=GuiResources.string("CreatePublicTaskDialog.NameLabel.Text"),
             anchor=tk.E)
         self.__name_text_field = TextField(self.__controls_panel, width=40)
 
         self.__description_label = Label(
             self.__controls_panel,
-            text=GuiResources.string("ModifyPrivateActivityDialog.DescriptionLabel.Text"),
+            text=GuiResources.string("CreatePublicTaskDialog.DescriptionLabel.Text"),
             anchor=tk.E)
         self.__description_text_area = TextArea(self.__controls_panel, height=4, width=40)
 
+        if parent_task is not None:
+            self.__subtask_of_check_box = CheckBox(
+                self.__controls_panel,
+                text=GuiResources.string("CreatePublicTaskDialog.SubtaskOfCheckBox.Text",
+                                         parent_task.display_name))
+
         self.__activity_type_label = Label(
             self.__controls_panel,
-            text=GuiResources.string("ModifyPrivateActivityDialog.ActivityTypeLabel.Text"),
+            text=GuiResources.string("CreatePublicTaskDialog.ActivityTypeLabel.Text"),
             anchor=tk.E)
         self.__activity_type_combo_box = ComboBox(self.__controls_panel)
 
         self.__timeout_label = Label(
             self.__controls_panel,
-            text=GuiResources.string("ModifyPrivateActivityDialog.TimeoutLabel.Text"),
+            text=GuiResources.string("CreatePublicTaskDialog.TimeoutLabel.Text"),
             anchor=tk.E)
         self.__timeout_panel = Panel(self.__controls_panel)
         self.__timeout_value_combo_box = ComboBox(self.__timeout_panel)
@@ -109,75 +115,57 @@ class ModifyPrivateActivityDialog(Dialog):
 
         self.__require_comment_on_start_check_box = CheckBox(
             self.__controls_panel,
-            text=GuiResources.string("ModifyPrivateActivityDialog.RequireCommentOnStartCheckBox.Text"))
+            text=GuiResources.string("CreatePublicTaskDialog.RequireCommentOnStartCheckBox.Text"))
         self.__require_comment_on_finish_check_box = CheckBox(
             self.__controls_panel,
-            text=GuiResources.string("ModifyPrivateActivityDialog.RequireCommentOnFinishCheckBox.Text"))
+            text=GuiResources.string("CreatePublicTaskDialog.RequireCommentOnFinishCheckBox.Text"))
         self.__full_screen_reminder_check_box = CheckBox(
             self.__controls_panel,
-            text=GuiResources.string("ModifyPrivateActivityDialog.FullScreenReminderCheckBox.Text"))
+            text=GuiResources.string("CreatePublicTaskDialog.FullScreenReminderCheckBox.Text"))
+
+        self.__completed_check_box = CheckBox(
+            self.__controls_panel,
+            text=GuiResources.string("CreatePublicTaskDialog.CompletedCheckBox.Text"))
 
         self.__separator = Separator(self, orient="horizontal")
 
         self.__ok_button = Button(self,
-            text=GuiResources.string("ModifyPrivateActivityDialog.OkButton.Text"),
-            image=GuiResources.image("ModifyPrivateActivityDialog.OkButton.Icon"))
+            text=GuiResources.string("CreatePublicTaskDialog.OkButton.Text"),
+            image=GuiResources.image("CreatePublicTaskDialog.OkButton.Icon"))
         self.__cancel_button = Button(self,
-            text=GuiResources.string("ModifyPrivateActivityDialog.CancelButton.Text"),
-            image=GuiResources.image("ModifyPrivateActivityDialog.CancelButton.Icon"))
+            text=GuiResources.string("CreatePublicTaskDialog.CancelButton.Text"),
+            image=GuiResources.image("CreatePublicTaskDialog.CancelButton.Icon"))
 
         #   Adjust controls
-        self.__name_text_field.text = self.__private_activity_name
-
         self.__description_text_area.accept_tab = False
-        self.__description_text_area.text = self.__private_activity_description
 
         for i in range(60):
             if i == 0:
                 self.__timeout_value_combo_box.items.add(
-                    GuiResources.string("ModifyPrivateActivityDialog.TimeoutNone"),
+                    GuiResources.string("CreatePublicTaskDialog.TimeoutNone"),
                     tag=i)
             else:
                 self.__timeout_value_combo_box.items.add(str(i), tag=i)
         self.__timeout_value_combo_box.editable = False
 
         self.__timeout_unit_combo_box.items.add(
-            GuiResources.string("ModifyPrivateActivityDialog.TimeoutMinutes"),
+            GuiResources.string("CreatePublicTaskDialog.TimeoutMinutes"),
             tag=1)
         self.__timeout_unit_combo_box.items.add(
-            GuiResources.string("ModifyPrivateActivityDialog.TimeoutHours"),
+            GuiResources.string("CreatePublicTaskDialog.TimeoutHours"),
             tag=60)
         self.__timeout_unit_combo_box.editable = False
 
-        if self.__private_activity_timeout is None:
-            self.__timeout_value_combo_box.selected_index = 0
-            self.__timeout_unit_combo_box.selected_index = 1
-        elif (self.__private_activity_timeout > 0 and
-              self.__private_activity_timeout < 60):
-            self.__timeout_value_combo_box.selected_index = self.__private_activity_timeout
-            self.__timeout_unit_combo_box.selected_index = 0
-        elif (self.__private_activity_timeout % 60 == 0 and
-              self.__private_activity_timeout // 60 > 0 and
-              self.__private_activity_timeout // 60 <= 60):
-            self.__timeout_value_combo_box.selected_index = self.__private_activity_timeout // 60
-            self.__timeout_unit_combo_box.selected_index = 1
-        else:
-            self.__timeout_value_combo_box.selected_index = 1
-            self.__timeout_unit_combo_box.selected_index = 1
+        self.__timeout_unit_combo_box.selected_index = 1
+        self.__timeout_value_combo_box.selected_index = 1
 
         self.__activity_type_combo_box.editable = False
         self.__activity_type_combo_box.items.add("-", tag=None)
-        activity_types = list(self.__private_activity.workspace.get_activity_types(self.__credentials))
+        activity_types = list(self.__workspace.get_activity_types(self.__credentials))
         activity_types.sort(key=lambda u: u.display_name)
         for activity_type in activity_types:
             self.__activity_type_combo_box.items.add(activity_type.display_name, tag=activity_type)
-        self.__activity_type_combo_box.selected_index = (
-            0 if self.__private_activity_activity_type is None
-            else activity_types.index(self.__private_activity_activity_type) + 1)
-
-        self.__require_comment_on_start_check_box.checked = self.__private_activity_require_comment_on_start
-        self.__require_comment_on_finish_check_box.checked = self.__private_activity_require_comment_on_finish
-        self.__full_screen_reminder_check_box.checked = self.__private_activity_full_screen_reminder
+        self.__activity_type_combo_box.selected_index = 0
 
         #   Set up control structure
         self.__controls_panel.pack(fill=tk.X, padx=0, pady=0)
@@ -189,17 +177,21 @@ class ModifyPrivateActivityDialog(Dialog):
         self.__description_label.grid(row=1, column=0, padx=2, pady=2, sticky="W")
         self.__description_text_area.grid(row=1, column=1, padx=2, pady=2, sticky="WE")
 
-        self.__activity_type_label.grid(row=2, column=0, padx=2, pady=2, sticky="W")
-        self.__activity_type_combo_box.grid(row=2, column=1, padx=2, pady=2, sticky="WE")
+        if parent_task is not None:
+            self.__subtask_of_check_box.grid(row=2, column=1, padx=2, pady=2, sticky="W")
+        
+        self.__activity_type_label.grid(row=3, column=0, padx=2, pady=2, sticky="W")
+        self.__activity_type_combo_box.grid(row=3, column=1, padx=2, pady=2, sticky="WE")
 
-        self.__timeout_label.grid(row=3, column=0, padx=2, pady=2, sticky="W")
-        self.__timeout_panel.grid(row=3, column=1, padx=0, pady=0, sticky="W")
+        self.__timeout_label.grid(row=4, column=0, padx=2, pady=2, sticky="W")
+        self.__timeout_panel.grid(row=4, column=1, padx=0, pady=0, sticky="W")
         self.__timeout_value_combo_box.pack(side=tk.LEFT, padx=2, pady=2)
         self.__timeout_unit_combo_box.pack(side=tk.LEFT, padx=2, pady=2)
 
-        self.__require_comment_on_start_check_box.grid(row=4, column=1, padx=2, pady=2, sticky="W")
-        self.__require_comment_on_finish_check_box.grid(row=5, column=1, padx=2, pady=2, sticky="W")
-        self.__full_screen_reminder_check_box.grid(row=6, column=1, padx=2, pady=2, sticky="W")
+        self.__require_comment_on_start_check_box.grid(row=5, column=1, padx=2, pady=2, sticky="W")
+        self.__require_comment_on_finish_check_box.grid(row=6, column=1, padx=2, pady=2, sticky="W")
+        self.__full_screen_reminder_check_box.grid(row=7, column=1, padx=2, pady=2, sticky="W")
+        self.__completed_check_box.grid(row=8, column=1, padx=2, pady=2, sticky="W")
 
         self.__separator.pack(fill=tk.X, padx=0, pady=4)
         self.__cancel_button.pack(side=tk.RIGHT, padx=2, pady=2)
@@ -236,9 +228,15 @@ class ModifyPrivateActivityDialog(Dialog):
     ##########
     #   Properties
     @property
-    def result(self) -> ModifyPrivateActivityDialogResult:
+    def result(self) -> CreatePublicTaskDialogResult:
         """ The dialog result after a modal invocation. """
         return self.__result
+
+    @property
+    def created_public_task(self) -> Optional[BusinessPublicTask]:
+        """ The BusinessPublicTask created during dialog invocation;
+            None if the dialog was cancelled. """
+        return self.__created_public_task
 
     ##########
     #   Event listeners
@@ -253,6 +251,9 @@ class ModifyPrivateActivityDialog(Dialog):
     def __on_ok(self, evt = None) -> None:
         name = self.__name_text_field.text.strip()
         description = self.__description_text_area.text.rstrip()
+        parent_task = None
+        if (self.__parent_task is not None) and self.__subtask_of_check_box.checked:
+            parent_task = self.__parent_task
         activity_type = self.__activity_type_combo_box.selected_item.tag
         timeout = (self.__timeout_value_combo_box.selected_item.tag *
                    self.__timeout_unit_combo_box.selected_item.tag)
@@ -261,30 +262,37 @@ class ModifyPrivateActivityDialog(Dialog):
         require_comment_on_start = self.__require_comment_on_start_check_box.checked
         require_comment_on_finish = self.__require_comment_on_finish_check_box.checked
         full_screen_reminder = self.__full_screen_reminder_check_box.checked
+        completed = self.__completed_check_box.checked
 
         try:
-            #   TODO only if there are changes!!!
-            if name != self.__private_activity_name:
-                self.__private_activity.set_name(self.__credentials, name)
-            if description != self.__private_activity_description:
-                self.__private_activity.set_description(self.__credentials,description)
-            if activity_type != self.__private_activity_activity_type:
-                self.__private_activity.set_activity_type(self.__credentials, activity_type)
-            if timeout != self.__private_activity_timeout:
-                self.__private_activity.set_timeout(self.__credentials, timeout)
-            if require_comment_on_start != self.__private_activity_require_comment_on_start:
-                self.__private_activity.set_require_comment_on_start(self.__credentials, require_comment_on_start)
-            if require_comment_on_finish != self.__private_activity_require_comment_on_finish:
-                self.__private_activity.set_require_comment_on_finish(self.__credentials, require_comment_on_finish)
-            if full_screen_reminder != self.__private_activity_full_screen_reminder:
-                self.__private_activity.set_full_screen_reminder(self.__credentials, full_screen_reminder)
-            self.__result = ModifyPrivateActivityDialogResult.OK
+            if parent_task is None:
+                self.__created_public_task = self.__workspace.create_public_task(
+                        credentials=self.__credentials,
+                        name=name,
+                        description=description,
+                        activity_type=activity_type,
+                        timeout=timeout,
+                        require_comment_on_start=require_comment_on_start,
+                        require_comment_on_finish=require_comment_on_finish,
+                        full_screen_reminder=full_screen_reminder,
+                        completed=completed)
+            else:
+                self.__created_public_task = parent_task.create_child(
+                        credentials=self.__credentials,
+                        name=name,
+                        description=description,
+                        activity_type=activity_type,
+                        timeout=timeout,
+                        require_comment_on_start=require_comment_on_start,
+                        require_comment_on_finish=require_comment_on_finish,
+                        full_screen_reminder=full_screen_reminder,
+                        completed=completed)
+            self.__result = CreatePublicTaskDialogResult.OK
             self.end_modal()
         except Exception as ex:
             ErrorDialog.show(self, ex)
 
     def __on_cancel(self, evt = None) -> None:
-        self.__result = ModifyPrivateActivityDialogResult.CANCEL
+        self.__result = CreatePublicTaskDialogResult.CANCEL
         self.end_modal()
-
 
