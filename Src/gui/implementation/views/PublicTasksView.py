@@ -125,10 +125,7 @@ class PublicTasksView(View):
         self.perform_refresh()
         if obj is None:
             return
-        for public_task_node in self.__public_tasks_tree_view.root_nodes:
-            if public_task_node.tag == obj:
-                self.__public_tasks_tree_view.current_node = public_task_node
-                return
+        self.__set_selected_object(self.__public_tasks_tree_view.root_nodes, obj)
 
     @property
     def selected_public_task(self) -> Optional[BusinessPublicTask]:
@@ -183,6 +180,15 @@ class PublicTasksView(View):
             except Exception:
                 #   In case child tasks acquisition fails TODO log ?
                 pass
+
+    def __set_selected_object(self, tree_nodes: TreeNodeCollection, obj: Optional[BusinessObject]) -> bool:
+        for tree_node in tree_nodes:
+            if tree_node.tag == obj:
+                tree_node.tree_view.current_node = tree_node
+                return True
+            if self.__set_selected_object(tree_node.child_nodes, obj):
+                return True
+        return False
 
     ##########
     #   Event handlers

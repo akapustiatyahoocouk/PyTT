@@ -464,6 +464,7 @@ class Workspace:
                                require_comment_on_start: bool = False,
                                require_comment_on_finish: bool = False,
                                full_screen_reminder: bool = False) -> BusinessPublicActivity:
+        assert isinstance(credentials, Credentials)
         assert isinstance(name, str)
         assert isinstance(description, str)
         assert (activity_type is None) or isinstance(activity_type, BusinessActivityType)

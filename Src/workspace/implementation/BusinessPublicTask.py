@@ -9,8 +9,11 @@ import db.interface.api as dbapi
 from util.interface.api import *
 
 #   Internal dependencies on modules within the same component
+from .Credentials import Credentials
+from .BusinessActivityType import BusinessActivityType
 from .BusinessPublicActivity import BusinessPublicActivity
 from .BusinessTask import BusinessTask
+from .Exceptions import *
 
 ##########
 #   Public entities
@@ -36,7 +39,19 @@ class BusinessPublicTask(BusinessPublicActivity, BusinessTask):
         raise NotImplementedError()
 
     def get_children(self, credentials: Credentials) -> Set[BusinessPublicTask]:
-        raise NotImplementedError()
+        assert isinstance(credentials, Credentials)
+
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            try:
+                result = set()
+                if self.workspace.get_capabilities(credentials) is not None:
+                    for data_child in self._data_object.children:
+                        result.add(self.workspace._get_business_proxy(data_child))
+                return result
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     ##########
     #   Operations (life cycle)
@@ -80,6 +95,39 @@ class BusinessPublicTask(BusinessPublicActivity, BusinessTask):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        raise NotImplementedError()
+        assert isinstance(credentials, Credentials)
+        assert isinstance(name, str)
+        assert isinstance(description, str)
+        assert (activity_type is None) or isinstance(activity_type, BusinessActivityType)
+        assert (timeout is None) or isinstance(timeout, int)
+        assert isinstance(require_comment_on_start, bool)
+        assert isinstance(require_comment_on_finish, bool)
+        assert isinstance(full_screen_reminder, bool)
+        assert isinstance(completed, bool)    
+
+        with self.workspace:
+            self._ensure_live() # may raise DatabaseError
+            try:
+                #   Validate parameters
+                if activity_type is not None:
+                    activity_type._ensure_live()
+                    if activity_type.workspace is not self.workspace:
+                        raise IncompatibleWorkspaceObjectError(activity_type.type_name)
+                #   Validate access rights
+                if not self.workspace.can_manage_public_tasks(credentials):
+                    raise WorkspaceAccessDeniedError()
+                #   The rest of the work is up to the DB
+                data_public_task = self._data_object.create_child(
+                    name=name,
+                    description=description,
+                    activity_type=None if activity_type is None else activity_type._data_object,
+                    timeout=timeout,
+                    require_comment_on_start=require_comment_on_start,
+                    require_comment_on_finish=require_comment_on_finish,
+                    full_screen_reminder=full_screen_reminder,
+                    completed=completed);
+                return self.workspace._get_business_proxy(data_public_task)
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
 

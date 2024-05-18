@@ -67,6 +67,7 @@ CREATE TABLE [activities]
     [fk_owner] INTEGER,                             --  NULL == public, else private
     [fk_parent_task] INTEGER,                       --  NULL == activity or root task, else != NULL
     UNIQUE([name], [fk_owner]) ON CONFLICT ABORT,
+    UNIQUE([name], [fk_parent_task]) ON CONFLICT ABORT,
     --- Foreign keys
     FOREIGN KEY([pk]) REFERENCES [objects]([pk]),
     FOREIGN KEY([fk_activity_type]) REFERENCES [activity_types]([pk]),

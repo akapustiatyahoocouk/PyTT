@@ -98,6 +98,7 @@ class CreatePublicTaskDialog(Dialog):
                 self.__controls_panel,
                 text=GuiResources.string("CreatePublicTaskDialog.SubtaskOfCheckBox.Text",
                                          parent_task.display_name))
+            self.__subtask_of_check_box.checked = True
 
         self.__activity_type_label = Label(
             self.__controls_panel,
