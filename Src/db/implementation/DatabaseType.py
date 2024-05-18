@@ -132,12 +132,12 @@ class DatabaseType(ABCWithConstants):
             return True
 
     @staticmethod
-    def find(mnemonic: str) -> Optional["DatabaseType"]:
+    def find(mnemonic: str) -> Optional[DatabaseType]:
         """ Finds a registered database type by mnemonic;
             returns None if not found. """
         return DatabaseType.__registry.get(mnemonic, None)
 
     @staticproperty
-    def all() -> set["DatabaseType"]:
+    def all() -> set[DatabaseType]:
         """ The 'set' of all registered database types. """
         return set(DatabaseType.__registry.values())

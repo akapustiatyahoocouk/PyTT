@@ -1,4 +1,6 @@
+
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import Optional, List, Set
 from abc import abstractproperty
 import tkinter as tk
@@ -202,7 +204,7 @@ class Activity(DatabaseObject):
     ##########
     #   Associations
     @abstractproperty
-    def activity_type(self) -> Optional["ActivityType"]:
+    def activity_type(self) -> Optional[ActivityType]:
         """
             The ActivityType assigned to this Activity, None if this 
             Activity is not assigned an ActivityType.
@@ -213,7 +215,7 @@ class Activity(DatabaseObject):
         raise NotImplementedError()
 
     @activity_type.setter
-    def activity_type(self, new_activity_type: Optional["ActivityType"]) -> None:
+    def activity_type(self, new_activity_type: Optional[ActivityType]) -> None:
         """
             Assigns the specified ActivityType to this Activity.
 

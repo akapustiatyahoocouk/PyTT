@@ -56,6 +56,8 @@ from gui.implementation.views.PrivateActivitiesView import *
 from gui.implementation.views.PrivateActivitiesViewType import *
 from gui.implementation.views.PublicActivitiesView import *
 from gui.implementation.views.PublicActivitiesViewType import *
+from gui.implementation.views.PublicTasksView import *
+from gui.implementation.views.PublicTasksViewType import *
 from gui.implementation.views.UsersView import *
 from gui.implementation.views.UsersViewType import *
 from gui.implementation.views.View import *

@@ -27,7 +27,7 @@ class Subsystem(ABCWithConstants):
 
     ##########
     #   Construction
-    def __init__(self, parent: Optional["Subsystem"]):
+    def __init__(self, parent: Optional[Subsystem]):
         assert (parent is None) or isinstance(parent, Subsystem)
 
         self.__parent = parent
@@ -38,13 +38,13 @@ class Subsystem(ABCWithConstants):
     ##########
     #   Properties
     @property
-    def parent(self) -> Optional["Subsystem"]:
+    def parent(self) -> Optional[Subsystem]:
         """ The immediate parent Subsystem of this Subsystem, or
             None if this is a root Subsystem. """
         return self.__parent
 
     @property
-    def children(self) -> Set["Subsystem"]:
+    def children(self) -> Set[Subsystem]:
         """ An unordered set of all immediate children of this
             Subsystem. """
         return set(self.__children)

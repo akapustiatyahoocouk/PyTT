@@ -384,6 +384,10 @@ PrivateActivitiesViewType.DisplayName=Private activities
 PrivateActivitiesViewType.SmallImage=ImageFile:images/objects/PrivateActivitySmall.png
 PrivateActivitiesViewType.LargeImage=ImageFile:images/objects/PrivateActivityLarge.png
 
+PublicTasksViewType.DisplayName=Public tasks
+PublicTasksViewType.SmallImage=ImageFile:images/objects/PublicTaskSmall.png
+PublicTasksViewType.LargeImage=ImageFile:images/objects/PublicTaskLarge.png
+
 ##########
 #   Views
 UsersView.CreateUserButton.Text=Create user
@@ -419,3 +423,10 @@ PrivateActivitiesView.ModifyPrivateActivityButton.Text=Modify private activity
 PrivateActivitiesView.ModifyPrivateActivityButton.Image=ImageFile:images/actions/ModifyPrivateActivitySmall.png
 PrivateActivitiesView.DestroyPrivateActivityButton.Text=Destroy private activity
 PrivateActivitiesView.DestroyPrivateActivityButton.Image=ImageFile:images/actions/DestroyPrivateActivitySmall.png
+
+PublicTasksView.CreatePublicTaskButton.Text=Create public task
+PublicTasksView.CreatePublicTaskButton.Image=ImageFile:images/actions/CreatePublicTaskSmall.png
+PublicTasksView.ModifyPublicTaskButton.Text=Modify public task
+PublicTasksView.ModifyPublicTaskButton.Image=ImageFile:images/actions/ModifyPublicTaskSmall.png
+PublicTasksView.DestroyPublicTaskButton.Text=Destroy public task
+PublicTasksView.DestroyPublicTaskButton.Image=ImageFile:images/actions/DestroyPublicTaskSmall.png

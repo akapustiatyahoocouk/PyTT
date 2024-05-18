@@ -38,7 +38,7 @@ class WorkspaceType:
     ##########
     #   Properties
     @staticproperty
-    def all() -> Set["WorkspaceType"]:
+    def all() -> Set[WorkspaceType]:
         if WorkspaceType.__all is None:
             WorkspaceType.__construction_permitted = True
             WorkspaceType.__all = []
@@ -233,7 +233,7 @@ class WorkspaceType:
     ##########
     #   Operations (misc)
     @staticmethod
-    def find_by_mnemonic(mnemonic: str) -> Optional["WorkspaceType"]:
+    def find_by_mnemonic(mnemonic: str) -> Optional[WorkspaceType]:
         assert isinstance(mnemonic, str)
 
         for workspace_type in WorkspaceType.all:

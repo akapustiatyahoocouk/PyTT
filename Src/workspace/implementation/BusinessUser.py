@@ -383,7 +383,7 @@ class BusinessUser(BusinessObject):
 
     ##########
     #   Operations (associations)
-    def get_accounts(self, credentials: Credentials) -> Set["BusinessAccount"]:
+    def get_accounts(self, credentials: Credentials) -> Set[BusinessAccount]:
         """
             Returns the set of all BusinessAccounts of this BusinessUser.
 
@@ -418,7 +418,7 @@ class BusinessUser(BusinessObject):
             except Exception as ex:
                 raise WorkspaceError.wrap(ex)
 
-    def get_private_activities(self, credentials: Credentials) -> Set["BusinessPrivateActivity"]:
+    def get_private_activities(self, credentials: Credentials) -> Set[BusinessPrivateActivity]:
         """
             Returns the set of all BusinessPrivateActivity of this BusinessUser.
 

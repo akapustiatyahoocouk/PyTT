@@ -1,6 +1,8 @@
 """ A group of RadioButtons of which at most one can be
     checked at any given time. """
+
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import List
 import tkinter as tk
 
@@ -19,7 +21,7 @@ class RadioButtonGroup:
     ##########
     #   Properties
     @property
-    def members(self) -> List["RadioButton"]:
+    def members(self) -> List[RadioButton]:
         """ An ordered list of all RadioButtons in this RadioButtonGroup. """
         return self.__group_members.copy()
 

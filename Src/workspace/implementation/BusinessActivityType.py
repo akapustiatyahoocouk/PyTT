@@ -1,4 +1,5 @@
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import Optional, List
 
 #   Dependencies on other PyTT components
@@ -138,7 +139,7 @@ class BusinessActivityType(BusinessObject):
 
     ##########
     #   Operations (associations)
-    def get_activities(self, credentials: Credentials) -> Set["BusinessActivity"]:
+    def get_activities(self, credentials: Credentials) -> Set[BusinessActivity]:
         """
             Returns the set of all BusinessActivities assigned this BusinessActivityType.
 

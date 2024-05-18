@@ -84,6 +84,8 @@
     <Compile Include="implementation\views\PrivateActivitiesViewType.py" />
     <Compile Include="implementation\views\PublicActivitiesView.py" />
     <Compile Include="implementation\views\PublicActivitiesViewType.py" />
+    <Compile Include="implementation\views\PublicTasksView.py" />
+    <Compile Include="implementation\views\PublicTasksViewType.py" />
     <Compile Include="implementation\views\UsersView.py" />
     <Compile Include="implementation\views\ActivityTypesViewType.py" />
     <Compile Include="implementation\views\View.py" />

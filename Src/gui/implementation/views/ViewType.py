@@ -67,12 +67,12 @@ class ViewType(ABC):
             return True
 
     @staticmethod
-    def find(mnemonic: str) -> Optional["ViewType"]:
+    def find(mnemonic: str) -> Optional[ViewType]:
         """ Finds a registered view type by mnemonic;
             returns None if not found. """
         return ViewType.__registry.get(mnemonic, None)
 
     @staticproperty
-    def all() -> set["ViewType"]:
+    def all() -> set[ViewType]:
         """ The 'set' of all registered view types. """
         return set(ViewType.__registry.values())

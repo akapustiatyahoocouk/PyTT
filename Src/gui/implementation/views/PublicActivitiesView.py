@@ -83,7 +83,7 @@ class PublicActivitiesView(View):
 
         selected_public_activity = self.selected_public_activity
         try:
-            can_manage_public_activities = workspace.can_manage_stock_items(credentials)
+            can_manage_public_activities = workspace.can_manage_public_activities(credentials)
         except Exception:
             can_manage_public_activities = False
 
@@ -205,7 +205,7 @@ class PublicActivitiesView(View):
             self.selected_public_activity = public_activity
             self.__public_activities_tree_view.focus_set()
             self.request_refresh()
-        except Exception as ex: #   error in ModifyActivityTypeDialog constructor
+        except Exception as ex: #   error in ModifyPublicActivityDialog constructor
             ErrorDialog.show(None, ex)
 
     def __on_destroy_public_activity_button_clicked(self, evt: ActionEvent) -> None:

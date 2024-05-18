@@ -1,8 +1,6 @@
 #   Python standard library
 import tkinter as tk
 
-from regex import E
-
 #   Dependencies on other PyTT components
 from awt.interface.api import *
 from workspace.interface.api import *

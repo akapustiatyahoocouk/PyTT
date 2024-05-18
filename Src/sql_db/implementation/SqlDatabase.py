@@ -92,8 +92,9 @@ class SqlDatabase(Database):
         self._ensure_open() # may raise DatabaseError
 
         try:
-            stat = self.create_statement(" SELECT [pk] FROM [objects] WHERE [object_type_name] = ?")
-            stat.set_string_parameter(0, Activity.TYPE_NAME)
+            stat = self.create_statement(
+                """ SELECT [pk] FROM [activities]
+                    WHERE [completed] IS NULL AND [fk_owner] IS NULL""")
             rs = stat.execute()
             result = set()
             for r in rs:
@@ -103,17 +104,35 @@ class SqlDatabase(Database):
             raise DatabaseError.wrap(ex)
 
     @property
-    def public_activities(self) -> Set[PublicActivity]:
+    def all_public_tasks(self) -> Set[PublicTask]:
         self._ensure_open() # may raise DatabaseError
 
         try:
             stat = self.create_statement(
                 """ SELECT [pk] FROM [activities]
-                    WHERE [completed] IS NULL AND [fk_owner] IS NULL""")
+                    WHERE [completed] IS NOT NULL AND [fk_owner] IS NULL""")
             rs = stat.execute()
             result = set()
             for r in rs:
-                result.add(self._get_public_activity_proxy(r["pk"]))
+                result.add(self._get_public_task_proxy(r["pk"]))
+            return result
+        except Exception as ex:
+            raise DatabaseError.wrap(ex)
+
+    @property
+    def root_public_tasks(self) -> Set[PublicTask]:
+        self._ensure_open() # may raise DatabaseError
+
+        try:
+            stat = self.create_statement(
+                """ SELECT [pk] FROM [activities]
+                    WHERE [completed] IS NOT NULL
+                      AND [fk_owner] IS NULL
+                      AND [fk_parent_task] IS NULL""")
+            rs = stat.execute()
+            result = set()
+            for r in rs:
+                result.add(self._get_public_task_proxy(r["pk"]))
             return result
         except Exception as ex:
             raise DatabaseError.wrap(ex)
@@ -507,13 +526,13 @@ class SqlDatabase(Database):
         if not validator.activity.is_valid_description(description):
             raise InvalidDatabaseObjectPropertyError(PublicActivity.TYPE_NAME, PublicActivity.DESCRIPTION_PROPERTY_NAME, description)
         if not validator.activity.is_valid_timeout(timeout):
-            raise InvalidDatabaseObjectPropertyError(PublicActivity.TYPE_NAME, PublicActivity.TIMEOUT_PROPERTY_NAME, description)
+            raise InvalidDatabaseObjectPropertyError(PublicActivity.TYPE_NAME, PublicActivity.TIMEOUT_PROPERTY_NAME, timeout)
         if not validator.activity.is_valid_require_comment_on_start(require_comment_on_start):
-            raise InvalidDatabaseObjectPropertyError(PublicActivity.TYPE_NAME, PublicActivity.TIMEOUT_PROPERTY_NAME, description)
+            raise InvalidDatabaseObjectPropertyError(PublicActivity.TYPE_NAME, PublicActivity.REQUIRE_COMMENT_ON_START_PROPERTY_NAME, require_comment_on_start)
         if not validator.activity.is_valid_require_comment_on_finish(require_comment_on_finish):
-            raise InvalidDatabaseObjectPropertyError(PublicActivity.TYPE_NAME, PublicActivity.TIMEOUT_PROPERTY_NAME, description)
+            raise InvalidDatabaseObjectPropertyError(PublicActivity.TYPE_NAME, PublicActivity.REQUIRE_COMMENT_ON_FINISH_PROPERTY_NAME, require_comment_on_finish)
         if not validator.activity.is_valid_full_screen_reminder(full_screen_reminder):
-            raise InvalidDatabaseObjectPropertyError(PublicActivity.TYPE_NAME, PublicActivity.TIMEOUT_PROPERTY_NAME, description)
+            raise InvalidDatabaseObjectPropertyError(PublicActivity.TYPE_NAME, PublicActivity.FULL_SCREEN_REMINDER_PROPERTY_NAME, full_screen_reminder)
         if activity_type is not None:
             activity_type._ensure_live()
             if activity_type.database is not self:
@@ -535,8 +554,8 @@ class SqlDatabase(Database):
                           ([pk],[name],[description],[timeout],
                            [require_comment_on_start],[require_comment_on_finish],
                            [full_screen_reminder],[fk_activity_type],
-                           [completed], [fk_owner])
-                          VALUES (?,?,?,?,?,?,?,?,?,?)""");
+                           [completed], [fk_owner], [fk_parent_task])
+                          VALUES (?,?,?,?,?,?,?,?,?,?.?)""");
             stat2.set_int_parameter(0, public_activity_oid)
             stat2.set_string_parameter(1, name)
             stat2.set_string_parameter(2, description)
@@ -547,6 +566,7 @@ class SqlDatabase(Database):
             stat2.set_int_parameter(7, None if activity_type is None else activity_type.oid)
             stat2.set_bool_parameter(8, None)
             stat2.set_int_parameter(9, None)
+            stat2.set_int_parameter(10, None)
             stat2.execute()
 
             self.commit_transaction()
@@ -566,6 +586,100 @@ class SqlDatabase(Database):
 
             #   Done
             return public_activity
+        except Exception as ex:
+            self.rollback_transaction()
+            raise DatabaseError.wrap(ex)
+
+    def create_public_task(self,
+                    name: str = None,           #   MUST specify!
+                    description: str = None,    #   MUST specify!
+                    activity_type: Optional[ActivityType] = None,
+                    timeout: Optional[int] = None,
+                    require_comment_on_start: bool = False,
+                    require_comment_on_finish: bool = False,
+                    full_screen_reminder: bool = False,
+                    completed: bool = False) -> PublicTask:
+        from .SqlActivityType import SqlActivityType
+
+        self._ensure_open() # may raise DatabaseError
+        assert isinstance(name, str)
+        assert isinstance(description, str)
+        assert (activity_type is None) or isinstance(activity_type, SqlActivityType)
+        assert (timeout is None) or isinstance(timeout, int)
+        assert isinstance(require_comment_on_start, bool)
+        assert isinstance(require_comment_on_finish, bool)
+        assert isinstance(full_screen_reminder, bool)
+        assert isinstance(completed, bool)
+        
+        #   Validate parameters
+        validator = self.validator
+        if not validator.activity.is_valid_name(name):
+            raise InvalidDatabaseObjectPropertyError(PublicTask.TYPE_NAME, PublicTask.NAME_PROPERTY_NAME, name)
+        if not validator.activity.is_valid_description(description):
+            raise InvalidDatabaseObjectPropertyError(PublicTask.TYPE_NAME, PublicTask.DESCRIPTION_PROPERTY_NAME, description)
+        if not validator.activity.is_valid_timeout(timeout):
+            raise InvalidDatabaseObjectPropertyError(PublicTask.TYPE_NAME, PublicTask.TIMEOUT_PROPERTY_NAME, timeout)
+        if not validator.activity.is_valid_require_comment_on_start(require_comment_on_start):
+            raise InvalidDatabaseObjectPropertyError(PublicTask.TYPE_NAME, PublicTask.REQUIRE_COMMENT_ON_START_PROPERTY_NAME, require_comment_on_start)
+        if not validator.activity.is_valid_require_comment_on_finish(require_comment_on_finish):
+            raise InvalidDatabaseObjectPropertyError(PublicTask.TYPE_NAME, PublicTask.REQUIRE_COMMENT_ON_FINISH_PROPERTY_NAME, require_comment_on_finish)
+        if not validator.activity.is_valid_full_screen_reminder(full_screen_reminder):
+            raise InvalidDatabaseObjectPropertyError(PublicTask.TYPE_NAME, PublicTask.FULL_SCREEN_REMINDER_PROPERTY_NAME, full_screen_reminder)
+        if not validator.activity.is_valid_completed(completed):
+            raise InvalidDatabaseObjectPropertyError(PublicTask.TYPE_NAME, PublicTask.COMPLETED_PROPERTY_NAME, completed)
+        if activity_type is not None:
+            activity_type._ensure_live()
+            if activity_type.database is not self:
+                raise IncompatibleDatabaseObjectError(activity_type.type_name)
+
+        #   Make database changes
+        try:
+            self.begin_transaction();
+
+            stat1 = self.create_statement(
+                """INSERT INTO [objects]
+                          ([object_type_name])
+                          VALUES (?)""");
+            stat1.set_string_parameter(0, PublicTask.TYPE_NAME)
+            public_task_oid = stat1.execute()
+
+            stat2 = self.create_statement(
+                """INSERT INTO [activities]
+                          ([pk],[name],[description],[timeout],
+                           [require_comment_on_start],[require_comment_on_finish],
+                           [full_screen_reminder],[fk_activity_type],
+                           [completed], [fk_owner], [fk_parent_task])
+                          VALUES (?,?,?,?,?,?,?,?,?,?,?)""");
+            stat2.set_int_parameter(0, public_activity_oid)
+            stat2.set_string_parameter(1, name)
+            stat2.set_string_parameter(2, description)
+            stat2.set_int_parameter(3, timeout)
+            stat2.set_bool_parameter(4, require_comment_on_start)
+            stat2.set_bool_parameter(5, require_comment_on_finish)
+            stat2.set_bool_parameter(6, full_screen_reminder)
+            stat2.set_int_parameter(7, None if activity_type is None else activity_type.oid)
+            stat2.set_bool_parameter(8, completed)
+            stat2.set_int_parameter(9, None)
+            stat2.set_int_parameter(10, None)
+            stat2.execute()
+
+            self.commit_transaction()
+            public_task = self._get_public_task_proxy(public_task_oid)
+
+            #   Issue notifications
+            self.enqueue_notification(
+                DatabaseObjectCreatedNotification(
+                    self,
+                    public_task))
+            if activity_type is not None:
+                self.enqueue_notification(
+                    DatabaseObjectModifiedNotification(
+                        self,
+                        activity_type,
+                        ActivityType.ACTIVITIES_ASSOCIATION_NAME))
+
+            #   Done
+            return public_task
         except Exception as ex:
             self.rollback_transaction()
             raise DatabaseError.wrap(ex)

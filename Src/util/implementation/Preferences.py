@@ -93,7 +93,7 @@ class Preferences(ABCWithConstants):
         return self.__parent
 
     @property
-    def children(self) -> Set["Preferences"]:
+    def children(self) -> Set[Preferences]:
         return set(self.__children)
 
     @property
@@ -103,7 +103,7 @@ class Preferences(ABCWithConstants):
         return None
     
     @property
-    def preferences(self) -> Set["Preference"]:
+    def preferences(self) -> Set[Preference]:
         """ The set of all Preference settings under this Preferences. """
         return set(self.__preferences)
 

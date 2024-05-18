@@ -3,6 +3,7 @@
     and busibess/access rules . """
 
 #   Python standard library
+from __future__ import annotations  #   MUST be 1st in a module!
 from typing import final, Set, List
 from weakref import WeakKeyDictionary, WeakValueDictionary
 import threading
@@ -198,7 +199,7 @@ class Workspace:
     ##########
     #   Operations (associations)
     def try_login(self, login: Optional[str], password: Optional[str],
-                  credentials: Optional[Credentials]) -> Optional["BusinessAccount"]:
+                  credentials: Optional[Credentials]) -> Optional[BusinessAccount]:
         """
             Attempts a login. If the account with the specified
             login and password exists in this database, is enabled
@@ -226,7 +227,7 @@ class Workspace:
             return self._get_business_proxy(data_account)
 
     def login(self, login: Optional[str] = None, password: Optional[str] = None,
-              credentials: Optional[Credentials] = None) -> Optional["BusinessAccount"]:
+              credentials: Optional[Credentials] = None) -> Optional[BusinessAccount]:
         """
             Performs a login. If the account with the specified
             login and password exists in this database, is enabled
@@ -308,6 +309,54 @@ class Workspace:
                     #   The caller can see all public activities
                     for public_activity in self.__db.public_activities:
                         result.add(self._get_business_proxy(public_activity))
+                return result
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
+
+    def get_all_public_tasks(self, credentials: Credentials) -> Set[BusinessPublicTask]:
+        """
+            Returns the unordered set of all BusinessPublicTasks in this 
+            Workspace, whether root, leaf or intermediate.
+            
+            @return:
+                The unordered set of all BusinessPublicTasks in this 
+                Workspace, whether root, leaf or intermediate.
+            @raise WorkspaceError:
+                If an error occurs.
+        """
+        assert isinstance(credentials, Credentials)
+
+        with self:
+            try:
+                result = set()
+                if self.get_capabilities(credentials) is not None:
+                    #   The caller can see all public tasks
+                    for public_task in self.__db.all_public_tasks:
+                        result.add(self._get_business_proxy(public_task))
+                return result
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
+
+    def get_root_public_tasks(self, credentials: Credentials) -> Set[BusinessPublicTask]:
+        """
+            Returns the unordered set of all root BusinessPublicTasks in 
+            this Workspace.
+
+            @return:
+                The unordered set of all root BusinessPublicTasks in 
+                this Workspace.
+            @raise WorkspaceError:
+                If an error occurs.
+        """
+        assert isinstance(credentials, Credentials)
+
+        with self:
+            try:
+                result = set()
+                if self.get_capabilities(credentials) is not None:
+                    #   The caller can see all public tasks
+                    for public_task in self.__db.root_public_tasks:
+                        result.add(self._get_business_proxy(public_task))
                 return result
             except Exception as ex:
                 raise WorkspaceError.wrap(ex)
@@ -445,6 +494,79 @@ class Workspace:
             except Exception as ex:
                 raise WorkspaceError.wrap(ex)
 
+    def create_public_task(self,
+                           credentials: Credentials,
+                           name: str = None,           #   MUST specify!
+                           description: str = None,    #   MUST specify!
+                           activity_type: Optional[BusinessActivityType] = None,
+                           timeout: Optional[int] = None,
+                           require_comment_on_start: bool = False,
+                           require_comment_on_finish: bool = False,
+                           full_screen_reminder: bool = False,
+                           completed: bool = False) -> BusinessPublicTask:
+        """
+            Creates a new root BusinessPublicTask.
+
+            @param name:
+                The "name" for the new BusinessPublicTask.
+            @param description:
+                The "description" for the new BusinessPublicTask.
+            @param activity_type:
+                The activity type to assign to this BusinessPublicTask or None.
+            @param timeout:
+                The timeout of this BusinessPublicTask, expressed in minutes, or None.
+            @param require_comment_on_start:
+                True if user shall be required to enter a comment 
+                when starting this BusinessPublicTask, else False.
+            @param require_comment_on_finish:
+                True if user shall be required to enter a comment 
+                when finishing this BusinessPublicTask, else False.
+            @param full_screen_reminder:
+                True if user shall be shown a full-screen reminder 
+                while this BusinessPublicTask is underway, else False.
+            @param completed:
+                True if the newly created BusinessPublicTask shall initially 
+                be marked as "completed", False if not.
+            @return:
+                The newly created BusinessPublicTask.
+            @raise WorkspaceError:
+                If an error occurs.
+        """
+        assert isinstance(name, str)
+        assert isinstance(description, str)
+        assert (activity_type is None) or isinstance(activity_type, BusinessActivityType)
+        assert (timeout is None) or isinstance(timeout, int)
+        assert isinstance(require_comment_on_start, bool)
+        assert isinstance(require_comment_on_finish, bool)
+        assert isinstance(full_screen_reminder, bool)
+        assert isinstance(completed, bool)    
+
+        with self:
+            self._ensure_open() # may raise DatabaseError
+            try:
+                #   Validate parameters
+                if activity_type is not None:
+                    activity_type._ensure_live()
+                    if activity_type.workspace is not self:
+                        raise IncompatibleWorkspaceObjectError(activity_type.type_name)
+                #   Validate access rights
+                if not self.can_manage_public_tasks(credentials):
+                    raise WorkspaceAccessDeniedError()
+                #   The rest of the work is up to the DB
+                data_public_task = self.__db.create_public_task(
+                    name=name,
+                    description=description,
+                    activity_type=None if activity_type is None else activity_type._data_object,
+                    timeout=timeout,
+                    require_comment_on_start=require_comment_on_start,
+                    require_comment_on_finish=require_comment_on_finish,
+                    full_screen_reminder=full_screen_reminder,
+                    completed=completed);
+                return self._get_business_proxy(data_public_task)
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
+
+
     ##########
     #   Operations (notifications)
     def add_notification_listener(self, l: Union[WorkspaceNotificationListener, WorkspaceNotificationHandler]) -> None:
@@ -540,7 +662,10 @@ class Workspace:
                 business_object = BusinessAccount(self, data_object)
             elif isinstance(data_object, dbapi.ActivityType):
                 business_object = BusinessActivityType(self, data_object)
-            #   TODO PublicTask, PrivateTask IN THIS PLACE
+            elif isinstance(data_object, dbapi.PublicTask):
+                business_object = BusinessPublicTask(self, data_object)
+            elif isinstance(data_object, dbapi.PrivateTask):
+                business_object = BusinessPrivateTask(self, data_object)
             elif isinstance(data_object, dbapi.PublicActivity):
                 business_object = BusinessPublicActivity(self, data_object)
             elif isinstance(data_object, dbapi.PrivateActivity):

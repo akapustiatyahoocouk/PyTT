@@ -331,7 +331,7 @@ class BusinessActivity(BusinessObject):
 
     ##########
     #   Operations (associations)
-    def get_activity_type(self, credentials: Credentials) -> Optional["BusinessActivityType"]:
+    def get_activity_type(self, credentials: Credentials) -> Optional[BusinessActivityType]:
         """
             Returns the BusinessActivityType assigned to this BusinessActivity, 
             None if this BusinessActivity is not assigned an BusinessActivityType.
@@ -358,7 +358,7 @@ class BusinessActivity(BusinessObject):
         except Exception as ex:
             raise WorkspaceError.wrap(ex)
 
-    def set_activity_type(self, credentials: Credentials, new_activity_type: Optional["BusinessActivityType"]) -> None:
+    def set_activity_type(self, credentials: Credentials, new_activity_type: Optional[BusinessActivityType]) -> None:
         """
             Sets the BusinessActivityType assigned to this BusinessActivity.
 

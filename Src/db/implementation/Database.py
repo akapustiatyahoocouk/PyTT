@@ -89,7 +89,7 @@ class Database(ABC):
     ##########
     #   Operations (associations)
     @abstractmethod
-    def try_login(self, login: str, password: str) -> Optional["Account"]:
+    def try_login(self, login: str, password: str) -> Optional[Account]:
         """
             Attempts a login. If the account with the specified
             login and password exists in this database, is enabled
@@ -105,7 +105,7 @@ class Database(ABC):
         """
         raise NotImplementedError()
 
-    def login(self, login: str, password: str) -> Optional["Account"]:
+    def login(self, login: str, password: str) -> Optional[Account]:
         """
             Performs a login. If the account with the specified
             login and password exists in this database, is enabled
@@ -128,7 +128,7 @@ class Database(ABC):
         return account
 
     @abstractproperty
-    def users(self) -> Set["User"]:
+    def users(self) -> Set[User]:
         """
             The unordered set of all Users in this Database.
 
@@ -138,7 +138,7 @@ class Database(ABC):
         raise NotImplementedError()
 
     @abstractproperty
-    def activity_types(self) -> Set["ActivityType"]:
+    def activity_types(self) -> Set[ActivityType]:
         """
             The unordered set of all ActivityTypes in this Database.
 
@@ -148,10 +148,31 @@ class Database(ABC):
         raise NotImplementedError()
 
     @abstractproperty
-    def public_activities(self) -> Set["PublicActivity"]:
+    def public_activities(self) -> Set[PublicActivity]:
         """
             The unordered set of all PublicActivities in this Database
             which are not also PublicTasks (i.e. no inheritance).
+
+            @raise DatabaseError:
+                If an error occurs.
+        """
+        raise NotImplementedError()
+
+    @abstractproperty
+    def all_public_tasks(self) -> Set[PublicTask]:
+        """
+            The unordered set of all PublicTasks in this Database,
+            whether root, leaf or intermediate.
+
+            @raise DatabaseError:
+                If an error occurs.
+        """
+        raise NotImplementedError()
+
+    @abstractproperty
+    def root_public_tasks(self) -> Set[PublicTask]:
+        """
+            The unordered set of all root PublicTasks in this Database.
 
             @raise DatabaseError:
                 If an error occurs.
@@ -238,10 +259,50 @@ class Database(ABC):
                 True if user shall be required to enter a comment when finishing
                 this PublicActivity, else False.
             @param full_screen_reminder:
-                True if user shall be shown a full-screen reminder while this 
+                True if user shall be shown a full-screen reminder while this
                 PublicActivity is underway, else False.
             @return:
                 The newly created PublicActivity.
+            @raise DatabaseError:
+                If an error occurs.
+        """
+        raise NotImplementedError()
+
+    @abstractmethod
+    def create_public_task(self,
+                    name: str = None,           #   MUST specify!
+                    description: str = None,    #   MUST specify!
+                    activity_type: Optional[ActivityType] = None,
+                    timeout: Optional[int] = None,
+                    require_comment_on_start: bool = False,
+                    require_comment_on_finish: bool = False,
+                    full_screen_reminder: bool = False,
+                    completed: bool = False) -> PublicTask:
+        """
+            Creates a new root PublicTask.
+
+            @param name:
+                The "name" for the new PublicTask.
+            @param description:
+                The "description" for the new PublicTask.
+            @param activity_type:
+                The activity type to assign to this PublicTask or None.
+            @param timeout:
+                The timeout of this PublicTask, expressed in minutes, or None.
+            @param require_comment_on_start:
+                True if user shall be required to enter a comment 
+                when starting this PublicTask, else False.
+            @param require_comment_on_finish:
+                True if user shall be required to enter a comment 
+                when finishing this PublicTask, else False.
+            @param full_screen_reminder:
+                True if user shall be shown a full-screen reminder 
+                while this PublicTask is underway, else False.
+            @param completed:
+                True if the newly created PublicTask shall initially 
+                be marked as "completed", False if not.
+            @return:
+                The newly created PublicTask.
             @raise DatabaseError:
                 If an error occurs.
         """
