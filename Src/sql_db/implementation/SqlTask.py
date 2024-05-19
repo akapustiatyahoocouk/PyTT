@@ -25,6 +25,17 @@ class SqlTask(SqlActivity, Task):
         #   Property cache
 
     ##########
+    #   DatabaseObject - Operations (life cycle)
+    def destroy(self) -> None:
+        self._ensure_live() #   may raise DatabaseException
+
+        #   For tasks, destroy child tasks
+        for child in self.children:
+            child.destroy()
+        #   ...and the rest is up to base implementation
+        SqlActivity.destroy(self)
+
+    ##########
     #   Task - Properties
     @property
     def completed(self) -> bool:

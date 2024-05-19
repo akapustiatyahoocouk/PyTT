@@ -34,9 +34,43 @@ class BusinessPublicTask(BusinessPublicActivity, BusinessTask):
     CHILDREN_ASSOCIATION_NAME = dbapi.PublicTask.CHILDREN_ASSOCIATION_NAME
 
     ##########
+    #   BusinessObject - Operations (access control)
+    def can_modify(self, credentials: Credentials) -> bool:
+        self._ensure_live() # may raise WorkspaceError
+        assert isinstance(credentials, Credentials)
+
+        try:
+            return self.workspace.can_manage_public_tasks(credentials)
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
+
+    def can_destroy(self, credentials: Credentials) -> bool:
+        self._ensure_live() # may raise WorkspaceError
+        assert isinstance(credentials, Credentials)
+
+        try:
+            return self.workspace.can_manage_public_tasks(credentials)
+        except Exception as ex:
+            raise WorkspaceError.wrap(ex)
+
+    ##########
     #   Associations
     def get_parent(self, credentials: Credentials) -> Optional[BusinessPublicTask]:
-        raise NotImplementedError()
+        assert isinstance(credentials, Credentials)
+
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            try:
+                result = None
+                if self.workspace.get_capabilities(credentials) is not None:
+                    #   The caller can see all public tasks
+                    if self._data_object.parent is None:
+                        return None
+                    result = self.workspace._get_business_proxy(self._data_object.parent)
+                return result
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def get_children(self, credentials: Credentials) -> Set[BusinessPublicTask]:
         assert isinstance(credentials, Credentials)

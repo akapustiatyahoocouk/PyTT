@@ -1,19 +1,28 @@
 ========== IMMEDIATE PIPELINE ======================================
+*   Add ther secondary confirmation when destroying activities and
+    tasks. After the standard "are you sure", which is in place now,
+    count the works/events that will have to be delete-cascaded,
+    and ask again: "this will delete x hours of work logged on y 
+    occasions and z recorded events. Proceed?".
+*   When confirming the "are you sure you want to delete task x?"
+    check how many subtasks will be delete-cascaded as a 
+    consequence. If 0, then drop the "and all sub-tasks" from the 
+    prompt. If >0, then say so: "and 5 sub-tasks" in the prompt.
 *   Add "requires comment when task is is completed" to Task.
 *   Add more buttons to task/activity views to start and stop the
     task - in fact, for every command that would eventually be on
     the popup menu of all views.
 *   Extend the staticmethod .string() of ...ResourceFactory so that
     will accept optional *args and perform format() call internally.
-    Currently works for GuiResources; use for all other 
+    Currently works for GuiResources; use for all other
     ...Resources.
 *   Workspace now implements __enter__() and __exit__(). Ensure
     access synchronization by wrapping the bodies of all workspace
     API methods within a "with <workspace>:" block.
 *   Retire WorkspaceError and derived exceptions - make them
     Workspace - layer TypeAliases to DatabaseErrors.
-*   When an attempt is made to e.g. create two Accounts with the 
-    same login, or two ActivityTypes with the same name, the DB 
+*   When an attempt is made to e.g. create two Accounts with the
+    same login, or two ActivityTypes with the same name, the DB
     engine raises a very technical error message. For improved
     usability use DatabaseObjectAlreadyExistsError and add
     WorkspaceObjectAlreadyExistsError for the same situation.
@@ -33,28 +42,28 @@
 *   Merge LocalizableSubsystem into Subsystem, essentially making
     all Subsystems localizable.
 *   Make sure class constructors __init__(self,...) have proper
-    docstrings (for public/protected constructors only!) or a 
+    docstrings (for public/protected constructors only!) or a
     docstring "DO NOT USE DIRECTLY" for private constructors.
 *   Clicking on a TextField doesn't give it the keyboard focus.
     Fix this. TextArea does not seem to have this problem.
 *   Add readonly: bool property to TextField and TextArea, to be
     handled via the rd.WidgetRedirector()
 *   AWT shall handle FocusEvents and MouseEvents.
-*   Change AdminSkinSettings to use a single property 
+*   Change AdminSkinSettings to use a single property
     main_frame_bounds: Rectangle instead of 4 deparate properties
-    main_frame_x, main_frame_y, main_frame_width and 
+    main_frame_x, main_frame_y, main_frame_width and
     main_frame_height.
-*   For SqlDatabase handle the exceptions raised by 
+*   For SqlDatabase handle the exceptions raised by
     rollback_transaction properly - chaining, not replacing, the
     exceptions that caused rollback attempts in their handlers.
 *   Add context (right click) menu to awt TextField and other text
     entry fields, with Copy, Cut, Parse, etc. For disabled text
     entry widgets only Copy shall work. For password entry fields
     Copy/Cut must be disabled or absent.
-*   In FileResourceBundle the '\' at the end of the line shoube 
+*   In FileResourceBundle the '\' at the end of the line shoube
     be treated as a continuation line.
 *   In many places in code there is "pass". Check on these - usually
-    they silence the exception handlers; at least print the 
+    they silence the exception handlers; at least print the
     exceptions as a red flag for debug runs, and log them too for
     post-mortem analysis.
 *   Change MenuItem's "label" property to "text".
@@ -62,15 +71,15 @@
 
 ========== NEED TO DO EVENTUALLY ===================================
 *   When several users access the same Workspace, it can be that
-    one of them - an administrator - destroys or disables the 
+    one of them - an administrator - destroys or disables the
     account under which the other user is logged in. In this case
     that "other" user must be notified and their PyTT instance
     must close its "current" workspace.
-*   When importing a class/feature from a module in the same 
+*   When importing a class/feature from a module in the same
     package, use the "from .<module> import <feature>" form instead
     of the longer "from <fq module name> import <feature>" form.
     Make sure this happens throughout the code base.
-*   Use menu item / action "description"s as tooltips for menu 
+*   Use menu item / action "description"s as tooltips for menu
     items, button, etc.
 *   Isolate tk/ttl within AWT.
     *   Only AWT modules should import tk/ttk; all other components
@@ -86,6 +95,6 @@
     ListBoxItem for ListBox, TreeNode for TreeView, TabPage for
     TabbedPane, etc.) and use them.
 *   Create a new ActionMenuItem(MenuItem) class, for Action-based
-    MenuItems. They should REJECT attempts to set their propertes 
+    MenuItems. They should REJECT attempts to set their propertes
     directly.
 *   Database schema versioning and automatic schema upgrade.

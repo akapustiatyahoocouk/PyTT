@@ -58,6 +58,7 @@
     <Compile Include="implementation\dialogs\CreatePublicTaskDialog.py" />
     <Compile Include="implementation\dialogs\DestroyPrivateActivityDialog.py" />
     <Compile Include="implementation\dialogs\DestroyPublicActivityDialog.py" />
+    <Compile Include="implementation\dialogs\DestroyPublicTaskDialog.py" />
     <Compile Include="implementation\dialogs\ManageActivityTypesDialog.py" />
     <Compile Include="implementation\dialogs\ManagePrivateActivitiesDialog.py" />
     <Compile Include="implementation\dialogs\ManagePublicActivitiesDialog.py" />
@@ -70,6 +71,7 @@
     <Compile Include="implementation\dialogs\ModifyAccountDialog.py" />
     <Compile Include="implementation\dialogs\ModifyPrivateActivityDialog.py" />
     <Compile Include="implementation\dialogs\ModifyPublicActivityDialog.py" />
+    <Compile Include="implementation\dialogs\ModifyPublicTaskDialog.py" />
     <Compile Include="implementation\dialogs\ModifyUserDialog.py" />
     <Compile Include="implementation\dialogs\LanguagesDialog.py" />
     <Compile Include="implementation\dialogs\LicenseDialog.py" />

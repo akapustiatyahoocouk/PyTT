@@ -34,7 +34,7 @@ class ModifyAccountDialog(Dialog):
     ##########
     #   Construction
     def __init__(self, parent: tk.BaseWidget,
-                 account: BusinessAccount = None,
+                 account: BusinessAccount,
                  credentials: Optional[Credentials] = None):
         """
             Constructs the "Modify account" dialog.

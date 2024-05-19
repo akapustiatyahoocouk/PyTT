@@ -36,7 +36,7 @@ class ModifyPublicActivityDialog(Dialog):
     ##########
     #   Construction
     def __init__(self, parent: tk.BaseWidget,
-                 public_activity: BusinessPublicActivity = None,
+                 public_activity: BusinessPublicActivity,
                  credentials: Optional[Credentials] = None):
         """
             Constructs the "Modify public activity" dialog.

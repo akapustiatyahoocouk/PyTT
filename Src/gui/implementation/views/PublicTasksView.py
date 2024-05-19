@@ -14,8 +14,8 @@ from .View import View
 from ..misc.CurrentWorkspace import CurrentWorkspace
 from ..misc.CurrentCredentials import CurrentCredentials
 from ..dialogs.CreatePublicTaskDialog import *
-#TODO uncomment from ..dialogs.ModifyPublicTaskDialog import *
-#TODO uncomment from ..dialogs.DestroyPublicTaskDialog import *
+from ..dialogs.ModifyPublicTaskDialog import *
+from ..dialogs.DestroyPublicTaskDialog import *
 from gui.resources.GuiResources import GuiResources
 
 ##########
@@ -222,22 +222,22 @@ class PublicTasksView(View):
 
     def __on_modify_public_task_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)
-        #try:
-        #    public_task = self.selected_public_task
-        #    with ModifyPublicTaskDialog(self.winfo_toplevel(), public_task) as dlg:
-        #        dlg.do_modal()
-        #    self.selected_public_task = public_task
-        #    self.__public_tasks_tree_view.focus_set()
-        #    self.request_refresh()
-        #except Exception as ex: #   error in ModifyPublicTaskDialog constructor
-        #    ErrorDialog.show(None, ex)
+        try:
+            public_task = self.selected_public_task
+            with ModifyPublicTaskDialog(self.winfo_toplevel(), public_task) as dlg:
+                dlg.do_modal()
+            self.selected_public_task = public_task
+            self.__public_tasks_tree_view.focus_set()
+            self.request_refresh()
+        except Exception as ex: #   error in ModifyPublicTaskDialog constructor
+            ErrorDialog.show(None, ex)
 
     def __on_destroy_public_task_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)
-        #try:
-        #    with DestroyPublicTaskDialog(self.winfo_toplevel(), self.selected_public_task) as dlg:
-        #        dlg.do_modal()
-        #    self.request_refresh()
-        #except Exception as ex: #   error in DestroyPublicTaskDialog constructor
-        #    ErrorDialog.show(None, ex)
+        try:
+            with DestroyPublicTaskDialog(self.winfo_toplevel(), self.selected_public_task) as dlg:
+                dlg.do_modal()
+            self.request_refresh()
+        except Exception as ex: #   error in DestroyPublicTaskDialog constructor
+            ErrorDialog.show(None, ex)
 

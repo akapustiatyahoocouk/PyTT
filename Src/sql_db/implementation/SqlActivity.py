@@ -39,7 +39,6 @@ class SqlActivity(SqlDatabaseObject, Activity):
     def destroy(self) -> None:
         self._ensure_live() #   may raise DatabaseException
 
-        #   TODO for tasks, destroy child tasks
         #   TODO Dis-associate from Accounts (as quick pick items)
         #   TODO Dis-associate from Events
         #   TODO Destroy associated Works

@@ -28,6 +28,7 @@ from gui.implementation.dialogs.DestroyAccountDialog import *
 from gui.implementation.dialogs.DestroyActivityTypeDialog import *
 from gui.implementation.dialogs.DestroyPrivateActivityDialog import *
 from gui.implementation.dialogs.DestroyPublicActivityDialog import *
+from gui.implementation.dialogs.DestroyPublicTaskDialog import *
 from gui.implementation.dialogs.DestroyUserDialog import *
 from gui.implementation.dialogs.LanguagesDialog import *
 from gui.implementation.dialogs.LicenseDialog import *
@@ -40,6 +41,7 @@ from gui.implementation.dialogs.ModifyAccountDialog import *
 from gui.implementation.dialogs.ModifyActivityTypeDialog import *
 from gui.implementation.dialogs.ModifyPrivateActivityDialog import *
 from gui.implementation.dialogs.ModifyPublicActivityDialog import *
+from gui.implementation.dialogs.ModifyPublicTaskDialog import *
 from gui.implementation.dialogs.ModifyUserDialog import *
 from gui.implementation.dialogs.OpenWorkspaceDialog import *
 
