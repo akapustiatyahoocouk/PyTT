@@ -27,4 +27,6 @@ class ManagePublicTasksAction(ActionBase):
     def execute(self, evt: ActionEvent) -> None:
         with ManagePublicTasksDialog(self.dialog_parent) as dlg:
             dlg.do_modal()
+            if self.dialog_parent is not None:
+                self.dialog_parent.request_refresh()
 

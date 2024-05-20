@@ -10,6 +10,7 @@ from workspace.interface.api import *
 #   Internal dependencies on modules within the same component
 from .ViewType import ViewType
 from .PublicTasksViewType import PublicTasksViewType
+from .PublicTasksViewSettings import PublicTasksViewSettings
 from .View import View
 from ..misc.CurrentWorkspace import CurrentWorkspace
 from ..misc.CurrentCredentials import CurrentCredentials
@@ -73,6 +74,8 @@ class PublicTasksView(View):
         Locale.add_property_change_listener(self.__on_locale_changed)
         #   TODO current credentials change
 
+        self.__hide_completed_tasks_check_box.add_action_listener(self.__on_hide_completed_tasks_check_box_clicked)
+
     ##########
     #   Refreshable
     def refresh(self) -> None:
@@ -102,6 +105,8 @@ class PublicTasksView(View):
         if self.selected_object != selected_object:
             #   Try to keep the selection
             self.selected_object = selected_object
+
+        self.__hide_completed_tasks_check_box.checked = PublicTasksViewSettings.hide_completed_tasks
 
         selected_public_task = self.selected_public_task
         try:
@@ -148,6 +153,7 @@ class PublicTasksView(View):
         self.__create_public_task_button.text = GuiResources.string("PublicTasksViewEditor.CreatePublicTaskButton.Text")
         self.__modify_public_task_button.text = GuiResources.string("PublicTasksViewEditor.ModifyPublicTaskButton.Text")
         self.__destroy_public_task_button.text = GuiResources.string("PublicTasksViewEditor.DestroyPublicTaskButton.Text")
+        self.__hide_completed_tasks_check_box.text = GuiResources.string("PublicTasksView.HideCompletedTasksCheckBox.Text")
 
     def __refresh_public_task_nodes(self,
                                     workspace: Workspace,
@@ -156,6 +162,9 @@ class PublicTasksView(View):
                                     public_tasks: Set[BusinessPublicTask]) -> None:
         #   Prepare the list of accessible BusinessPublicTasks sorted by name
         public_tasks = list(public_tasks)
+        if PublicTasksViewSettings.hide_completed_tasks:
+            public_tasks = list(filter(lambda t: (not t.is_completed(credentials)), public_tasks))
+            
         try:
             public_tasks.sort(key=lambda u: u.display_name)
         except Exception as ex:
@@ -214,6 +223,11 @@ class PublicTasksView(View):
         assert isinstance(evt, ItemEvent)
         self.request_refresh()
 
+    def __on_hide_completed_tasks_check_box_clicked(self, evt: ActionEvent) -> None:
+        assert isinstance(evt, ActionEvent)
+        PublicTasksViewSettings.hide_completed_tasks = self.__hide_completed_tasks_check_box.checked
+        self.request_refresh()
+
     def __on_create_public_task_button_clicked(self, evt: ActionEvent) -> None:
         assert isinstance(evt, ActionEvent)
         try:
@@ -249,4 +263,3 @@ class PublicTasksView(View):
             self.request_refresh()
         except Exception as ex: #   error in DestroyPublicTaskDialog constructor
             ErrorDialog.show(None, ex)
-

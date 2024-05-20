@@ -86,6 +86,9 @@ class AdminSkinMainFrame(Frame,
             #   Open default bunch of views
             self.open_view(UsersViewType.instance, save_active_views=True)
             self.open_view(ActivityTypesViewType.instance, save_active_views=True)
+            self.open_view(PublicActivitiesViewType.instance, save_active_views=True)
+            self.open_view(PrivateActivitiesViewType.instance, save_active_views=True)
+            self.open_view(PublicTasksViewType.instance, save_active_views=True)
         else:
             #   Re-open views from last session
             self.__load_active_views()

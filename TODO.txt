@@ -1,4 +1,7 @@
 ========== IMMEDIATE PIPELINE ======================================
+*   Save the size (NOT location!) of ManageXXXDialogs when the 
+    dialog is being closed and restore that size (centering the 
+    dialog normally) when the same dialog is open again.
 *   Add ther secondary confirmation when destroying activities and
     tasks. After the standard "are you sure", which is in place now,
     count the works/events that will have to be delete-cascaded,
