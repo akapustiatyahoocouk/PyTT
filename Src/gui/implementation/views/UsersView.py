@@ -214,11 +214,11 @@ class UsersView(View):
         #   ...each representing a proper BusinessUser
         for i in range(len(users)):
             try:
-                user_disabled_suffix = "" if users[i].is_enabled(credentials) else ' [disabled]'
+                user_disabled_prefix = "" if users[i].is_enabled(credentials) else '[disabled] '
             except Exception:
-                user_disabled_suffix = ""
+                user_disabled_prefix = ""
             user_node = self.__users_tree_view.root_nodes[i]
-            user_node.text = users[i].display_name + user_disabled_suffix
+            user_node.text = user_disabled_prefix + users[i].display_name
             user_node.tag = users[i]
             #   ...and having proper account nodes underneath
             self.__refresh_account_nodes(user_node, users[i])
@@ -252,11 +252,11 @@ class UsersView(View):
         #   ...each representing a proper BusinessAccount
         for i in range(len(accounts)):
             try:
-                account_disabled_suffix = "" if accounts[i].is_enabled(credentials) else ' [disabled]'
+                account_disabled_prefix = "" if accounts[i].is_enabled(credentials) else '[disabled] '
             except Exception as ex:
-                account_disabled_suffix = ""
+                account_disabled_prefix = ""
             account_node = user_node.child_nodes[i]
-            account_node.text = accounts[i].display_name + account_disabled_suffix
+            account_node.text = account_disabled_prefix + accounts[i].display_name
             account_node.tag = accounts[i]
 
     ##########

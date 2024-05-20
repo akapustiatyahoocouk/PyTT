@@ -485,3 +485,4 @@ PublicTasksView.ModifyPublicTaskButton.Text=Modify public task
 PublicTasksView.ModifyPublicTaskButton.Image=ImageFile:images/actions/ModifyPublicTaskSmall.png
 PublicTasksView.DestroyPublicTaskButton.Text=Destroy public task
 PublicTasksView.DestroyPublicTaskButton.Image=ImageFile:images/actions/DestroyPublicTaskSmall.png
+PublicTasksView.HideCompletedTasksCheckBox.Text=Hide completed tasks

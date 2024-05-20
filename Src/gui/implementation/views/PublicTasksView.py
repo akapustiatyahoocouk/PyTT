@@ -32,6 +32,11 @@ class PublicTasksView(View):
         self.__public_tasks_tree_view = TreeView(self)
         self.__actions_panel = Panel(self)
 
+        self.__public_tasks_tree_view = TreeView(self, show="tree", selectmode=tk.BROWSE)
+        self.__hide_completed_tasks_check_box = CheckBox(
+            self,
+            text=GuiResources.string("PublicTasksView.HideCompletedTasksCheckBox.Text"))
+
         self.__create_public_task_button = Button(
             self.__actions_panel,
             text=GuiResources.string("PublicTasksView.CreatePublicTaskButton.Text"),
@@ -46,12 +51,12 @@ class PublicTasksView(View):
             image=GuiResources.image("PublicTasksView.DestroyPublicTaskButton.Image"))
 
         #   Adjust controls
-        self.__public_tasks_tree_view = TreeView(self, show="tree", selectmode=tk.BROWSE)
         #   TODO scrollbars
 
         #   Set up control structure
         self.__actions_panel.pack(side=tk.RIGHT, padx=0, pady=0, fill=tk.Y)
         self.__public_tasks_tree_view.pack(padx=2, pady=2, fill=tk.BOTH, expand=True)
+        self.__hide_completed_tasks_check_box.pack(side=tk.BOTTOM, padx=0, pady=0, fill=tk.X)
 
         self.__create_public_task_button.grid(row=0, column=0, padx=0, pady=2, sticky="WE")
         self.__modify_public_task_button.grid(row=1, column=0, padx=0, pady=2, sticky="WE")
@@ -168,8 +173,12 @@ class PublicTasksView(View):
                            tag=public_task)
         #   ...each representing a proper BusinessPublicTask
         for i in range(len(public_tasks)):
+            try:
+                task_completed_prefix = '[completed] ' if public_tasks[i].is_completed(credentials) else ""
+            except Exception as ex:
+                task_completed_prefix = ""
             public_task_node = tree_nodes[i]
-            public_task_node.text = public_tasks[i].display_name    #   TODO + "completed" suffix
+            public_task_node.text = task_completed_prefix + public_tasks[i].display_name
             public_task_node.tag = public_tasks[i]
             #   ...and having proper children
             try:

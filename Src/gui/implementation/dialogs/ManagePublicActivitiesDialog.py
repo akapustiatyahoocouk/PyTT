@@ -44,9 +44,7 @@ class ManagePublicActivitiesDialog(Dialog):
         self.__result = ManagePublicActivitiesDialogResult.OK
 
         #   Create controls
-        self.__controls_panel = Panel(self)
-
-        self.__public_activities_view = PublicActivitiesView(self.__controls_panel)
+        self.__public_activities_view = PublicActivitiesView(self)
 
         self.__separator = Separator(self, orient="horizontal")
 
@@ -55,10 +53,7 @@ class ManagePublicActivitiesDialog(Dialog):
             image=GuiResources.image("ManagePublicActivitiesDialog.OkButton.Icon"))
 
         #   Set up control structure
-        self.__controls_panel.pack(fill=tk.X, padx=0, pady=0)
-
-        self.__public_activities_view.grid(row=0, column=1, padx=2, pady=2, sticky="NSWE")
-
+        self.__public_activities_view.pack(padx=0, pady=0, fill=tk.BOTH, expand=True)
         self.__separator.pack(fill=tk.X, padx=0, pady=4)
         self.__ok_button.pack(side=tk.RIGHT, padx=2, pady=2)
 

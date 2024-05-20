@@ -44,9 +44,7 @@ class ManageActivityTypesDialog(Dialog):
         self.__result = ManageActivityTypesDialogResult.OK
 
         #   Create controls
-        self.__controls_panel = Panel(self)
-
-        self.__activity_types_view = ActivityTypesView(self.__controls_panel)
+        self.__activity_types_view = ActivityTypesView(self)
 
         self.__separator = Separator(self, orient="horizontal")
 
@@ -55,10 +53,7 @@ class ManageActivityTypesDialog(Dialog):
             image=GuiResources.image("ManageActivityTypesDialog.OkButton.Icon"))
 
         #   Set up control structure
-        self.__controls_panel.pack(fill=tk.X, padx=0, pady=0)
-
-        self.__activity_types_view.grid(row=0, column=1, padx=2, pady=2, sticky="NSWE")
-
+        self.__activity_types_view.pack(padx=0, pady=0, fill=tk.BOTH, expand=True)
         self.__separator.pack(fill=tk.X, padx=0, pady=4)
         self.__ok_button.pack(side=tk.RIGHT, padx=2, pady=2)
 
