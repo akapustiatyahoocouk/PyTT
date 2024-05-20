@@ -147,12 +147,12 @@ class SqlPublicTask(SqlTask, PublicTask):
 
         #   Make database changes
         try:
-            self.database.begin_transaction();
+            self.database.begin_transaction()
 
             stat1 = self.database.create_statement(
                 """INSERT INTO [objects]
                           ([object_type_name])
-                          VALUES (?)""");
+                          VALUES (?)""")
             stat1.set_string_parameter(0, PublicTask.TYPE_NAME)
             public_task_oid = stat1.execute()
 
@@ -162,7 +162,7 @@ class SqlPublicTask(SqlTask, PublicTask):
                            [require_comment_on_start],[require_comment_on_finish],
                            [full_screen_reminder],[fk_activity_type],
                            [completed], [fk_owner], [fk_parent_task])
-                          VALUES (?,?,?,?,?,?,?,?,?,?,?)""");
+                          VALUES (?,?,?,?,?,?,?,?,?,?,?)""")
             stat2.set_int_parameter(0, public_task_oid)
             stat2.set_string_parameter(1, name)
             stat2.set_string_parameter(2, description)

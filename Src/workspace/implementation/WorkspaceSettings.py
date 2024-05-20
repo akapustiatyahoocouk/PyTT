@@ -15,7 +15,7 @@ class WorkspaceSettingsMeta(type):
     ##########
     #   Construction
     def __init__(self, *args, **kwargs):
-        type.__init__(self, *args, **kwargs);
+        type.__init__(self, *args, **kwargs)
 
         self.__impl = Settings.get("Workspace")
 

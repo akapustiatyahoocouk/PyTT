@@ -73,6 +73,15 @@
 *   Define class awt.GroupBox(tk.LabelFrame).
 
 ========== NEED TO DO EVENTUALLY ===================================
+*   Add "consistency checker" a crawler that slowly (very small CPU
+    usage) walks over the "current" workspace and reports various
+    potential problems (e.g. two root public activities with the
+    same name; a completed parent task with an un-completed child 
+    task, etc.) These will be defined as "rules", for each of
+    which at least the description of the problem and an adjustable
+    severity rating should be specified. Within UI the "consistency 
+    checker" should be represented as a closeable Frame or a 
+    modeless Dialog.
 *   When several users access the same Workspace, it can be that
     one of them - an administrator - destroys or disables the
     account under which the other user is logged in. In this case

@@ -486,3 +486,11 @@ PublicTasksView.ModifyPublicTaskButton.Image=ImageFile:images/actions/ModifyPubl
 PublicTasksView.DestroyPublicTaskButton.Text=Destroy public task
 PublicTasksView.DestroyPublicTaskButton.Image=ImageFile:images/actions/DestroyPublicTaskSmall.png
 PublicTasksView.HideCompletedTasksCheckBox.Text=Hide completed tasks
+
+PrivateTasksView.CreatePrivateTaskButton.Text=Create private task
+PrivateTasksView.CreatePrivateTaskButton.Image=ImageFile:images/actions/CreatePrivateTaskSmall.png
+PrivateTasksView.ModifyPrivateTaskButton.Text=Modify private task
+PrivateTasksView.ModifyPrivateTaskButton.Image=ImageFile:images/actions/ModifyPrivateTaskSmall.png
+PrivateTasksView.DestroyPrivateTaskButton.Text=Destroy private task
+PrivateTasksView.DestroyPrivateTaskButton.Image=ImageFile:images/actions/DestroyPrivateTaskSmall.png
+PrivateTasksView.HideCompletedTasksCheckBox.Text=Hide completed tasks

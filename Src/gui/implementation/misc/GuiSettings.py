@@ -14,7 +14,7 @@ class GuiSettingsMeta(type):
     ##########
     #   Construction
     def __init__(cls, *args, **kwargs):
-        type.__init__(cls, *args, **kwargs);
+        type.__init__(cls, *args, **kwargs)
 
         cls.__impl = Settings.get("GUI")
 

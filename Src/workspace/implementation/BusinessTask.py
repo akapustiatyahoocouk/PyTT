@@ -43,15 +43,17 @@ class BusinessTask(BusinessActivity):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        if self.workspace.get_capabilities(credentials) == None:
-            raise WorkspaceAccessDeniedError()
-        try:
-            return self._data_object.completed
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if self.workspace.get_capabilities(credentials) == None:
+                raise WorkspaceAccessDeniedError()
+            try:
+                return self._data_object.completed
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def set_completed(self, credentials: Credentials, new_completed: bool) -> None:
         """
@@ -64,16 +66,18 @@ class BusinessTask(BusinessActivity):
             @raise DatabaseError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert isinstance(new_completed, bool)
 
-        if not self.can_modify(credentials):
-            raise WorkspaceAccessDeniedError()
-        try:
-            self._data_object.completed = new_completed
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if not self.can_modify(credentials):
+                raise WorkspaceAccessDeniedError()
+            try:
+                self._data_object.completed = new_completed
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     ##########
     #   Associations

@@ -45,15 +45,15 @@ class SqlActivity(SqlDatabaseObject, Activity):
         #   TODO Dis-associate from Workloads
         #   Destroy the PublicActivity
         try:
-            self.database.begin_transaction();
+            self.database.begin_transaction()
 
             stat1 = self.database.create_statement(
-                """DELETE FROM [activities] WHERE [pk] = ?""");
+                """DELETE FROM [activities] WHERE [pk] = ?""")
             stat1.set_int_parameter(0, self.oid)
             stat1.execute()
 
             stat2 = self.database.create_statement(
-                """DELETE FROM [objects] WHERE [pk] = ?""");
+                """DELETE FROM [objects] WHERE [pk] = ?""")
             stat2.set_int_parameter(0, self.oid)
             stat2.execute()
 
@@ -362,7 +362,7 @@ class SqlActivity(SqlDatabaseObject, Activity):
     def _reload_property_cache(self) -> None:
         try:
             stat = self.database.create_statement(
-                """SELECT * FROM [activities] WHERE [pk] = ?""");
+                """SELECT * FROM [activities] WHERE [pk] = ?""")
             stat.set_int_parameter(0, self.oid)
             rs = stat.execute()
             assert len(rs) <= 1

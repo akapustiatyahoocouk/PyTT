@@ -11,28 +11,28 @@ from util.interface.api import *
 #   Internal dependencies on modules within the same component
 from .Credentials import Credentials
 from .BusinessActivityType import BusinessActivityType
-from .BusinessPublicActivity import BusinessPublicActivity
+from .BusinessPrivateActivity import BusinessPrivateActivity
 from .BusinessTask import BusinessTask
 from .Exceptions import *
 
 ##########
 #   Public entities
-class BusinessPublicTask(BusinessPublicActivity, BusinessTask):
-    """ A public BusinessTask in a workspace. """
+class BusinessPrivateTask(BusinessPrivateActivity, BusinessTask):
+    """ A private BusinessTask in a workspace. """
 
     ##########
     #   Constants
-    NAME_PROPERTY_NAME = dbapi.PublicTask.NAME_PROPERTY_NAME
-    DESCRIPTION_PROPERTY_NAME = dbapi.PublicTask.DESCRIPTION_PROPERTY_NAME
-    TIMEOUT_PROPERTY_NAME = dbapi.PublicTask.TIMEOUT_PROPERTY_NAME
-    REQUIRE_COMMENT_ON_START_PROPERTY_NAME = dbapi.PublicTask.REQUIRE_COMMENT_ON_START_PROPERTY_NAME
-    REQUIRE_COMMENT_ON_FINISH_PROPERTY_NAME = dbapi.PublicTask.REQUIRE_COMMENT_ON_FINISH_PROPERTY_NAME
-    FULL_SCREEN_REMINDER_PROPERTY_NAME = dbapi.PublicTask.FULL_SCREEN_REMINDER_PROPERTY_NAME
-    ACTIVITY_TYPE_ASSOCIATION_NAME = dbapi.PublicTask.ACTIVITY_TYPE_ASSOCIATION_NAME
+    NAME_PROPERTY_NAME = dbapi.PrivateTask.NAME_PROPERTY_NAME
+    DESCRIPTION_PROPERTY_NAME = dbapi.PrivateTask.DESCRIPTION_PROPERTY_NAME
+    TIMEOUT_PROPERTY_NAME = dbapi.PrivateTask.TIMEOUT_PROPERTY_NAME
+    REQUIRE_COMMENT_ON_START_PROPERTY_NAME = dbapi.PrivateTask.REQUIRE_COMMENT_ON_START_PROPERTY_NAME
+    REQUIRE_COMMENT_ON_FINISH_PROPERTY_NAME = dbapi.PrivateTask.REQUIRE_COMMENT_ON_FINISH_PROPERTY_NAME
+    FULL_SCREEN_REMINDER_PROPERTY_NAME = dbapi.PrivateTask.FULL_SCREEN_REMINDER_PROPERTY_NAME
+    ACTIVITY_TYPE_ASSOCIATION_NAME = dbapi.PrivateTask.ACTIVITY_TYPE_ASSOCIATION_NAME
     OWNER_ASSOCIATION_NAME = dbapi.PrivateTask.ACTIVITY_TYPE_ASSOCIATION_NAME
-    COMPLETED_PROPERTY_NAME = dbapi.PublicTask.COMPLETED_PROPERTY_NAME
-    PARENT_ASSOCIATION_NAME = dbapi.PublicTask.PARENT_ASSOCIATION_NAME
-    CHILDREN_ASSOCIATION_NAME = dbapi.PublicTask.CHILDREN_ASSOCIATION_NAME
+    COMPLETED_PROPERTY_NAME = dbapi.PrivateTask.COMPLETED_PROPERTY_NAME
+    PARENT_ASSOCIATION_NAME = dbapi.PrivateTask.PARENT_ASSOCIATION_NAME
+    CHILDREN_ASSOCIATION_NAME = dbapi.PrivateTask.CHILDREN_ASSOCIATION_NAME
 
     ##########
     #   BusinessObject - Operations (access control)
@@ -43,7 +43,15 @@ class BusinessPublicTask(BusinessPublicActivity, BusinessTask):
             self._ensure_live() # may raise WorkspaceError
 
             try:
-                return self.workspace.can_manage_public_tasks(credentials)
+                #   A user can modify their own private tasks, plus anyone
+                #   who can manage private tasks can modify private tasks
+                #   of any user
+                if self.workspace.can_manage_private_tasks(credentials):
+                    return True
+                data_account = self._data_object.database.login(credentials.login, credentials._Credentials__password)
+                if data_account.user == self._data_object.owner:
+                    return True
+                return False
             except Exception as ex:
                 raise WorkspaceError.wrap(ex)
 
@@ -54,26 +62,33 @@ class BusinessPublicTask(BusinessPublicActivity, BusinessTask):
             self._ensure_live() # may raise WorkspaceError
 
             try:
-                return self.workspace.can_manage_public_tasks(credentials)
+                #   A user can destroy their own private tasks, plus anyone
+                #   who can manage private tasks can destroy private tasks
+                #   of any user
+                if self.workspace.can_manage_private_tasks(credentials):
+                    return True
+                data_account = self._data_object.database.login(credentials.login, credentials._Credentials__password)
+                if data_account.user == self._data_object.owner:
+                    return True
+                return False
             except Exception as ex:
                 raise WorkspaceError.wrap(ex)
 
     ##########
     #   Associations
-    def get_parent(self, credentials: Credentials) -> Optional[BusinessPublicTask]:
+    def get_parent(self, credentials: Credentials) -> Optional[BusinessPrivateTask]:
         assert isinstance(credentials, Credentials)
 
         with self.workspace:
             self._ensure_live() # may raise WorkspaceError
 
             try:
-                result = None
-                if self.workspace.get_capabilities(credentials) is not None:
-                    #   The caller can see all public tasks
-                    if self._data_object.parent is None:
-                        return None
-                    result = self.workspace._get_business_proxy(self._data_object.parent)
-                return result
+                #   Validate access rights
+                if not self.can_modify(credentials):
+                    raise WorkspaceAccessDeniedError()
+                if self._data_object.parent is None:
+                    return None
+                result = self.workspace._get_business_proxy(self._data_object.parent)
             except Exception as ex:
                 raise WorkspaceError.wrap(ex)
 
@@ -106,7 +121,7 @@ class BusinessPublicTask(BusinessPublicActivity, BusinessTask):
 
             try:
                 result = set()
-                if self.workspace.get_capabilities(credentials) is not None:
+                if self.can_modify(credentials):
                     for data_child in self._data_object.children:
                         result.add(self.workspace._get_business_proxy(data_child))
                 return result
@@ -124,34 +139,34 @@ class BusinessPublicTask(BusinessPublicActivity, BusinessTask):
                      require_comment_on_start: bool = False,
                      require_comment_on_finish: bool = False,
                      full_screen_reminder: bool = False,
-                     completed: bool = False) -> BusinessPublicTask:
+                     completed: bool = False) -> BusinessPrivateTask:
         """
-            Creates a new child BusinessPublicTask under this BusinessPublicTask.
+            Creates a new child BusinessPrivateTask under this BusinessPrivateTask.
 
             @param credentials:
                 The credentials of the service caller.
             @param name:
-                The "name" for the new BusinessPublicTask.
+                The "name" for the new BusinessPrivateTask.
             @param description:
-                The "description" for the new BusinessPublicTask.
+                The "description" for the new BusinessPrivateTask.
             @param activity_type:
-                The activity type to assign to this BusinessPublicTask or None.
+                The activity type to assign to this BusinessPrivateTask or None.
             @param timeout:
-                The timeout of this BusinessPublicTask, expressed in minutes, or None.
+                The timeout of this BusinessPrivateTask, expressed in minutes, or None.
             @param require_comment_on_start:
                 True if user shall be required to enter a comment
-                when starting this BusinessPublicTask, else False.
+                when starting this BusinessPrivateTask, else False.
             @param require_comment_on_finish:
                 True if user shall be required to enter a comment
-                when finishing this BusinessPublicTask, else False.
+                when finishing this BusinessPrivateTask, else False.
             @param full_screen_reminder:
                 True if user shall be shown a full-screen reminder
-                while this BusinessPublicTask is underway, else False.
+                while this BusinessPrivateTask is underway, else False.
             @param completed:
-                True if the newly created BusinessPublicTask shall initially
+                True if the newly created BusinessPrivateTask shall initially
                 be marked as "completed", False if not.
             @return:
-                The newly created BusinessPublicTask.
+                The newly created BusinessPrivateTask.
             @raise WorkspaceError:
                 If an error occurs.
         """
@@ -167,7 +182,7 @@ class BusinessPublicTask(BusinessPublicActivity, BusinessTask):
 
         with self.workspace:
             self._ensure_live() # may raise DatabaseError
-
+            
             try:
                 #   Validate parameters
                 if activity_type is not None:
@@ -175,10 +190,10 @@ class BusinessPublicTask(BusinessPublicActivity, BusinessTask):
                     if activity_type.workspace is not self.workspace:
                         raise IncompatibleWorkspaceObjectError(activity_type.type_name)
                 #   Validate access rights
-                if not self.workspace.can_manage_public_tasks(credentials):
+                if not self.can_modify(credentials):
                     raise WorkspaceAccessDeniedError()
                 #   The rest of the work is up to the DB
-                data_public_task = self._data_object.create_child(
+                data_private_task = self._data_object.create_child(
                     name=name,
                     description=description,
                     activity_type=None if activity_type is None else activity_type._data_object,
@@ -187,8 +202,7 @@ class BusinessPublicTask(BusinessPublicActivity, BusinessTask):
                     require_comment_on_finish=require_comment_on_finish,
                     full_screen_reminder=full_screen_reminder,
                     completed=completed)
-                return self.workspace._get_business_proxy(data_public_task)
+                return self.workspace._get_business_proxy(data_private_task)
             except Exception as ex:
                 raise WorkspaceError.wrap(ex)
-
 

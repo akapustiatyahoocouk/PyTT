@@ -298,15 +298,15 @@ class ModifyAccountDialog(Dialog):
         try:
             #   Apply user properties (only those which have  changed)
             if enabled != self.__account_enabled:
-                self.__account.set_enabled(self.__credentials, enabled);
+                self.__account.set_enabled(self.__credentials, enabled)
             if login != self.__account_login:
-                self.__account.set_login(self.__credentials, login);
+                self.__account.set_login(self.__credentials, login)
             if capabilities != self.__account_capabilities:
-                self.__account.set_capabilities(self.__credentials, capabilities);
+                self.__account.set_capabilities(self.__credentials, capabilities)
             if email_addresses != self.__account_email_addresses:
-                self.__account.set_email_addresses(self.__credentials, email_addresses);
+                self.__account.set_email_addresses(self.__credentials, email_addresses)
             if password != self.__account_password_hash:
-                self.__account.set_password(self.__credentials, password);
+                self.__account.set_password(self.__credentials, password)
                 if ((CurrentCredentials.get() is not None)and
                     (CurrentCredentials.get().login == self.__account_login)):
                     #   We've just changed the password of the current login

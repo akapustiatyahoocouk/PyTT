@@ -32,22 +32,26 @@ class BusinessActivityType(BusinessObject):
     ##########
     #   BusinessObject - Operations (access control)
     def can_modify(self, credentials: Credentials) -> bool:
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        try:
-            return self.workspace.can_manage_stock_items(credentials)
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            try:
+                return self.workspace.can_manage_stock_items(credentials)
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def can_destroy(self, credentials: Credentials) -> bool:
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        try:
-            return self.workspace.can_manage_stock_items(credentials)
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            try:
+                return self.workspace.can_manage_stock_items(credentials)
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     ##########
     #   Operations (properties)
@@ -62,15 +66,17 @@ class BusinessActivityType(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        if self.workspace.get_capabilities(credentials) == None:
-            raise WorkspaceAccessDeniedError()
-        try:
-            return self._data_object.name
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if self.workspace.get_capabilities(credentials) == None:
+                raise WorkspaceAccessDeniedError()
+            try:
+                return self._data_object.name
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def set_name(self, credentials: Credentials, new_name: str) -> None:
         """
@@ -83,16 +89,18 @@ class BusinessActivityType(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert isinstance(new_name, str)
+        
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
 
-        if not self.can_modify(credentials):
-            raise WorkspaceAccessDeniedError()
-        try:
-            self._data_object.name = new_name
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+            if not self.can_modify(credentials):
+                raise WorkspaceAccessDeniedError()
+            try:
+                self._data_object.name = new_name
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def get_description(self, credentials: Credentials) -> str:
         """
@@ -105,15 +113,17 @@ class BusinessActivityType(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        if self.workspace.get_capabilities(credentials) == None:
-            raise WorkspaceAccessDeniedError()
-        try:
-            return self._data_object.description
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if self.workspace.get_capabilities(credentials) == None:
+                raise WorkspaceAccessDeniedError()
+            try:
+                return self._data_object.description
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def set_description(self, credentials: Credentials, new_description: str) -> None:
         """
@@ -126,16 +136,18 @@ class BusinessActivityType(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert isinstance(new_description, str)
 
-        if not self.can_modify(credentials):
-            raise WorkspaceAccessDeniedError()
-        try:
-            self._data_object.description = new_description
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if not self.can_modify(credentials):
+                raise WorkspaceAccessDeniedError()
+            try:
+                self._data_object.description = new_description
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     ##########
     #   Operations (associations)
@@ -150,15 +162,16 @@ class BusinessActivityType(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        try:
-            result = set()
-            if self.workspace.get_capabilities(credentials) is not None:
-                #   The caller can see all activities
-                for data_activity in self._data_object.activities:
-                    result.add(self.workspace._get_business_proxy(data_activity))
-            return result
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+            try:
+                result = set()
+                if self.workspace.get_capabilities(credentials) is not None:
+                    #   The caller can see all activities
+                    for data_activity in self._data_object.activities:
+                        result.add(self.workspace._get_business_proxy(data_activity))
+                return result
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)

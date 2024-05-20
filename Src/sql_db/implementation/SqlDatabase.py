@@ -415,19 +415,19 @@ class SqlDatabase(Database):
 
         #   Make database changes
         try:
-            self.begin_transaction();
+            self.begin_transaction()
 
             stat1 = self.create_statement(
                 """INSERT INTO objects
                           (object_type_name)
-                          VALUES (?)""");
+                          VALUES (?)""")
             stat1.set_string_parameter(0, User.TYPE_NAME)
             user_oid = stat1.execute()
 
             stat2 = self.create_statement(
                 """INSERT INTO users
                           (pk,enabled,real_name,inactivity_timeout,ui_locale,email_addresses)
-                          VALUES (?,?,?,?,?,?)""");
+                          VALUES (?,?,?,?,?,?)""")
             stat2.set_int_parameter(0, user_oid)
             stat2.set_bool_parameter(1, enabled)
             stat2.set_string_parameter(2, real_name)
@@ -467,19 +467,19 @@ class SqlDatabase(Database):
 
         #   Make database changes
         try:
-            self.begin_transaction();
+            self.begin_transaction()
 
             stat1 = self.create_statement(
                 """INSERT INTO objects
                           (object_type_name)
-                          VALUES (?)""");
+                          VALUES (?)""")
             stat1.set_string_parameter(0, ActivityType.TYPE_NAME)
             activity_type_oid = stat1.execute()
 
             stat2 = self.create_statement(
                 """INSERT INTO [activity_types]
                           ([pk],[name],[description])
-                          VALUES (?,?,?)""");
+                          VALUES (?,?,?)""")
             stat2.set_int_parameter(0, activity_type_oid)
             stat2.set_string_parameter(1, name)
             stat2.set_string_parameter(2, description)
@@ -540,12 +540,12 @@ class SqlDatabase(Database):
 
         #   Make database changes
         try:
-            self.begin_transaction();
+            self.begin_transaction()
 
             stat1 = self.create_statement(
                 """INSERT INTO [objects]
                           ([object_type_name])
-                          VALUES (?)""");
+                          VALUES (?)""")
             stat1.set_string_parameter(0, PublicActivity.TYPE_NAME)
             public_activity_oid = stat1.execute()
 
@@ -555,7 +555,7 @@ class SqlDatabase(Database):
                            [require_comment_on_start],[require_comment_on_finish],
                            [full_screen_reminder],[fk_activity_type],
                            [completed], [fk_owner], [fk_parent_task])
-                          VALUES (?,?,?,?,?,?,?,?,?,?.?)""");
+                          VALUES (?,?,?,?,?,?,?,?,?,?.?)""")
             stat2.set_int_parameter(0, public_activity_oid)
             stat2.set_string_parameter(1, name)
             stat2.set_string_parameter(2, description)
@@ -634,12 +634,12 @@ class SqlDatabase(Database):
 
         #   Make database changes
         try:
-            self.begin_transaction();
+            self.begin_transaction()
 
             stat1 = self.create_statement(
                 """INSERT INTO [objects]
                           ([object_type_name])
-                          VALUES (?)""");
+                          VALUES (?)""")
             stat1.set_string_parameter(0, PublicTask.TYPE_NAME)
             public_task_oid = stat1.execute()
 
@@ -649,7 +649,7 @@ class SqlDatabase(Database):
                            [require_comment_on_start],[require_comment_on_finish],
                            [full_screen_reminder],[fk_activity_type],
                            [completed], [fk_owner], [fk_parent_task])
-                          VALUES (?,?,?,?,?,?,?,?,?,?,?)""");
+                          VALUES (?,?,?,?,?,?,?,?,?,?,?)""")
             stat2.set_int_parameter(0, public_task_oid)
             stat2.set_string_parameter(1, name)
             stat2.set_string_parameter(2, description)

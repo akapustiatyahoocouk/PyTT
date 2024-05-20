@@ -28,10 +28,10 @@ class PrivateTask(PrivateActivity, Task):
     REQUIRE_COMMENT_ON_FINISH_PROPERTY_NAME = PrivateActivity.REQUIRE_COMMENT_ON_FINISH_PROPERTY_NAME
     FULL_SCREEN_REMINDER_PROPERTY_NAME = PrivateActivity.FULL_SCREEN_REMINDER_PROPERTY_NAME
     ACTIVITY_TYPE_ASSOCIATION_NAME = PrivateActivity.ACTIVITY_TYPE_ASSOCIATION_NAME
+    OWNER_ASSOCIATION_NAME = PrivateActivity.OWNER_ASSOCIATION_NAME
     COMPLETED_PROPERTY_NAME = Task.COMPLETED_PROPERTY_NAME
     PARENT_ASSOCIATION_NAME = Task.PARENT_ASSOCIATION_NAME
     CHILDREN_ASSOCIATION_NAME = Task.CHILDREN_ASSOCIATION_NAME
-    OWNER_ASSOCIATION_NAME = PrivateActivity.OWNER_ASSOCIATION_NAME
 
     ##########
     #   UI traits
@@ -51,3 +51,55 @@ class PrivateTask(PrivateActivity, Task):
     def large_image(self) -> tk.PhotoImage:
         return DbResources.image("PrivateTask.LargeImage")
 
+    ##########
+    #   Associations
+    @abstractproperty
+    def parent(self) -> Optional[PrivateTask]:
+        raise NotImplementedError()
+
+    @abstractproperty
+    def children(self) -> Set[PrivateTask]:
+        raise NotImplementedError()
+
+    ##########
+    #   Operations (life cycle)
+    @abstractmethod
+    def create_child(self,
+                     name: str = None,           #   MUST specify!
+                     description: str = None,    #   MUST specify!
+                     activity_type: Optional[ActivityType] = None,
+                     timeout: Optional[int] = None,
+                     require_comment_on_start: bool = False,
+                     require_comment_on_finish: bool = False,
+                     full_screen_reminder: bool = False,
+                     completed: bool = False) -> PrivateTask:
+        """
+            Creates a new child PrivateTask under this PrivateTask
+            (with the same "owner" as this PrivateTask).
+
+            @param name:
+                The "name" for the new PrivateTask.
+            @param description:
+                The "description" for the new PrivateTask.
+            @param activity_type:
+                The activity type to assign to this PrivateTask or None.
+            @param timeout:
+                The timeout of this PrivateTask, expressed in minutes, or None.
+            @param require_comment_on_start:
+                True if user shall be required to enter a comment
+                when starting this PrivateTask, else False.
+            @param require_comment_on_finish:
+                True if user shall be required to enter a comment
+                when finishing this PrivateTask, else False.
+            @param full_screen_reminder:
+                True if user shall be shown a full-screen reminder
+                while this PrivateTask is underway, else False.
+            @param completed:
+                True if the newly created PrivateTask shall initially
+                be marked as "completed", False if not.
+            @return:
+                The newly created PrivateTask.
+            @raise DatabaseError:
+                If an error occurs.
+        """
+        raise NotImplementedError()

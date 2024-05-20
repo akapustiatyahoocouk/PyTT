@@ -35,22 +35,26 @@ class BusinessPublicActivity(BusinessActivity):
     ##########
     #   BusinessObject - Operations (access control)
     def can_modify(self, credentials: Credentials) -> bool:
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        try:
-            return self.workspace.can_manage_public_activities(credentials)
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            try:
+                return self.workspace.can_manage_public_activities(credentials)
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def can_destroy(self, credentials: Credentials) -> bool:
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        try:
-            return self.workspace.can_manage_public_activities(credentials)
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            try:
+                return self.workspace.can_manage_public_activities(credentials)
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     ##########
     #   Operations (properties)

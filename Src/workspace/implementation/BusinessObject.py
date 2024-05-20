@@ -157,4 +157,3 @@ class BusinessObject(ABCWithConstants):
             self._data_object._ensure_live()
         except Exception as ex:
             raise WorkspaceError.wrap(ex)
-

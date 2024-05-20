@@ -416,7 +416,7 @@ class Workspace:
                     real_name=real_name,
                     inactivity_timeout=inactivity_timeout,
                     ui_locale=ui_locale,
-                    email_addresses=email_addresses);
+                    email_addresses=email_addresses)
                 return self._get_business_proxy(data_user)
             except Exception as ex:
                 raise WorkspaceError.wrap(ex)
@@ -450,7 +450,7 @@ class Workspace:
                     raise WorkspaceAccessDeniedError()
                 data_activity_type = self.__db.create_activity_type(
                     name=name,
-                    description=description);
+                    description=description)
                 return self._get_business_proxy(data_activity_type)
             except Exception as ex:
                 raise WorkspaceError.wrap(ex)
@@ -492,7 +492,7 @@ class Workspace:
                     timeout=timeout,
                     require_comment_on_start=require_comment_on_start,
                     require_comment_on_finish=require_comment_on_finish,
-                    full_screen_reminder=full_screen_reminder);
+                    full_screen_reminder=full_screen_reminder)
                 return self._get_business_proxy(data_public_activity)
             except Exception as ex:
                 raise WorkspaceError.wrap(ex)
@@ -564,7 +564,7 @@ class Workspace:
                     require_comment_on_start=require_comment_on_start,
                     require_comment_on_finish=require_comment_on_finish,
                     full_screen_reminder=full_screen_reminder,
-                    completed=completed);
+                    completed=completed)
                 return self._get_business_proxy(data_public_task)
             except Exception as ex:
                 raise WorkspaceError.wrap(ex)

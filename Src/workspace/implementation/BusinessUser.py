@@ -502,7 +502,7 @@ class BusinessUser(BusinessObject):
                     login=login,
                     password=password,
                     capabilities=capabilities,
-                    email_addresses=email_addresses);
+                    email_addresses=email_addresses)
                 return self.workspace._get_business_proxy(data_account)
             except Exception as ex:
                 raise WorkspaceError.wrap(ex)
@@ -545,7 +545,81 @@ class BusinessUser(BusinessObject):
                     timeout=timeout,
                     require_comment_on_start=require_comment_on_start,
                     require_comment_on_finish=require_comment_on_finish,
-                    full_screen_reminder=full_screen_reminder);
+                    full_screen_reminder=full_screen_reminder)
                 return self.workspace._get_business_proxy(data_private_activity)
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
+
+    def create_private_task(self,
+                           credentials: Credentials,
+                           name: str = None,           #   MUST specify!
+                           description: str = None,    #   MUST specify!
+                           activity_type: Optional[BusinessActivityType] = None,
+                           timeout: Optional[int] = None,
+                           require_comment_on_start: bool = False,
+                           require_comment_on_finish: bool = False,
+                           full_screen_reminder: bool = False,
+                           completed: bool = False) -> BusinessPrivateTask:
+        """
+            Creates a new root BusinessPrivateTask for this BusinessUser.
+
+            @param name:
+                The "name" for the new BusinessPrivateTask.
+            @param description:
+                The "description" for the new BusinessPrivateTask.
+            @param activity_type:
+                The activity type to assign to this BusinessPrivateTask or None.
+            @param timeout:
+                The timeout of this BusinessPrivateTask, expressed in minutes, or None.
+            @param require_comment_on_start:
+                True if user shall be required to enter a comment
+                when starting this BusinessPrivateTask, else False.
+            @param require_comment_on_finish:
+                True if user shall be required to enter a comment
+                when finishing this BusinessPrivateTask, else False.
+            @param full_screen_reminder:
+                True if user shall be shown a full-screen reminder
+                while this BusinessPrivateTask is underway, else False.
+            @param completed:
+                True if the newly created BusinessPrivateTask shall initially
+                be marked as "completed", False if not.
+            @return:
+                The newly created BusinessPrivateTask.
+            @raise WorkspaceError:
+                If an error occurs.
+        """
+        assert isinstance(name, str)
+        assert isinstance(description, str)
+        assert (activity_type is None) or isinstance(activity_type, BusinessActivityType)
+        assert (timeout is None) or isinstance(timeout, int)
+        assert isinstance(require_comment_on_start, bool)
+        assert isinstance(require_comment_on_finish, bool)
+        assert isinstance(full_screen_reminder, bool)
+        assert isinstance(completed, bool)
+
+        with self:
+            self._ensure_open() # may raise DatabaseError
+            try:
+                #   Validate parameters
+                if activity_type is not None:
+                    activity_type._ensure_live()
+                    if activity_type.workspace is not self:
+                        raise IncompatibleWorkspaceObjectError(activity_type.type_name)
+                #   Validate access rights
+                if not self.workspace.can_manage_private_tasks(credentials):
+                    #   ...but the User can always manage their own private activities
+                    if self._data_object.database.login(credentials.login, credentials._Credentials__password).user != self._data_object:
+                        raise WorkspaceAccessDeniedError()
+                #   The rest of the work is up to the DB
+                data_private_task = self.__db.create_private_task(
+                    name=name,
+                    description=description,
+                    activity_type=None if activity_type is None else activity_type._data_object,
+                    timeout=timeout,
+                    require_comment_on_start=require_comment_on_start,
+                    require_comment_on_finish=require_comment_on_finish,
+                    full_screen_reminder=full_screen_reminder,
+                    completed=completed)
+                return self._get_business_proxy(data_private_task)
             except Exception as ex:
                 raise WorkspaceError.wrap(ex)

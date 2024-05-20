@@ -33,15 +33,15 @@ class SqlActivityType(SqlDatabaseObject, ActivityType):
         #   TODO Dis-associate from Activities, making these typeless
         #   Destroy the ActivityType
         try:
-            self.database.begin_transaction();
+            self.database.begin_transaction()
 
             stat1 = self.database.create_statement(
-                """DELETE FROM [activity_types] WHERE [pk] = ?""");
+                """DELETE FROM [activity_types] WHERE [pk] = ?""")
             stat1.set_int_parameter(0, self.oid)
             stat1.execute()
 
             stat2 = self.database.create_statement(
-                """DELETE FROM [objects] WHERE [pk] = ?""");
+                """DELETE FROM [objects] WHERE [pk] = ?""")
             stat2.set_int_parameter(0, self.oid)
             stat2.execute()
 
@@ -163,7 +163,7 @@ class SqlActivityType(SqlDatabaseObject, ActivityType):
     def _reload_property_cache(self) -> None:
         try:
             stat = self.database.create_statement(
-                """SELECT * FROM [activity_types] WHERE [pk] = ?""");
+                """SELECT * FROM [activity_types] WHERE [pk] = ?""")
             stat.set_int_parameter(0, self.oid)
             rs = stat.execute()
             assert len(rs) <= 1

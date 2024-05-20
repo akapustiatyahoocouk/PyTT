@@ -46,15 +46,17 @@ class BusinessActivity(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        if self.workspace.get_capabilities(credentials) == None:
-            raise WorkspaceAccessDeniedError()
-        try:
-            return self._data_object.name
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if self.workspace.get_capabilities(credentials) == None:
+                raise WorkspaceAccessDeniedError()
+            try:
+                return self._data_object.name
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def set_name(self, credentials: Credentials, new_name: str) -> None:
         """
@@ -67,16 +69,18 @@ class BusinessActivity(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert isinstance(new_name, str)
 
-        if not self.can_modify(credentials):
-            raise WorkspaceAccessDeniedError()
-        try:
-            self._data_object.name = new_name
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if not self.can_modify(credentials):
+                raise WorkspaceAccessDeniedError()
+            try:
+                self._data_object.name = new_name
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def get_description(self, credentials: Credentials) -> str:
         """
@@ -89,15 +93,17 @@ class BusinessActivity(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        if self.workspace.get_capabilities(credentials) == None:
-            raise WorkspaceAccessDeniedError()
-        try:
-            return self._data_object.description
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if self.workspace.get_capabilities(credentials) == None:
+                raise WorkspaceAccessDeniedError()
+            try:
+                return self._data_object.description
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def set_description(self, credentials: Credentials, new_description: str) -> None:
         """
@@ -110,16 +116,18 @@ class BusinessActivity(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert isinstance(new_description, str)
 
-        if not self.can_modify(credentials):
-            raise WorkspaceAccessDeniedError()
-        try:
-            self._data_object.description = new_description
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if not self.can_modify(credentials):
+                raise WorkspaceAccessDeniedError()
+            try:
+                self._data_object.description = new_description
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def get_timeout(self, credentials: Credentials) -> Optional[int]:
         """
@@ -137,15 +145,17 @@ class BusinessActivity(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        if self.workspace.get_capabilities(credentials) == None:
-            raise WorkspaceAccessDeniedError()
-        try:
-            return self._data_object.timeout
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if self.workspace.get_capabilities(credentials) == None:
+                raise WorkspaceAccessDeniedError()
+            try:
+                return self._data_object.timeout
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def set_timeout(self, credentials: Credentials, new_timeout: Optional[int]) -> None:
         """
@@ -163,16 +173,18 @@ class BusinessActivity(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert (new_timeout is None) or isinstance(new_timeout, int)
 
-        if not self.can_modify(credentials):
-            raise WorkspaceAccessDeniedError()
-        try:
-            self._data_object.timeout = new_timeout
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if not self.can_modify(credentials):
+                raise WorkspaceAccessDeniedError()
+            try:
+                self._data_object.timeout = new_timeout
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def get_require_comment_on_start(self, credentials: Credentials) -> bool:
         """
@@ -189,15 +201,17 @@ class BusinessActivity(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        if self.workspace.get_capabilities(credentials) == None:
-            raise WorkspaceAccessDeniedError()
-        try:
-            return self._data_object.require_comment_on_start
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if self.workspace.get_capabilities(credentials) == None:
+                raise WorkspaceAccessDeniedError()
+            try:
+                return self._data_object.require_comment_on_start
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def set_require_comment_on_start(self, credentials: Credentials, new_require_comment_on_start: bool) -> None:
         """
@@ -214,16 +228,18 @@ class BusinessActivity(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert isinstance(new_require_comment_on_start, bool)
 
-        if not self.can_modify(credentials):
-            raise WorkspaceAccessDeniedError()
-        try:
-            self._data_object.require_comment_on_start = new_require_comment_on_start
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if not self.can_modify(credentials):
+                raise WorkspaceAccessDeniedError()
+            try:
+                self._data_object.require_comment_on_start = new_require_comment_on_start
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def get_require_comment_on_finish(self, credentials: Credentials) -> bool:
         """
@@ -240,15 +256,17 @@ class BusinessActivity(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        if self.workspace.get_capabilities(credentials) == None:
-            raise WorkspaceAccessDeniedError()
-        try:
-            return self._data_object.require_comment_on_finish
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if self.workspace.get_capabilities(credentials) == None:
+                raise WorkspaceAccessDeniedError()
+            try:
+                return self._data_object.require_comment_on_finish
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
     
     def set_require_comment_on_finish(self, credentials: Credentials, new_require_comment_on_finish: bool) -> None:
         """
@@ -265,16 +283,18 @@ class BusinessActivity(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert isinstance(new_require_comment_on_finish, bool)
 
-        if not self.can_modify(credentials):
-            raise WorkspaceAccessDeniedError()
-        try:
-            self._data_object.require_comment_on_finish = new_require_comment_on_finish
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if not self.can_modify(credentials):
+                raise WorkspaceAccessDeniedError()
+            try:
+                self._data_object.require_comment_on_finish = new_require_comment_on_finish
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def get_full_screen_reminder(self, credentials: Credentials) -> bool:
         """
@@ -292,15 +312,17 @@ class BusinessActivity(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        if self.workspace.get_capabilities(credentials) == None:
-            raise WorkspaceAccessDeniedError()
-        try:
-            return self._data_object.full_screen_reminder
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if self.workspace.get_capabilities(credentials) == None:
+                raise WorkspaceAccessDeniedError()
+            try:
+                return self._data_object.full_screen_reminder
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
             
     def set_full_screen_reminder(self, credentials: Credentials, new_full_screen_reminder: bool) -> None:
         """
@@ -318,16 +340,18 @@ class BusinessActivity(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert isinstance(new_full_screen_reminder, bool)
 
-        if not self.can_modify(credentials):
-            raise WorkspaceAccessDeniedError()
-        try:
-            self._data_object.full_screen_reminder = new_full_screen_reminder
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            if not self.can_modify(credentials):
+                raise WorkspaceAccessDeniedError()
+            try:
+                self._data_object.full_screen_reminder = new_full_screen_reminder
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     ##########
     #   Operations (associations)
@@ -344,19 +368,21 @@ class BusinessActivity(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
 
-        try:
-            result = None
-            if self.workspace.get_capabilities(credentials) is not None:
-                #   The caller can see all activity types
-                if self._data_object.activity_type is None:
-                    return None
-                result = self.workspace._get_business_proxy(self._data_object.activity_type)
-            return result
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+
+            try:
+                result = None
+                if self.workspace.get_capabilities(credentials) is not None:
+                    #   The caller can see all activity types
+                    if self._data_object.activity_type is None:
+                        return None
+                    result = self.workspace._get_business_proxy(self._data_object.activity_type)
+                return result
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
     def set_activity_type(self, credentials: Credentials, new_activity_type: Optional[BusinessActivityType]) -> None:
         """
@@ -373,21 +399,23 @@ class BusinessActivity(BusinessObject):
             @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
         assert isinstance(credentials, Credentials)
         assert (new_activity_type is None) or isinstance(new_activity_type, BusinessActivityType)
+
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
         
-        try:
-            #   Validate parameters
-            if new_activity_type is not None:
-                new_activity_type._ensure_live()
-                if new_activity_type.workspace is not self.workspace:
-                    raise IncompatibleWorkspaceObjectError(new_activity_type.type_name)
-            #   Validate access rights
-            if not self.can_modify(credentials):
-                raise WorkspaceAccessDeniedError()
-            #   The rest of the work is up to the DB
-            self._data_object.activity_type = None if new_activity_type is None else new_activity_type._data_object
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+            try:
+                #   Validate parameters
+                if new_activity_type is not None:
+                    new_activity_type._ensure_live()
+                    if new_activity_type.workspace is not self.workspace:
+                        raise IncompatibleWorkspaceObjectError(new_activity_type.type_name)
+                #   Validate access rights
+                if not self.can_modify(credentials):
+                    raise WorkspaceAccessDeniedError()
+                #   The rest of the work is up to the DB
+                self._data_object.activity_type = None if new_activity_type is None else new_activity_type._data_object
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
 
