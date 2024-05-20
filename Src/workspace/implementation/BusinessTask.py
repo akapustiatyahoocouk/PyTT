@@ -77,27 +77,31 @@ class BusinessTask(BusinessActivity):
 
     ##########
     #   Associations
-    @abstractmethod
+    @abstractmethod    
     def get_parent(self, credentials: Credentials) -> Optional[BusinessTask]:
         """
             Returns the Immediate parent BusinessTask of this BusinessTask; None if none.
 
             @return:
                 The Immediate parent BusinessTask of this BusinessTask; None if none.
-            @raise DatabaseError:
+            @raise WorkspaceError:
                 If an error occurs.
         """
-        self._ensure_live() # may raise WorkspaceError
-        assert isinstance(credentials, Credentials)
+        raise NotImplementedError()
 
-        if self.workspace.get_capabilities(credentials) == None:
-            raise WorkspaceAccessDeniedError()
-        try:
-            return self._data_object.completed
-        except Exception as ex:
-            raise WorkspaceError.wrap(ex)
+    @abstractmethod    
+    def set_parent(self, credentials: Credentials, new_parent: Optional[BusinessTask]) -> None:
+        """
+            Sets the Immediate parent BusinessTask of this BusinessTask; None if none.
 
-    @abstractmethod
+            @param new_parent:
+                The new immediate parent BusinessTask for this BusinessTask; None for none.
+            @raise WorkspaceError:
+                If an error occurs.
+        """
+        raise NotImplementedError()
+
+    @abstractmethod    
     def get_children(self, credentials: Credentials) -> Set[BusinessTask]:
         """
             Returns the set of immediate children of this BusinessTask;
@@ -106,9 +110,7 @@ class BusinessTask(BusinessActivity):
             @return:
                 The set of immediate children of this BusinessTask; can be
                 empty but  cannot be None or contain Nones.
-            @raise DatabaseError:
+            @raise WorkspaceError:
                 If an error occurs.
         """
         raise NotImplementedError()
-
-

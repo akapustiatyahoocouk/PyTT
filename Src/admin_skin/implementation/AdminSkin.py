@@ -23,7 +23,7 @@ class AdminSkin(Skin):
     ##########
     #   Singleton
     __instance_acquisition_in_progress = False
-    __instance : Skin = None
+    __instance : Optional[Skin] = None
 
     def __init__(self):
         assert AdminSkin.__instance_acquisition_in_progress, "Use AdminSkin.instance instead"

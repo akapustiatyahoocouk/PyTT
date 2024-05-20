@@ -40,6 +40,51 @@ class SqlPublicTask(SqlTask, PublicTask):
             return None
         return self.database._get_public_task_proxy(self._fk_parent_task)
 
+    @parent.setter
+    def parent(self, new_parent: Optional[PublicTask]) -> None:
+        self._ensure_live() #   may raise DatabaseException
+        assert (new_parent is None) or isinstance(new_parent, SqlPublicTask)
+        
+        #   Validate parameters
+        if new_parent is not None:
+            new_parent._ensure_live()
+            if new_parent.database is not self.database:
+                raise IncompatibleDatabaseObjectError(new_parent.type_name)
+            #   No parent/child loops are allowed
+            p = new_parent
+            while p is not None:
+                if p == self:
+                    raise NotImplementedError() #   TODO a proper DatabaseException subclass!
+                p = p.parent
+
+        #   Make database changes
+        try:
+            stat = self.database.create_statement(
+                """UPDATE [activities] SET [fk_parent_task] = ? WHERE [pk] = ?""")
+            stat.set_int_parameter(0, None if new_parent is None else new_parent.oid)
+            stat.set_int_parameter(1, self.oid)
+            row_count = stat.execute()
+            assert row_count <= 1
+            if row_count == 0:
+                #   OOPS! The database row does not exist!
+                self._mark_dead()
+                raise DatabaseObjectDeadError(Activity.TYPE_NAME)
+            self._fk_parent_task = None if new_parent is None else new_parent.oid
+            #   Issue notifications
+            self.database.enqueue_notification(
+                DatabaseObjectModifiedNotification(
+                    self.database,
+                    self,
+                    Task.PARENT_ASSOCIATION_NAME))
+            if new_parent is not None:
+                self.database.enqueue_notification(
+                    DatabaseObjectModifiedNotification(
+                        self.database,
+                        new_parent,
+                        Task.CHILDREN_ASSOCIATION_NAME))
+        except Exception as ex:
+            raise DatabaseError.wrap(ex)
+
     @property
     def children(self) -> Set[PublicTask]:
         self._ensure_live() #   may raise DatabaseException

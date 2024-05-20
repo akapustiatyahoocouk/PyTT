@@ -66,6 +66,16 @@ class Task(Activity):
         """
         raise NotImplementedError()
 
+    @parent.setter
+    def parent(self, new_parent: Optional[Task]) -> None:
+        """
+            Sets the Immediate parent Task of this Task; None for none.
+
+            @raise DatabaseError:
+                If an error occurs.
+        """
+        raise NotImplementedError()
+
     @abstractproperty
     def children(self) -> Set[Task]:
         """

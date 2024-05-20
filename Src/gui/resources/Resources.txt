@@ -65,6 +65,13 @@ Actions.ManagePrivateActivities.Description=Manage available private activities
 Actions.ManagePrivateActivities.SmallImage=ImageFile:images/objects/PrivateActivitySmall.png
 Actions.ManagePrivateActivities.LargeImage=ImageFile:images/objects/PrivateActivityLarge.png
 
+Actions.ManagePublicTasks.Name=Public tasks
+Actions.ManagePublicTasks.Hotkey=t
+Actions.ManagePublicTasks.Description=Manage available public tasks
+#Actions.ManagePublicTasks.Shortcut=Ctrl+N
+Actions.ManagePublicTasks.SmallImage=ImageFile:images/objects/PublicTaskSmall.png
+Actions.ManagePublicTasks.LargeImage=ImageFile:images/objects/PublicTaskLarge.png
+
 Actions.LoginAsDifferentUser.Name=Login as a different user
 Actions.LoginAsDifferentUser.Hotkey=L
 Actions.LoginAsDifferentUser.Description=Prompts for new credentials and logs in as a different user
@@ -406,6 +413,10 @@ ManagePublicActivitiesDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 ManagePrivateActivitiesDialog.Title=Manage private activities
 ManagePrivateActivitiesDialog.OkButton.Text=OK
 ManagePrivateActivitiesDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
+
+ManagePublicTasksDialog.Title=Manage public tasks
+ManagePublicTasksDialog.OkButton.Text=OK
+ManagePublicTasksDialog.OkButton.Icon=ImageFile:images/actions/OkSmall.png
 
 ReloginFailedDialog.Title=Login failed
 ReloginFailedDialog.Prompt=The credentials you have specified do not allow accessing\n{0}.\nWould you like to try again?

@@ -13,6 +13,7 @@ from .ManageUsersAction import ManageUsersAction
 from .ManageActivityTypesAction import ManageActivityTypesAction
 from .ManagePublicActivitiesAction import ManagePublicActivitiesAction
 from .ManagePrivateActivitiesAction import ManagePrivateActivitiesAction
+from .ManagePublicTasksAction import ManagePublicTasksAction
 from .LoginAsDifferentUserAction import LoginAsDifferentUserAction
 from .PreferencesAction import PreferencesAction
 from .HelpContentAction import HelpContentAction
@@ -37,6 +38,7 @@ class ActionSet:
         self.__manage_activity_types = ManageActivityTypesAction()
         self.__manage_public_activities = ManagePublicActivitiesAction()
         self.__manage_private_activities = ManagePrivateActivitiesAction()
+        self.__manage_public_tasks = ManagePublicTasksAction()
         self.__login_as_different_user = LoginAsDifferentUserAction()
         self.__preferences = PreferencesAction()
         self.__help_content = HelpContentAction()
@@ -88,6 +90,11 @@ class ActionSet:
     def manage_private_activities(self) -> ManagePrivateActivitiesAction:
         """ The "Manage private activities" action. """
         return self.__manage_private_activities
+
+    @property
+    def manage_public_tasks(self) -> ManagePublicTasksAction:
+        """ The "Manage public tasks" action. """
+        return self.__manage_public_tasks
 
     @property
     def login_as_different_user(self) -> PreferencesAction:

@@ -1,4 +1,4 @@
-""" Implements "Manage private activitis" modal dialog. """
+""" Implements "Manage private activities" modal dialog. """
 
 #   Python standard library
 from typing import final, Optional, Callable

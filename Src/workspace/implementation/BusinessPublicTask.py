@@ -72,6 +72,27 @@ class BusinessPublicTask(BusinessPublicActivity, BusinessTask):
             except Exception as ex:
                 raise WorkspaceError.wrap(ex)
 
+    def set_parent(self, credentials: Credentials, new_parent: Optional[BusinessPublicTask]) -> None:
+        assert isinstance(credentials, Credentials)
+        assert (new_parent is None) or isinstance(new_parent, BusinessPublicTask)
+        
+        with self.workspace:
+            self._ensure_live() # may raise WorkspaceError
+        
+            try:
+                #   Validate parameters
+                if new_parent is not None:
+                    new_parent._ensure_live()
+                    if new_parent.workspace is not self.workspace:
+                        raise IncompatibleWorkspaceObjectError(new_parent.type_name)
+                #   Validate access rights
+                if not self.can_modify(credentials):
+                    raise WorkspaceAccessDeniedError()
+                #   The rest of the work is up to the DB
+                self._data_object.parent = None if new_parent is None else new_parent._data_object
+            except Exception as ex:
+                raise WorkspaceError.wrap(ex)
+                        
     def get_children(self, credentials: Credentials) -> Set[BusinessPublicTask]:
         assert isinstance(credentials, Credentials)
 

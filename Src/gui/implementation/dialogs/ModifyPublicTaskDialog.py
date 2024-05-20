@@ -293,9 +293,7 @@ class ModifyPublicTaskDialog(Dialog):
     def __on_ok(self, evt = None) -> None:
         name = self.__name_text_field.text.strip()
         description = self.__description_text_area.text.rstrip()
-        parent_task = None
-        if (self.__parent_task is not None) and self.__subtask_of_check_box.checked:
-            parent_task = self.__parent_task
+        parent_task = self.__subtask_of_combo_box.selected_item.tag
         activity_type = self.__activity_type_combo_box.selected_item.tag
         timeout = (self.__timeout_value_combo_box.selected_item.tag *
                    self.__timeout_unit_combo_box.selected_item.tag)
@@ -307,28 +305,24 @@ class ModifyPublicTaskDialog(Dialog):
         completed = self.__completed_check_box.checked
 
         try:
-            if parent_task is None:
-                self.__created_public_task = self.__workspace.create_public_task(
-                        credentials=self.__credentials,
-                        name=name,
-                        description=description,
-                        activity_type=activity_type,
-                        timeout=timeout,
-                        require_comment_on_start=require_comment_on_start,
-                        require_comment_on_finish=require_comment_on_finish,
-                        full_screen_reminder=full_screen_reminder,
-                        completed=completed)
-            else:
-                self.__created_public_task = parent_task.create_child(
-                        credentials=self.__credentials,
-                        name=name,
-                        description=description,
-                        activity_type=activity_type,
-                        timeout=timeout,
-                        require_comment_on_start=require_comment_on_start,
-                        require_comment_on_finish=require_comment_on_finish,
-                        full_screen_reminder=full_screen_reminder,
-                        completed=completed)
+            if name != self.__public_task_name:
+                self.__public_task.set_name(self.__credentials, name)
+            if description != self.__public_task_description:
+                self.__public_task.set_description(self.__credentials,description)
+            if activity_type != self.__public_task_activity_type:
+                self.__public_task.set_activity_type(self.__credentials, activity_type)
+            if timeout != self.__public_task_timeout:
+                self.__public_task.set_timeout(self.__credentials, timeout)
+            if require_comment_on_start != self.__public_task_require_comment_on_start:
+                self.__public_task.set_require_comment_on_start(self.__credentials, require_comment_on_start)
+            if require_comment_on_finish != self.__public_task_require_comment_on_finish:
+                self.__public_task.set_require_comment_on_finish(self.__credentials, require_comment_on_finish)
+            if full_screen_reminder != self.__public_task_full_screen_reminder:
+                self.__public_task.set_full_screen_reminder(self.__credentials, full_screen_reminder)
+            if completed != self.__public_task_completed:
+                self.__public_task.set_completed(self.__credentials, completed)
+            if parent_task != self.__public_task_parent_task:
+                self.__public_task.set_parent(self.__credentials, parent_task)
             self.__result = ModifyPublicTaskDialogResult.OK
             self.end_modal()
         except Exception as ex:
@@ -337,5 +331,3 @@ class ModifyPublicTaskDialog(Dialog):
     def __on_cancel(self, evt = None) -> None:
         self.__result = ModifyPublicTaskDialogResult.CANCEL
         self.end_modal()
-
-

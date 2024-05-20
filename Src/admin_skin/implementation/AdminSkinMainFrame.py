@@ -41,10 +41,11 @@ class AdminSkinMainFrame(Frame,
         self.__file_menu.items.add(self.__action_set.exit)
 
         self.__manage_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "ManageMenu")
-        self.__manage_menu .items.add(self.__action_set.manage_users)
-        self.__manage_menu .items.add(self.__action_set.manage_activity_types)
-        self.__manage_menu .items.add(self.__action_set.manage_public_activities)
-        self.__manage_menu .items.add(self.__action_set.manage_private_activities)
+        self.__manage_menu.items.add(self.__action_set.manage_users)
+        self.__manage_menu.items.add(self.__action_set.manage_activity_types)
+        self.__manage_menu.items.add(self.__action_set.manage_public_activities)
+        self.__manage_menu.items.add(self.__action_set.manage_private_activities)
+        self.__manage_menu.items.add(self.__action_set.manage_public_tasks)
 
         self.__view_menu = ResourceAwareSubmenu(AdminSkinResources.factory, "ViewMenu")
 
@@ -121,6 +122,12 @@ class AdminSkinMainFrame(Frame,
 
         #   Action availability - statically created actions
         self.__action_set.close_workspace.enabled = workspace is not None
+
+        self.__action_set.manage_users.enabled = workspace is not None
+        self.__action_set.manage_activity_types.enabled = workspace is not None
+        self.__action_set.manage_public_activities.enabled = workspace is not None
+        self.__action_set.manage_private_activities.enabled = workspace is not None
+        self.__action_set.manage_public_tasks.enabled = workspace is not None
 
         #   Action availability - dynamically created actions
         for open_view_action in self.__open_view_actions:

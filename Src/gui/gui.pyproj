@@ -42,6 +42,7 @@
     <Compile Include="implementation\actions\LoginAsDifferentUserAction.py" />
     <Compile Include="implementation\actions\ManageActivityTypesAction.py" />
     <Compile Include="implementation\actions\ManagePrivateActivitiesAction.py" />
+    <Compile Include="implementation\actions\ManagePublicTasksAction.py" />
     <Compile Include="implementation\actions\ManagePublicActivitiesAction.py" />
     <Compile Include="implementation\actions\ManageUsersAction.py" />
     <Compile Include="implementation\actions\PreferencesAction.py" />
@@ -62,6 +63,7 @@
     <Compile Include="implementation\dialogs\ManageActivityTypesDialog.py" />
     <Compile Include="implementation\dialogs\ManagePrivateActivitiesDialog.py" />
     <Compile Include="implementation\dialogs\ManagePublicActivitiesDialog.py" />
+    <Compile Include="implementation\dialogs\ManagePublicTasksDialog.py" />
     <Compile Include="implementation\dialogs\ModifyActivityTypeDialog.py" />
     <Compile Include="implementation\dialogs\CreateActivityTypeDialog.py" />
     <Compile Include="implementation\dialogs\DestroyAccountDialog.py" />

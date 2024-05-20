@@ -261,7 +261,6 @@ class ModifyPublicActivityDialog(Dialog):
         full_screen_reminder = self.__full_screen_reminder_check_box.checked
 
         try:
-            #   TODO only if there are changes!!!
             if name != self.__public_activity_name:
                 self.__public_activity.set_name(self.__credentials, name)
             if description != self.__public_activity_description:

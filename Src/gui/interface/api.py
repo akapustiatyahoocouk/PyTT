@@ -36,6 +36,7 @@ from gui.implementation.dialogs.LoginDialog import *
 from gui.implementation.dialogs.ManageActivityTypesDialog import *
 from gui.implementation.dialogs.ManagePrivateActivitiesDialog import *
 from gui.implementation.dialogs.ManagePublicActivitiesDialog import *
+from gui.implementation.dialogs.ManagePublicTasksDialog import *
 from gui.implementation.dialogs.ManageUsersDialog import *
 from gui.implementation.dialogs.ModifyAccountDialog import *
 from gui.implementation.dialogs.ModifyActivityTypeDialog import *

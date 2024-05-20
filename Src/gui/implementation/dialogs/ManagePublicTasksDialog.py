@@ -1,4 +1,4 @@
-""" Implements "Manage public activities" modal dialog. """
+""" Implements "Manage public tasks" modal dialog. """
 
 #   Python standard library
 from typing import final, Optional, Callable
@@ -10,27 +10,27 @@ from awt.interface.api import *
 from workspace.interface.api import *
 
 #   Internal dependencies on modules within the same component
-from ..views.PublicActivitiesView import PublicActivitiesView
+from ..views.PublicTasksView import PublicTasksView
 from gui.resources.GuiResources import GuiResources
 
 ##########
 #   Public entities
 @final
-class ManagePublicActivitiesDialogResult(Enum):  #   TODO do we even need it ?
-    """ The result of modal invocation of the ManagePublicActivitiesDialog. """
+class ManagePublicTasksDialogResult(Enum):  #   TODO do we even need it ?
+    """ The result of modal invocation of the ManagePublicTasksDialog. """
 
     OK = 1
     """ User has closed the dialog. """
 
 @final
-class ManagePublicActivitiesDialog(Dialog):
-    """ The modal "Manage public activities" dialog. """
+class ManagePublicTasksDialog(Dialog):
+    """ The modal "Manage public tasks" dialog. """
 
     ##########
     #   Construction
     def __init__(self, parent: tk.BaseWidget):
         """
-            Constructs the "Manage public activities" dialog.
+            Constructs the "Manage public tasks" dialog.
 
             @param parent:
                 The parent widget for the dialog (actually the closest
@@ -39,25 +39,25 @@ class ManagePublicActivitiesDialog(Dialog):
         """
         Dialog.__init__(self,
                         parent,
-                        GuiResources.string("ManagePublicActivitiesDialog.Title"))
+                        GuiResources.string("ManagePublicTasksDialog.Title"))
 
-        self.__result = ManagePublicActivitiesDialogResult.OK
+        self.__result = ManagePublicTasksDialogResult.OK
 
         #   Create controls
         self.__controls_panel = Panel(self)
 
-        self.__public_activities_view = PublicActivitiesView(self.__controls_panel)
+        self.__public_tasks_view = PublicTasksView(self.__controls_panel)
 
         self.__separator = Separator(self, orient="horizontal")
 
         self.__ok_button = Button(self,
-            text=GuiResources.string("ManagePublicActivitiesDialog.OkButton.Text"),
-            image=GuiResources.image("ManagePublicActivitiesDialog.OkButton.Icon"))
+            text=GuiResources.string("ManagePublicTasksDialog.OkButton.Text"),
+            image=GuiResources.image("ManagePublicTasksDialog.OkButton.Icon"))
 
         #   Set up control structure
         self.__controls_panel.pack(fill=tk.X, padx=0, pady=0)
 
-        self.__public_activities_view.grid(row=0, column=1, padx=2, pady=2, sticky="NSWE")
+        self.__public_tasks_view.grid(row=0, column=1, padx=2, pady=2, sticky="NSWE")
 
         self.__separator.pack(fill=tk.X, padx=0, pady=4)
         self.__ok_button.pack(side=tk.RIGHT, padx=2, pady=2)
@@ -76,13 +76,14 @@ class ManagePublicActivitiesDialog(Dialog):
     ##########
     #   Properties
     @property
-    def result(self) -> ManagePublicActivitiesDialogResult:
+    def result(self) -> ManagePublicTasksDialogResult:
         """ The dialog result after a modal invocation. """
         return self.__result
 
     ##########
     #   Event listeners
     def __on_ok(self, evt = None) -> None:
-        self.__result = ManagePublicActivitiesDialogResult.OK
+        self.__result = ManagePublicTasksDialogResult.OK
         self.end_modal()
+
 
