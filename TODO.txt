@@ -1,15 +1,22 @@
 ========== IMMEDIATE PIPELINE ======================================
-*   Save the size (NOT location!) of ManageXXXDialogs when the 
-    dialog is being closed and restore that size (centering the 
+*   All XXXView controls shall allow the user to not only
+    "CreateXXX", "ModifyXXX" and "DeleteXXX" options, but also 
+    "ViewXXX". Reason: as a user I may not be able to modify or 
+    delete an e.g. PublicActivity, but I will certainly want to be
+    able to see its properties, such as description, associated 
+    activity type, etc. Implement these with the read-only versions
+    of ModifyXXXDialog's.
+*   Save the size (NOT location!) of ManageXXXDialogs when the
+    dialog is being closed and restore that size (centering the
     dialog normally) when the same dialog is open again.
 *   Add ther secondary confirmation when destroying activities and
     tasks. After the standard "are you sure", which is in place now,
     count the works/events that will have to be delete-cascaded,
-    and ask again: "this will delete x hours of work logged on y 
+    and ask again: "this will delete x hours of work logged on y
     occasions and z recorded events. Proceed?".
 *   When confirming the "are you sure you want to delete task x?"
-    check how many subtasks will be delete-cascaded as a 
-    consequence. If 0, then drop the "and all sub-tasks" from the 
+    check how many subtasks will be delete-cascaded as a
+    consequence. If 0, then drop the "and all sub-tasks" from the
     prompt. If >0, then say so: "and 5 sub-tasks" in the prompt.
 *   Add "requires comment when task is is completed" to Task.
 *   Add more buttons to task/activity views to start and stop the
@@ -76,11 +83,11 @@
 *   Add "consistency checker" a crawler that slowly (very small CPU
     usage) walks over the "current" workspace and reports various
     potential problems (e.g. two root public activities with the
-    same name; a completed parent task with an un-completed child 
+    same name; a completed parent task with an un-completed child
     task, etc.) These will be defined as "rules", for each of
     which at least the description of the problem and an adjustable
-    severity rating should be specified. Within UI the "consistency 
-    checker" should be represented as a closeable Frame or a 
+    severity rating should be specified. Within UI the "consistency
+    checker" should be represented as a closeable Frame or a
     modeless Dialog.
 *   When several users access the same Workspace, it can be that
     one of them - an administrator - destroys or disables the

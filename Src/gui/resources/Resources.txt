@@ -443,6 +443,10 @@ PublicTasksViewType.DisplayName=Public tasks
 PublicTasksViewType.SmallImage=ImageFile:images/objects/PublicTaskSmall.png
 PublicTasksViewType.LargeImage=ImageFile:images/objects/PublicTaskLarge.png
 
+PrivateTasksViewType.DisplayName=Private tasks
+PrivateTasksViewType.SmallImage=ImageFile:images/objects/PrivateTaskSmall.png
+PrivateTasksViewType.LargeImage=ImageFile:images/objects/PrivateTaskLarge.png
+
 ##########
 #   Views
 UsersView.CreateUserButton.Text=Create user

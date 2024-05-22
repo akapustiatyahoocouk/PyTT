@@ -274,7 +274,7 @@ class Workspace:
                       self.can_manage_private_tasks(credentials)):
                     #   The caller can see all users.
                     #   Note that when the "credentials" allow managing private
-                    #   activities or tasks of anmy user, the caller must be able
+                    #   activities or tasks of any user, the caller must be able
                     #   to SEE these other users so as to manage their private
                     #   activities and/or tasks
                     for data_user in self.__db.users:
